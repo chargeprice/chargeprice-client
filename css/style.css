@@ -47,8 +47,12 @@ html, body, .flex-container{
     align-self: auto;
 }
 
+#sidebar{
+  height: calc(100% - 72px);
+}
+
 #map { 
-  height: 100%; 
+  height: calc(100% - 72px);
 }
 
 .w3-sidebar {
