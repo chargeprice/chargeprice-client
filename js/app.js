@@ -19,6 +19,8 @@ class App {
     $("#onlyHPC").click(()=>this.showStationsAtLocation(this.map.getBounds()));
 
     this.sidebar.open("settings");
+
+    this.stationTariffs.check();
   }
 
   getCurrentLocation() {

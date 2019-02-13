@@ -1,7 +1,7 @@
 class StationTariffs {
 
   constructor(){
-    this.base_url = "http://localhost:9292";
+    this.base_url = "https://charge-compare.herokuapp.com";
     this.normalize = window.jsonApiNormalize;
   }
 
@@ -11,6 +11,11 @@ class StationTariffs {
 
     const root = await response.json();
     return this.flattenObject(root.included,root.data);
+  }
+
+  check(){
+    const url = `${this.base_url}/check`
+    fetch(url);
   }
 
   dereference(included, relationship){
