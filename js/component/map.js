@@ -8,7 +8,7 @@ class Map {
   }
 
   initializeLayer() {
-    L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}.png?key=fALH6jrAdefZHHX6nkxn', {
       maxZoom: 18,
       id: 'mapbox.streets'
     }).addTo(this.component);
