@@ -16,18 +16,30 @@
     crossorigin=""></script>
   <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyBCOBC-BJbbMCxYSeQilMFLXS7bG3Ocvzo"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google Analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+    ga('create', 'UA-134630069-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <!-- End Google Analytics -->
+
 </head>
 
 <body>
   <div class="flex-container">
 
     <div class="flex-item-s w3-bar w3-flat-peter-river">
-      <h3 class="w3-bar-item">Ladepreise</h3>
-      <div class="w3-bar-item w3-tag w3-small w3-margin-top w3-white">BETA</div>
+      <div class="w3-bar-item w3-large"><b>Ladepreise</b> BETA</div>
       
-      <button id="adapt-settings" class="w3-button w3-bar-item w3-middle w3-margin-top"><i class="fa fa-sliders" style="font-size: 20px;"></i></button>
-      <button id="show-info" class="w3-button w3-bar-item w3-middle w3-margin-top"><i class="fa fa-info-circle" style="font-size: 20px;"></i></button>
-      <div id="loadingIndicator" class="fa-3x w3-bar-item w3-middle w3-margin-top" style="display: none;">
+      <button id="adapt-settings" class="w3-button w3-bar-item w3-xlarge"><i class="fa fa-sliders"></i></button>
+      <button id="show-info" class="w3-button w3-bar-item w3-middle w3-xlarge"><i class="fa fa-info-circle" ></i></button>
+      <div id="loadingIndicator" class="fa-3x w3-bar-item w3-middle" style="display: none;">
         <i class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
       </div>
     </div>
@@ -36,31 +48,38 @@
       <div id="sidebar" class="w3-sidebar w3-white w3-card-4 w3-animate-left" style="width:25%; min-width: 320px;">
 
           <div class="w3-bar w3-flat-belize-hole">
-            <span class="w3-bar-item w3-padding-16 w3-large"><b id="sidebarHeader"></b></span>
-            <button id="sidebar-close" class="w3-bar-item w3-button w3-right w3-padding-16" title="close Sidebar">
+            <span class="w3-bar-item w3-large"><b id="sidebarHeader"></b></span>
+            <button id="sidebar-close" class="w3-bar-item w3-button w3-right" title="close Sidebar">
                 <i class="fa fa-window-close" style="font-size: 20px;"></i>
             </button>
           </div>
 
           <div id="settingsContent" class="w3-container w3-padding-16">
-            <label class="w3-margin-top w3-large">Ladedauer</label>
-            <select id="select-duration" class="w3-select w3-margin-top w3-margin-bottom" name="option">
+            <label class="w3-margin-top">Ladedauer</label>
+            <select id="select-duration" class="w3-select w3-margin-bottom" name="option">
               <option value="30">ca. 30 min</option>
               <option value="60">ca. 1 Stunde</option>
+              <option value="60">ca. 2 Stunde</option>
               <option value="300">ca. 5 Stunden</option>
               <option value="600">ca. 10 Stunden</option>
+              <option value="1200">ca. 20 Stunden</option>
             </select>
 
-            <label class="w3-margin-top w3-large">Ladeenergie</label>
-            <select id="select-kwh" class="w3-select w3-margin-top" name="option">
+            <label class="w3-margin-top">Ladeenergie</label>
+            <select id="select-kwh" class="w3-select" name="option">
               <option value="5">ca. 5 kwh</option>
               <option value="10">ca. 10 kwh</option>
               <option value="25">ca. 25 kwh</option>
+              <option value="35">ca. 35 kwh</option>
               <option value="50">ca. 50 kwh</option>
+              <option value="75">ca. 75 kwh</option>
             </select>
 
             <input id="onlyHPC" class="w3-check w3-margin-top" type="checkbox">
-            <label>Nur Schnelllader (43kw+)</label>
+            <label>Nur Schnelllader (43kw+)</label><br>
+
+            <input id="uniphaseAC" class="w3-check w3-margin-top" type="checkbox">
+            <label>Fahrzeug l&auml;dt Wechselstrom einphasig</label>
           </div>
 
           <div id="infoContent" class="w3-container w3-padding-16">
@@ -81,7 +100,7 @@
 
             <label class="w3-margin-top w3-large">Datenherkunft</label><br>
             <ul>
-              <li>Ladestationen (Koordinaten, Anschl&uuml;sse, Verf&uuml;gbare Ladekarten, <b>KEINE</b> Ladepreise): <a href="http://www.goingelectric.de" target="_blank">GoingElectric API</a> </li>
+              <li>Ladestationen (Koordinaten, Anschl&uuml;sse, Verf&uuml;gbare Ladekarten, <b>KEINE</b> aufgelisteten Ladepreise): <a href="http://www.goingelectric.de" target="_blank">GoingElectric API</a> </li>
               <li>Ladepreise PlugSurfing: <a href="http://www.plugsurfing.com" target="_blank">PlugSurfing API</a></li>
               <li>Weitere Ladepreise: Manuel gesammelt &uuml;ber die Webseiten der verschienden Betreiber</li>
             </ul>
@@ -91,6 +110,12 @@
               Der Betreiber der Website haftet nicht f&uuml;r die Richtigkeit der angezeigten Daten. 
               Es gibt keine Garantie f&uuml;r die angezeigten Preise. Diese Preise dienen lediglich als Richtwert.
             </div>
+
+            <label class="w3-margin-top w3-large">Open Source</label><br>
+            <div class="w3-margin-bottom">
+              <a href="https://github.com/hoenic07/charge-compare" target="_blank">Charge Compare (Github)</a>
+            </div>
+
           </div>
 
           <div id="pricesContent" class="w3-container w3-padding-16">
@@ -128,16 +153,6 @@
       <div id="pleaseZoom" class="w3-tag w3-padding w3-orange" style="display: none;">Bite n&auml;her zoomen!</div>
     </div>
 
-  <div class="version">
-    <div class="demo version-section"><a href="https://github.com/hoenic07/charge-compare" target="_blank" class="github-corner" aria-label="View source on Github">
-        <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
-          <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-          <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-          <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
-        </svg></a>
-    </div>
-  </div>
-
   <script id="priceTempl" type="text/x-jsrender">
     <tr>
       <td>
@@ -146,7 +161,11 @@
         {{else}}
         <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.name}}</span></a><br>
           <label class="w3-margin-top w3-small">{{:tariff.provider}}</label>
-        {{/if}}
+        {{/if}}<br>
+        <label class="w3-margin-top w3-small">
+        {{if tariff.monthlyFee > 0 }}Grundgeb&uuml;hr: &euro;{{dec:tariff.monthlyFee}}/Monat {{/if}}
+        {{if tariff.monthlyMinSales > 0 }}Mindestumsatz: &euro;{{dec:tariff.monthlyMinSales}}/Monat {{/if}}
+        </label>
       </td>
       <td>{{dec:price}}</td>
     </tr>
@@ -155,6 +174,7 @@
   <script id="stationTempl" type="text/x-jsrender">
     <label class="w3-margin-top w3-large">{{:name}}</label><br>    
     <div><a href="{{:goingElectricUrl}}" target="_blank">Details auf GoingElectric.de</a></div>   
+    {{if priceDescription}}<div class="w3-margin-top">{{:priceDescription}}</div>{{/if}}  
     <div class="w3-margin-top">
       {{if isFreeParking}}<span class="w3-tag w3-green">Gratis parken</span>{{/if}} 
       {{if isFreeCharging}}<span class="w3-tag w3-green">Gratis laden</span>{{/if}} 
@@ -168,7 +188,6 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.min.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/util.js"></script>
   <script src="js/repository/going_electric.js"></script>
   <script src="js/repository/station_tariffs.js"></script>
   <script src="js/component/map.js"></script>

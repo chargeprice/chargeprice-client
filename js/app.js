@@ -44,7 +44,8 @@ class App {
       duration: parseInt($("#select-duration option:selected").val()),
       kwh: parseInt($("#select-kwh option:selected").val()),
       connectorId: $("#select-connector option:selected").val(),
-      onlyHPC: $("#onlyHPC:checked").length == 1
+      onlyHPC: $("#onlyHPC:checked").length == 1,
+      carACPhases: $("#uniphaseAC:checked").length == 1 ? 1 : 3
     }
   }
 
@@ -69,10 +70,10 @@ class App {
     this.map.clearMarkers();
     stations.forEach(st => this.map.addStation(st, this.stationSelected.bind(this)))
     this.toggleLoading(false);
-    
   }
 
   async stationSelected(model) {
+    ga('send', 'event', 'Station', 'show');
     this.toggleLoading(true);
     this.currentStationTariffs = await this.stationTariffs.getTariffsOfStation(model.id);
     this.sidebar.showStation(this.currentStationTariffs.station,this.chargingOptions());

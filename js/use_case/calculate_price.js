@@ -23,17 +23,29 @@ class CalculatePrice {
   }
 
   isRestrictionFulfilled(restriction){
-    const value = restriction.allowed_value;
+    const value = restriction.value;
+    let pass = true;
     const connector = this.selectedConnector();
     switch(restriction.metric){
       case "connector_energy":
-        return value == connector.energy;
+        pass = value == connector.energy; break;
       case "connector_speed":
-        return value.some(speed=>connector.speed==speed);
+        pass = value.some(speed=>connector.speed==speed); break;
       case "region":
-        return value.some(region=>this.station.region==region);
+        pass = value.some(region=>this.station.region==region); break;
       case "provider_customer":
-        return this.tariff.provider == this.options.customerOf;
+        pass = this.tariff.provider == this.options.customerOf; break;
+      case "network":
+        pass = value.some(network=>this.station.network==network); break;
+      case "car_ac_phases":
+        pass = value == this.options.carACPhases; break;
+    }
+
+    switch(restriction.allowance){
+      case "allow":
+        return pass;
+      case "deny":
+        return !pass;
     }
   }
 
