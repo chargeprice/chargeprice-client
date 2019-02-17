@@ -1,5 +1,6 @@
 html, body, .flex-container{
   height: 100%;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .flex-container {
