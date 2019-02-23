@@ -14,8 +14,8 @@ class Map {
     }).addTo(this.component);
   }
 
-  centerLocation(coords) {
-    this.component.setView([coords.latitude, coords.longitude], 13);
+  centerLocation(coords, zoom=13) {
+    this.component.setView([coords.latitude, coords.longitude], zoom);
   }
 
   isBigArea(){
@@ -47,10 +47,13 @@ class Map {
 
     const maxSpeed = model.connectors.reduce((max,value)=> max > value.speed ? max : value.speed, 0);
 
-    if(maxSpeed >= 43){
+    if(maxSpeed > 50){
+      color = "red"
+    }
+    else if(maxSpeed > 22){
       color = "orange"
     }
-    else if(maxSpeed >= 11){
+    else if(maxSpeed > 3.7){
       color = "blue"
     }
     else{

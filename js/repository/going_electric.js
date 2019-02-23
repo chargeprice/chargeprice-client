@@ -5,7 +5,7 @@ class GoingElectric {
     this.url = "https://api.goingelectric.de/chargepoints";
   }
 
-  async getStations(northEast, southWest,onlyHPC) {
+  async getStations(northEast, southWest,options) {
     const body = {
       key: this.apiKey,
       ne_lat: northEast.latitude,
@@ -14,7 +14,12 @@ class GoingElectric {
       sw_lng: southWest.longitude
     }
 
-    if(onlyHPC) body["min_power"]=43;
+    if(options.onlyHPC) body["min_power"]=43;
+    if(options.onlyFree){
+      body["freecharging"]=true;
+      body["freeparking"]=true;
+    } 
+    if(options.openNow) body["open_now"]=true;
 
     const encodedBody = Object.keys(body).map((k) => [k, body[k]].join("=")).join("&")
 

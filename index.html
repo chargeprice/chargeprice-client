@@ -5,6 +5,7 @@
 <head>
   <title>Ladepreise vergleichen</title>
   <meta name="theme-color" content="#3498db" />
+  <link rel="icon" href="img/favicon.ico">
   <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
   <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
   <link rel="stylesheet" href="dist/leaflet.awesome-markers.css">
@@ -36,13 +37,13 @@
 <body>
   <div class="flex-container">
 
-    <div class="flex-item-s w3-bar w3-flat-peter-river">
-      <div class="w3-bar-item w3-large"><b>Ladepreise</b> BETA</div>
+    <div class="flex-item-s w3-bar w3-flat-peter-river" id="top-bar">
+      <div class="w3-bar-item w3-large"><img id="logo" class="inverted" src="img/plug.svg">Ladepreise</div>
       
-      <button id="adapt-settings" class="w3-button w3-bar-item w3-xlarge"><i class="fa fa-sliders"></i></button>
-      <button id="show-info" class="w3-button w3-bar-item w3-middle w3-xlarge"><i class="fa fa-info-circle" ></i></button>
-      <div id="loadingIndicator" class="fa-3x w3-bar-item w3-middle" style="display: none;">
-        <i class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
+      <button id="adapt-settings" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/edit.svg"></button>
+      <button id="show-info" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/info.svg"></button>
+      <div id="loadingIndicator" class="w3-bar-item w3-middle" >
+        <img class="inverted" class="w3-button " src="img/refresh-2.svg">
       </div>
     </div>
 
@@ -50,9 +51,9 @@
       <div id="sidebar" class="w3-sidebar w3-white w3-card-4 w3-animate-left" style="width:25%; min-width: 320px;">
 
           <div class="w3-bar w3-flat-belize-hole">
-            <span class="w3-bar-item w3-large"><b id="sidebarHeader"></b></span>
-            <button id="sidebar-close" class="w3-bar-item w3-button w3-right" title="close Sidebar">
-                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+            <span class="w3-bar-item w3-large"><span id="sidebarHeader"></span></span>
+            <button  class="w3-bar-item w3-button w3-right w3-hover-dark-gray" title="close Sidebar">
+              <img id="sidebar-close" class="inverted" class="w3-button " src="img/close.svg">
             </button>
           </div>
 
@@ -77,16 +78,32 @@
               <option value="75">ca. 75 kwh</option>
             </select>
 
+            <input id="uniphaseAC" class="w3-check w3-margin-top" type="checkbox">
+            <label>Fahrzeug l&auml;dt Wechselstrom einphasig</label><br><br>
+
+            <label class="w3-margin-top w3-large">Kartenfilter</label><br>
+
             <input id="onlyHPC" class="w3-check w3-margin-top" type="checkbox">
             <label>Nur Schnelllader (43kw+)</label><br>
 
-            <input id="uniphaseAC" class="w3-check w3-margin-top" type="checkbox">
-            <label>Fahrzeug l&auml;dt Wechselstrom einphasig</label>
+            <input id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
+            <label>Nur Kostenlose Ladestationen</label><br>
+
+            <input id="openNow" class="w3-check w3-margin-top" type="checkbox">
+            <label>Nur ge&ouml;ffnete Ladestationen</label><br>
           </div>
 
           <div id="infoContent" class="w3-container w3-padding-16">
-            <label class="w3-margin-top w3-large">Impressum</label><br>
             <div class="w3-margin-bottom">
+                <label class="w3-margin-top w3-large">Legende</label><br>
+                <span class="w3-tag w3-green" style="background: #575757 !important">bis 3,7kw</span>
+                <span class="w3-tag w3-green" style="background: #36a5d8 !important">bis 22kw</span>
+                <span class="w3-tag w3-green" style="background: #f4952f !important">bis 50kw</span>
+                <span class="w3-tag w3-green" style="background: #d33d2a !important">ab 50kw</span>    
+            </div>
+            
+            <div class="w3-margin-bottom">
+              <label class="w3-margin-top w3-large">Impressum</label><br>
               Niklas H&ouml;sl<br>
               Oberfeldweg 6/1<br>
               4072 Alkoven<br>
@@ -104,7 +121,7 @@
             <ul>
               <li>Ladestationen (Koordinaten, Anschl&uuml;sse, Verf&uuml;gbare Ladekarten, <b>KEINE</b> aufgelisteten Ladepreise): <a href="http://www.goingelectric.de" target="_blank">GoingElectric API</a> </li>
               <li>Ladepreise PlugSurfing: <a href="http://www.plugsurfing.com" target="_blank">PlugSurfing API</a></li>
-              <li>Weitere Ladepreise: Manuel gesammelt &uuml;ber die Webseiten der verschienden Betreiber</li>
+              <li>Weitere Ladepreise: Manuell gesammelt &uuml;ber die Webseiten der verschiedenen Betreiber</li>
             </ul>
 
             <label class="w3-margin-top w3-large">Haftungsausschluss</label><br>

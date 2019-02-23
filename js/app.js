@@ -17,6 +17,8 @@ class App {
     this.getCurrentLocation();
 
     $("#onlyHPC").click(()=>this.showStationsAtLocation(this.map.getBounds()));
+    $("#onlyFree").click(()=>this.showStationsAtLocation(this.map.getBounds()));
+    $("#openNow").click(()=>this.showStationsAtLocation(this.map.getBounds()));
 
     this.sidebar.open("settings");
 
@@ -27,16 +29,15 @@ class App {
     navigator.geolocation.getCurrentPosition((pos) => {
       this.map.centerLocation(pos.coords)
     }, () => {
-      alert("Standort konnte nicht ermittelt werden!");
       this.showFallbackLocation();
     });
   }
 
   showFallbackLocation() {
     this.map.centerLocation({
-      longitude: 13,
-      latitude: 46
-    });
+      longitude: 11.6174228,
+      latitude: 47.5399148
+    },8);
   }
 
   chargingOptions(){
@@ -45,6 +46,8 @@ class App {
       kwh: parseInt($("#select-kwh option:selected").val()),
       connectorId: $("#select-connector option:selected").val(),
       onlyHPC: $("#onlyHPC:checked").length == 1,
+      onlyFree: $("#onlyFree:checked").length == 1,
+      openNow: $("#openNow:checked").length == 1,
       carACPhases: $("#uniphaseAC:checked").length == 1 ? 1 : 3
     }
   }
@@ -66,7 +69,7 @@ class App {
 
     const options = this.chargingOptions();
     this.toggleLoading(true);
-    const stations = await this.goingElectric.getStations(bounds.northEast, bounds.southWest,options.onlyHPC);
+    const stations = await this.goingElectric.getStations(bounds.northEast, bounds.southWest,options);
     this.map.clearMarkers();
     stations.forEach(st => this.map.addStation(st, this.stationSelected.bind(this)))
     this.toggleLoading(false);
