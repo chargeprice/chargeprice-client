@@ -72,7 +72,7 @@ class CalculatePrice {
     const gte = segment.range_gte || 0;
     const lte = segment.range_lte || Number.MAX_SAFE_INTEGER;
 
-    const amountInRange = amount <= gte ? amount : Math.min(amount, lte) - gte;
+    const amountInRange = amount <= gte ? 0 : Math.min(amount, lte) - gte;
     
     return amountInRange*segment.price;
   }
