@@ -8,14 +8,16 @@ class StationTariffs {
   async getTariffsOfStation(stationId){
     const url = `${this.base_url}/v1/stations/${stationId}/station_tariffs`
     const response = await fetch(url);
-
     const root = await response.json();
     return this.flattenObject(root.included,root.data);
   }
 
-  check(){
+  async check(){
     const url = `${this.base_url}/check`
-    fetch(url);
+    try {
+      await fetch(url);
+    }
+    catch(ex) {}
   }
 
   dereference(included, relationship){

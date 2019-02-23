@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de-DE">
 
-
 <head>
   <title>Ladepreise vergleichen</title>
   <meta name="theme-color" content="#3498db" />
@@ -48,11 +47,11 @@
     </div>
 
     <div class="flex-item-d flex-container  w3-light-gray" style="height: auto">
-      <div id="sidebar" class="w3-sidebar w3-white w3-card-4 w3-animate-left" style="width:25%; min-width: 320px;">
+      <div id="sidebar" class="w3-sidebar w3-white w3-card-4 w3-animate-left">
 
           <div class="w3-bar w3-flat-belize-hole">
             <span class="w3-bar-item w3-large"><span id="sidebarHeader"></span></span>
-            <button  class="w3-bar-item w3-button w3-right w3-hover-dark-gray" title="close Sidebar">
+            <button class="w3-bar-item w3-button w3-right w3-hover-dark-gray" title="close Sidebar">
               <img id="sidebar-close" class="inverted" class="w3-button " src="img/close.svg">
             </button>
           </div>
@@ -91,15 +90,17 @@
 
             <input id="openNow" class="w3-check w3-margin-top" type="checkbox">
             <label>Nur ge&ouml;ffnete Ladestationen</label><br>
+
+            <button id="settings-ok" class="w3-btn w3-flat-belize-hole w3-margin-top">Ok</button>
           </div>
 
           <div id="infoContent" class="w3-container w3-padding-16">
             <div class="w3-margin-bottom">
                 <label class="w3-margin-top w3-large">Legende</label><br>
-                <span class="w3-tag w3-green" style="background: #575757 !important">bis 3,7kw</span>
-                <span class="w3-tag w3-green" style="background: #36a5d8 !important">bis 22kw</span>
-                <span class="w3-tag w3-green" style="background: #f4952f !important">bis 50kw</span>
-                <span class="w3-tag w3-green" style="background: #d33d2a !important">ab 50kw</span>    
+                <span class="w3-tag w3-green w3-margin-top" style="background: #575757 !important">bis 3,7kw</span>
+                <span class="w3-tag w3-green w3-margin-top" style="background: #36a5d8 !important">bis 22kw</span>
+                <span class="w3-tag w3-green w3-margin-top" style="background: #f4952f !important">bis 50kw</span>
+                <span class="w3-tag w3-green w3-margin-top" style="background: #d33d2a !important">ab 50kw</span>    
             </div>
             
             <div class="w3-margin-bottom">
@@ -163,14 +164,13 @@
           </div>
       </div>
 
-      <div id="map" class="flex-item-d">
-
-        
-
-      </div>
+      <div id="map" class="flex-item-d"></div>
 
       <div id="pleaseZoom" class="w3-tag w3-padding w3-orange" style="display: none;">Bite n&auml;her zoomen!</div>
     </div>
+  </div>
+
+  <div id="snackbar"></div>
 
   <script id="priceTempl" type="text/x-jsrender">
     <tr>

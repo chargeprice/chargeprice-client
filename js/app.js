@@ -19,6 +19,7 @@ class App {
     $("#onlyHPC").click(()=>this.showStationsAtLocation(this.map.getBounds()));
     $("#onlyFree").click(()=>this.showStationsAtLocation(this.map.getBounds()));
     $("#openNow").click(()=>this.showStationsAtLocation(this.map.getBounds()));
+    $("#settings-ok").click(() => this.sidebar.close());
 
     this.sidebar.open("settings");
 
@@ -69,18 +70,29 @@ class App {
 
     const options = this.chargingOptions();
     this.toggleLoading(true);
-    const stations = await this.goingElectric.getStations(bounds.northEast, bounds.southWest,options);
-    this.map.clearMarkers();
-    stations.forEach(st => this.map.addStation(st, this.stationSelected.bind(this)))
+    try {
+      const stations = await this.goingElectric.getStations(bounds.northEast, bounds.southWest,options);
+      this.map.clearMarkers();
+      stations.forEach(st => this.map.addStation(st, this.stationSelected.bind(this)));
+    }
+    catch(ex){
+      this.showAlert("Stationen konnten nicht geladen werden.")
+    }
     this.toggleLoading(false);
   }
 
   async stationSelected(model) {
     ga('send', 'event', 'Station', 'show');
     this.toggleLoading(true);
-    this.currentStationTariffs = await this.stationTariffs.getTariffsOfStation(model.id);
-    this.sidebar.showStation(this.currentStationTariffs.station,this.chargingOptions());
-    this.selectedConnectorChanged();
+    try{
+      this.currentStationTariffs = await this.stationTariffs.getTariffsOfStation(model.id);
+      this.sidebar.showStation(this.currentStationTariffs.station,this.chargingOptions());
+      this.selectedConnectorChanged();
+    }
+    catch(ex){
+      this.showAlert("Preise konnten nicht geladen werden.")
+    }
+    
     this.toggleLoading(false);
   }
 
@@ -96,6 +108,13 @@ class App {
     }).filter(p=>p);
 
     this.sidebar.updateStationPrice(this.currentStationTariffs.station,prices,options);
+  }
+
+  showAlert(message) {
+    $("#snackbar").text(message);
+    $("#snackbar").show();
+    
+    setTimeout(()=>$("#snackbar").hide(), 5000);
   }
 }
 
