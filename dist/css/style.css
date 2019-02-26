@@ -1,0 +1,95 @@
+html, body, .flex-container{
+  height: 100%;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.flex-container {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+
+.flex-item-s {
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+}
+
+.flex-item-d {
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+}
+
+#logo {
+  margin-right: 4px;
+}
+
+.inverted {
+  filter: invert(100%);
+}
+
+#top-bar{
+  box-shadow: #00000066 0 0 40px;
+  z-index: 10000;
+}
+
+#sidebar{
+  height: calc(100% - 43px);
+  width:25%; 
+  min-width: 320px;
+}
+
+.w3-sidebar {
+  z-index: 100000;
+}
+
+#snackbar {
+  display: none;
+  width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 8px;
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  z-index: 1000000;
+}
+
+
+@media (max-width: 800px) {
+  #top-bar .w3-button {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+}

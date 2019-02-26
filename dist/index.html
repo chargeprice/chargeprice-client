@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de-DE">
+
+<head>
+  <title>Ladepreise vergleichen</title>
+  <meta name="theme-color" content="#3498db" />
+  <link rel="icon" href="img/favicon.ico">
+  <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+  <link rel="stylesheet" href="dist/leaflet.awesome-markers.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-flat.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+    crossorigin="" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js" integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+    crossorigin=""></script>
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyBCOBC-BJbbMCxYSeQilMFLXS7bG3Ocvzo"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google Analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+    ga('create', 'UA-134630069-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <!-- End Google Analytics -->
+
+</head>
+
+<body>
+  <div class="flex-container">
+
+    <div class="flex-item-s w3-bar w3-flat-peter-river" id="top-bar">
+      <div class="w3-bar-item w3-large"><img id="logo" class="inverted" src="img/plug.svg">Ladepreise</div>
+      
+      <button id="adapt-settings" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/edit.svg"></button>
+      <button id="show-info" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/info.svg"></button>
+      <div id="loadingIndicator" class="w3-bar-item w3-middle" >
+        <img class="inverted" class="w3-button " src="img/refresh-2.svg">
+      </div>
+    </div>
+
+    <div class="flex-item-d flex-container  w3-light-gray" style="height: auto">
+      <div id="sidebar" class="w3-sidebar w3-white w3-card-4 w3-animate-left">
+
+          <div class="w3-bar w3-flat-belize-hole">
+            <span class="w3-bar-item w3-large"><span id="sidebarHeader"></span></span>
+            <button id="sidebar-close" class="w3-bar-item w3-button w3-right w3-hover-dark-gray" title="close Sidebar">
+              <img class="inverted" class="w3-button " src="img/close.svg">
+            </button>
+          </div>
+
+          <div id="settingsContent" class="w3-container w3-padding-16">
+            <label class="w3-margin-top">Ladedauer</label>
+            <select id="select-duration" class="w3-select w3-margin-bottom" name="option">
+              <option value="30">ca. 30 min</option>
+              <option value="60">ca. 1 Stunde</option>
+              <option value="60">ca. 2 Stunde</option>
+              <option value="300">ca. 5 Stunden</option>
+              <option value="600">ca. 10 Stunden</option>
+              <option value="1200">ca. 20 Stunden</option>
+            </select>
+
+            <label class="w3-margin-top">Ladeenergie</label>
+            <select id="select-kwh" class="w3-select" name="option">
+              <option value="5">ca. 5 kwh</option>
+              <option value="10">ca. 10 kwh</option>
+              <option value="25">ca. 25 kwh</option>
+              <option value="35">ca. 35 kwh</option>
+              <option value="50">ca. 50 kwh</option>
+              <option value="75">ca. 75 kwh</option>
+            </select>
+
+            <input id="uniphaseAC" class="w3-check w3-margin-top" type="checkbox">
+            <label>Fahrzeug l&auml;dt Wechselstrom einphasig</label><br><br>
+
+            <label class="w3-margin-top w3-large">Kartenfilter</label><br>
+
+            <input id="onlyHPC" class="w3-check w3-margin-top" type="checkbox">
+            <label>Nur Schnelllader (43kw+)</label><br>
+
+            <input id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
+            <label>Nur Kostenlose Ladestationen</label><br>
+
+            <input id="openNow" class="w3-check w3-margin-top" type="checkbox">
+            <label>Nur ge&ouml;ffnete Ladestationen</label><br>
+
+            <button id="settings-ok" class="w3-btn w3-flat-belize-hole w3-margin-top">Ok</button>
+          </div>
+
+          <div id="infoContent" class="w3-container w3-padding-16">
+            <div class="w3-margin-bottom">
+                <label class="w3-margin-top w3-large">Legende</label><br>
+                <span class="w3-tag w3-green w3-margin-top" style="background: #575757 !important">bis 3,7kw</span>
+                <span class="w3-tag w3-green w3-margin-top" style="background: #36a5d8 !important">bis 22kw</span>
+                <span class="w3-tag w3-green w3-margin-top" style="background: #f4952f !important">bis 50kw</span>
+                <span class="w3-tag w3-green w3-margin-top" style="background: #d33d2a !important">ab 50kw</span>    
+            </div>
+            
+            <div class="w3-margin-bottom">
+              <label class="w3-margin-top w3-large">Impressum</label><br>
+              Niklas H&ouml;sl<br>
+              Oberfeldweg 6/1<br>
+              4072 Alkoven<br>
+              &Ouml;sterreich<br>
+              <a href="http://www.rwrBrille.at">rwrBrille.at</a>
+            </div>
+
+            <div class="w3-margin-bottom">
+              <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+              <input type="hidden" name="cmd" value="_s-xclick" />
+              <input type="hidden" name="hosted_button_id" value="48LQQZJAW7W42" />
+              <input type="image" src="https://www.paypalobjects.com/de_DE/AT/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+              <img alt="" border="0" src="https://www.paypal.com/de_AT/i/scr/pixel.gif" width="1" height="1" />
+              </form>
+            </div>
+
+            <label class="w3-margin-top w3-large">Feedback</label><br>
+            <div class="w3-margin-bottom">
+              Fehlt dir eine Feature, eine Ladekarte oder stimmt irgendwas nicht?
+              Schreib mir einfach eine <a href="mailto:nik.hoesl@hotmail.com?subject=Ladepreise Feedback">Email</a>!
+            </div>
+
+            <label class="w3-margin-top w3-large">Datenherkunft</label><br>
+            <ul>
+              <li>Ladestationen (Koordinaten, Anschl&uuml;sse, Verf&uuml;gbare Ladekarten, <b>KEINE</b> aufgelisteten Ladepreise): <a href="http://www.goingelectric.de" target="_blank">GoingElectric API</a> </li>
+              <li>Ladepreise PlugSurfing: <a href="http://www.plugsurfing.com" target="_blank">PlugSurfing API</a></li>
+              <li>Ladepreise New Motion: <a href="https://my.newmotion.com" target="_blank">New Motion API</a></li>
+              <li>Weitere Ladepreise: Manuell gesammelt &uuml;ber die Webseiten der verschiedenen Betreiber</li>
+            </ul>
+
+            <label class="w3-margin-top w3-large">Haftungsausschluss</label><br>
+            <div class="w3-margin-bottom">
+              Der Betreiber der Website haftet nicht f&uuml;r die Richtigkeit der angezeigten Daten. 
+              Es gibt keine Garantie f&uuml;r die angezeigten Preise. Diese Preise dienen lediglich als Richtwert.
+            </div>
+
+            <label class="w3-margin-top w3-large">Open Source</label><br>
+            <div class="w3-margin-bottom">
+              <a href="https://github.com/hoenic07/charge-compare" target="_blank">Charge Compare (Github)</a>
+            </div>
+
+          </div>
+
+          <div id="pricesContent" class="w3-container w3-padding-16">
+
+            <div id="station-info">
+            </div>
+
+            <select id="select-connector" class="w3-select w3-margin-top" name="option">
+            </select>
+            
+            <div id="noPricesAvailable" class="w3-margin-top"><label>Keine Anbieter verf&uuml;gbar oder eingetragen!</label></div>
+
+            <div id="prices">
+              <table class="w3-table w3-striped w3-margin-top">
+                <tr>
+                  <th>Anbieter</th>
+                  <th>&euro;</th>
+                </tr>
+                <tbody id="priceList">
+                    
+                </tbody>
+              </table>
+              <br>
+              <label class="w3-margin-top w3-small">&euro; = Gesamtpreis f&uuml;r Ladung mit angegebenen Parametern</label>
+            </div>            
+          </div>
+      </div>
+
+      <div id="map" class="flex-item-d"></div>
+
+      <div id="pleaseZoom" class="w3-tag w3-padding w3-orange" style="display: none;">Bitte n&auml;her zoomen!</div>
+    </div>
+  </div>
+
+  <div id="snackbar"></div>
+
+  <script id="priceTempl" type="text/x-jsrender">
+    <tr>
+      <td>
+        {{if tariff.type == "flexible_price_tariff"}}
+        <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.provider}}</span></a>
+        {{else}}
+        <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.name}}</span></a><br>
+          <label class="w3-margin-top w3-small">{{:tariff.provider}}</label>
+        {{/if}}<br>
+        <label class="w3-margin-top w3-small">
+        {{if tariff.monthlyFee > 0 }}Grundgeb&uuml;hr: &euro;{{dec:tariff.monthlyFee}}/Monat {{/if}}
+        {{if tariff.monthlyMinSales > 0 }}Mindestumsatz: &euro;{{dec:tariff.monthlyMinSales}}/Monat {{/if}}
+        </label>
+      </td>
+      <td>{{dec:price}}</td>
+    </tr>
+  </script>
+
+  <script id="stationTempl" type="text/x-jsrender">
+    <label class="w3-margin-top w3-large">{{:name}}</label><br>    
+    <div><a href="{{:goingElectricUrl}}" target="_blank">Details auf GoingElectric.de</a></div>   
+    {{if priceDescription}}<div class="w3-margin-top">{{:priceDescription}}</div>{{/if}}  
+    <div class="w3-margin-top">
+      {{if isFreeParking}}<span class="w3-tag w3-green">Gratis parken</span>{{/if}} 
+      {{if isFreeCharging}}<span class="w3-tag w3-green">Gratis laden</span>{{/if}} 
+    </div>
+  </script>
+
+  <script id="connectorTempl" type="text/x-jsrender">
+    <option value="{{:id}}">{{:plug}} {{:speed}}kw ({{:count}}x)</option>
+  </script>
+  
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/repository/going_electric.js"></script>
+  <script src="js/repository/station_tariffs.js"></script>
+  <script src="js/component/map.js"></script>
+  <script src="js/component/sidebar.js"></script>
+  <script src="js/use_case/calculate_price.js"></script>
+
+  <script src="dist/leaflet.awesome-markers.min.js"></script>
+
+  
+
+</body>
