@@ -21,33 +21,103 @@ class GoingElectric {
     }
     if (options.openNow) body["open_now"] = true;
 
-    const encodedBody = Object.keys(body).map(k => [k, body[k]].join("=")).join("&");
+    const response = await fetch(this.url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: this.encodeBody(body)
+    });
+
+    return await this.parseStationsResponse(response);
+  }
+
+  async getStationDetails(stationId) {
+    const body = { key: this.apiKey, ge_id: stationId };
 
     const response = await fetch(this.url, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: encodedBody
+      body: this.encodeBody(body)
     });
 
-    return await this.parseResponse(response);
+    return await this.parseStationResponse(response);
   }
 
-  async parseResponse(response) {
+  encodeBody(body) {
+    return Object.keys(body).map(k => [k, body[k]].join("=")).join("&");
+  }
+
+  async parseStationsResponse(response) {
     const root = await response.json();
-    return root.chargelocations.map(m => this.toModel(m));
+    return root.chargelocations.map(m => this.toLightModel(m));
   }
 
-  toModel(data) {
+  async parseStationResponse(response) {
+    const root = await response.json();
+    return root.chargelocations.map(m => this.toDetailModel(m))[0];
+  }
+
+  toLightModel(data) {
     return {
-      id: data.ge_id,
+      id: String(data.ge_id),
       longitude: data.coordinates.lng,
       latitude: data.coordinates.lat,
       connectors: data.chargepoints.map(cp => {
         return { speed: cp.power };
       })
     };
+  }
+
+  toDetailModel(data) {
+    return {
+      id: String(data.ge_id),
+      name: data.name,
+      network: this.valueOrFallback(data.network),
+      longitude: data.coordinates.lng,
+      latitude: data.coordinates.lat,
+      isFreeCharging: data.cost.freecharging,
+      isFreeParking: data.cost.freeparking,
+      priceDescription: this.valueOrFallback(data.cost.description_long),
+      region: this.mapRegion(data.address.country),
+      chargeCardIds: this.valueOrFallback(data.chargecards, []).map(cc => String(cc.id)),
+      connectors: data.chargepoints.map((cp, idx) => this.parseConnector(cp, idx)),
+      goingElectricUrl: "https:" + data.url
+    };
+  }
+
+  mapRegion(longRegion) {
+    const mapping = {
+      "Österreich": "at",
+      "Deutschland": "de",
+      "Italien": "it",
+      "Niederlande": "nl",
+      "Schweiz": "ch",
+      "Slowenien": "sl",
+      "Kroatien": "hr"
+    };
+
+    return mapping[longRegion];
+  }
+
+  valueOrFallback(value, fallback = null) {
+    return value != false ? value : fallback;
+  }
+
+  parseConnector(hash, idx) {
+    return {
+      id: String(idx),
+      speed: hash.power,
+      plug: hash.type,
+      count: hash.count,
+      energy: this.energy(hash.plug)
+    };
+  }
+
+  energy(plug) {
+    return ["CCS", "CHAdeMO", "Tesla Supercharger", "Tesla HPC"].includes(plug) ? "dc" : "ac";
   }
 
 }

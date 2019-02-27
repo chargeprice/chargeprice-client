@@ -85,8 +85,10 @@ class App {
     ga('send', 'event', 'Station', 'show');
     this.toggleLoading(true);
     try{
-      this.currentStationTariffs = await this.stationTariffs.getTariffsOfStation(model.id);
-      this.sidebar.showStation(this.currentStationTariffs.station,this.chargingOptions());
+      const station = await this.goingElectric.getStationDetails(model.id)
+      this.currentStationTariffs = await this.stationTariffs.getTariffsOfStation(station);
+      this.currentStationTariffs.station = station;
+      this.sidebar.showStation(station,this.chargingOptions());
       this.selectedConnectorChanged();
     }
     catch(ex){
