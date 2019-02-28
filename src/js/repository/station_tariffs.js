@@ -5,9 +5,18 @@ class StationTariffs {
     this.normalize = window.jsonApiNormalize;
   }
 
-  async getTariffsOfStation(stationId){
-    const url = `${this.base_url}/v1/stations/${stationId}/station_tariffs`
-    const response = await fetch(url);
+  async getTariffsOfStation(station){
+
+    const url = `${this.base_url}/v1/tariffs`;
+    const body = this.buildJsonApiRequestBody(station);
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    })
+    
     const root = await response.json();
     return this.flattenObject(root.included,root.data);
   }
@@ -19,6 +28,24 @@ class StationTariffs {
     }
     catch(ex) {}
   }
+
+  buildJsonApiRequestBody(station){
+    return JSON.stringify({
+      data: {
+        type: "tariff_options",
+        attributes: {
+          latitude: station.latitude,
+          longitude: station.longitude,
+          network: station.network,
+          region: station.region,
+          charge_card_ids: station.chargeCardIds,
+          connectors: station.connectors
+        }
+      } 
+    });
+  }
+
+
 
   dereference(included, relationship){
     const ref = relationship.data
