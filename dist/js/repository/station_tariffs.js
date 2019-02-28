@@ -1,7 +1,8 @@
 class StationTariffs {
 
   constructor() {
-    this.base_url = "https://charge-compare.herokuapp.com";
+    this.base_url = "https://pre-charge-compare.herokuapp.com";
+    //this.base_url = "http://localhost:9292";
     this.normalize = window.jsonApiNormalize;
   }
 
