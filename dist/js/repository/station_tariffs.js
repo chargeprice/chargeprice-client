@@ -1,7 +1,8 @@
 class StationTariffs {
 
   constructor() {
-    this.base_url = "https://charge-compare.herokuapp.com";
+    const useLocalData = false;
+    this.base_url = useLocalData ? "http://localhost:9292" : "https://charge-compare.herokuapp.com";
     this.normalize = window.jsonApiNormalize;
   }
 

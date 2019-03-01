@@ -43,13 +43,14 @@ class App {
 
   chargingOptions(){
     return {
-      duration: parseInt($("#select-duration option:selected").val()),
-      kwh: parseInt($("#select-kwh option:selected").val()),
+      duration: parseFloat($("#select-duration").val())*60,
+      kwh: parseFloat($("#select-kwh").val()),
       connectorId: $("#select-connector option:selected").val(),
       onlyHPC: $("#onlyHPC:checked").length == 1,
       onlyFree: $("#onlyFree:checked").length == 1,
       openNow: $("#openNow:checked").length == 1,
-      carACPhases: $("#uniphaseAC:checked").length == 1 ? 1 : 3
+      carACPhases: ($("#uniphaseAC:checked").length == 1) ? 1 : 3,
+      customerOf: ($("#providerCustomerOnly:checked").length == 1) ? "ALL" : null
     }
   }
 
@@ -58,9 +59,9 @@ class App {
   }
 
   async showStationsAtLocation(bounds) {
+    const options = this.chargingOptions();
 
-    const isBigArea = this.map.isBigArea();
-
+    const isBigArea = this.map.isBigArea(options.onlyHPC);
 
     $("#pleaseZoom").toggle(isBigArea);
     if(isBigArea){
@@ -68,7 +69,6 @@ class App {
       return;
     }
 
-    const options = this.chargingOptions();
     this.toggleLoading(true);
     try {
       const stations = await this.goingElectric.getStations(bounds.northEast, bounds.southWest,options);
