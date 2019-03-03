@@ -18,8 +18,9 @@ class Map {
     this.component.setView([coords.latitude, coords.longitude], zoom);
   }
 
-  isBigArea(){
-    return this.component.getZoom() < 11;
+  isBigArea(onlyHPC){
+    const maxValue = onlyHPC ? 9 : 11 
+    return this.component.getZoom() < maxValue;
   }
 
   getBounds() {

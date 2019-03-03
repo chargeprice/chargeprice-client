@@ -57,28 +57,20 @@
           </div>
 
           <div id="settingsContent" class="w3-container w3-padding-16">
-            <label class="w3-margin-top">Ladedauer</label>
-            <select id="select-duration" class="w3-select w3-margin-bottom" name="option">
-              <option value="30">ca. 30 min</option>
-              <option value="60">ca. 1 Stunde</option>
-              <option value="60">ca. 2 Stunde</option>
-              <option value="300">ca. 5 Stunden</option>
-              <option value="600">ca. 10 Stunden</option>
-              <option value="1200">ca. 20 Stunden</option>
-            </select>
+            <label class="w3-margin-top">Ladedauer (Stunden)</label>
+            <input id="select-duration" class="w3-input w3-border w3-margin-bottom" type="number" name="points" min="0.01" value="1.5">
 
-            <label class="w3-margin-top">Ladeenergie</label>
-            <select id="select-kwh" class="w3-select" name="option">
-              <option value="5">ca. 5 kwh</option>
-              <option value="10">ca. 10 kwh</option>
-              <option value="25">ca. 25 kwh</option>
-              <option value="35">ca. 35 kwh</option>
-              <option value="50">ca. 50 kwh</option>
-              <option value="75">ca. 75 kwh</option>
-            </select>
+            <label class="w3-margin-top">Ladeenergie (kWh)</label>
+            <input id="select-kwh" class="w3-input w3-border" type="number" name="points" min="1" value="30">
 
             <input id="uniphaseAC" class="w3-check w3-margin-top" type="checkbox">
-            <label>Fahrzeug l&auml;dt Wechselstrom einphasig</label><br><br>
+            <label>Fahrzeug l&auml;dt Wechselstrom einphasig</label><br>
+
+            <input id="providerCustomerOnly" class="w3-check w3-margin-top" type="checkbox">
+            <label>Exklusive Energiekunden-Tarife anzeigen</label><br>
+            <label class="w3-small">Einige Anbieter bieten f&uuml;r ihre Kunden (z.B. Hausshaltstrom, Gas) g&uuml;nstigere Tarife an.</label><br>
+
+            <br>
 
             <label class="w3-margin-top w3-large">Kartenfilter</label><br>
 
@@ -190,11 +182,19 @@
         {{else}}
         <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.name}}</span></a><br>
           <label class="w3-margin-top w3-small">{{:tariff.provider}}</label>
-        {{/if}}<br>
-        <label class="w3-margin-top w3-small">
-        {{if tariff.monthlyFee > 0 }}Grundgeb&uuml;hr: &euro;{{dec:tariff.monthlyFee}}/Monat {{/if}}
-        {{if tariff.monthlyMinSales > 0 }}Mindestumsatz: &euro;{{dec:tariff.monthlyMinSales}}/Monat {{/if}}
+        {{/if}}
+        {{if tariff.monthlyFee > 0 || tariff.monthlyMinSales > 0}}
+          <br>
+          <label class="w3-margin-top w3-small">
+          {{if tariff.monthlyFee > 0 }}Grundgeb&uuml;hr: &euro;{{dec:tariff.monthlyFee}}/Monat {{/if}}
+          {{if tariff.monthlyMinSales > 0 }}Mindestumsatz: &euro;{{dec:tariff.monthlyMinSales}}/Monat {{/if}}
         </label>
+        {{/if}}
+        
+        {{if tariff.providerCustomerOnly > 0 }}
+          <br>
+          <label class="w3-margin-top w3-small">Nur f&uuml;r Energiekunden</label> 
+        {{/if}}
       </td>
       <td>{{dec:price}}</td>
     </tr>

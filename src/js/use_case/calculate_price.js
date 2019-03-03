@@ -4,13 +4,14 @@ class CalculatePrice {
     this.station = station;
     this.tariff = tariff;
     this.options = options;
-    this.options["customerOf"] = "";
   }
 
   run(){
     const consideredComponents = this.filterComponents(this.tariff.prices);
 
-    if(consideredComponents.length==0) return null;
+    const isPCF = this.isProviderCustomerRestrictionFulfilled();
+
+    if(consideredComponents.length==0 || !isPCF) return null;
 
     const price = this.aggregateComponents(consideredComponents);
     return price;
@@ -20,6 +21,13 @@ class CalculatePrice {
     return tariffPrices.filter(tp=>{
       return tp.restrictions.every(r=>this.isRestrictionFulfilled(r));
     });
+  }
+
+  isProviderCustomerRestrictionFulfilled(){
+    if(!this.tariff.providerCustomerOnly) return true;
+    if(this.options.customerOf == "ALL") return true;
+    else if(this.options.customerOf == this.tariff.provider) return true;
+    else return false;
   }
 
   isRestrictionFulfilled(restriction){
@@ -33,8 +41,6 @@ class CalculatePrice {
         pass = value.some(speed=>connector.speed==speed); break;
       case "region":
         pass = value.some(region=>this.station.region==region); break;
-      case "provider_customer":
-        pass = this.tariff.provider == this.options.customerOf; break;
       case "network":
         pass = value.some(network=>this.station.network==network); break;
       case "car_ac_phases":
