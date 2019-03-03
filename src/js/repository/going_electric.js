@@ -110,7 +110,7 @@ class GoingElectric {
       speed: hash.power,
       plug:  hash.type,
       count: hash.count,
-      energy: this.energy(hash.plug)
+      energy: this.energy(hash.type)
     }
   }
 
