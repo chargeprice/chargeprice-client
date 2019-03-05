@@ -1,10 +1,19 @@
 class App {
 
   constructor() {
+    this.deptsLoaded = 0;
+    this.deptCount = 2;
+  }
+
+  initialize() {
+    this.deptsLoaded++;
+    if (this.deptsLoaded < this.deptCount) return;
+
     this.goingElectric = new GoingElectric();
     this.stationTariffs = new StationTariffs();
     this.map = new Map();
     this.sidebar = new Sidebar();
+    this.locationSearch = new LocationSearch();
 
     this.currentStationTariffs = null;
 
@@ -14,6 +23,7 @@ class App {
 
     this.map.onBoundsChanged(this.showStationsAtLocation.bind(this));
     this.sidebar.onSelectedConnectorChanged(this.selectedConnectorChanged.bind(this));
+    this.locationSearch.onResultSelected(coords => this.map.centerLocation(coords));
     this.getCurrentLocation();
 
     $("#onlyHPC").click(() => this.showStationsAtLocation(this.map.getBounds()));
@@ -118,4 +128,10 @@ class App {
   }
 }
 
-$(document).ready(() => new App());
+var app = new App();
+
+$(document).ready(() => app.initialize());
+
+function placesReady() {
+  app.initialize();
+}
