@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js" integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
     crossorigin=""></script>
-  <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyBCOBC-BJbbMCxYSeQilMFLXS7bG3Ocvzo"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Google Analytics -->
@@ -168,6 +167,10 @@
 
       <div id="map" class="flex-item-d"></div>
 
+      <div id="search" class="w3-display-topright">
+          <input id="search-box" class="w3-border w3-input w3-padding" placeholder="Nach Ort suchen..."></input>
+      </div>
+
       <div id="pleaseZoom" class="w3-tag w3-padding w3-orange" style="display: none;">Bitte n&auml;her zoomen!</div>
     </div>
   </div>
@@ -216,11 +219,13 @@
   
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9m_KXv9VB95-j5X8J546RgNHOx7vR0U&libraries=places&callback=placesReady" async defer></script>
   <script src="js/app.js"></script>
   <script src="js/repository/going_electric.js" charset="utf-8"></script>
   <script src="js/repository/station_tariffs.js"></script>
   <script src="js/component/map.js"></script>
   <script src="js/component/sidebar.js"></script>
+  <script src="js/component/location_search.js"></script>
   <script src="js/use_case/calculate_price.js"></script>
 
   <script src="dist/leaflet.awesome-markers.min.js"></script>
