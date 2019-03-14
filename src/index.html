@@ -2,9 +2,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de-DE">
 
 <head>
-  <title>Ladepreise vergleichen</title>
+  <title>Plugchecker - Der Ladetarifrechner für dein Elektroauto</title>
   <meta name="theme-color" content="#3498db" />
-  <link rel="icon" href="img/favicon.ico">
+
+  <meta name="title" content="Plugchecker - Der Ladetarifrechner für dein Elektroauto">
+  <meta name="description" content="Der Ladetarifrechner für dein Elektroauto. Ladedauer eingeben, Ladestation auswählen und den günstigsten Tarif finden.">
+  <meta name="keywords" content="Ladetarif,Ladepreise,Tarifrechner,Elektroauto,E-Mobilität,Ladekarten,Ladestation,EV,Stromanbieter,Energie,Strom">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="author" content="Niklas Hösl">
+  <meta name="publisher" content="Niklas Hösl">
+  <meta name="copyright" content="Niklas Hösl">
+  <meta http-equiv="content-language" content="de">
+  
+  <meta property="og:site_name" content="Plugchecker" />
+  <meta property="og:title" content="Der Ladetarifrechner für dein Elektroauto" />
+  <meta property="og:description" content="Der Ladetarifrechner für dein Elektroauto. Ladedauer eingeben, Ladestation auswählen und den günstigsten Tarif finden." />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3498db">
+  <meta name="msapplication-TileColor" content="#3498db">
+  <meta name="theme-color" content="#3498db">
+
   <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
   <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
   <link rel="stylesheet" href="dist/leaflet.awesome-markers.css">
@@ -16,7 +38,6 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js" integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
     crossorigin=""></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Google Analytics -->
   <script>
@@ -36,7 +57,7 @@
   <div class="flex-container">
 
     <div class="flex-item-s w3-bar w3-flat-peter-river" id="top-bar">
-      <div class="w3-bar-item w3-large"><img id="logo" class="inverted" src="img/plug.svg">Ladepreise</div>
+        <div class="w3-bar-item w3-large"><a href="https://www.plugchecker.com"><img id="logo" src="img/logo.png"/></a></div>
       
       <button id="adapt-settings" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/edit.svg"></button>
       <button id="show-info" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/info.svg"></button>
@@ -115,7 +136,7 @@
             <label class="w3-margin-top w3-large">Feedback</label><br>
             <div class="w3-margin-bottom">
               Fehlt dir eine Feature, eine Ladekarte oder stimmt irgendwas nicht?
-              Schreib mir einfach eine <a href="mailto:nik.hoesl@hotmail.com?subject=Ladepreise Feedback">Email</a>!
+              Schreib mir einfach eine <a href="mailto:nik.hoesl@hotmail.com?subject=Plugchecker Feedback">Email</a>!
             </div>
 
             <label class="w3-margin-top w3-large">Datenherkunft</label><br>
