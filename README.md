@@ -1,10 +1,10 @@
-# Charge Compare (Client)
+# Plugchecker (Client)
 
 Provides prices of charging cards for EV charging stations.
 
-See [Charge Compare](https://github.com/hoenic07/charge-compare) for the Web Service.
+See [Plugchecker](https://github.com/hoenic07/plugchecker) for the Web Service.
 
 ## Contribution
 
-Please contact me (nik.hoesl@hotmail.com).
+Please contact me (niklas@plugchecker.com).
 
