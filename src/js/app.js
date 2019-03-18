@@ -29,8 +29,7 @@ class App {
     $("#onlyHPC").click(()=>this.showStationsAtLocation(this.map.getBounds()));
     $("#onlyFree").click(()=>this.showStationsAtLocation(this.map.getBounds()));
     $("#openNow").click(()=>this.showStationsAtLocation(this.map.getBounds()));
-    $("#settings-ok").click(() => this.sidebar.close());
-
+    
     this.sidebar.open("settings");
 
     this.stationTariffs.check();
@@ -51,25 +50,12 @@ class App {
     },8);
   }
 
-  chargingOptions(){
-    return {
-      duration: parseFloat($("#select-duration").val())*60,
-      kwh: parseFloat($("#select-kwh").val()),
-      connectorId: $("#select-connector option:selected").val(),
-      onlyHPC: $("#onlyHPC:checked").length == 1,
-      onlyFree: $("#onlyFree:checked").length == 1,
-      openNow: $("#openNow:checked").length == 1,
-      carACPhases: ($("#uniphaseAC:checked").length == 1) ? 1 : 3,
-      customerOf: ($("#providerCustomerOnly:checked").length == 1) ? "ALL" : null
-    }
-  }
-
   toggleLoading(value){
     $("#loadingIndicator").toggle(value);
   }
 
   async showStationsAtLocation(bounds) {
-    const options = this.chargingOptions();
+    const options = this.sidebar.chargingOptions();
 
     const isBigArea = this.map.isBigArea(options.onlyHPC);
 
@@ -98,7 +84,7 @@ class App {
       const station = await this.goingElectric.getStationDetails(model.id)
       this.currentStationTariffs = await this.stationTariffs.getTariffsOfStation(station);
       this.currentStationTariffs.station = station;
-      this.sidebar.showStation(station,this.chargingOptions());
+      this.sidebar.showStation(station,this.sidebar.chargingOptions());
       this.selectedConnectorChanged();
     }
     catch(ex){
@@ -109,7 +95,7 @@ class App {
   }
 
   selectedConnectorChanged(){
-    const options = this.chargingOptions();
+    const options = this.sidebar.chargingOptions();
     if(options.connectorId == null) return;
 
     const st = this.currentStationTariffs;
