@@ -115,11 +115,3 @@ class App {
     setTimeout(()=>$("#snackbar").hide(), 5000);
   }
 }
-
-var app = new App()
-
-$(document).ready(()=>app.initialize());
-
-function placesReady(){
-  app.initialize();
-}

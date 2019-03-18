@@ -240,8 +240,17 @@
   
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9m_KXv9VB95-j5X8J546RgNHOx7vR0U&libraries=places&callback=placesReady" async defer></script>
   <script src="js/app.js"></script>
+  <script>
+    var app = new App();
+
+    $(document).ready(()=>app.initialize());
+
+    function placesReady(){
+      app.initialize();
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9m_KXv9VB95-j5X8J546RgNHOx7vR0U&libraries=places&callback=placesReady" async defer></script>
   <script src="js/repository/going_electric.js" charset="utf-8"></script>
   <script src="js/repository/station_tariffs.js"></script>
   <script src="js/component/map.js"></script>
