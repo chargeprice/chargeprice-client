@@ -41,8 +41,12 @@ class Sidebar {
 
   registerConverters(){
     $.views.converters({
-      dec: function(val) {
-        return val.toFixed(2);
+      dec: val => val.toFixed(2),
+      int: val=>val.toFixed(0),
+      time: val => {
+        const h = Math.floor(val / 60);
+        const min = Math.floor(val % 60);
+        return `${h}h ${min}min`
       }
    });
   }
@@ -108,6 +112,10 @@ class Sidebar {
     const sortedConnectors = station.connectors.sort((a,b)=>b.speed-a.speed);
     const connectorsHtml = $.templates("#connectorTempl").render(sortedConnectors);
     $("#select-connector").html(connectorsHtml);   
+
+    const parameterNoteHtml = $.templates("#parameterNoteTempl").render(options); 
+    $("#parameterNote").html(parameterNoteHtml);
+
     this.open("prices");    
   }
 
@@ -117,7 +125,7 @@ class Sidebar {
     $("#priceList").html($.templates("#priceTempl").render(sortedPrices));
     $("#station-info").html($.templates("#stationTempl").render(station));
     $("#prices").toggle(!station.isFreeCharging && prices.length > 0 || prices.length > 0);
-    $("#noPricesAvailable").toggle(!station.isFreeCharging && prices.length == 0)
+    $("#noPricesAvailable").toggle(!station.isFreeCharging && prices.length == 0);
   }
 
   onSelectedConnectorChanged(callback){

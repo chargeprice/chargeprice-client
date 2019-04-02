@@ -76,9 +76,9 @@ class CalculatePrice {
     const amount = this.amountForDimension(segment.dimension);
 
     const gte = segment.range_gte || 0;
-    const lte = segment.range_lte || Number.MAX_SAFE_INTEGER;
+    const lt = segment.range_lt || Number.MAX_SAFE_INTEGER;
 
-    const amountInRange = amount <= gte ? 0 : Math.min(amount, lte) - gte;
+    const amountInRange = amount <= gte ? 0 : Math.min(amount, lt) - gte;
     
     return amountInRange*segment.price;
   }

@@ -188,7 +188,7 @@
                 </tbody>
               </table>
               <br>
-              <label class="w3-margin-top w3-small">&euro; = Gesamtpreis f&uuml;r Ladung mit angegebenen Parametern</label>
+              <label id="parameterNote" class="w3-margin-top w3-small"></label>
             </div>            
           </div>
       </div>
@@ -243,6 +243,10 @@
 
   <script id="connectorTempl" type="text/x-jsrender">
     <option value="{{:id}}">{{:plug}} {{:speed}}kw ({{:count}}x)</option>
+  </script>
+
+  <script id="parameterNoteTempl" type="text/x-jsrender">
+    € = Gesamtpreis für {{time:duration}} und {{int:kwh}}kWh Laden (exkl. monatliche Gebühren).
   </script>
   
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
