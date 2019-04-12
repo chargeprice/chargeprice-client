@@ -48,11 +48,6 @@ html, body, .flex-container{
     align-self: auto;
 }
 
-#logo {
-  height: 27px;
-  margin-top: 3px;
-}
-
 .inverted {
   filter: invert(100%);
 }

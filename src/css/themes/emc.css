@@ -1,0 +1,21 @@
+.pc-main{
+  color: #fff !important;
+  background-color: #8fbf22 !important;
+}
+
+.pc-secondary{
+  color: #fff !important;
+  background-color: #74a00f !important;
+}
+
+#top-bar .title {
+  margin: 0px 0px 0px 10px;
+  display: inline-block;
+  color: white;
+}
+
+#logo {
+  height: 32px;
+  margin-top: 0px;
+  filter: drop-shadow(0px 0px 1px black);
+}
