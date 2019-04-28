@@ -2,7 +2,7 @@ class StationTariffs {
 
   constructor(){
     const useLocalData = false;
-    this.base_url = useLocalData ? "http://localhost:9292" : "https://api.plugchecker.com";
+    this.base_url = useLocalData ? "http://localhost:9292" : "https://charge-compare.herokuapp.com";
     this.normalize = window.jsonApiNormalize;
     this.apiKey = "1cd41427-728b-4c94-962b-8ec2547f0fd0";
   }
