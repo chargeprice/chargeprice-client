@@ -6,13 +6,15 @@ class ThemeLoader {
         titleBarHtml: "<img id=\"logo\" src=\"img/logo.png\"/>",
         title: "Plugchecker - Der Ladetarifrechner für dein Elektroauto",
         favicon: "favicon-32x32.png",
-        name: "Plugchecker"
+        name: "Plugchecker",
+        themeColor: "#3498db"
       },
       emc: {
         titleBarHtml: "<img id=\"logo\" src=\"img/emc.png\"/><span class=\"title\">Ladepreise</span>",
         title: "EMC Ladepreise - Powered by Plugchecker.com",
         favicon: "img/emc.png",
-        name: "EMC Ladepreise"
+        name: "EMC Ladepreise",
+        themeColor: "#8fbf22"
       }
     }
   }
@@ -40,6 +42,9 @@ class ThemeLoader {
 
     // Favicon
     document.getElementById("pc-icon").setAttribute("href",theme.favicon);
+
+    // Theme Color
+    document.getElementById("theme-color").setAttribute("content",theme.themeColor);
 
     if(themeId == this.defaultTheme) {
       document.getElementById("theme-info").setAttribute("style","display: none;")
