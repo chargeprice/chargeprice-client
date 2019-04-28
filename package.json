@@ -13,7 +13,7 @@
     "dist": "yarn run dist:clean && yarn run dist:createDirectories && yarn run dist:transpile && yarn run dist:copyAssets",
     "dist:clean": "rm -rf dist/",
     "dist:transpile": "babel src -d dist",
-    "dist:copyAssets": "cp -R img dist && cp -R src/dist/* dist/dist/ && cp src/css/* dist/css && cp src/*.* dist/",
+    "dist:copyAssets": "cp -R img dist && cp -R src/dist/* dist/dist/ && cp -R src/css/* dist/css && cp src/*.* dist/",
     "dist:createDirectories": "mkdir dist && mkdir dist/dist && mkdir dist/css && mkdir dist/img",
 
     "start": "yarn run dist && yarn run serve"
