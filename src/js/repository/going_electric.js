@@ -65,91 +65,37 @@ class GoingElectric {
       id: String(data.ge_id),
       longitude: data.coordinates.lng,
       latitude: data.coordinates.lat,
-      connectors: data.chargepoints.map(cp=>{ return {speed: cp.power }})
+      chargePoints: data.chargepoints.map(cp=>{ return {power: cp.power }})
     }
   }
 
   toDetailModel(data) {
     return {
-      id:                 String(data.ge_id),
-      name:               data.name,
-      network:            this.valueOrFallback(data.network),
-      longitude:          data.coordinates.lng,
-      latitude:           data.coordinates.lat,
-      isFreeCharging:     data.cost.freecharging,
-      isFreeParking:      data.cost.freeparking,
-      priceDescription:   this.valueOrFallback(data.cost.description_long),
-      region:             this.mapRegion(data.address.country),
-      chargeCardIds:      this.valueOrFallback(data.chargecards, []).map(cc => String(cc.id)),
-      connectors:         data.chargepoints.map((cp,idx) => this.parseConnector(cp,idx)),
+      id:                String(data.ge_id),
+      name:              data.name,
+      network:           this.valueOrFallback(data.network),
+      longitude:         data.coordinates.lng,
+      latitude:          data.coordinates.lat,
+      isFreeCharging:    data.cost.freecharging,
+      isFreeParking:     data.cost.freeparking,
+      priceDescription:  this.valueOrFallback(data.cost.description_long),
+      country:           data.address.country,
+      chargeCardIds:     this.valueOrFallback(data.chargecards, []).map(cc => String(cc.id)),
+      chargePoints:      data.chargepoints.map((cp,idx) => this.parseChargePoint(cp,idx)),
       goingElectricUrl:  "https:" + data.url
     }
-  }
-
-  mapRegion(longRegion) {
-    const mapping = {
-      "Albanien"    : "al",
-      "Andorra"     : "ad", 
-      "Belarus"     : "by",
-      "Belgien"     : "be",
-      "Bosnien und Herzegowina": "ba",
-      "Bulgarien"   : "bg",
-      "Dänemark"    : "dk",
-      "Deutschland" : "de",
-      "Estland"     : "es",
-      "Finnland"    : "fi",
-      "Frankreich"  : "fr",
-      "Großbritannien": "gb",
-      "Griechenland": "gr",
-      "Irland"      : "ie",
-      "Island"      : "is",
-      "Italien"     : "it",
-      "Kosovo"      : "xk",
-      "Kroatien"    : "hr",
-      "Lettland"    : "lv",
-      "Litauen"     : "lt", 
-      "Luxemburg"   : "lu",
-      "Niederlande" : "nl",
-      "Malta"       : "mt",
-      "Mazedonien"  : "mk",
-      "Monaco"      : "mc",   
-      "Norwegen"    : "no",
-      "Moldawien"   : "md",
-      "Polen"       : "pl",
-      "Portugal"    : "pt",
-      "Russland"    : "ru",
-      "Schweden"    : "se",
-      "Schweiz"     : "ch",
-      "Serbien"     : "rs",
-      "Slowakei"    : "sk",
-      "Slowenien"   : "sl",
-      "Spanien"     : "es",
-      "Tschechien"  : "cz",
-      "Türkei"      : "tr",
-      "Ukraine"     : "ua",
-      "Ungarn"      : "hu",
-      "Österreich"  : "at",
-    }
-
-    return mapping[longRegion];
   }
 
   valueOrFallback(value, fallback=null){
     return value != false ? value : fallback
   }
 
-  parseConnector(hash,idx){
+  parseChargePoint(hash,idx){
     return {
       id: String(idx), 
-      speed: hash.power,
+      power: hash.power,
       plug:  hash.type,
-      count: hash.count,
-      energy: this.energy(hash.type)
+      count: hash.count
     }
   }
-
-  energy(plug){
-    return ["CCS", "CHAdeMO", "Tesla Supercharger", "Tesla HPC"].includes(plug) ? "dc" : "ac";
-  }
-
 }

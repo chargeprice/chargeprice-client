@@ -4,22 +4,26 @@ class StationTariffs {
     const useLocalData = false;
     this.base_url = useLocalData ? "http://localhost:9292" : "https://charge-compare.herokuapp.com";
     this.normalize = window.jsonApiNormalize;
+    this.apiKey = "1cd41427-728b-4c94-962b-8ec2547f0fd0";
   }
 
-  async getTariffsOfStation(station){
+  async getTariffsOfStation(station,options){
 
-    const url = `${this.base_url}/v1/tariffs`;
-    const body = this.buildJsonApiRequestBody(station);
+    const url = `${this.base_url}/v1/charge_prices`;
+    const body = this.buildJsonApiRequestBody(station,options);
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Api-Key": this.apiKey
       },
       body: body,
     })
     
+    if(response.status != 200) throw "Error in request";
+
     const root = await response.json();
-    return this.flattenObject(root.included,root.data);
+    return this.flattenObjectOrArray(root.included,root.data);
   }
 
   async check(){
@@ -30,17 +34,26 @@ class StationTariffs {
     catch(ex) {}
   }
 
-  buildJsonApiRequestBody(station){
+  buildJsonApiRequestBody(station,options){
     return JSON.stringify({
       data: {
-        type: "tariff_options",
+        type: "charge_price_request",
         attributes: {
-          latitude: station.latitude,
-          longitude: station.longitude,
-          network: station.network,
-          region: station.region,
+          data_adapter: "going_electric",
+          station: {
+            latitude: station.latitude,
+            longitude: station.longitude,
+            network: station.network,
+            country: station.country,
+            charge_points: station.chargePoints
+          },
+          options: {
+            energy: options.kwh,
+            duration: options.duration,
+            car_ac_phases: options.carACPhases,
+            provider_customer_tariffs: options.providerCustomerTarrifs
+          },
           charge_card_ids: station.chargeCardIds,
-          connectors: station.connectors
         }
       } 
     });
@@ -58,6 +71,11 @@ class StationTariffs {
   dereferenceObject(included, ref){
     const jsonApiObj = included.find((val)=>val.id == ref.id && val.type == ref.type);
     return this.flattenObject(included,jsonApiObj);
+  }
+
+  flattenObjectOrArray(included,objOrArray){
+    if(Array.isArray(objOrArray)) return objOrArray.map((i)=>this.flattenObject(included,i));
+    else return this.flattenObject(included,objOrArray);
   }
 
   flattenObject(included,obj){

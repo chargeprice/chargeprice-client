@@ -120,7 +120,6 @@
               <input type="hidden" name="cmd" value="_s-xclick" />
               <input type="hidden" name="hosted_button_id" value="48LQQZJAW7W42" />
               <input type="image" src="https://www.paypalobjects.com/de_DE/AT/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-              <img alt="" border="0" src="https://www.paypal.com/de_AT/i/scr/pixel.gif" width="1" height="1" />
               </form>
             </div>
 
@@ -156,7 +155,7 @@
             <div id="station-info">
             </div>
 
-            <select id="select-connector" class="w3-select w3-margin-top" name="option">
+            <select id="select-charge-point" class="w3-select w3-margin-top" name="option">
             </select>
             
             <div id="noPricesAvailable" class="w3-margin-top"><label>Keine Anbieter verf&uuml;gbar oder eingetragen!</label></div>
@@ -192,21 +191,21 @@
   <script id="priceTempl" type="text/x-jsrender">
     <tr>
       <td>
-        {{if tariff.type == "flexible_price_tariff"}}
+        {{if tariff.tariff == null}}
         <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.provider}}</span></a>
         {{else}}
-        <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.name}}</span></a><br>
+        <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.tariff}}</span></a><br>
           <label class="w3-margin-top w3-small">{{:tariff.provider}}</label>
         {{/if}}
-        {{if tariff.monthlyFee > 0 || tariff.monthlyMinSales > 0}}
+        {{if tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0}}
           <br>
           <label class="w3-margin-top w3-small">
-          {{if tariff.monthlyFee > 0 }}Grundgeb&uuml;hr: &euro;{{dec:tariff.monthlyFee}}/Monat {{/if}}
+          {{if tariff.totalMonthlyFee > 0 }}Grundgeb&uuml;hr: &euro;{{dec:tariff.totalMonthlyFee}}/Monat {{/if}}
           {{if tariff.monthlyMinSales > 0 }}Mindestumsatz: &euro;{{dec:tariff.monthlyMinSales}}/Monat {{/if}}
         </label>
         {{/if}}
         
-        {{if tariff.providerCustomerOnly > 0 }}
+        {{if tariff.providerCustomerTariff > 0 }}
           <br>
           <label class="w3-margin-top w3-small">Nur f&uuml;r Energiekunden</label> 
         {{/if}}
@@ -225,8 +224,8 @@
     </div>
   </script>
 
-  <script id="connectorTempl" type="text/x-jsrender">
-    <option value="{{:id}}">{{:plug}} {{:speed}}kw ({{:count}}x)</option>
+  <script id="chargePointTempl" type="text/x-jsrender">
+    <option value="{{:id}}">{{:plug}} {{:power}}kw ({{:count}}x)</option>
   </script>
 
   <script id="parameterNoteTempl" type="text/x-jsrender">
@@ -253,7 +252,6 @@
   <script src="js/component/map.js"></script>
   <script src="js/component/sidebar.js"></script>
   <script src="js/component/location_search.js"></script>
-  <script src="js/use_case/calculate_price.js"></script>
 
   <script src="dist/leaflet.awesome-markers.min.js"></script>
 </body>

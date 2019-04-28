@@ -55,12 +55,12 @@ class Sidebar {
     return {
       duration: parseFloat($("#select-duration").val())*60,
       kwh: parseFloat($("#select-kwh").val()),
-      connectorId: $("#select-connector option:selected").val(),
+      chargePointId: $("#select-charge-point option:selected").val(),
       onlyHPC: $("#onlyHPC:checked").length == 1,
       onlyFree: $("#onlyFree:checked").length == 1,
       openNow: $("#openNow:checked").length == 1,
       carACPhases: ($("#uniphaseAC:checked").length == 1) ? 1 : 3,
-      customerOf: ($("#providerCustomerOnly:checked").length == 1) ? "ALL" : null
+      providerCustomerTarrifs: $("#providerCustomerOnly:checked").length == 1
     }
   }
 
@@ -76,7 +76,7 @@ class Sidebar {
       "onlyFree": "onlyFree",
       "openNow": "openNow",
       "carACPhases": "uniphaseAC",
-      "customerOf": "providerCustomerOnly"
+      "providerCustomerTarrifs": "providerCustomerOnly"
     }
 
     for (var key in attributeComponentMapping) {
@@ -99,7 +99,7 @@ class Sidebar {
       "onlyFree": true,
       "openNow": true,
       "carACPhases": 1,
-      "customerOf": "ALL"
+      "providerCustomerTarrifs": true
     }
 
     for (var key in attributeComponentMapping) {
@@ -109,9 +109,8 @@ class Sidebar {
   }
 
   showStation(station,options){
-    const sortedConnectors = station.connectors.sort((a,b)=>b.speed-a.speed);
-    const connectorsHtml = $.templates("#connectorTempl").render(sortedConnectors);
-    $("#select-connector").html(connectorsHtml);   
+    const sortedCP = station.chargePoints.sort((a,b)=>b.power-a.power);
+    $("#select-charge-point").html($.templates("#chargePointTempl").render(sortedCP));   
 
     const parameterNoteHtml = $.templates("#parameterNoteTempl").render(options); 
     $("#parameterNote").html(parameterNoteHtml);
@@ -128,8 +127,8 @@ class Sidebar {
     $("#noPricesAvailable").toggle(!station.isFreeCharging && prices.length == 0);
   }
 
-  onSelectedConnectorChanged(callback){
-    $("#select-connector").change(()=>{
+  onSelectedChargePointChanged(callback){
+    $("#select-charge-point").change(()=>{
       callback();
     });
   }

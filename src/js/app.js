@@ -3,6 +3,10 @@ class App {
   constructor() {
     this.deptsLoaded = 0;
     this.deptCount = 2;
+    this.fallBackLocation = {
+      longitude: 11.6174228,
+      latitude: 47.5399148
+    };
   }
 
   initialize(){
@@ -16,13 +20,14 @@ class App {
     this.locationSearch = new LocationSearch();
 
     this.currentStationTariffs = null;
+    this.currentStation = null;
 
     if (!navigator.geolocation) {
       this.showFallbackLocation();
     }
 
     this.map.onBoundsChanged(this.showStationsAtLocation.bind(this));
-    this.sidebar.onSelectedConnectorChanged(this.selectedConnectorChanged.bind(this));
+    this.sidebar.onSelectedChargePointChanged(this.selectedChargePointChanged.bind(this));
     this.locationSearch.onResultSelected(coords=>this.map.centerLocation(coords));
     this.getCurrentLocation();
 
@@ -36,18 +41,13 @@ class App {
   }
 
   getCurrentLocation() {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      this.map.centerLocation(pos.coords)
-    }, () => {
-      this.showFallbackLocation();
-    });
+    navigator.geolocation.getCurrentPosition(
+      pos => this.map.centerLocation(pos.coords), 
+      () => this.showFallbackLocation());
   }
 
   showFallbackLocation() {
-    this.map.centerLocation({
-      longitude: 11.6174228,
-      latitude: 47.5399148
-    },8);
+    this.map.centerLocation(fallBackLocation,8);
   }
 
   toggleLoading(value){
@@ -78,14 +78,14 @@ class App {
   }
 
   async stationSelected(model) {
-    ga('send', 'event', 'Station', 'show');
+    this.log('send', 'event', 'Station', 'show');
     this.toggleLoading(true);
     try{
-      const station = await this.goingElectric.getStationDetails(model.id)
-      this.currentStationTariffs = await this.stationTariffs.getTariffsOfStation(station);
-      this.currentStationTariffs.station = station;
-      this.sidebar.showStation(station,this.sidebar.chargingOptions());
-      this.selectedConnectorChanged();
+      this.currentStation = await this.goingElectric.getStationDetails(model.id)
+      const options = this.sidebar.chargingOptions();
+      this.currentStationTariffs = await this.stationTariffs.getTariffsOfStation(this.currentStation,options);
+      this.sidebar.showStation(this.currentStation,options);
+      this.selectedChargePointChanged();
     }
     catch(ex){
       this.showAlert("Preise konnten nicht geladen werden.")
@@ -94,18 +94,20 @@ class App {
     this.toggleLoading(false);
   }
 
-  selectedConnectorChanged(){
+  selectedChargePointChanged(){
     const options = this.sidebar.chargingOptions();
-    if(options.connectorId == null) return;
+    const selectedCP = this.currentStation.chargePoints.find(c=>c.id == options.chargePointId);
+    if(selectedCP == null) return;
 
-    const st = this.currentStationTariffs;
+    const prices = this.currentStationTariffs.reduce((memo,tariff)=>{
+      const chargePointPrice = tariff.chargePointPrices.find(cpp=>
+        cpp.power == selectedCP.power && cpp.plug == selectedCP.plug);
 
-    const prices = st.availableTariffs.map(tariff=>{
-      const price = new CalculatePrice(st.station,tariff,options).run();
-      if(price!=null) return { tariff: tariff, price: price };
-    }).filter(p=>p);
+      if(chargePointPrice) memo.push({ price: chargePointPrice.price, tariff: tariff });
+      return memo;
+    },[]);
 
-    this.sidebar.updateStationPrice(this.currentStationTariffs.station,prices,options);
+    this.sidebar.updateStationPrice(this.currentStation,prices,options);
   }
 
   showAlert(message) {
@@ -113,5 +115,10 @@ class App {
     $("#snackbar").show();
     
     setTimeout(()=>$("#snackbar").hide(), 5000);
+  }
+
+  log(){
+    if(typeof(ga) == "undefined") return;
+    ga.apply(null,arguments);
   }
 }

@@ -46,15 +46,15 @@ class Map {
 
     let color = '';
 
-    const maxSpeed = model.connectors.reduce((max,value)=> max > value.speed ? max : value.speed, 0);
+    const maxPower = model.chargePoints.reduce((max,value)=> max > value.power ? max : value.power, 0);
 
-    if(maxSpeed > 50){
+    if(maxPower > 50){
       color = "red"
     }
-    else if(maxSpeed > 22){
+    else if(maxPower > 22){
       color = "orange"
     }
-    else if(maxSpeed > 3.7){
+    else if(maxPower > 3.7){
       color = "blue"
     }
     else{
