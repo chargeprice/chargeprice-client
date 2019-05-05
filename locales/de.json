@@ -43,5 +43,6 @@
   "dataSourceContentOther": "Weitere Ladepreise: Manuell gesammelt über die Webseiten der verschiedenen Betreiber",
   "disclaimerContent": "Der Betreiber der Website haftet nicht für die Richtigkeit der angezeigten Daten. Es gibt keine Garantie für die angezeigten Preise. Diese Preise dienen lediglich als Richtwert.",
   "openSourceHeader": "Open Source",
-  "pleaseZoomIn": "Bitte näher zoomen!"
+  "pleaseZoomIn": "Bitte näher zoomen!",
+  "themeTitle": "Ladepreise"
 }

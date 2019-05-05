@@ -43,5 +43,6 @@
   "dataSourceContentOther": "Other charging prices: Collected manually via websites of providers.",
   "disclaimerContent": "The provider of the website is not liable for the correctness of the displayed data. There is no guarantee on the displayed data. The prices should only be used for benchmarking.",
   "openSourceHeader": "Open Source",
-  "pleaseZoomIn": "Please zoom in!"
+  "pleaseZoomIn": "Please zoom in!",
+  "themeTitle": "Charge Price"
 }
