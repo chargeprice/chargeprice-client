@@ -1,2 +1,4 @@
 /node_modules/*
 /dist/*
+/scripts/.env.local
+/scripts/Gemfile.lock

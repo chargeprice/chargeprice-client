@@ -44,7 +44,7 @@
   <div class="flex-container">
 
     <div class="flex-item-s w3-bar pc-main" id="top-bar">
-        <div class="w3-bar-item w3-large"><div id="logo-container"></div></div>
+      <div class="w3-bar-item w3-large"><div id="logo-container"></div></div>
       
       <button id="adapt-settings" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/edit.svg"></button>
       <button id="show-info" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/info.svg"></button>
@@ -63,132 +63,128 @@
             </button>
           </div>
 
-          <div id="settingsContent" class="w3-container w3-padding-16">
-            <label class="w3-margin-top">Ladedauer (Stunden)</label>
-            <input id="select-duration" class="w3-input w3-border w3-margin-bottom" type="number" name="points" min="0.05" step="0.01" value="1.5">
-
-            <label class="w3-margin-top">Ladeenergie (kWh)</label>
-            <input id="select-kwh" class="w3-input w3-border" type="number" name="points" min="1" value="30" step="0.01">
-
-            <input id="uniphaseAC" class="w3-check w3-margin-top" type="checkbox">
-            <label>Fahrzeug l&auml;dt Wechselstrom einphasig</label><br>
-
-            <input id="providerCustomerOnly" class="w3-check w3-margin-top" type="checkbox">
-            <label>Exklusive Energiekunden-Tarife anzeigen</label><br>
-            <label class="w3-small">Einige Anbieter bieten f&uuml;r ihre Kunden (z.B. Hausshaltstrom, Gas) g&uuml;nstigere Tarife an.</label><br>
-
-            <br>
-
-            <label class="w3-margin-top w3-large">Kartenfilter</label><br>
-
-            <input id="onlyHPC" class="w3-check w3-margin-top" type="checkbox">
-            <label>Nur Schnelllader (43kw+)</label><br>
-
-            <input id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
-            <label>Nur Kostenlose Ladestationen</label><br>
-
-            <input id="openNow" class="w3-check w3-margin-top" type="checkbox">
-            <label>Nur ge&ouml;ffnete Ladestationen</label><br>
-
-            <button id="settings-ok" class="w3-btn pc-secondary w3-margin-top">Ok</button>
-          </div>
-
-          <div id="infoContent" class="w3-container w3-padding-16">
-            <div class="w3-margin-bottom">
-                <label class="w3-margin-top w3-large">Legende</label><br>
-                <span class="w3-tag w3-green w3-margin-top" style="background: #575757 !important">bis 3,7kw</span>
-                <span class="w3-tag w3-green w3-margin-top" style="background: #36a5d8 !important">bis 22kw</span>
-                <span class="w3-tag w3-green w3-margin-top" style="background: #f4952f !important">bis 50kw</span>
-                <span class="w3-tag w3-green w3-margin-top" style="background: #d33d2a !important">ab 50kw</span>    
-            </div>
-
-            <div id="theme-info" class="w3-margin-bottom">
-              <span id="theme-name"></span> powered by <a href="https://www.plugchecker.com" target="_blank">Plugchecker.com</a>
-            </div>
-            
-            <div class="w3-margin-bottom">
-              <label class="w3-margin-top w3-large">Impressum</label><br>
-              Niklas Hösl<br>
-              Oberfeldweg 6/1<br>
-              4072 Alkoven<br>
-              &Ouml;sterreich<br>
-              <a href="http://www.chargeprice.net">chargeprice.net</a>
-            </div>
-
-            <div class="w3-margin-bottom">
-              <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-              <input type="hidden" name="cmd" value="_s-xclick" />
-              <input type="hidden" name="hosted_button_id" value="48LQQZJAW7W42" />
-              <input type="image" src="https://www.paypalobjects.com/de_DE/AT/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-              </form>
-            </div>
-
-            <label class="w3-margin-top w3-large">Feedback</label><br>
-            <div class="w3-margin-bottom">
-              Fehlt dir eine Feature, eine Ladekarte oder stimmt irgendwas nicht?
-              Schreib mir einfach eine <a href="mailto:niklas@plugchecker.com?subject=Plugchecker Feedback">Email</a>!
-            </div>
-
-            <label class="w3-margin-top w3-large">Datenherkunft</label><br>
-            <ul>
-              <li>Ladestationen (Koordinaten, Anschl&uuml;sse, Verf&uuml;gbare Ladekarten, <b>KEINE</b> aufgelisteten Ladepreise): <a href="http://www.goingelectric.de" target="_blank">GoingElectric API</a> </li>
-              <li>Ladepreise PlugSurfing: <a href="http://www.plugsurfing.com" target="_blank">PlugSurfing API</a></li>
-              <li>Ladepreise New Motion: <a href="https://my.newmotion.com" target="_blank">New Motion API</a></li>
-              <li>Weitere Ladepreise: Manuell gesammelt &uuml;ber die Webseiten der verschiedenen Betreiber</li>
-            </ul>
-
-            <label class="w3-margin-top w3-large">Haftungsausschluss</label><br>
-            <div class="w3-margin-bottom">
-              Der Betreiber der Website haftet nicht f&uuml;r die Richtigkeit der angezeigten Daten. 
-              Es gibt keine Garantie f&uuml;r die angezeigten Preise. Diese Preise dienen lediglich als Richtwert.
-            </div>
-
-            <label class="w3-margin-top w3-large">Open Source</label><br>
-            <div class="w3-margin-bottom">
-              <a href="https://github.com/hoenic07/plugchecker" target="_blank">Plugchecker (Github)</a>
-            </div>
-
-          </div>
-
-          <div id="pricesContent" class="w3-container w3-padding-16">
-
-            <div id="station-info">
-            </div>
-
-            <select id="select-charge-point" class="w3-select w3-margin-top" name="option">
-            </select>
-            
-            <div id="noPricesAvailable" class="w3-margin-top"><label>Keine Anbieter verf&uuml;gbar oder eingetragen!</label></div>
-
-            <div id="prices">
-              <table class="w3-table w3-striped w3-margin-top">
-                <tr>
-                  <th>Anbieter</th>
-                  <th>&euro;</th>
-                </tr>
-                <tbody id="priceList">
-                    
-                </tbody>
-              </table>
-              <br>
-              <label id="parameterNote" class="w3-margin-top w3-small"></label>
-            </div>            
-          </div>
+          <div id="settingsContent" class="w3-container w3-padding-16"></div>
+          <div id="infoContent" class="w3-container w3-padding-16"></div>
+          <div id="pricesContent" class="w3-container w3-padding-16"></div>
       </div>
 
       <div id="map" class="flex-item-d"></div>
-
-      <div id="search" class="w3-display-topright">
-          <input id="search-box" class="w3-border w3-input w3-padding" placeholder="Nach Ort suchen..."></input>
-      </div>
-
-      <div id="pleaseZoom" class="w3-tag w3-padding w3-orange" style="display: none;">Bitte n&auml;her zoomen!</div>
+      <div id="search" class="w3-display-topright"></div>>
+      <div id="pleaseZoom" class="w3-tag w3-padding w3-orange" style="display: none;"></div>
     </div>
   </div>
 
   <div id="snackbar"></div>
 
-  <script id="priceTempl" type="text/x-jsrender">
+  <script id="locationSearchTempl" type="text/html">  
+    <input id="search-box" class="w3-border w3-input w3-padding" placeholder="{{:~t('locationSearchPlaceholder')}}"></input>
+  </script>
+
+  <script id="pricesContentTempl" type="text/html">  
+    <div id="station-info">
+      </div>
+      
+      <select id="select-charge-point" class="w3-select w3-margin-top" name="option">
+      </select>
+      
+      <div id="noPricesAvailable" class="w3-margin-top"><label>{{:~t("noTariffAvailable")}}</label></div>
+      
+      <div id="prices">
+        <table class="w3-table w3-striped w3-margin-top">
+          <tr>
+            <th>{{:~t("tariff")}}</th>
+            <th>&euro;</th>
+          </tr>
+          <tbody id="priceList">
+              
+          </tbody>
+        </table>
+        <br>
+        <label id="parameterNote" class="w3-margin-top w3-small"></label>
+      </div>        
+  
+  </script>
+
+  <script id="settingsTempl" type="text/html">
+    <label class="w3-margin-top">{{:~t("chargeDuration")}}</label>
+    <input id="select-duration" class="w3-input w3-border w3-margin-bottom" type="number" name="points" min="0.05" step="0.01" value="1.5">
+
+    <label class="w3-margin-top">{{:~t("chargeEnergy")}}</label>
+    <input id="select-kwh" class="w3-input w3-border" type="number" name="points" min="1" value="30" step="0.01">
+
+    <input id="uniphaseAC" class="w3-check w3-margin-top" type="checkbox">
+    <label>{{:~t("carChargesACWithUniphase")}}</label><br>
+
+    <input id="providerCustomerOnly" class="w3-check w3-margin-top" type="checkbox">
+    <label>{{:~t("showExclusiveProviderCustomerTariffs")}}</label><br>
+    <label class="w3-small">{{:~t("showExclusiveProviderCustomerTariffsDetail")}}</label><br>
+
+    <br>
+
+    <label class="w3-margin-top w3-large">{{:~t("mapFilter")}}</label><br>
+
+    <input id="onlyHPC" class="w3-check w3-margin-top" type="checkbox">
+    <label>{{:~t("onlyHPC")}}</label><br>
+
+    <input id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
+    <label>{{:~t("onlyFreeStations")}}</label><br>
+
+    <input id="openNow" class="w3-check w3-margin-top" type="checkbox">
+    <label>{{:~t("onlyOpenNow")}}</label><br>
+
+    <button id="settings-ok" class="w3-btn pc-secondary w3-margin-top">{{:~t("ok")}}</button>
+  </script>
+
+  <script id="infoTempl" type="text/html">
+    <div class="w3-margin-bottom">
+      <label class="w3-margin-top w3-large">{{:~t("poiKey")}}</label><br>
+      <span class="w3-tag w3-green w3-margin-top" style="background: #575757 !important">{{:~sf(~t("chargePowerTo"),3.7)}}</span>
+      <span class="w3-tag w3-green w3-margin-top" style="background: #36a5d8 !important">{{:~sf(~t("chargePowerTo"),22)}}</span>
+      <span class="w3-tag w3-green w3-margin-top" style="background: #f4952f !important">{{:~sf(~t("chargePowerTo"),50)}}</span>
+      <span class="w3-tag w3-green w3-margin-top" style="background: #d33d2a !important">{{:~sf(~t("chargePowerFrom"),50)}}</span>    
+    </div>
+
+    <div id="theme-info" class="w3-margin-bottom">
+      <span id="theme-name"></span> {{:~t("poweredBy")}} <a href="https://www.plugchecker.com" target="_blank">Plugchecker.com</a>
+    </div>
+    
+    <div class="w3-margin-bottom">
+      <label class="w3-margin-top w3-large">{{:~t("aboutHeader")}}</label><br>
+      Niklas Hösl<br>
+      Oberfeldweg 6/1<br>
+      A-4072 Alkoven<br>
+      <a href="http://www.chargeprice.net">chargeprice.net</a>
+    </div>
+
+    <div class="w3-margin-bottom">
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+      <input type="hidden" name="cmd" value="_s-xclick" />
+      <input type="hidden" name="hosted_button_id" value="48LQQZJAW7W42" />
+      <input type="image" src="https://www.paypalobjects.com/{{:~t('locale')}}/AT/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+      </form>
+    </div>
+
+    <label class="w3-margin-top w3-large">{{:~t("feedbackHeader")}}</label><br>
+    <div class="w3-margin-bottom">{{:~t("feedbackContent")}}</div>
+
+    <label class="w3-margin-top w3-large">{{:~t("dataSourceHeader")}}</label><br>
+    <ul>
+      <li>{{:~t("dataSourceContentGoingElectric")}}</li>
+      <li>{{:~t("dataSourceContentPlugsurfing")}}</li>
+      <li>{{:~t("dataSourceContentNewMotion")}}</li>
+      <li>{{:~t("dataSourceContentOther")}}</li>
+    </ul>
+
+    <label class="w3-margin-top w3-large">{{:~t("disclaimerHeader")}}</label><br>
+    <div class="w3-margin-bottom">{{:~t("disclaimerContent")}}</div>
+
+    <label class="w3-margin-top w3-large">{{:~t("openSourceHeader")}}</label><br>
+    <div class="w3-margin-bottom">
+      <a href="https://github.com/hoenic07/plugchecker" target="_blank">Plugchecker (Github)</a>
+    </div>
+  </script>
+
+  <script id="priceTempl" type="text/html">
     <tr>
       <td>
         {{if tariff.tariff == null}}
@@ -200,46 +196,49 @@
         {{if tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0}}
           <br>
           <label class="w3-margin-top w3-small">
-          {{if tariff.totalMonthlyFee > 0 }}Grundgeb&uuml;hr: &euro;{{dec:tariff.totalMonthlyFee}}/Monat {{/if}}
-          {{if tariff.monthlyMinSales > 0 }}Mindestumsatz: &euro;{{dec:tariff.monthlyMinSales}}/Monat {{/if}}
+          {{if tariff.totalMonthlyFee > 0 }}{{:~t("baseFee")}}: &euro;{{dec:tariff.totalMonthlyFee}}/{{:~t("month")}} {{/if}}
+          {{if tariff.monthlyMinSales > 0 }}{{:~t("minSales")}}: &euro;{{dec:tariff.monthlyMinSales}}/{{:~t("month")}} {{/if}}
         </label>
         {{/if}}
         
         {{if tariff.providerCustomerTariff > 0 }}
           <br>
-          <label class="w3-margin-top w3-small">Nur f&uuml;r Energiekunden</label> 
+          <label class="w3-margin-top w3-small">{{:~t("providerCustomerOnly")}}</label> 
         {{/if}}
       </td>
       <td>{{dec:price}}</td>
     </tr>
   </script>
 
-  <script id="stationTempl" type="text/x-jsrender">
+  <script id="stationTempl" type="text/html">
     <label class="w3-margin-top w3-large">{{:name}}</label><br>    
-    <div><a href="{{:goingElectricUrl}}" target="_blank">Details auf GoingElectric.de</a></div>   
+    <div><a href="{{:goingElectricUrl}}" target="_blank">{{:~t("goingElectricLink")}}</a></div>   
     {{if priceDescription}}<div class="w3-margin-top">{{:priceDescription}}</div>{{/if}}  
     <div class="w3-margin-top">
-      {{if isFreeParking}}<span class="w3-tag w3-green">Gratis parken</span>{{/if}} 
-      {{if isFreeCharging}}<span class="w3-tag w3-green">Gratis laden</span>{{/if}} 
+      {{if isFreeParking}}<span class="w3-tag w3-green">{{:~t("freeParking")}}</span>{{/if}} 
+      {{if isFreeCharging}}<span class="w3-tag w3-green">{{:~t("freeCharging")}}</span>{{/if}} 
     </div>
   </script>
 
-  <script id="chargePointTempl" type="text/x-jsrender">
+  <script id="chargePointTempl" type="text/html">
     <option value="{{:id}}">{{:plug}} {{:power}}kw ({{:count}}x)</option>
   </script>
 
-  <script id="parameterNoteTempl" type="text/x-jsrender">
-    € = Gesamtpreis für {{time:duration}} und {{int:kwh}}kWh Laden (exkl. monatliche Gebühren).
+  <script id="parameterNoteTempl" type="text/html">
+    {{:~sf(~t("totalPriceInfo"),~c("time",duration),~c("int",kwh))}}
+  </script>
+
+  <script id="pleaseZoomTempl" type="text/html">
+    {{:~t("pleaseZoomIn")}}
   </script>
   
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.min.js"></script>
   <script src="js/app.js"></script>
   <script src="js/component/theme_loader.js"></script>
+  <script src="js/component/translation.js"></script>
   <script>
     var app = new App();
-    new ThemeLoader().setCurrentTheme();
-
     $(document).ready(()=>app.initialize());
 
     function placesReady(){

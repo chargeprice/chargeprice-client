@@ -1,10 +1,10 @@
 class ThemeLoader {
-  constructor() {
+  constructor(translation) {
     this.defaultTheme = "default";
     this.themes = {
       [this.defaultTheme] : {
         titleBarHtml: "<img id=\"logo\" src=\"img/logo.png\"/>",
-        title: "Plugchecker - Der Ladetarifrechner für dein Elektroauto",
+        title: translation.get("title"),
         favicon: "favicon-32x32.png",
         name: "Plugchecker",
         themeColor: "#3498db"

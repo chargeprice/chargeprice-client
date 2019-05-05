@@ -9,14 +9,23 @@ class App {
     };
   }
 
-  initialize(){
+  async initialize(){
     this.deptsLoaded++;
     if(this.deptsLoaded < this.deptCount) return;
     
+    // First Load translations
+    this.translation = new Translation();
+    await this.translation.setCurrentLocaleTranslations();
+
+    // Static content is needed for almost everything else
+    this.loadStaticContent();
+
+    new ThemeLoader(this.translation).setCurrentTheme();
+
     this.goingElectric = new GoingElectric();
     this.stationTariffs = new StationTariffs();
     this.map = new Map();
-    this.sidebar = new Sidebar();
+    this.sidebar = new Sidebar(this.translation);
     this.locationSearch = new LocationSearch();
 
     this.currentStationTariffs = null;
@@ -38,6 +47,14 @@ class App {
     this.sidebar.open("settings");
 
     this.stationTariffs.check();
+  }
+
+  loadStaticContent(){
+    $("#search").html($.templates("#locationSearchTempl").render());
+    $("#pricesContent").html($.templates("#pricesContentTempl").render());
+    $("#settingsContent").html($.templates("#settingsTempl").render());
+    $("#infoContent").html($.templates("#infoTempl").render());
+    $("#pleaseZoom").html($.templates("#pleaseZoomTempl").render());
   }
 
   getCurrentLocation() {
@@ -72,7 +89,7 @@ class App {
       stations.forEach(st => this.map.addStation(st, this.stationSelected.bind(this)));
     }
     catch(ex){
-      this.showAlert("Stationen konnten nicht geladen werden.")
+      this.showAlert(this.translation.get("errorStationsUnavailable"))
     }
     this.toggleLoading(false);
   }
@@ -88,7 +105,7 @@ class App {
       this.selectedChargePointChanged();
     }
     catch(ex){
-      this.showAlert("Preise konnten nicht geladen werden.")
+      this.showAlert(this.translation.get("errorPricesUnavailable"));
     }
     
     this.toggleLoading(false);

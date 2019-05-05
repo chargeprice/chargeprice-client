@@ -1,6 +1,7 @@
 class Sidebar {
 
-  constructor() {
+  constructor(translation) {
+    this.translation=translation;
     this.loaded = false;
     this.component = $("#sidebar");
     $("#sidebar-close").click(() => this.close());
@@ -16,15 +17,15 @@ class Sidebar {
 
     this.sidebarContent = {
       "settings": {
-        header: "Eingaben",
+        header: translation.get("settingsHeader"),
         contentId: "settingsContent"
       },
       "info": {
-        header: "Info",
+        header: translation.get("infoHeader"),
         contentId: "infoContent"
       },
       "prices": {
-        header: "Preise",
+        header: translation.get("pricesHeader"),
         contentId: "pricesContent"
       }
     };
@@ -46,9 +47,10 @@ class Sidebar {
       time: val => {
         const h = Math.floor(val / 60);
         const min = Math.floor(val % 60);
-        return `${h}h ${min}min`
+        return this.translation.stringFormatWithKey("timeFormat",h,min);
       }
-   });
+    });
+    $.views.helpers("c",(converter,param)=>$.views.converters[converter](param));
   }
 
   chargingOptions(){
