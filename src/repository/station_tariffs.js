@@ -1,4 +1,4 @@
-class StationTariffs {
+module.exports = class StationTariffs {
 
   constructor(){
     const useLocalData = false;

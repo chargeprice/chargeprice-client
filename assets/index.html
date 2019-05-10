@@ -20,23 +20,21 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link id="pc-icon" rel="icon" type="image/png" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/logos/apple-touch-icon.png">
+  <link id="pc-icon" rel="icon" type="image/png" href="/img/favicon-32x32.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3498db">
+  <link rel="mask-icon" href="/img/logos/safari-pinned-tab.svg" color="#3498db">
   <meta name="msapplication-TileColor" content="#3498db">
 
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
   <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-  <link rel="stylesheet" href="dist/leaflet.awesome-markers.css">
+  <link rel="stylesheet" href="css/leaflet.awesome-markers.css">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-flat.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
     crossorigin="" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/style.css">
-  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js" integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
-    crossorigin=""></script>
 
 </head>
 
@@ -69,7 +67,7 @@
       </div>
 
       <div id="map" class="flex-item-d"></div>
-      <div id="search" class="w3-display-topright"></div>>
+      <div id="search" class="w3-display-topright"></div>
       <div id="pleaseZoom" class="w3-tag w3-padding w3-orange" style="display: none;"></div>
     </div>
   </div>
@@ -231,26 +229,6 @@
   <script id="pleaseZoomTempl" type="text/html">
     {{:~t("pleaseZoomIn")}}
   </script>
-  
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.min.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/component/theme_loader.js"></script>
-  <script src="js/component/translation.js"></script>
-  <script>
-    var app = new App();
-    $(document).ready(()=>app.initialize());
 
-    function placesReady(){
-      app.initialize();
-    }
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz9m_KXv9VB95-j5X8J546RgNHOx7vR0U&libraries=places&callback=placesReady" async defer></script>
-  <script src="js/repository/going_electric.js" charset="utf-8"></script>
-  <script src="js/repository/station_tariffs.js"></script>
-  <script src="js/component/map.js"></script>
-  <script src="js/component/sidebar.js"></script>
-  <script src="js/component/location_search.js"></script>
-
-  <script src="dist/leaflet.awesome-markers.min.js"></script>
+  <script src="main.js"></script>
 </body>

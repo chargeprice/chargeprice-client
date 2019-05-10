@@ -1,3 +1,15 @@
+import GoingElectric from './repository/going_electric.js';
+import StationTariffs from './repository/station_tariffs.js';
+import Translation from './component/translation.js';
+import ThemeLoader from './component/theme_loader.js';
+import Map from './component/map.js';
+import Sidebar from './component/sidebar.js';
+import LocationSearch from './component/location_search.js';
+import loadGoogleMapsApi from "load-google-maps-api"
+
+var $ = require('jquery');
+require('jsrender')($);
+
 class App {
 
   constructor() {
@@ -90,6 +102,7 @@ class App {
     }
     catch(ex){
       this.showAlert(this.translation.get("errorStationsUnavailable"))
+      console.error(ex);
     }
     this.toggleLoading(false);
   }
@@ -106,6 +119,7 @@ class App {
     }
     catch(ex){
       this.showAlert(this.translation.get("errorPricesUnavailable"));
+      console.error(ex);
     }
     
     this.toggleLoading(false);
@@ -139,3 +153,7 @@ class App {
     ga.apply(null,arguments);
   }
 }
+
+var app = new App();
+$(document).ready(()=>app.initialize());
+loadGoogleMapsApi({key: "AIzaSyDz9m_KXv9VB95-j5X8J546RgNHOx7vR0U",libraries: ["places"]}).then(()=>app.initialize());

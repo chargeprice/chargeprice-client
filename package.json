@@ -9,20 +9,29 @@
   },
   "scripts": {
     "serve": "http-server dist/ -p 9000",
+    
+    "dist": "yarn run dist:clean && yarn run dist:pack --mode=production && yarn run dist:copyAssets",
+    "distDev": "yarn run dist:clean && yarn run dist:pack --mode=development && yarn run dist:copyAssets",
+    "dist:clean": "rm -rf dist/ && mkdir dist",
+    "dist:pack": "yarn webpack --config webpack.config.js",
+    "dist:copyAssets": "cp -R assets/* dist",
 
-    "dist": "yarn run dist:clean && yarn run dist:createDirectories && yarn run dist:transpile && yarn run dist:copyAssets",
-    "dist:clean": "rm -rf dist/",
-    "dist:transpile": "babel src -d dist",
-    "dist:copyAssets": "cp -R img dist && cp -R src/dist/* dist/dist/ && cp -R src/css/* dist/css && cp src/*.* dist/ && cp -R locales dist",
-    "dist:createDirectories": "mkdir dist && mkdir dist/dist && mkdir dist/css && mkdir dist/img && mkdir dist/locales",
-
-    "start": "yarn run dist && yarn run serve"
+    "start": "yarn run dist && yarn run serve",
+    "startDev": "yarn run distDev && yarn run serve"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "3.4.1",
+    "jsrender": "1.0.3",
+    "load-google-maps-api": "1.3.3",
+    "leaflet": "1.4.0",
+    "leaflet.awesome-markers": "2.0.5"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.3.1",
-    "http-server": "^0.11.1"
+    "http-server": "^0.11.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
   }
 }

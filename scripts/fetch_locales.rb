@@ -8,7 +8,7 @@ Dotenv.load(".env.local")
 
 FALLBACK_LANGUAGE="de"
 SKIPPED_COLUMNS=2
-BASE_FOLDER="../locales"
+BASE_FOLDER="../assets/locales"
 
 def fetch_locales
   response = google_service.get_spreadsheet_values(ENV.fetch("SHEET_ID"), "Locales")

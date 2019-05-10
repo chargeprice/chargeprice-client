@@ -1,4 +1,7 @@
-class Sidebar {
+var $ = require('jquery');
+require('jsrender')($);
+
+module.exports = class Sidebar {
 
   constructor(translation) {
     this.translation=translation;

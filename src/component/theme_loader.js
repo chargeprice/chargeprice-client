@@ -1,4 +1,7 @@
-class ThemeLoader {
+var $ = require('jquery');
+require('jsrender')($);
+
+module.exports = class ThemeLoader {
   constructor(translation) {
     this.translation = translation;
     this.defaultTheme = "default";
@@ -6,7 +9,7 @@ class ThemeLoader {
       [this.defaultTheme] : {
         titleBarHtml: "<img id=\"logo\" src=\"img/logo.png\"/>",
         title: translation.get("title"),
-        favicon: "favicon-32x32.png",
+        favicon: "img/favicon-32x32.png",
         themeColor: "#3498db"
       },
       emc: {

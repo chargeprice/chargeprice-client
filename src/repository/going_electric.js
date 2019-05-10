@@ -1,4 +1,4 @@
-class GoingElectric {
+module.exports = class GoingElectric {
 
   constructor() {
     this.apiKey = "16faec520ed8c3f6a1c73ed4801a57d2";
