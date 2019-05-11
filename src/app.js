@@ -76,7 +76,7 @@ class App {
   }
 
   showFallbackLocation() {
-    this.map.centerLocation(fallBackLocation,8);
+    this.map.centerLocation(this.fallBackLocation,8);
   }
 
   toggleLoading(value){
