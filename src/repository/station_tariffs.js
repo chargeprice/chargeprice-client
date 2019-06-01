@@ -1,7 +1,7 @@
 module.exports = class StationTariffs {
 
   constructor(){
-    const useLocalData = false;
+    const useLocalData = true;
     const isRunningLocally = window.location.href.indexOf("127.0.0.1") != -1
     this.base_url = useLocalData && isRunningLocally ? "http://localhost:9292" : "https://api.plugchecker.com";
     this.apiKey = "1cd41427-728b-4c94-962b-8ec2547f0fd0";
@@ -23,7 +23,7 @@ module.exports = class StationTariffs {
     if(response.status != 200) throw "Error in request";
 
     const root = await response.json();
-    return this.flattenObjectOrArray(root.included,root.data);
+    return this.flattenObjectOrArray(root.included || [],root.data);
   }
 
   async check(){
@@ -70,7 +70,7 @@ module.exports = class StationTariffs {
 
   dereferenceObject(included, ref){
     const jsonApiObj = included.find((val)=>val.id == ref.id && val.type == ref.type);
-    return this.flattenObject(included,jsonApiObj);
+    return this.flattenObject(included,jsonApiObj,ref);
   }
 
   flattenObjectOrArray(included,objOrArray){
@@ -78,10 +78,12 @@ module.exports = class StationTariffs {
     else return this.flattenObject(included,objOrArray);
   }
 
-  flattenObject(included,obj){
+  flattenObject(included,obj,ref=null){
     const attr = {};
-    attr["id"] = obj.id;
-    attr["type"]=obj.type;
+    attr["id"] = obj ? obj.id : ref.id;
+    attr["type"]=obj ? obj.type : ref.type;
+
+    if(obj == null) return attr;
 
     for(let key in obj.attributes){
       attr[this.snakeToCamel(key)] = obj.attributes[key];

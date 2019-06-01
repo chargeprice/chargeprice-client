@@ -188,7 +188,7 @@
         {{if tariff.tariff == null}}
         <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.provider}}</span></a>
         {{else}}
-        <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.tariff}}</span></a><br>
+        <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.tariffName}}</span></a><br>
           <label class="w3-margin-top w3-small">{{:tariff.provider}}</label>
         {{/if}}
         {{if tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0}}
