@@ -15,7 +15,7 @@
   "infoHeader": "Info",
   "pricesHeader": "Preise",
   "errorStationsUnavailable": "Stationen konnten nicht geladen werden.",
-  "errorPricesUnavailable": "Preise konnten nicht geladen werden.",
+  "errorPricesUnavailable": "Preise konnten nicht geladen werden. Bitte versuchen Sie die Seite neu zu laden.",
   "totalPriceInfo": "€ = Gesamtpreis für {0} und {1}kWh Laden (exkl. monatliche Gebühren).",
   "timeFormat": "{0}h {1}min",
   "chargeDuration": "Ladedauer (Stunden)",

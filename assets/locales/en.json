@@ -15,7 +15,7 @@
   "infoHeader": "Info",
   "pricesHeader": "Prices",
   "errorStationsUnavailable": "Stations unavailable",
-  "errorPricesUnavailable": "Prices unavailable",
+  "errorPricesUnavailable": "Prices unavailable. Please try to reload the page.",
   "totalPriceInfo": "€ = Total price for {0} and {1}kWh of a single charge (excl. monthly fees)",
   "timeFormat": "{0}h {1}min",
   "chargeDuration": "Duration of charge (hours)",
