@@ -1,22 +1,27 @@
 var $ = require('jquery');
 require('jsrender')($);
 
-module.exports = class Sidebar {
+import ManageMyTariffs from './manage_my_tariffs.js';
+
+export default class Sidebar {
 
   constructor(translation) {
     this.translation=translation;
+    this.manageMyTariffs = new ManageMyTariffs(this);
     this.loaded = false;
     this.component = $("#sidebar");
     $("#sidebar-close").click(() => this.close());
-
-    $("#adapt-settings").click(() => {
-      this.open("settings")
-    });
-    $("#show-info").click(() => {
-      this.open("info")
+    $("#adapt-settings").click(() => this.open("settings"));
+    $("#show-info").click(() => this.open("info"));
+    $("#manage-my-tariffs").click(() => {
+      this.open("manageMyTariffs");
+      this.manageMyTariffs.initMyTariffs();
     });
 
     $("#settings-ok").click(() => this.close());
+    ["onlyHPC","onlyFree","openNow","onlyShowMyTariffs"].forEach(id=>{
+      $(`#${id}`).click(this.optionsChanged.bind(this));
+    });
 
     this.sidebarContent = {
       "settings": {
@@ -30,11 +35,15 @@ module.exports = class Sidebar {
       "prices": {
         header: translation.get("pricesHeader"),
         contentId: "pricesContent"
+      },
+      "manageMyTariffs": {
+        header: translation.get("manageMyTariffsHeader"),
+        contentId: "manageMyTariffsContent"
       }
     };
 
     this.currentSidebarContentKey = null;
-
+    
     this.close();
     this.hideAllSidebarContent();
     this.registerConverters();
@@ -65,7 +74,9 @@ module.exports = class Sidebar {
       onlyFree: $("#onlyFree:checked").length == 1,
       openNow: $("#openNow:checked").length == 1,
       carACPhases: ($("#uniphaseAC:checked").length == 1) ? 1 : 3,
-      providerCustomerTarrifs: $("#providerCustomerOnly:checked").length == 1
+      providerCustomerTarrifs: $("#providerCustomerOnly:checked").length == 1,
+      onlyShowMyTariffs: $("#onlyShowMyTariffs:checked").length == 1,
+      myTariffs: this.manageMyTariffs.getMyTariffs()
     }
   }
 
@@ -81,7 +92,8 @@ module.exports = class Sidebar {
       "onlyFree": "onlyFree",
       "openNow": "openNow",
       "carACPhases": "uniphaseAC",
-      "providerCustomerTarrifs": "providerCustomerOnly"
+      "providerCustomerTarrifs": "providerCustomerOnly",
+      "onlyShowMyTariffs": "onlyShowMyTariffs",
     }
 
     for (var key in attributeComponentMapping) {
@@ -104,7 +116,8 @@ module.exports = class Sidebar {
       "onlyFree": true,
       "openNow": true,
       "carACPhases": 1,
-      "providerCustomerTarrifs": true
+      "providerCustomerTarrifs": true,
+      "onlyShowMyTariffs": true,
     }
 
     for (var key in attributeComponentMapping) {
@@ -136,6 +149,14 @@ module.exports = class Sidebar {
     $("#select-charge-point").change(()=>{
       callback();
     });
+  }
+
+  onOptionsChanged(callback){
+    this.optionsChangedCallback = callback;
+  }
+
+  optionsChanged(){
+    this.optionsChangedCallback();
   }
 
   open(contentKey) {

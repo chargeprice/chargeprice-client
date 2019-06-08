@@ -49,12 +49,9 @@ class App {
 
     this.map.onBoundsChanged(this.showStationsAtLocation.bind(this));
     this.sidebar.onSelectedChargePointChanged(this.selectedChargePointChanged.bind(this));
+    this.sidebar.onOptionsChanged(this.optionsChanged.bind(this));
     this.locationSearch.onResultSelected(coords=>this.map.centerLocation(coords));
     this.getCurrentLocation();
-
-    $("#onlyHPC").click(()=>this.showStationsAtLocation(this.map.getBounds()));
-    $("#onlyFree").click(()=>this.showStationsAtLocation(this.map.getBounds()));
-    $("#openNow").click(()=>this.showStationsAtLocation(this.map.getBounds()));
     
     this.sidebar.open("settings");
 
@@ -139,6 +136,10 @@ class App {
     },[]);
 
     this.sidebar.updateStationPrice(this.currentStation,prices,options);
+  }
+
+  optionsChanged(){
+    this.showStationsAtLocation(this.map.getBounds());
   }
 
   showAlert(message) {

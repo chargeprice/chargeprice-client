@@ -1,7 +1,7 @@
 var $ = require('jquery');
 require('jsrender')($);
 
-module.exports = class ThemeLoader {
+export default class ThemeLoader {
   constructor(translation) {
     this.translation = translation;
     this.defaultTheme = "default";

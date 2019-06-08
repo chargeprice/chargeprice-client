@@ -1,4 +1,4 @@
-module.exports = class LocationSearch {
+export default class LocationSearch {
   constructor() {
     this.autocomplete = new google.maps.places.Autocomplete(document.getElementById('search-box'));
     this.autocomplete.addListener('place_changed', this.onPlaceChanged.bind(this));

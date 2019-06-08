@@ -1,4 +1,7 @@
-module.exports = class StationTariffs {
+
+import JsonApiDeserializer from '../helper/json_api_deserializer.js'
+
+export default class StationTariffs {
 
   constructor(){
     const useLocalData = true;
@@ -23,7 +26,22 @@ module.exports = class StationTariffs {
     if(response.status != 200) throw "Error in request";
 
     const root = await response.json();
-    return this.flattenObjectOrArray(root.included || [],root.data);
+    return new JsonApiDeserializer(root).deserialize();
+  }
+
+  async getAllTariffs(){
+    const url = `${this.base_url}/v1/tariffs?filter[direct_payment]=false`;
+    const response = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "Api-Key": this.apiKey
+      }
+    })
+    
+    if(response.status != 200) throw "Error in request";
+
+    const root = await response.json();
+    return new JsonApiDeserializer(root).deserialize();
   }
 
   async check(){
@@ -54,49 +72,18 @@ module.exports = class StationTariffs {
             provider_customer_tariffs: options.providerCustomerTarrifs
           },
           charge_card_ids: station.chargeCardIds,
-        }
+        },
+        relationships: this.buildRelationships(station,options)
       } 
     });
   }
 
-
-
-  dereference(included, relationship){
-    const ref = relationship.data
-
-    if(Array.isArray(ref)) return ref.map((i)=>this.dereferenceObject(included,i));
-    else return this.dereferenceObject(included,ref)   
-  }
-
-  dereferenceObject(included, ref){
-    const jsonApiObj = included.find((val)=>val.id == ref.id && val.type == ref.type);
-    return this.flattenObject(included,jsonApiObj,ref);
-  }
-
-  flattenObjectOrArray(included,objOrArray){
-    if(Array.isArray(objOrArray)) return objOrArray.map((i)=>this.flattenObject(included,i));
-    else return this.flattenObject(included,objOrArray);
-  }
-
-  flattenObject(included,obj,ref=null){
-    const attr = {};
-    attr["id"] = obj ? obj.id : ref.id;
-    attr["type"]=obj ? obj.type : ref.type;
-
-    if(obj == null) return attr;
-
-    for(let key in obj.attributes){
-      attr[this.snakeToCamel(key)] = obj.attributes[key];
+  buildRelationships(station, options){
+    const rels = {};
+    if(options.onlyShowMyTariffs && options.myTariffs.length > 0){
+      const tariffRefs = options.myTariffs.map(t=>{ return {id: t.id, type: t.type } }) ;
+      rels["tariffs"]={ data: tariffRefs };
     }
-
-    for(let key in obj.relationships){
-      attr[this.snakeToCamel(key)] = this.dereference(included,obj.relationships[key])
-    }
-    return attr;
+    return rels;
   }
-
-  snakeToCamel(s){
-    return s.replace(/(\_\w)/g, function(m){return m[1].toUpperCase();});
-  }
-
 }

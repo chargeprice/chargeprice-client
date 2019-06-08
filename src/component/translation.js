@@ -1,7 +1,7 @@
 var $ = require('jquery');
 require('jsrender')($);
 
-module.exports = class Translation {
+export default class Translation {
   constructor() {
     this.supportedLocales = ["en","de"]
     this.fallbackLocale = "en"

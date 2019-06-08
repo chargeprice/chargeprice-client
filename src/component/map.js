@@ -3,7 +3,7 @@ require('jsrender')($);
 var L = require('leaflet');
 require('leaflet.awesome-markers');
 
-module.exports = class Map {
+export default class Map {
 
   constructor() {
     this.component = L.map('map');

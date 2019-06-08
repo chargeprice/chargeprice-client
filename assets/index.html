@@ -64,6 +64,7 @@
           <div id="settingsContent" class="w3-container w3-padding-16"></div>
           <div id="infoContent" class="w3-container w3-padding-16"></div>
           <div id="pricesContent" class="w3-container w3-padding-16"></div>
+          <div id="manageMyTariffsContent" class="w3-container w3-padding-16"></div>
       </div>
 
       <div id="map" class="flex-item-d"></div>
@@ -116,6 +117,11 @@
     <input id="providerCustomerOnly" class="w3-check w3-margin-top" type="checkbox">
     <label>{{:~t("showExclusiveProviderCustomerTariffs")}}</label><br>
     <label class="w3-small">{{:~t("showExclusiveProviderCustomerTariffsDetail")}}</label><br>
+
+    <input id="onlyShowMyTariffs" class="w3-check w3-margin-top" type="checkbox">
+    <label>{{:~t("onlyShowMyTariffs")}}</label><br>
+    <label class="w3-small">{{:~t("onlyShowMyTariffsDetail")}}</label><br>
+    <label id="manage-my-tariffs" class="w3-small link-text">{{:~t("manageMyTariffsLink")}}</label><br>
 
     <br>
 
@@ -182,10 +188,37 @@
     </div>
   </script>
 
+  <script id="manageMyTariffsTempl" type="text/html">
+    
+    <div class="w3-margin-bottom">{{:~t("manageMyTariffsDescription")}}</div>
+
+    <button id="manage-cards-back" class="w3-btn pc-secondary">{{:~t("ok")}}</button>
+
+    <table id="charge-card-list" class="w3-table w3-striped w3-margin-top">
+    {{for tariffs}}
+      <tr>
+        <td><input id="{{:id}}" name="tariff" class="w3-check" type="checkbox"></td>
+        <td>
+          {{if name == null}}
+            <span>{{:provider}}</span>
+          {{else}}
+            <span>{{:name}}</span><br>
+            <label class="w3-margin-top w3-small">{{:provider}}</label>
+          {{/if}}
+          {{if providerCustomerOnly }}
+          <br>
+          <label class="w3-margin-top w3-small">{{:~t("providerCustomerOnly")}}</label> 
+        {{/if}}
+        </td>
+      </tr>
+    {{/for}}
+    </table>
+  </script>
+
   <script id="priceTempl" type="text/html">
     <tr>
       <td>
-        {{if tariff.tariff == null}}
+        {{if tariff.tariffName == null}}
         <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.provider}}</span></a>
         {{else}}
         <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.tariffName}}</span></a><br>
@@ -199,7 +232,7 @@
         </label>
         {{/if}}
         
-        {{if tariff.providerCustomerTariff > 0 }}
+        {{if tariff.providerCustomerTariff }}
           <br>
           <label class="w3-margin-top w3-small">{{:~t("providerCustomerOnly")}}</label> 
         {{/if}}

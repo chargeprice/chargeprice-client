@@ -88,6 +88,11 @@ html, body, .flex-container{
   width: 250px;
 }
 
+.link-text {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 @media (max-width: 800px) {
   #top-bar .w3-button {
     padding-left: 6px !important;

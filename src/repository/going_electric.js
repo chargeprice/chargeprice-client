@@ -1,4 +1,4 @@
-module.exports = class GoingElectric {
+export default class GoingElectric {
 
   constructor() {
     this.apiKey = "16faec520ed8c3f6a1c73ed4801a57d2";
@@ -20,6 +20,13 @@ module.exports = class GoingElectric {
       body["freeparking"]=true;
     } 
     if(options.openNow) body["open_now"]=true;
+    if(options.onlyShowMyTariffs && options.myTariffs.length > 0){
+      body["barrierfree"]=true;
+      body["chargecards"]=options.myTariffs
+        .map(t=>t.chargeCardId)
+        .filter((value, index, self) => self.indexOf(value) === index)
+        .join(",");
+    }
 
     const response = await fetch(this.url, {
       method: "POST",
