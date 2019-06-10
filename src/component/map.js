@@ -13,10 +13,13 @@ export default class Map {
   }
 
   initializeLayer() {
-    L.tileLayer('https://maps.tilehosting.com/styles/streets/{z}/{x}/{y}@2x.png?key=fALH6jrAdefZHHX6nkxn', {
-      maxZoom: 18,
-      id: 'mapbox.streets'
-    }).addTo(this.component);
+    import(/* webpackChunkName: "mapbox" */ './mapbox.js').then(()=>{
+      L.mapboxGL({
+        attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
+        accessToken: 'not-needed',
+        style: `https://api.maptiler.com/maps/streets/style.json?key=${process.env.MAPTILER_API_KEY}`
+      }).addTo(this.component);
+    });
   }
 
   centerLocation(coords, zoom=13) {
