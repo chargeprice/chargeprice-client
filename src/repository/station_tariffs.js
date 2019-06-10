@@ -7,7 +7,7 @@ export default class StationTariffs {
     const useLocalData = true;
     const isRunningLocally = window.location.href.indexOf("127.0.0.1") != -1
     this.base_url = useLocalData && isRunningLocally ? "http://localhost:9292" : "https://api.plugchecker.com";
-    this.apiKey = "1cd41427-728b-4c94-962b-8ec2547f0fd0";
+    this.apiKey = process.env.CHARGEPRICE_API_KEY;
   }
 
   async getTariffsOfStation(station,options){

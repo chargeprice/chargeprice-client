@@ -1,7 +1,7 @@
 export default class GoingElectric {
 
   constructor() {
-    this.apiKey = "16faec520ed8c3f6a1c73ed4801a57d2";
+    this.apiKey = process.env.GOING_ELECTRIC_API_KEY;
     this.url = "https://api.goingelectric.de/chargepoints";
   }
 

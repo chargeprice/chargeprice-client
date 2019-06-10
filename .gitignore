@@ -2,3 +2,4 @@
 /dist/*
 /scripts/.env.local
 /scripts/Gemfile.lock
+.env

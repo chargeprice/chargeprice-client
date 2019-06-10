@@ -157,4 +157,4 @@ class App {
 
 var app = new App();
 $(document).ready(()=>app.initialize());
-loadGoogleMapsApi({key: "AIzaSyDz9m_KXv9VB95-j5X8J546RgNHOx7vR0U",libraries: ["places"]}).then(()=>app.initialize());
+loadGoogleMapsApi({key: process.env.GOOGLE_CLOUD_API_KEY,libraries: ["places"]}).then(()=>app.initialize());
