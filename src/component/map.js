@@ -2,8 +2,6 @@ var $ = require('jquery');
 require('jsrender')($);
 var L = require('leaflet');
 require('leaflet.awesome-markers');
-require('mapbox-gl')
-require('mapbox-gl-leaflet')
 
 export default class Map {
 
@@ -15,11 +13,13 @@ export default class Map {
   }
 
   initializeLayer() {
-    L.mapboxGL({
-      attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
-      accessToken: 'not-needed',
-      style: `https://api.maptiler.com/maps/streets/style.json?key=${process.env.MAPTILER_API_KEY}`
-    }).addTo(this.component);
+    import(/* webpackChunkName: "mapbox" */ './mapbox.js').then(()=>{
+      L.mapboxGL({
+        attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
+        accessToken: 'not-needed',
+        style: `https://api.maptiler.com/maps/streets/style.json?key=${process.env.MAPTILER_API_KEY}`
+      }).addTo(this.component);
+    });
   }
 
   centerLocation(coords, zoom=13) {
