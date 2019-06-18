@@ -15,7 +15,7 @@ export default class Translation {
   }
 
   currentLocaleOrFallback(){
-    return navigator.languages.find(l=>this.supportedLocales.includes(l)) || this.fallbackLocale;
+    return navigator.languages.map(l=>l.split("-")[0]).find(l=>this.supportedLocales.includes(l)) || this.fallbackLocale;
   }
 
   async setCurrentLocaleTranslations(){
