@@ -1,5 +1,6 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 var config = {
   entry: './src/app.js',
@@ -9,7 +10,11 @@ var config = {
     path: path.resolve(__dirname, 'dist')
   },
   plugins: [
-    new Dotenv({systemvars: true})
+    new Dotenv({systemvars: true}),
+    new WorkboxPlugin.GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true
+    })
   ]
 };
 

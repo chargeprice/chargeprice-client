@@ -158,3 +158,19 @@ class App {
 var app = new App();
 $(document).ready(()=>app.initialize());
 loadGoogleMapsApi({key: process.env.GOOGLE_CLOUD_API_KEY,libraries: ["places"]}).then(()=>app.initialize());
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').then(registration => {
+      console.log('SW registered: ', registration);
+    }).catch(registrationError => {
+      console.log('SW registration failed: ', registrationError);
+    });
+  });
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    console.log("Before install prompt!");
+    e.prompt();
+  });
+}
+
