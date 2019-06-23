@@ -19,3 +19,8 @@
   margin-top: 0px;
   filter: drop-shadow(0px 0px 1px black);
 }
+
+#logoText {
+  height: 32px;
+  margin-left: 10px;
+}

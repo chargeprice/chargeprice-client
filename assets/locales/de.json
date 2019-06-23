@@ -39,7 +39,7 @@
   "poweredBy": "powered by",
   "aboutHeader": "Impressum",
   "feedbackHeader": "Feedback",
-  "feedbackContent": "Fehlt dir eine Feature, eine Ladekarte oder stimmt irgendwas nicht? Schreib mir einfach eine <a href='mailto:niklas@plugchecker.com?subject=Plugchecker Feedback'>Email</a>!",
+  "feedbackContent": "Fehlt dir ein Feature, eine Ladekarte oder stimmt irgendwas nicht? Schreib mir einfach eine <a href='mailto:niklas@plugchecker.com?subject=Plugchecker Feedback'>Email</a>!",
   "disclaimerHeader": "Haftungsausschluss",
   "dataSourceHeader": "Datenherkunft",
   "dataSourceContentGoingElectric": "Ladestationen (Koordinaten, Anschlüsse, Verfügbare Ladekarten, <b>KEINE</b> aufgelisteten Ladepreise): <a href='http://www.goingelectric.de' target='_blank'>GoingElectric API</a>",
