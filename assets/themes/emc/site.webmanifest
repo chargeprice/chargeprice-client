@@ -6,11 +6,6 @@
             "src": "/themes/emc/logo.png",
             "sizes": "192x192",
             "type": "image/png"
-        },
-        {
-            "src": "/themes/emc/logo.png",
-            "sizes": "384x384",
-            "type": "image/png"
         }
     ],
     "theme_color": "#8fbf22",
