@@ -31,6 +31,8 @@ export default class ThemeLoader {
   }
 
   getValidatedTheme(){
+    if(window.location.hostname.includes("ladepreise.at")) return "emc";
+
     const theme = new URL(window.location.href).searchParams.get("theme");
     return this.themes.hasOwnProperty(theme) ? theme : this.defaultTheme;
   }
