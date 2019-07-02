@@ -2,12 +2,14 @@ var $ = require('jquery');
 require('jsrender')($);
 
 import ManageMyTariffs from './manage_my_tariffs.js';
+import AppInstall from './app_install';
 
 export default class Sidebar {
 
   constructor(translation) {
     this.translation=translation;
     this.manageMyTariffs = new ManageMyTariffs(this);
+    this.appInstall = new AppInstall();
     this.loaded = false;
     this.component = $("#sidebar");
     $("#sidebar-close").click(() => this.close());

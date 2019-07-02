@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de-DE">
 
 <head>
-  <title>Plugchecker - Der Ladetarifrechner für dein Elektroauto</title>
+  <title>Chargeprice - Der Ladetarifrechner für dein Elektroauto</title>
   <meta id="theme-color" name="theme-color" content="#3498db" />
 
-  <meta name="title" content="Plugchecker - Der Ladetarifrechner für dein Elektroauto">
+  <meta name="title" content="Chargeprice - Der Ladetarifrechner für dein Elektroauto">
   <meta name="description" content="Der Ladetarifrechner für dein Elektroauto. Ladedauer eingeben, Ladestation auswählen und den günstigsten Tarif finden.">
   <meta name="keywords" content="Ladetarif,Ladepreise,Tarifrechner,Elektroauto,E-Mobilität,Ladekarten,Ladestation,EV,Stromanbieter,Energie,Strom,vergleichen">
   <meta name="author" content="Niklas Hösl">
@@ -13,10 +13,10 @@
   <meta name="copyright" content="Niklas Hösl">
   <meta http-equiv="content-language" content="de">
   
-  <meta property="og:site_name" content="Plugchecker" />
+  <meta property="og:site_name" content="Chargeprice" />
   <meta property="og:title" content="Der Ladetarifrechner für dein Elektroauto" />
   <meta property="og:description" content="Der Ladetarifrechner für dein Elektroauto. Ladedauer eingeben, Ladestation auswählen und den günstigsten Tarif finden." />
-  <meta property="og:image" content="https://www.plugchecker.com/img/plugchecker.jpg" />
+  <meta property="og:image" content="https://www.chargeprice.app/img/plugchecker.jpg" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
@@ -150,8 +150,13 @@
     </div>
 
     <div id="theme-info" class="w3-margin-bottom">
-      <span id="theme-name"></span> {{:~t("poweredBy")}} <a href="https://www.plugchecker.com" target="_blank">Chargeprice</a>
+      <span id="theme-name"></span> {{:~t("poweredBy")}} <a href="https://www.chargeprice.app" target="_blank">Chargeprice</a>
     </div>
+
+    <button id="btAppInstall" class="w3-btn pc-secondary w3-margin-top w3-margin-bottom hidden">
+      <img class="inverted" src="img/download.svg">
+      {{:~t("installApp")}}
+    </button>
     
     <div class="w3-margin-bottom">
       <label class="w3-margin-top w3-large">{{:~t("aboutHeader")}}</label><br>
@@ -165,7 +170,7 @@
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
       <input type="hidden" name="cmd" value="_s-xclick" />
       <input type="hidden" name="hosted_button_id" value="48LQQZJAW7W42" />
-      <input type="image" src="https://www.paypalobjects.com/{{:~t('locale')}}/AT/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+      <input type="image" src="https://www.paypalobjects.com/{{:~t('paypalLocale')}}/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
       </form>
     </div>
 
@@ -185,7 +190,7 @@
 
     <label class="w3-margin-top w3-large">{{:~t("openSourceHeader")}}</label><br>
     <div class="w3-margin-bottom">
-      <a href="https://github.com/hoenic07/plugchecker" target="_blank">Plugchecker (Github)</a>
+      <a href="https://github.com/hoenic07/plugchecker" target="_blank">Chargeprice (Github)</a>
     </div>
   </script>
 

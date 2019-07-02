@@ -6,7 +6,7 @@ require "json"
 
 Dotenv.load(".env.local")
 
-FALLBACK_LANGUAGE="de"
+FALLBACK_LANGUAGE="en"
 SKIPPED_COLUMNS=2
 BASE_FOLDER="../assets/locales"
 

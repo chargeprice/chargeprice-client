@@ -93,6 +93,10 @@ html, body, .flex-container{
   text-decoration: underline;
 }
 
+.hidden{
+  display: none;
+}
+
 @media (max-width: 800px) {
   #top-bar .w3-button {
     padding-left: 6px !important;
