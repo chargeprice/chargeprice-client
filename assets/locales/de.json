@@ -1,6 +1,6 @@
 {
-  "locale": "de_DE",
-  "title": "Plugchecker - Der Ladetarifrechner für dein Elektroauto",
+  "paypalLocale": "de_DE/AT",
+  "title": "Chargeprice - Der Ladetarifrechner für dein Elektroauto",
   "locationSearchPlaceholder": "Nach Ort suchen...",
   "providerCustomerOnly": "Nur für Energiekunden",
   "freeParking": "Gratis parken",
@@ -49,5 +49,9 @@
   "disclaimerContent": "Der Betreiber der Website haftet nicht für die Richtigkeit der angezeigten Daten. Es gibt keine Garantie für die angezeigten Preise. Diese Preise dienen lediglich als Richtwert.",
   "openSourceHeader": "Open Source",
   "pleaseZoomIn": "Bitte näher zoomen!",
-  "themeTitle": "Ladepreise"
+  "themeTitle": "Ladepreise",
+  "installApp": "App installieren",
+  "plugcheckerToChargepriceHeader": "Plugchecker.com heißt jetzt Chargeprice.app!",
+  "plugcheckerToChargepriceContent": "Gleiche Funktionen, neuer Name!<br>\nDie Adresse www.plugchecker.com wird natürlich weiterhin funktionien, jedoch ist ab jetzt die offizielle Adresse www.chargeprice.app",
+  "plugcheckerToChargepriceBtn": "Weiter zu www.chargeprice.app"
 }

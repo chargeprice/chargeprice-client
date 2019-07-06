@@ -1,6 +1,6 @@
 {
-  "locale": "en_US",
-  "title": "Plugchecker - Check the best charging tariffs for your EVs",
+  "paypalLocale": "en_US/AT",
+  "title": "Chargeprice - Check the best charging tariffs for your EVs",
   "locationSearchPlaceholder": "Search for location...",
   "providerCustomerOnly": "Only for provider customers",
   "freeParking": "Free parking",
@@ -49,5 +49,9 @@
   "disclaimerContent": "The provider of the website is not liable for the correctness of the displayed data. There is no guarantee on the displayed data. The prices should only be used for benchmarking.",
   "openSourceHeader": "Open Source",
   "pleaseZoomIn": "Please zoom in!",
-  "themeTitle": "Charge Price"
+  "themeTitle": "Charge Price",
+  "installApp": "Install App",
+  "plugcheckerToChargepriceHeader": "Plugchecker.com is now Chargeprice.app!",
+  "plugcheckerToChargepriceContent": "Same features, different name!<br>\nThe website www.plugchecker.com will of course continue to work, but the official new name is now www.chargeprice.app",
+  "plugcheckerToChargepriceBtn": "Continue to www.chargeprice.app"
 }

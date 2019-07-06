@@ -2,12 +2,15 @@ var $ = require('jquery');
 require('jsrender')($);
 
 import ManageMyTariffs from './manage_my_tariffs.js';
+import AppInstall from './app_install';
 
 export default class Sidebar {
 
-  constructor(translation) {
+  constructor(translation,analytics) {
     this.translation=translation;
-    this.manageMyTariffs = new ManageMyTariffs(this);
+    this.analytics = analytics;
+    this.manageMyTariffs = new ManageMyTariffs(this,analytics);
+    this.appInstall = new AppInstall(analytics);
     this.loaded = false;
     this.component = $("#sidebar");
     $("#sidebar-close").click(() => this.close());
@@ -160,6 +163,8 @@ export default class Sidebar {
   }
 
   open(contentKey) {
+    this.analytics.log('send', 'event', 'Sidebar', 'open', contentKey); 
+
     this.component.show();
 
     const content = this.sidebarContent[contentKey];
