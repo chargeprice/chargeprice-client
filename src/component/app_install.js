@@ -2,7 +2,8 @@ var $ = require('jquery');
 require('jsrender')($);
 
 export default class AppInstall {
-  constructor(sidebar) {
+  constructor(analytics) {
+    this.analytics = analytics;
     this.registerEvent();
     this.installEvent = null;
     $("#btAppInstall").click(() => this.onInstall());
@@ -25,7 +26,10 @@ export default class AppInstall {
   }
 
   onInstall(){
-    if(this.installEvent) this.installEvent.prompt();
+    if(this.installEvent){
+      this.installEvent.prompt();
+      this.analytics.log('send', 'event', 'App', 'install');
+    } 
   }
 }
 

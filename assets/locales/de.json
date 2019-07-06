@@ -50,5 +50,8 @@
   "openSourceHeader": "Open Source",
   "pleaseZoomIn": "Bitte näher zoomen!",
   "themeTitle": "Ladepreise",
-  "installApp": "App installieren"
+  "installApp": "App installieren",
+  "plugcheckerToChargepriceHeader": "Plugchecker.com heißt jetzt Chargeprice.app!",
+  "plugcheckerToChargepriceContent": "Gleiche Funktionen, neuer Name!<br>\nDie Adresse www.plugchecker.com wird natürlich weiterhin funktionien, jedoch ist ab jetzt die offizielle Adresse www.chargeprice.app",
+  "plugcheckerToChargepriceBtn": "Weiter zu www.chargeprice.app"
 }

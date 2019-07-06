@@ -5,6 +5,8 @@ import ThemeLoader from './component/theme_loader.js';
 import Map from './component/map.js';
 import Sidebar from './component/sidebar.js';
 import LocationSearch from './component/location_search.js';
+import PlugcheckerToChargeprice from './component/plugchecker_to_chargeprice.js';
+import Analytics from './component/analytics'
 import loadGoogleMapsApi from "load-google-maps-api"
 
 var $ = require('jquery');
@@ -34,11 +36,12 @@ class App {
 
     new ThemeLoader(this.translation).setCurrentTheme();
 
+    this.analytics = new Analytics();
     this.goingElectric = new GoingElectric();
     this.stationTariffs = new StationTariffs();
     this.map = new Map();
-    this.sidebar = new Sidebar(this.translation);
-    this.locationSearch = new LocationSearch();
+    this.sidebar = new Sidebar(this.translation,this.analytics);
+    this.locationSearch = new LocationSearch(this.analytics);
 
     this.currentStationTariffs = null;
     this.currentStation = null;
@@ -55,7 +58,7 @@ class App {
     
     this.sidebar.open("settings");
 
-    this.stationTariffs.check();
+    new PlugcheckerToChargeprice(this.translation).tryShowDialog();
   }
 
   loadStaticContent(){
@@ -105,7 +108,8 @@ class App {
   }
 
   async stationSelected(model) {
-    this.log('send', 'event', 'Station', 'show');
+    this.analytics.log('send', 'event', 'Station', 'show');
+
     this.toggleLoading(true);
     try{
       this.currentStation = await this.goingElectric.getStationDetails(model.id)
@@ -147,11 +151,6 @@ class App {
     $("#snackbar").show();
     
     setTimeout(()=>$("#snackbar").hide(), 5000);
-  }
-
-  log(){
-    if(typeof(ga) == "undefined") return;
-    ga.apply(null,arguments);
   }
 }
 

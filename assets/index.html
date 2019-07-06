@@ -76,6 +76,16 @@
 
   <div id="snackbar"></div>
 
+  <div id="messageDialog" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-bar pc-secondary w3-padding">
+        <h3 id="messageDialogHeader"></h3>
+      </div>
+      <div id="messageDialogContent" class="w3-container w3-padding"></div>
+      <button id="messageDialogOk" class="w3-btn pc-secondary w3-margin"></button>
+    </div>
+  </div>
+
   <script id="locationSearchTempl" type="text/html">  
     <input id="search-box" class="w3-border w3-input w3-padding" placeholder="{{:~t('locationSearchPlaceholder')}}"></input>
   </script>
@@ -160,9 +170,6 @@
     
     <div class="w3-margin-bottom">
       <label class="w3-margin-top w3-large">{{:~t("aboutHeader")}}</label><br>
-      Niklas Hösl<br>
-      Oberfeldweg 6/1<br>
-      A-4072 Alkoven<br>
       <a href="http://www.chargeprice.net">chargeprice.net</a>
     </div>
 

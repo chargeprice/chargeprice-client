@@ -4,8 +4,9 @@ require('jsrender')($);
 import StationTariffs from '../repository/station_tariffs.js';
 
 export default class ManageMyTariffs {
-  constructor(sidebar) {
+  constructor(sidebar,analytics) {
     this.sidebar = sidebar;
+    this.analytics = analytics;
     this.allTariffs = [];
     this.myTariffIds = [];
     this.loadAllTariffs();
@@ -41,6 +42,7 @@ export default class ManageMyTariffs {
     });
 
     localStorage.setItem("myTariffIds",JSON.stringify(this.myTariffIds));
+    this.analytics.log('send', 'event', 'MyTariffs', 'save',null,this.myTariffIds.length);
   }
 
   getMyTariffs(){

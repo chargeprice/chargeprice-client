@@ -97,6 +97,10 @@ html, body, .flex-container{
   display: none;
 }
 
+.w3-modal{
+  z-index: 1000000;
+}
+
 @media (max-width: 800px) {
   #top-bar .w3-button {
     padding-left: 6px !important;

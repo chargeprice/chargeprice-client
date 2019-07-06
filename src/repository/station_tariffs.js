@@ -44,14 +44,6 @@ export default class StationTariffs {
     return new JsonApiDeserializer(root).deserialize();
   }
 
-  async check(){
-    const url = `${this.base_url}/check`
-    try {
-      await fetch(url);
-    }
-    catch(ex) {}
-  }
-
   buildJsonApiRequestBody(station,options){
     return JSON.stringify({
       data: {
