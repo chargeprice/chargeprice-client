@@ -53,5 +53,6 @@
   "installApp": "Install App",
   "plugcheckerToChargepriceHeader": "Plugchecker.com is now Chargeprice.app!",
   "plugcheckerToChargepriceContent": "Same features, different name!<br>\nThe website www.plugchecker.com will of course continue to work, but the official new name is now www.chargeprice.app",
-  "plugcheckerToChargepriceBtn": "Continue to www.chargeprice.app"
+  "plugcheckerToChargepriceBtn": "Continue to www.chargeprice.app",
+  "locationPin": "My Position / Searched Location"
 }

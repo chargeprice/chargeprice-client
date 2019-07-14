@@ -53,7 +53,10 @@ class App {
     this.map.onBoundsChanged(this.showStationsAtLocation.bind(this));
     this.sidebar.onSelectedChargePointChanged(this.selectedChargePointChanged.bind(this));
     this.sidebar.onOptionsChanged(this.optionsChanged.bind(this));
-    this.locationSearch.onResultSelected(coords=>this.map.centerLocation(coords));
+    this.locationSearch.onResultSelected(coords=>{
+      this.map.centerLocation(coords);
+      this.map.setSearchLocation(coords);
+    });
     this.getCurrentLocation();
     
     this.sidebar.open("settings");
@@ -71,7 +74,11 @@ class App {
 
   getCurrentLocation() {
     navigator.geolocation.getCurrentPosition(
-      pos => this.map.centerLocation(pos.coords), 
+      pos => {
+        this.map.centerLocation(pos.coords);
+        this.map.watchLocation();
+        this.map.setMyLocation(pos.coords);
+      }, 
       () => this.showFallbackLocation());
   }
 

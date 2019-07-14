@@ -7,7 +7,10 @@ export default class Map {
 
   constructor() {
     this.component = L.map('map');
-    this.markers = [];
+    this.markers = L.layerGroup([]);
+    this.markers.addTo(this.component);
+    this.myLocation = null;
+    this.searchLocation = null;
     this.initializeLayer();
     $("#map").show();
   }
@@ -24,6 +27,33 @@ export default class Map {
 
   centerLocation(coords, zoom=13) {
     this.component.setView([coords.latitude, coords.longitude], zoom);
+  }
+
+  watchLocation(){
+    navigator.geolocation.watchPosition((res)=>this.setMyLocation(res.coords));
+  }
+
+  setMyLocation(coords){
+    if(!this.myLocation) this.myLocation = this.buildLocationMarker(coords, "circle");
+    else this.myLocation.setLatLng([coords.latitude, coords.longitude]);
+  }
+
+  setSearchLocation(coords){
+    if(!this.searchLocation) this.searchLocation = this.buildLocationMarker(coords, "star");
+    else this.searchLocation.setLatLng([coords.latitude, coords.longitude]);
+  }
+
+  buildLocationMarker(coords, icon){
+    const markerIcon = L.AwesomeMarkers.icon({
+      icon: icon,
+      markerColor: "red",
+      prefix: 'fa'
+    });
+
+    const marker = L.marker([coords.latitude, coords.longitude],{icon: markerIcon});
+    marker.addTo(this.component);
+
+    return marker;
   }
 
   isBigArea(onlyHPC){
@@ -46,8 +76,7 @@ export default class Map {
   }
 
   clearMarkers() {
-    this.markers.forEach(m => m.remove());
-    this.markers = [];
+    this.markers.clearLayers();
   }
 
   addStation(model, onClickCallback) {
@@ -57,7 +86,7 @@ export default class Map {
     const maxPower = model.chargePoints.reduce((max,value)=> max > value.power ? max : value.power, 0);
 
     if(maxPower > 50){
-      color = "red"
+      color = "darkred"
     }
     else if(maxPower > 22){
       color = "orange"
@@ -69,16 +98,15 @@ export default class Map {
       color = "gray";
     }
 
-    var redMarker = L.AwesomeMarkers.icon({
+    const markerIcon = L.AwesomeMarkers.icon({
       icon: "plug",
       markerColor: color,
       prefix: 'fa'
     });
         
-    const marker = L.marker([model.latitude, model.longitude],{icon: redMarker});
-    marker.addTo(this.component);
+    const marker = L.marker([model.latitude, model.longitude],{icon: markerIcon});
     marker.on('click', () => onClickCallback(model));
-    this.markers.push(marker);
+    this.markers.addLayer(marker);
   }
 
   onBoundsChanged(callback) {
