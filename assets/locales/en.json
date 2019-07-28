@@ -39,7 +39,7 @@
   "poweredBy": "powered by",
   "aboutHeader": "About",
   "feedbackHeader": "Feedback",
-  "feedbackContent": "Do you miss any feature, charging tariff or did you encounter a bug? Feel free to reach out to me via <a href='mailto:niklas@plugchecker.com?subject=Plugchecker Feedback'>email</a>!",
+  "feedbackContent": "Do you miss any feature, charging tariff or did you encounter a bug? Feel free to reach out to me via <a href='mailto:niklas@plugchecker.com?subject=Chargeprice Feedback'>email</a>!",
   "disclaimerHeader": "Disclaimer",
   "dataSourceHeader": "Data sources",
   "dataSourceContentGoingElectric": "Charging stations (Coordinates, plugs, available charging cards, <b>NO</b> displayed charging prices): <a href='http://www.goingelectric.de' target='_blank'>GoingElectric API</a>",
