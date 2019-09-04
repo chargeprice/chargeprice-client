@@ -101,6 +101,20 @@ html, body, .flex-container{
   z-index: 1000000;
 }
 
+.noUi-handle {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
+
+.noUi-target {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
+
+.noUi-horizontal {
+  height: 18px;
+}
+
 @media (max-width: 800px) {
   #top-bar .w3-button {
     padding-left: 6px !important;

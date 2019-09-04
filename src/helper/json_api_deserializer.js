@@ -1,11 +1,15 @@
 export default class JsonApiDeserializer {
 
-  constructor(root){
-    this.root = root;
+  constructor(response){
+    this.response = response;
   }
   
-  deserialize(){
-    return this.flattenObjectOrArray(this.root.included || [],this.root.data)
+  async deserialize(){
+    const root = await this.response.json();
+    return {
+      data: this.flattenObjectOrArray(root.included || [],root.data),
+      meta: root.meta
+    }
   }
 
   flattenObjectOrArray(included,objOrArray){

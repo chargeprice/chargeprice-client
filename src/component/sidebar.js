@@ -1,8 +1,9 @@
-var $ = require('jquery');
 require('jsrender')($);
 
-import ManageMyTariffs from './manage_my_tariffs.js';
+import ManageMyTariffs from './manage_my_tariffs';
+import MyVehicle from './my_vehicle';
 import AppInstall from './app_install';
+import StationPrices from './station_prices';
 
 export default class Sidebar {
 
@@ -11,6 +12,8 @@ export default class Sidebar {
     this.analytics = analytics;
     this.manageMyTariffs = new ManageMyTariffs(this,analytics);
     this.appInstall = new AppInstall(analytics);
+    this.myVehicle = new MyVehicle(this,analytics);
+    this.stationPrices = new StationPrices(this,analytics);
     this.loaded = false;
     this.component = $("#sidebar");
     $("#sidebar-close").click(() => this.close());
@@ -70,7 +73,7 @@ export default class Sidebar {
 
   chargingOptions(){
     return {
-      duration: parseFloat($("#select-duration").val())*60,
+      duration: parseInt(parseFloat($("#select-duration").val())*60),
       kwh: parseFloat($("#select-kwh").val()),
       chargePointId: $("#select-charge-point option:selected").val(),
       onlyHPC: $("#onlyHPC:checked").length == 1,
@@ -79,7 +82,9 @@ export default class Sidebar {
       carACPhases: ($("#uniphaseAC:checked").length == 1) ? 1 : 3,
       providerCustomerTarrifs: $("#providerCustomerOnly:checked").length == 1,
       onlyShowMyTariffs: $("#onlyShowMyTariffs:checked").length == 1,
-      myTariffs: this.manageMyTariffs.getMyTariffs()
+      batteryRange: this.stationPrices.getBatteryRange(),
+      myTariffs: this.manageMyTariffs.getMyTariffs(),
+      myVehicle: this.myVehicle.getVehicle()
     }
   }
 
@@ -129,23 +134,14 @@ export default class Sidebar {
     }
   }
 
-  showStation(station,options){
-    const sortedCP = station.chargePoints.sort((a,b)=>b.power-a.power);
-    $("#select-charge-point").html($.templates("#chargePointTempl").render(sortedCP));   
-
-    const parameterNoteHtml = $.templates("#parameterNoteTempl").render(options); 
-    $("#parameterNote").html(parameterNoteHtml);
+  showStation(station){
+    this.stationPrices.showStation(station, this.chargingOptions());
 
     this.open("prices");    
   }
 
   updateStationPrice(station,prices,options){
-    const sortedPrices = prices.sort((a,b)=>a.price - b.price);
-
-    $("#priceList").html($.templates("#priceTempl").render(sortedPrices));
-    $("#station-info").html($.templates("#stationTempl").render(station));
-    $("#prices").toggle(!station.isFreeCharging && prices.length > 0 || prices.length > 0);
-    $("#noPricesAvailable").toggle(!station.isFreeCharging && prices.length == 0);
+    this.stationPrices.updateStationPrice(station,prices,options)
   }
 
   onSelectedChargePointChanged(callback){

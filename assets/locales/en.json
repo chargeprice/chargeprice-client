@@ -18,10 +18,10 @@
   "manageMyTariffsDescription": "Select all tariffs that you own below.",
   "errorStationsUnavailable": "Stations unavailable",
   "errorPricesUnavailable": "Prices unavailable. Please try to reload the page.",
-  "totalPriceInfo": "€ = Total price for {0} and {1}kWh of a single charge (excl. monthly fees)",
+  "totalPriceInfo": "€ = Total price excl. monthly fees<br>\n* Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br>\n** Depending on tariff: Base fee, service fee, membership fee",
   "timeFormat": "{0}h {1}min",
-  "chargeDuration": "Duration of charge (hours)",
-  "chargeEnergy": "Energy of charge (kWh)",
+  "chargeDuration": "Duration of charge",
+  "chargeEnergy": "Energy of charge",
   "carChargesACWithUniphase": "EV with uniphase AC charger",
   "showExclusiveProviderCustomerTariffs": "Show exclusive provider customer tariffs",
   "showExclusiveProviderCustomerTariffsDetail": "Some providers offer special tariffs for their house-hold energy customers",
@@ -54,5 +54,8 @@
   "plugcheckerToChargepriceHeader": "Plugchecker.com is now Chargeprice.app!",
   "plugcheckerToChargepriceContent": "Same features, different name!<br>\nThe website www.plugchecker.com will of course continue to work, but the official new name is now www.chargeprice.app",
   "plugcheckerToChargepriceBtn": "Continue to www.chargeprice.app",
-  "locationPin": "My Position / Searched Location"
+  "locationPin": "My Position / Searched Location",
+  "hours": "hours",
+  "myVehicle": "My Vehicle",
+  "batteryRangeInfo": "Charge from {0}% to {1}%"
 }

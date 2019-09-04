@@ -3,6 +3,20 @@ export default class GoingElectric {
   constructor() {
     this.apiKey = process.env.GOING_ELECTRIC_API_KEY;
     this.url = "https://api.goingelectric.de/chargepoints";
+    this.defaultPlugs = [
+      "CEE Blau",
+      "CEE Rot",
+      "CEE+",
+      "Schuko",
+      "Typ1",
+      "Typ2",
+    ]
+    this.plugMapping = {
+      "ccs": ["CCS"],
+      "chademo": ["CHAdeMO"],
+      "tesla_suc": ["Tesla HPC","Tesla Supercharger"],
+      "tesla_ccs": ["Tesla Supercharger CCS"]
+    }
   }
 
   async getStations(northEast, southWest,options) {
@@ -27,6 +41,9 @@ export default class GoingElectric {
         .filter((value, index, self) => self.indexOf(value) === index)
         .join(",");
     }
+    if(options.myVehicle){
+      body["plugs"]=this.mapPlugs(options.myVehicle.dcChargePorts);
+    }
 
     const response = await fetch(this.url, {
       method: "POST",
@@ -39,7 +56,7 @@ export default class GoingElectric {
     return await this.parseStationsResponse(response);
   }
 
-  async getStationDetails(stationId){
+  async getStationDetails(stationId,options){
     const body = { key: this.apiKey, ge_id: stationId }
 
     const response = await fetch(this.url, {
@@ -50,7 +67,10 @@ export default class GoingElectric {
       body: this.encodeBody(body),
     })
 
-    return await this.parseStationResponse(response);
+    const result = await this.parseStationResponse(response);
+    this.addChargePointSupportedFlag(result,options.myVehicle);
+
+    return result;
   }
 
   encodeBody(body){
@@ -105,4 +125,26 @@ export default class GoingElectric {
       count: hash.count
     }
   }
+
+  mapPlugs(vehiclePlugs){
+    return vehiclePlugs.reduce(
+      (memo,obj)=>memo.concat(this.plugMapping[obj]), 
+      this.defaultPlugs)
+    ;
+  }
+
+  addChargePointSupportedFlag(result,vehicle){
+    result.chargePoints.forEach((cp)=>{
+      if(!vehicle){
+        cp.supportedByVehicle=true;
+        return;
+      }
+
+      const isDefaultPort = this.defaultPlugs.includes(cp.plug);
+      const isSupportedFastCharger = vehicle.dcChargePorts.some((type)=>this.plugMapping[type].includes(cp.plug));
+
+      cp.supportedByVehicle = isDefaultPort || isSupportedFastCharger;
+    })
+  }
+
 }

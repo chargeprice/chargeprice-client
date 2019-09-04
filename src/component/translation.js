@@ -1,4 +1,3 @@
-var $ = require('jquery');
 require('jsrender')($);
 
 export default class Translation {

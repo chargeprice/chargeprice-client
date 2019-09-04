@@ -18,10 +18,10 @@
   "manageMyTariffsDescription": "Sélectionnez les forfaits auxquels vous avez souscrit",
   "errorStationsUnavailable": "Erreur d'affichage",
   "errorPricesUnavailable": "Erreur de chargement des prix. Veuillez rafraîchir la page. ",
-  "totalPriceInfo": "€ = prix total pour {0} et {1} kW en une recharge (hors coût du forfait mensuel)",
+  "totalPriceInfo": "€ = Total price excl. monthly fees<br>\n* Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br>\n** Depending on tariff: Base fee, service fee, membership fee",
   "timeFormat": "{0} et {1} min.",
-  "chargeDuration": "Durée de la recharge (heure)",
-  "chargeEnergy": "Énergie (kW)",
+  "chargeDuration": "Durée de la recharge",
+  "chargeEnergy": "Énergie",
   "carChargesACWithUniphase": "VE recharge monophasée",
   "showExclusiveProviderCustomerTariffs": "Montrer les prix clients opérateurs",
   "showExclusiveProviderCustomerTariffsDetail": "Certains opérateurs et fournisseurs d'énergie offrent des prix plus bas pour les clients des offres énergie, gas, etc. ",
@@ -54,5 +54,8 @@
   "plugcheckerToChargepriceHeader": "Plugchecker.com s'appelle désormais Chargeprice.app !",
   "plugcheckerToChargepriceContent": "Même fonctionnalités, nouveau nom !<br>\nL'adresse www.plugchecker.com fonctionne toujours, mais l'URL officielle est désormais www.chargeprice.app",
   "plugcheckerToChargepriceBtn": "Aller sur www.chargeprice.app",
-  "locationPin": "My Position / Searched Location"
+  "locationPin": "My Position / Searched Location",
+  "hours": "heure",
+  "myVehicle": "My Vehicle",
+  "batteryRangeInfo": "Charge from {0}% to {1}%"
 }

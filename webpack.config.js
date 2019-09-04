@@ -1,6 +1,7 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
 const WorkboxPlugin = require('workbox-webpack-plugin');
+const webpack = require('webpack');
 
 var config = {
   entry: './src/app.js',
@@ -14,14 +15,29 @@ var config = {
     new WorkboxPlugin.GenerateSW({
       clientsClaim: true,
       skipWaiting: true
+    }),
+    new webpack.ProvidePlugin({
+      noUiSlider: 'nouislider'
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
     })
-  ]
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  }
 };
 
 module.exports = (env, argv) => {
   if (argv.mode === 'development') {
     config.devtool = 'source-map';
   }
-
+  
   return config;
 };

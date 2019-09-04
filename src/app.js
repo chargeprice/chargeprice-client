@@ -8,12 +8,11 @@ import LocationSearch from './component/location_search.js';
 import PlugcheckerToChargeprice from './component/plugchecker_to_chargeprice.js';
 import Analytics from './component/analytics'
 import loadGoogleMapsApi from "load-google-maps-api"
+import 'nouislider/distribute/nouislider.css';
 
-var $ = require('jquery');
 require('jsrender')($);
 
 class App {
-
   constructor() {
     this.deptsLoaded = 0;
     this.deptCount = 2;
@@ -53,6 +52,7 @@ class App {
     this.map.onBoundsChanged(this.showStationsAtLocation.bind(this));
     this.sidebar.onSelectedChargePointChanged(this.selectedChargePointChanged.bind(this));
     this.sidebar.onOptionsChanged(this.optionsChanged.bind(this));
+    this.sidebar.stationPrices.onBatteryRangeChanged(this.updatePrices.bind(this));
     this.locationSearch.onResultSelected(coords=>{
       this.map.centerLocation(coords);
       this.map.setSearchLocation(coords);
@@ -101,32 +101,43 @@ class App {
       return;
     }
 
-    this.toggleLoading(true);
-    try {
+    await this.withNetwork(async ()=>{
       const stations = await this.goingElectric.getStations(bounds.northEast, bounds.southWest,options);
       this.map.clearMarkers();
       stations.forEach(st => this.map.addStation(st, this.stationSelected.bind(this)));
-    }
-    catch(ex){
-      this.showAlert(this.translation.get("errorStationsUnavailable"))
-      console.error(ex);
-    }
-    this.toggleLoading(false);
+    },this.translation.get("errorStationsUnavailable"));
   }
 
   async stationSelected(model) {
     this.analytics.log('send', 'event', 'Station', 'show');
 
+    await this.withNetwork(async ()=>{
+      const options = this.sidebar.chargingOptions();
+      this.currentStation = await this.goingElectric.getStationDetails(model.id, options);
+    },this.translation.get("errorStationsUnavailable"));
+
+    await this.updatePrices();
+    this.sidebar.showStation(this.currentStation);
+    this.selectedChargePointChanged();
+  }
+
+  async updatePrices() {
+    await this.withNetwork(async ()=>{
+      const options = this.sidebar.chargingOptions();
+      const result = await this.stationTariffs.getTariffsOfStation(this.currentStation,options);
+      this.currentStationTariffs = result.data;
+      this.currentStationMeta = result.meta;
+      this.selectedChargePointChanged();
+    },this.translation.get("errorPricesUnavailable"));
+  }
+
+  async withNetwork(func,errorMsg){
     this.toggleLoading(true);
     try{
-      this.currentStation = await this.goingElectric.getStationDetails(model.id)
-      const options = this.sidebar.chargingOptions();
-      this.currentStationTariffs = await this.stationTariffs.getTariffsOfStation(this.currentStation,options);
-      this.sidebar.showStation(this.currentStation,options);
-      this.selectedChargePointChanged();
+      await func();
     }
     catch(ex){
-      this.showAlert(this.translation.get("errorPricesUnavailable"));
+      this.showAlert(errorMsg);
       console.error(ex);
     }
     
@@ -139,14 +150,21 @@ class App {
     if(selectedCP == null) return;
 
     const prices = this.currentStationTariffs.reduce((memo,tariff)=>{
-      const chargePointPrice = tariff.chargePointPrices.find(cpp=>
-        cpp.power == selectedCP.power && cpp.plug == selectedCP.plug);
+      const chargePointPrice = this.findBySelectedChargePoint(tariff.chargePointPrices, selectedCP);
 
       if(chargePointPrice) memo.push({ price: chargePointPrice.price, tariff: tariff });
       return memo;
     },[]);
 
+    const cpDurationAndEnergy = this.findBySelectedChargePoint(this.currentStationMeta.charge_points, selectedCP)
+    options.chargePointDuration = cpDurationAndEnergy.duration
+    options.chargePointEnergy = cpDurationAndEnergy.energy
+
     this.sidebar.updateStationPrice(this.currentStation,prices,options);
+  }
+
+  findBySelectedChargePoint(list,selectedCP){
+    return list.find(cpp=> cpp.power == selectedCP.power && cpp.plug == selectedCP.plug);
   }
 
   optionsChanged(){

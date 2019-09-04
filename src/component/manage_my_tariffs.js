@@ -1,4 +1,3 @@
-var $ = require('jquery');
 require('jsrender')($);
 
 import StationTariffs from '../repository/station_tariffs.js';
@@ -14,7 +13,7 @@ export default class ManageMyTariffs {
   }
 
   async loadAllTariffs(){
-    this.allTariffs = await new StationTariffs().getAllTariffs();
+    this.allTariffs = (await new StationTariffs().getAllTariffs()).data;
   }
 
   loadFromStorage(){

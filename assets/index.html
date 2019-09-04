@@ -87,45 +87,43 @@
   </div>
 
   <script id="locationSearchTempl" type="text/html">  
-    <input id="search-box" class="w3-border w3-input w3-padding" placeholder="{{:~t('locationSearchPlaceholder')}}"></input>
+    <input id="search-box" class="w3-border w3-input w3-padding" placeholder="{{:~t('locationSearchPlaceholder')}}"/>
   </script>
 
   <script id="pricesContentTempl" type="text/html">  
-    <div id="station-info">
-      </div>
-      
-      <select id="select-charge-point" class="w3-select w3-margin-top" name="option">
-      </select>
-      
-      <div id="noPricesAvailable" class="w3-margin-top"><label>{{:~t("noTariffAvailable")}}</label></div>
-      
-      <div id="prices">
-        <table class="w3-table w3-striped w3-margin-top">
-          <tr>
-            <th>{{:~t("tariff")}}</th>
-            <th>&euro;</th>
-          </tr>
-          <tbody id="priceList">
-              
-          </tbody>
-        </table>
-        <br>
-        <label id="parameterNote" class="w3-margin-top w3-small"></label>
-      </div>        
+    <div id="station-info"></div>
+    <select id="select-charge-point" class="w3-select w3-margin-top w3-margin-bottom" name="option"></select>
+    
+    <label id="batteryRangeInfo" class="w3-block"></label>
+    <div id ="batteryRange" class="w3-margin-top"></div>
+
+    <div id="noPricesAvailable" class="w3-margin-top"><label>{{:~t("noTariffAvailable")}}</label></div>
+    
+    <div id="prices">
+      <label id="parameterNote" class="w3-margin-bottom w3-margin-top w3-medium w3-block"></label>
+      <table class="w3-table w3-striped w3-margin-top">
+        <tr>
+          <th>{{:~t("tariff")}}</th>
+          <th>&euro;</th>
+        </tr>
+        <tbody id="priceList">
+            
+        </tbody>
+      </table>
+      <label class="w3-margin-top w3-small w3-block">
+        {{:~t("totalPriceInfo")}}
+      </label>
+    </div>        
   
   </script>
 
   <script id="settingsTempl" type="text/html">
-    <label class="w3-margin-top">{{:~t("chargeDuration")}}</label>
-    <input id="select-duration" class="w3-input w3-border w3-margin-bottom" type="number" name="points" min="0.05" step="0.01" value="1.5">
 
-    <label class="w3-margin-top">{{:~t("chargeEnergy")}}</label>
-    <input id="select-kwh" class="w3-input w3-border" type="number" name="points" min="1" value="30" step="0.01">
+    <label class="w3-block">{{:~t("myVehicle")}}</label>
+    <select id="selectVehicle" class="w3-select w3-border w3-margin-bottom">
+    </select>
 
-    <input id="uniphaseAC" class="w3-check w3-margin-top" type="checkbox">
-    <label>{{:~t("carChargesACWithUniphase")}}</label><br>
-
-    <input id="providerCustomerOnly" class="w3-check w3-margin-top" type="checkbox">
+    <input id="providerCustomerOnly" class="w3-check" type="checkbox">
     <label>{{:~t("showExclusiveProviderCustomerTariffs")}}</label><br>
     <label class="w3-small">{{:~t("showExclusiveProviderCustomerTariffsDetail")}}</label><br>
 
@@ -199,6 +197,8 @@
     <label class="w3-margin-top w3-large">{{:~t("openSourceHeader")}}</label><br>
     <div class="w3-margin-bottom">
       <a href="https://github.com/hoenic07/plugchecker" target="_blank">Chargeprice (Github)</a>
+      <a href="http://bit.ly/plugchecker_dev" target="_blank">Chargeprice API</a>
+      <a href="https://github.com/hoenic07/open-ev-data" target="_blank">Open EV Data (Github)</a>
     </div>
   </script>
 
@@ -241,7 +241,7 @@
         {{if tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0}}
           <br>
           <label class="w3-margin-top w3-small">
-          {{if tariff.totalMonthlyFee > 0 }}{{:~t("baseFee")}}: &euro;{{dec:tariff.totalMonthlyFee}}/{{:~t("month")}} {{/if}}
+          {{if tariff.totalMonthlyFee > 0 }}{{:~t("baseFee")}}: &euro;{{dec:tariff.totalMonthlyFee}}/{{:~t("month")}}** {{/if}}
           {{if tariff.monthlyMinSales > 0 }}{{:~t("minSales")}}: &euro;{{dec:tariff.monthlyMinSales}}/{{:~t("month")}} {{/if}}
         </label>
         {{/if}}
@@ -263,14 +263,6 @@
       {{if isFreeParking}}<span class="w3-tag w3-green">{{:~t("freeParking")}}</span>{{/if}} 
       {{if isFreeCharging}}<span class="w3-tag w3-green">{{:~t("freeCharging")}}</span>{{/if}} 
     </div>
-  </script>
-
-  <script id="chargePointTempl" type="text/html">
-    <option value="{{:id}}">{{:plug}} {{:power}}kw ({{:count}}x)</option>
-  </script>
-
-  <script id="parameterNoteTempl" type="text/html">
-    {{:~sf(~t("totalPriceInfo"),~c("time",duration),~c("int",kwh))}}
   </script>
 
   <script id="pleaseZoomTempl" type="text/html">

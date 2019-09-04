@@ -6,7 +6,7 @@
   "freeParking": "Gratis parken",
   "freeCharging": "Gratis laden",
   "goingElectricLink": "Details auf GoingElectric.de",
-  "baseFee": "Grundgebühr",
+  "baseFee": "Fixkosten",
   "minSales": "Mindestumsatz",
   "month": "Monat",
   "tariff": "Tarif",
@@ -18,10 +18,10 @@
   "manageMyTariffsDescription": "Wählen unten alle Tarife aus, bei denen du registriert bist.",
   "errorStationsUnavailable": "Stationen konnten nicht geladen werden.",
   "errorPricesUnavailable": "Preise konnten nicht geladen werden. Bitte versuchen Sie die Seite neu zu laden.",
-  "totalPriceInfo": "€ = Gesamtpreis für {0} und {1}kWh Laden (exkl. monatliche Gebühren).",
+  "totalPriceInfo": "€ = Gesamtpreis exkl. monatliche Gebühren<br>\n* Errechnete Werte inkl. 10% Ladeverlust. Die realen Werte hängen in der Realität von Fahrzeug, Station, Wetter etc. ab.<br>\n** Abhängig von Tarif: Grundgebühr, Servicepauschale oder Mitgliedsbeitrag",
   "timeFormat": "{0}h {1}min",
-  "chargeDuration": "Ladedauer (Stunden)",
-  "chargeEnergy": "Ladeenergie (kWh)",
+  "chargeDuration": "Ladedauer",
+  "chargeEnergy": "Ladeenergie",
   "carChargesACWithUniphase": "Fahrzeug lädt Wechselstrom einphasig",
   "showExclusiveProviderCustomerTariffs": "Exklusive Energiekunden-Tarife anzeigen",
   "showExclusiveProviderCustomerTariffsDetail": "Einige Anbieter bieten für ihre Kunden (z.B. Hausshaltstrom, Gas) günstigere Tarife an.",
@@ -54,5 +54,8 @@
   "plugcheckerToChargepriceHeader": "Plugchecker.com heißt jetzt Chargeprice.app!",
   "plugcheckerToChargepriceContent": "Gleiche Funktionen, neuer Name!<br>\nDie Adresse www.plugchecker.com wird natürlich weiterhin funktionien, jedoch ist ab jetzt die offizielle Adresse www.chargeprice.app",
   "plugcheckerToChargepriceBtn": "Weiter zu www.chargeprice.app",
-  "locationPin": "Meine Position / Gesuchter Ort"
+  "locationPin": "Meine Position / Gesuchter Ort",
+  "hours": "Stunden",
+  "myVehicle": "Mein Fahrzeug",
+  "batteryRangeInfo": "Laden von {0}% bis {1}%"
 }
