@@ -82,6 +82,8 @@ export default class Sidebar {
       carACPhases: ($("#uniphaseAC:checked").length == 1) ? 1 : 3,
       providerCustomerTarrifs: $("#providerCustomerOnly:checked").length == 1,
       onlyShowMyTariffs: $("#onlyShowMyTariffs:checked").length == 1,
+      allowUnbalancedLoad: $("#allowUnbalancedLoad:checked").length == 1,
+      onlyTariffsWithoutMonthlyFees: $("#onlyTariffsWithoutMonthlyFees:checked").length == 1,
       batteryRange: this.stationPrices.getBatteryRange(),
       myTariffs: this.manageMyTariffs.getMyTariffs(),
       myVehicle: this.myVehicle.getVehicle()
@@ -102,6 +104,8 @@ export default class Sidebar {
       "carACPhases": "uniphaseAC",
       "providerCustomerTarrifs": "providerCustomerOnly",
       "onlyShowMyTariffs": "onlyShowMyTariffs",
+      "allowUnbalancedLoad": "allowUnbalancedLoad",
+      "onlyTariffsWithoutMonthlyFees": "onlyTariffsWithoutMonthlyFees",
     }
 
     for (var key in attributeComponentMapping) {
@@ -126,6 +130,8 @@ export default class Sidebar {
       "carACPhases": 1,
       "providerCustomerTarrifs": true,
       "onlyShowMyTariffs": true,
+      "allowUnbalancedLoad": true,
+      "onlyTariffsWithoutMonthlyFees": true
     }
 
     for (var key in attributeComponentMapping) {

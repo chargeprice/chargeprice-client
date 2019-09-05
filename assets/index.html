@@ -93,13 +93,13 @@
   <script id="pricesContentTempl" type="text/html">  
     <div id="station-info"></div>
     <select id="select-charge-point" class="w3-select w3-margin-top w3-margin-bottom" name="option"></select>
-    
-    <label id="batteryRangeInfo" class="w3-block"></label>
-    <div id ="batteryRange" class="w3-margin-top"></div>
 
     <div id="noPricesAvailable" class="w3-margin-top"><label>{{:~t("noTariffAvailable")}}</label></div>
     
     <div id="prices">
+      <label id="batteryRangeInfo" class="w3-block"></label>
+      <div id ="batteryRange" class="w3-margin-top"></div>
+
       <label id="parameterNote" class="w3-margin-bottom w3-margin-top w3-medium w3-block"></label>
       <table class="w3-table w3-striped w3-margin-top">
         <tr>
@@ -123,7 +123,10 @@
     <select id="selectVehicle" class="w3-select w3-border w3-margin-bottom">
     </select>
 
-    <input id="providerCustomerOnly" class="w3-check" type="checkbox">
+    <input id="onlyTariffsWithoutMonthlyFees" class="w3-check" type="checkbox">
+    <label>{{:~t("onlyTariffsWithoutMonthlyFees")}}</label><br>
+
+    <input id="providerCustomerOnly" class="w3-check w3-margin-top" type="checkbox">
     <label>{{:~t("showExclusiveProviderCustomerTariffs")}}</label><br>
     <label class="w3-small">{{:~t("showExclusiveProviderCustomerTariffsDetail")}}</label><br>
 
@@ -132,11 +135,9 @@
     <label class="w3-small">{{:~t("onlyShowMyTariffsDetail")}}</label><br>
     <label id="manage-my-tariffs" class="w3-small link-text">{{:~t("manageMyTariffsLink")}}</label><br>
 
-    <br>
+    <label class="w3-margin-top w3-large w3-block">{{:~t("mapFilter")}}</label>
 
-    <label class="w3-margin-top w3-large">{{:~t("mapFilter")}}</label><br>
-
-    <input id="onlyHPC" class="w3-check w3-margin-top" type="checkbox">
+    <input id="onlyHPC" class="w3-check" type="checkbox">
     <label>{{:~t("onlyHPC")}}</label><br>
 
     <input id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
@@ -144,6 +145,12 @@
 
     <input id="openNow" class="w3-check w3-margin-top" type="checkbox">
     <label>{{:~t("onlyOpenNow")}}</label><br>
+
+    <label class="w3-margin-top w3-large w3-block">{{:~t("expertOptions")}}</label>
+
+    <input id="allowUnbalancedLoad" class="w3-check" type="checkbox">
+    <label>{{:~t("unbalancedLoadHeader")}}</label><br>
+    <label class="w3-small">{{:~t("unbalancedLoadDetail")}}</label><br>
 
     <button id="settings-ok" class="w3-btn pc-secondary w3-margin-top">{{:~t("ok")}}</button>
   </script>
@@ -196,9 +203,9 @@
 
     <label class="w3-margin-top w3-large">{{:~t("openSourceHeader")}}</label><br>
     <div class="w3-margin-bottom">
-      <a href="https://github.com/hoenic07/plugchecker" target="_blank">Chargeprice (Github)</a>
-      <a href="http://bit.ly/plugchecker_dev" target="_blank">Chargeprice API</a>
-      <a href="https://github.com/hoenic07/open-ev-data" target="_blank">Open EV Data (Github)</a>
+      <a href="https://github.com/hoenic07/plugchecker" target="_blank">Chargeprice (Github)</a><br>
+      <a href="http://bit.ly/plugchecker_dev" target="_blank">Chargeprice API</a><br>
+      <a href="https://github.com/hoenic07/open-ev-data" target="_blank">Open EV Data (Github)</a><br>
     </div>
   </script>
 

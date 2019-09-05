@@ -27,7 +27,7 @@
   "showExclusiveProviderCustomerTariffsDetail": "Einige Anbieter bieten für ihre Kunden (z.B. Hausshaltstrom, Gas) günstigere Tarife an.",
   "mapFilter": "Kartenfilter",
   "onlyHPC": "Nur Schnelllader (43kW+)",
-  "onlyFreeStations": "Nur Kostenlose Ladestationen",
+  "onlyFreeStations": "Nur kostenlose Ladestationen",
   "onlyOpenNow": "Nur geöffnete Ladestationen",
   "onlyShowMyTariffs": "Nur meine Tarife anzeigen",
   "onlyShowMyTariffsDetail": "Es werden nur Stationen angezeigt wo mit meinen Tarifen geladen werden kann oder keine vorherige Registrierung nötig ist",
@@ -57,5 +57,10 @@
   "locationPin": "Meine Position / Gesuchter Ort",
   "hours": "Stunden",
   "myVehicle": "Mein Fahrzeug",
-  "batteryRangeInfo": "Laden von {0}% bis {1}%"
+  "batteryRangeInfo": "Laden von {0}% bis {1}%",
+  "unbalancedLoadHeader": "Schieflast erlauben",
+  "unbalancedLoadDetail": "Erlaubt das Laden mit mehr als 4.5 kW an AC-Stationen für Autos mit 1-phasigem AC-Lader",
+  "onlyTariffsWithoutMonthlyFees": "Nur Tarife ohne monatliche Gebühren",
+  "stationsWithAtLeast2ChargePoints": "Nur Ladestationen mit mind. 2 Ladepunkten",
+  "expertOptions": "Für Experten"
 }

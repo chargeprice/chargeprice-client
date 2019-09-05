@@ -57,5 +57,10 @@
   "locationPin": "My Position / Searched Location",
   "hours": "hours",
   "myVehicle": "My Vehicle",
-  "batteryRangeInfo": "Charge from {0}% to {1}%"
+  "batteryRangeInfo": "Charge from {0}% to {1}%",
+  "unbalancedLoadHeader": "Allow unbalanced load",
+  "unbalancedLoadDetail": "Allow charging with more than 4.5 kW at AC stations for cars with uniphase AC charger",
+  "onlyTariffsWithoutMonthlyFees": "Tariffs without monthly fees only",
+  "stationsWithAtLeast2ChargePoints": "Stations with at least 2 charge points only",
+  "expertOptions": "For experts"
 }

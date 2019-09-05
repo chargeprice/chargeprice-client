@@ -57,16 +57,23 @@ export default class StationTariffs {
   }
 
   buildJsonApiRequestBody(station,options){
+    const hasOwnTariffs = options.onlyShowMyTariffs && options.myTariffs.length > 0;
+
     const jsonOptions = {
-      provider_customer_tariffs: options.providerCustomerTarrifs
+      allow_unbalanced_load: options.allowUnbalancedLoad,
+      provider_customer_tariffs: (options.providerCustomerTarrifs || hasOwnTariffs)
+    }
+
+    if(options.onlyTariffsWithoutMonthlyFees && !hasOwnTariffs){
+      jsonOptions.max_monthly_fees = 0;
     }
 
     if(options.myVehicle){
-      jsonOptions["battery_range"] = options.batteryRange
+      jsonOptions.battery_range = options.batteryRange
     }
     else {
-      jsonOptions["energy"] = options.kwh
-      jsonOptions["duration"] = options.duration
+      jsonOptions.energy = options.kwh
+      jsonOptions.duration = options.duration
     }
 
     return JSON.stringify({
@@ -84,14 +91,14 @@ export default class StationTariffs {
           options: jsonOptions,
           charge_card_ids: station.chargeCardIds,
         },
-        relationships: this.buildRelationships(station,options)
+        relationships: this.buildRelationships(station,options, hasOwnTariffs)
       }
     });
   }
 
-  buildRelationships(station, options){
+  buildRelationships(station, options, hasOwnTariffs){
     const rels = {};
-    if(options.onlyShowMyTariffs && options.myTariffs.length > 0){
+    if(hasOwnTariffs){
       const tariffRefs = options.myTariffs.map(t=>{ return {id: t.id, type: t.type } }) ;
       rels["tariffs"]={ data: tariffRefs };
     }
