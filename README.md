@@ -1,8 +1,8 @@
-# Plugchecker (Client)
+# Chargeprice (Client)
 
 Provides prices of charging cards for EV charging stations.
 
-See [Plugchecker](https://github.com/hoenic07/plugchecker) for the Web Service.
+See [Chargeprice](https://github.com/hoenic07/chargeprice) for the Web Service.
 
 ## Updating Locales (Translations)
 
