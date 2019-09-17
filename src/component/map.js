@@ -10,6 +10,7 @@ export default class Map {
     this.markers.addTo(this.component);
     this.myLocation = null;
     this.searchLocation = null;
+    this.mapReady = false;
     this.initializeLayer();
     $("#map").show();
   }
@@ -25,6 +26,7 @@ export default class Map {
   }
 
   centerLocation(coords, zoom=13) {
+    this.mapReady = true;
     this.component.setView([coords.latitude, coords.longitude], zoom);
   }
 
@@ -61,6 +63,7 @@ export default class Map {
   }
 
   getBounds() {
+    if (!this.mapReady) return;
     const bounds = this.component.getBounds();
     return {
       northEast: {

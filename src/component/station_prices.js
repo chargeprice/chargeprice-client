@@ -1,5 +1,7 @@
 require('jsrender')($);
 
+import ProviderFeaturing from './providerFeaturing';
+
 export default class StationPrices {
   constructor(sidebar,analytics) {
     this.sidebar = sidebar;
@@ -66,12 +68,18 @@ export default class StationPrices {
  
   updateStationPrice(station,prices,options){
     const sortedPrices = prices.sort((a,b)=>a.price - b.price);
+    this.addFeaturings(sortedPrices);
 
     $("#priceList").html($.templates("#priceTempl").render(sortedPrices));
     $("#station-info").html($.templates("#stationTempl").render(station));
     $("#prices").toggle(!station.isFreeCharging && prices.length > 0 || prices.length > 0);
     $("#noPricesAvailable").toggle(!station.isFreeCharging && prices.length == 0);
     $("#parameterNote").html($.render.parameterNoteTempl(options));
+  }
+
+  addFeaturings(prices){
+    const featurings = new ProviderFeaturing().getFeaturedProviders();
+    prices.forEach(p=>p.featuring = featurings[p.tariff.provider]);
   }
 
   onBatteryRangeChanged(callback){

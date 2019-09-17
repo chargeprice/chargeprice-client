@@ -91,6 +91,8 @@ class App {
   }
 
   async showStationsAtLocation(bounds) {
+    if(!bounds) return; // Map not ready yet
+
     const options = this.sidebar.chargingOptions();
 
     const isBigArea = this.map.isBigArea(options.onlyHPC);

@@ -217,7 +217,7 @@
 
     <table id="charge-card-list" class="w3-table w3-striped w3-margin-top">
     {{for tariffs}}
-      <tr>
+      <tr style="{{if featuring}} background: {{:featuring.backgroundColor}} !important; {{/if}}">
         <td><input id="{{:id}}" name="tariff" class="w3-check" type="checkbox"></td>
         <td>
           {{if name == null}}
@@ -231,13 +231,18 @@
           <label class="w3-margin-top w3-small">{{:~t("providerCustomerOnly")}}</label> 
         {{/if}}
         </td>
+        <td>
+          {{if featuring}}
+            <img class="w3-right feature-logo" src="{{:featuring.logoUrl}}"/>
+          {{/if}}
+        </td>
       </tr>
     {{/for}}
     </table>
   </script>
 
   <script id="priceTempl" type="text/html">
-    <tr>
+    <tr style="{{if featuring}} background: {{:featuring.backgroundColor}} !important; {{/if}}" >
       <td>
         {{if tariff.tariffName == null}}
         <a href="{{:tariff.url}}" target="_blank"><span>{{:tariff.provider}}</span></a>
@@ -258,7 +263,13 @@
           <label class="w3-margin-top w3-small">{{:~t("providerCustomerOnly")}}</label> 
         {{/if}}
       </td>
-      <td>{{dec:price}}</td>
+      <td>
+        <label class="w3-right">{{dec:price}}</label>
+        {{if featuring}}
+          <br>
+          <a href="{{:tariff.url}}" target="_blank"><img class="w3-right feature-logo" src="{{:featuring.logoUrl}}"/></a>
+        {{/if}}
+      </td>
     </tr>
   </script>
 

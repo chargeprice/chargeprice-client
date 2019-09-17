@@ -1,6 +1,7 @@
 require('jsrender')($);
 
 import StationTariffs from '../repository/station_tariffs.js';
+import ProviderFeaturing from './providerFeaturing';
 
 export default class ManageMyTariffs {
   constructor(sidebar,analytics) {
@@ -14,6 +15,7 @@ export default class ManageMyTariffs {
 
   async loadAllTariffs(){
     this.allTariffs = (await new StationTariffs().getAllTariffs()).data;
+    this.addFeaturings(this.allTariffs);
   }
 
   loadFromStorage(){
@@ -21,7 +23,13 @@ export default class ManageMyTariffs {
   }
 
   async initMyTariffs(){
-    const sortedTariffs = this.allTariffs.sort((a,b)=>a.provider.localeCompare(b.provider));
+    const sortedTariffs = this.allTariffs.sort((a,b)=>{
+      const b1 = !!b.featuring;
+      const a1 = !!a.featuring;
+
+      if(b1 == a1) return a.provider.localeCompare(b.provider);
+      else return b1 - a1; // Show featured providers
+    });
 
     $("#manageMyTariffsContent").html($.templates("#manageMyTariffsTempl").render({ tariffs: sortedTariffs }));
 
@@ -32,6 +40,11 @@ export default class ManageMyTariffs {
       this.saveToStorage();
       this.sidebar.optionsChanged();
     });
+  }
+
+  addFeaturings(tariffs){
+    const featurings = new ProviderFeaturing().getFeaturedProviders();
+    tariffs.forEach(t=>t.featuring = featurings[t.provider]);
   }
 
   saveToStorage(){

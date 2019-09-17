@@ -115,6 +115,19 @@ html, body, .flex-container{
   height: 18px;
 }
 
+
+/* Featured */
+
+#prices tr.featured {
+  font-weight: bold;
+}
+
+.feature-logo{
+  max-width: 30px;
+  max-height: 30px;
+  margin-top: 8px;
+}
+
 @media (max-width: 800px) {
   #top-bar .w3-button {
     padding-left: 6px !important;
