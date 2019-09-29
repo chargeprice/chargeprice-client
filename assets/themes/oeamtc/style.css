@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'merriweather_sansextrabold';
-	src: url("http://images01-www.oeamtc.at/spunq-assets/images/fonts/merriweathersans-extrabold-webfont.woff") format("woff");
+	src: url("/themes/oeamtc/merriweathersans-extrabold-webfont.woff") format("woff");
 	font-weight: normal;
 	font-style: normal
 }
@@ -48,5 +48,4 @@
 
 #sidebarHeader {
   color: black;
-  /* font-family: "merriweather_sansextrabold"; */
 }
