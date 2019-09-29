@@ -25,7 +25,14 @@ export default class ThemeLoader {
         name: `Nissan ${translation.get("themeTitle")}`,
         themeColor: "#c3002f",
         appleTouchIcon: "/img/logos/apple-touch-icon.png"
-      }
+      },
+      oeamtc: {
+        titleBarHtml: `<img id=\"logo\" src=\"themes/oeamtc/logo.png\"/><span class=\"title\">${translation.get("themeTitle")}</span>`,
+        favicon: "themes/oeamtc/logo.png",
+        name: `ÖAMTC Ladepreise`,
+        themeColor: "#8fbf22",
+        appleTouchIcon: "themes/oeamtc/logo.png"
+      },
     }
   }
 

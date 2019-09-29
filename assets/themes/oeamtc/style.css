@@ -1,0 +1,52 @@
+@font-face {
+	font-family: 'merriweather_sansextrabold';
+	src: url("http://images01-www.oeamtc.at/spunq-assets/images/fonts/merriweathersans-extrabold-webfont.woff") format("woff");
+	font-weight: normal;
+	font-style: normal
+}
+
+.pc-main{
+  color: #000 !important;
+  background-color: #ffdc00 !important;
+}
+
+.pc-secondary{
+  color: #000 !important;
+  background-color: #ffdc00 !important;
+}
+
+.w3-hover-dark-gray:hover{
+  background-color: #d2bc00 !important;
+}
+
+#top-bar .title {
+  margin: 0px 0px 0px 10px;
+  display: inline-block;
+  color: black;
+  font-family: "merriweather_sansextrabold";
+  text-transform: uppercase;
+}
+
+#logo {
+  height: 32px;
+  margin-top: 0px;
+  filter: drop-shadow(0px 0px 1px black);
+}
+
+#logoText {
+  height: 32px;
+  margin-left: 10px;
+}
+
+.noUi-connect {
+  background: #ffdc00 !important;
+}
+
+.inverted {
+  filter: none;
+}
+
+#sidebarHeader {
+  color: black;
+  /* font-family: "merriweather_sansextrabold"; */
+}
