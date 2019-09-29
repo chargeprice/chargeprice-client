@@ -7,7 +7,8 @@ export default class PlugcheckerToChargeprice {
   }
 
   isPlugchecker(){
-    return window.location.host == "www.plugchecker.com";
+    return window.location.host == "www.plugchecker.com" ||
+      window.location.host == "laden.isvoi.org";
   }
 
   didShowDialog(){
@@ -15,7 +16,7 @@ export default class PlugcheckerToChargeprice {
   }
 
   tryShowDialog(){
-    if(!this.isPlugchecker() || this.didShowDialog()) return;
+    if(!this.isPlugchecker()) return;
 
     $("#messageDialogHeader").html(this.translation.get("plugcheckerToChargepriceHeader"))
     $("#messageDialogContent").html(this.translation.get("plugcheckerToChargepriceContent"))
