@@ -73,6 +73,7 @@ class App {
   }
 
   getCurrentLocation() {
+    this.showFallbackLocation();
     navigator.geolocation.getCurrentPosition(
       pos => {
         this.map.centerLocation(pos.coords);
