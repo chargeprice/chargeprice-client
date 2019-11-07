@@ -101,6 +101,7 @@ export default class GoingElectric {
       id:                String(data.ge_id),
       name:              data.name,
       network:           this.valueOrFallback(data.network),
+      address:           `${data.address.street}, ${data.address.postcode} ${data.address.city}`,
       longitude:         data.coordinates.lng,
       latitude:          data.coordinates.lat,
       isFreeCharging:    data.cost.freecharging,
@@ -112,7 +113,7 @@ export default class GoingElectric {
       goingElectricUrl:  "https:" + data.url
     }
   }
-
+  
   valueOrFallback(value, fallback=null){
     return value != false ? value : fallback
   }

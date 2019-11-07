@@ -275,11 +275,14 @@
 
   <script id="stationTempl" type="text/html">
     <label class="w3-margin-top w3-large">{{:name}}</label><br>    
-    <div><a href="{{:goingElectricUrl}}" target="_blank">{{:~t("goingElectricLink")}}</a></div>   
+    <label>{{:address}}</label><br>    
+    
     {{if priceDescription}}<div class="w3-margin-top">{{:priceDescription}}</div>{{/if}}  
     <div class="w3-margin-top">
       {{if isFreeParking}}<span class="w3-tag w3-green">{{:~t("freeParking")}}</span>{{/if}} 
       {{if isFreeCharging}}<span class="w3-tag w3-green">{{:~t("freeCharging")}}</span>{{/if}} 
+      {{if network}}<span class="w3-tag w3-light-gray"><label><i class="fa fa-sitemap"></i> {{:network}}</label><br>    </span>{{/if}} 
+      <span class="w3-tag w3-light-gray"><a href="{{:goingElectricUrl}}" target="_blank"><i class="fa fa-external-link"></i> {{:~t("goingElectricLink")}}</a></span>
     </div>
   </script>
 
