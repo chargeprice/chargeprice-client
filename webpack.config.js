@@ -2,15 +2,19 @@ const path = require('path');
 const Dotenv = require('dotenv-webpack');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var config = {
   entry: './src/app.js',
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist')
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+    }),
     new Dotenv({systemvars: true}),
     new WorkboxPlugin.GenerateSW({
       clientsClaim: true,

@@ -115,6 +115,10 @@ html, body, .flex-container{
   height: 18px;
 }
 
+.cp-margin-top-small {
+  margin-top: 4px !important;
+}
+
 
 /* Featured */
 
