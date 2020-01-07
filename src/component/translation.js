@@ -2,7 +2,7 @@ require('jsrender')($);
 
 export default class Translation {
   constructor() {
-    this.supportedLocales = ["en","de","fr"]
+    this.supportedLocales = ["en","de","fr","nl"]
     this.fallbackLocale = "en"
     this.currentLocale = this.currentLocaleOrFallback(); 
     this.setHelpers();
