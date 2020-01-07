@@ -1,4 +1,4 @@
-import GoingElectric from './repository/going_electric.js';
+import FetchStations from './useCase/fetchStations.js';
 import StationTariffs from './repository/station_tariffs.js';
 import Translation from './component/translation.js';
 import ThemeLoader from './component/theme_loader.js';
@@ -36,7 +36,6 @@ class App {
     new ThemeLoader(this.translation).setCurrentTheme();
 
     this.analytics = new Analytics();
-    this.goingElectric = new GoingElectric();
     this.stationTariffs = new StationTariffs();
     this.map = new Map();
     this.sidebar = new Sidebar(this.translation,this.analytics);
@@ -105,7 +104,7 @@ class App {
     }
 
     await this.withNetwork(async ()=>{
-      const stations = await this.goingElectric.getStations(bounds.northEast, bounds.southWest,options);
+      const stations = await (new FetchStations()).list(bounds.northEast, bounds.southWest,options);
       this.map.clearMarkers();
       stations.forEach(st => this.map.addStation(st, this.stationSelected.bind(this)));
     },this.translation.get("errorStationsUnavailable"));
@@ -116,7 +115,7 @@ class App {
 
     await this.withNetwork(async ()=>{
       const options = this.sidebar.chargingOptions();
-      this.currentStation = await this.goingElectric.getStationDetails(model.id, options);
+      this.currentStation = await (new FetchStations()).detail(model, options);
     },this.translation.get("errorStationsUnavailable"));
 
     await this.updatePrices();
@@ -159,7 +158,8 @@ class App {
       return memo;
     },[]);
 
-    const cpDurationAndEnergy = this.findBySelectedChargePoint(this.currentStationMeta.charge_points, selectedCP)
+    const cpDurationAndEnergy = this.findBySelectedChargePoint(this.currentStationMeta.charge_points, selectedCP);
+    if(cpDurationAndEnergy == null) return;
     options.chargePointDuration = cpDurationAndEnergy.duration
     options.chargePointEnergy = cpDurationAndEnergy.energy
 

@@ -282,7 +282,7 @@
       {{if isFreeParking}}<span class="w3-tag w3-green cp-margin-top-small">{{:~t("freeParking")}}</span>{{/if}} 
       {{if isFreeCharging}}<span class="w3-tag w3-green cp-margin-top-small">{{:~t("freeCharging")}}</span>{{/if}} 
       {{if network}}<span class="w3-tag w3-light-gray cp-margin-top-small"><label><i class="fa fa-sitemap"></i> {{:network}}</label><br>    </span>{{/if}} 
-      <span class="w3-tag w3-light-gray cp-margin-top-small"><a href="{{:goingElectricUrl}}" target="_blank"><i class="fa fa-external-link"></i> {{:~t("goingElectricLink")}}</a></span>
+      {{if goingElectricUrl}}<span class="w3-tag w3-light-gray cp-margin-top-small"><a href="{{:goingElectricUrl}}" target="_blank"><i class="fa fa-external-link"></i> {{:~t("goingElectricLink")}}</a></span>{{/if}} 
     </div>
   </script>
 

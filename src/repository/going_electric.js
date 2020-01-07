@@ -89,6 +89,7 @@ export default class GoingElectric {
 
   toLightModel(data) {
     return {
+      dataAdapter: "going_electric",
       id: String(data.ge_id),
       longitude: data.coordinates.lng,
       latitude: data.coordinates.lat,
@@ -98,9 +99,11 @@ export default class GoingElectric {
 
   toDetailModel(data) {
     return {
+      dataAdapter:       "going_electric",
       id:                String(data.ge_id),
       name:              data.name,
       network:           this.valueOrFallback(data.network),
+      networkId:         this.valueOrFallback(data.network),
       address:           `${data.address.street}, ${data.address.postcode} ${data.address.city}`,
       longitude:         data.coordinates.lng,
       latitude:          data.coordinates.lat,

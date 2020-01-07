@@ -28,6 +28,18 @@ GOOGLE_PRIVATE_KEY=
 
 Now the changes of the `locales/*.json` files can be commited.
 
+### Environment Variables
+
+The following variables need to be defined in the project root folder in the
+file `.env`:
+
+```
+CHARGEPRICE_API_KEY=
+GOING_ELECTRIC_API_KEY=
+GOOGLE_CLOUD_API_KEY=
+MAPTILER_API_KEY=
+```
+
 ## Contribution
 
 Please contact me (niklas@plugchecker.com).

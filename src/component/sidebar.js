@@ -66,7 +66,8 @@ export default class Sidebar {
         const h = Math.floor(val / 60);
         const min = Math.floor(val % 60);
         return this.translation.stringFormatWithKey("timeFormat",h,min);
-      }
+      },
+      upper: val => val.toUpperCase()
     });
     $.views.helpers("c",(converter,param)=>$.views.converters[converter](param));
   }
