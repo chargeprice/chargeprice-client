@@ -8,6 +8,7 @@ export default class Map {
     this.component = L.map('map');
     this.markers = L.layerGroup([]);
     this.markers.addTo(this.component);
+    this.selectedStationCircle = null;
     this.myLocation = null;
     this.searchLocation = null;
     this.mapReady = false;
@@ -79,6 +80,13 @@ export default class Map {
 
   clearMarkers() {
     this.markers.clearLayers();
+    this.clearSelectedStationCircle();
+  }
+
+  clearSelectedStationCircle(){
+    if(this.selectedStationCircle){
+      this.component.removeLayer(this.selectedStationCircle);
+    }
   }
 
   addStation(model, onClickCallback) {
@@ -108,7 +116,29 @@ export default class Map {
         
     const marker = L.marker([model.latitude, model.longitude],{icon: markerIcon});
     marker.on('click', () => onClickCallback(model));
+    marker.on('click', () => this.changeSelectedStation(model));
+
+    // If shows before at this location, show it again
+    // If not shown, station highlighted before is not shown anymore
+    if(this.selectedStationCircle && this.selectedStationCircle.options.id == model.id){
+      this.selectedStationCircle.addTo(this.component);
+    }
+
     this.markers.addLayer(marker);
+  }
+
+  changeSelectedStation(model){
+    this.clearSelectedStationCircle();
+
+    this.selectedStationCircle = L.circleMarker([model.latitude, model.longitude],{
+      id: model.id, 
+      radius: 15, 
+      color: "red", 
+      weight: 3, 
+      fillColor: "red", 
+      fillOpacity: 0.2
+    });
+    this.selectedStationCircle.addTo(this.component);
   }
 
   onBoundsChanged(callback) {
