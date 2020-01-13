@@ -5,6 +5,7 @@ export default class Translation {
     this.supportedLocales = ["en","de","fr","nl"]
     this.fallbackLocale = "en"
     this.currentLocale = this.currentLocaleOrFallback(); 
+    this.unbalancedLoadLocales = ["de"];
     this.setHelpers();
   }
   
@@ -35,5 +36,9 @@ export default class Translation {
 
   stringFormatWithKey(key,...params){
     return this.stringFormat(this.get(key),...params);
+  }
+
+  showUnbalancedLoad(){
+    return this.unbalancedLoadLocales.includes(this.currentLocale);
   }
 }

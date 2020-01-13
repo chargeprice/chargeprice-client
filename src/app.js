@@ -66,7 +66,9 @@ class App {
   loadStaticContent(){
     $("#search").html($.templates("#locationSearchTempl").render());
     $("#pricesContent").html($.templates("#pricesContentTempl").render());
-    $("#settingsContent").html($.templates("#settingsTempl").render());
+    $("#settingsContent").html($.templates("#settingsTempl").render(
+      { showUnbalancedLoad: this.translation.showUnbalancedLoad() }
+    ));
     $("#infoContent").html($.templates("#infoTempl").render());
     $("#pleaseZoom").html($.templates("#pleaseZoomTempl").render());
   }

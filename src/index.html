@@ -146,11 +146,13 @@
     <input id="openNow" class="w3-check w3-margin-top" type="checkbox">
     <label>{{:~t("onlyOpenNow")}}</label><br>
 
+    {{if showUnbalancedLoad }}
     <label class="w3-margin-top w3-large w3-block">{{:~t("expertOptions")}}</label>
 
     <input id="allowUnbalancedLoad" class="w3-check" type="checkbox">
     <label>{{:~t("unbalancedLoadHeader")}}</label><br>
     <label class="w3-small">{{:~t("unbalancedLoadDetail")}}</label><br>
+    {{/if}}
 
     <button id="settings-ok" class="w3-btn pc-secondary w3-margin-top">{{:~t("ok")}}</button>
   </script>

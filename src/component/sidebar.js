@@ -83,7 +83,7 @@ export default class Sidebar {
       carACPhases: ($("#uniphaseAC:checked").length == 1) ? 1 : 3,
       providerCustomerTarrifs: $("#providerCustomerOnly:checked").length == 1,
       onlyShowMyTariffs: $("#onlyShowMyTariffs:checked").length == 1,
-      allowUnbalancedLoad: $("#allowUnbalancedLoad:checked").length == 1,
+      allowUnbalancedLoad: !this.translation.showUnbalancedLoad() || ($("#allowUnbalancedLoad:checked").length == 1),
       onlyTariffsWithoutMonthlyFees: $("#onlyTariffsWithoutMonthlyFees:checked").length == 1,
       batteryRange: this.stationPrices.getBatteryRange(),
       myTariffs: this.manageMyTariffs.getMyTariffs(),
