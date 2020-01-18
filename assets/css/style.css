@@ -132,6 +132,10 @@ html, body, .flex-container{
   margin-top: 8px;
 }
 
+.cp-price-right{
+  text-align: right !important;
+}
+
 @media (max-width: 800px) {
   #top-bar .w3-button {
     padding-left: 6px !important;
@@ -142,5 +146,14 @@ html, body, .flex-container{
     right: 10px;
     top: 60px;
     width: 200px;
+  }
+
+  .cp-price-left{
+    padding-right: 0px !important;
+    max-width: 180px !important;
+  }
+
+  .cp-price-right{
+    padding-left: 0px !important;
   }
 }

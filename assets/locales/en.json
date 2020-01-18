@@ -63,6 +63,7 @@
   "onlyTariffsWithoutMonthlyFees": "Tariffs without monthly fees only",
   "stationsWithAtLeast2ChargePoints": "Stations with at least 2 charge points only",
   "expertOptions": "For experts",
-  "session": "Session",
-  "average": "ø"
+  "session": "Session fee",
+  "average": "ø",
+  "per": "per"
 }

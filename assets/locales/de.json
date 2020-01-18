@@ -64,5 +64,6 @@
   "stationsWithAtLeast2ChargePoints": "Nur Ladestationen mit mind. 2 Ladepunkten",
   "expertOptions": "Für Experten",
   "session": "Fixpreis",
-  "average": "ø"
+  "average": "ø",
+  "per": "pro"
 }

@@ -160,9 +160,11 @@ class App {
 
     const prices = this.currentStationTariffs.reduce((memo,tariff)=>{
       const chargePointPrice = this.findBySelectedChargePoint(tariff.chargePointPrices, selectedCP);
-      const pricePerKWh = chargePointPrice.price / cpDurationAndEnergy.energy;
-
-      if(chargePointPrice) memo.push({ price: chargePointPrice.price, pricePerKWh: pricePerKWh, distribution: chargePointPrice.price_distribution, tariff: tariff });
+      
+      if(chargePointPrice) {
+        const pricePerKWh = chargePointPrice.price / cpDurationAndEnergy.energy;
+        memo.push({ price: chargePointPrice.price, pricePerKWh: pricePerKWh, distribution: chargePointPrice.price_distribution, tariff: tariff });
+      }
       return memo;
     },[]);
 

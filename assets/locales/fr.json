@@ -64,5 +64,6 @@
   "stationsWithAtLeast2ChargePoints": "Stations disposant de 2 points de charge minimum seulement",
   "expertOptions": "Pour les experts",
   "session": "Frais fixes",
-  "average": "moy"
+  "average": "moy",
+  "per": "par"
 }
