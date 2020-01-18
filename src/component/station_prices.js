@@ -20,7 +20,7 @@ export default class StationPrices {
       "parameterNoteTempl": `
         {{:~t("chargeDuration")}}: {{:~c("time",chargePointDuration)}},
         {{:~t("chargeEnergy")}}: {{:~c("int",chargePointEnergy)}} kWh, 
-        Ø {{:~c("dec", (chargePointEnergy*60/chargePointDuration))}} kW*
+        {{:~t("average")}} {{:~c("dec", (chargePointEnergy*60/chargePointDuration))}} kW*
       `,
       "chargePointTempl": `
         <option value="{{:id}}" {{if !supportedByVehicle}}disabled{{/if}}>{{upper:plug}} {{:power}}kw ({{:count}}x)</option>

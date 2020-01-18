@@ -62,5 +62,7 @@
   "unbalancedLoadDetail": "Autoriser la recharge à plus de 4,5kWh en courant alternatif pour les véhicules monophasés",
   "onlyTariffsWithoutMonthlyFees": "Tarifs sans abonnement seulement",
   "stationsWithAtLeast2ChargePoints": "Stations disposant de 2 points de charge minimum seulement",
-  "expertOptions": "Pour les experts"
+  "expertOptions": "Pour les experts",
+  "session": "Frais fixes",
+  "average": "moy"
 }

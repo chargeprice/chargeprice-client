@@ -153,17 +153,20 @@ class App {
     const selectedCP = this.currentStation.chargePoints.find(c=>c.id == options.chargePointId);
     if(selectedCP == null) return;
 
-    const prices = this.currentStationTariffs.reduce((memo,tariff)=>{
-      const chargePointPrice = this.findBySelectedChargePoint(tariff.chargePointPrices, selectedCP);
-
-      if(chargePointPrice) memo.push({ price: chargePointPrice.price, tariff: tariff });
-      return memo;
-    },[]);
-
     const cpDurationAndEnergy = this.findBySelectedChargePoint(this.currentStationMeta.charge_points, selectedCP);
     if(cpDurationAndEnergy == null) return;
     options.chargePointDuration = cpDurationAndEnergy.duration
     options.chargePointEnergy = cpDurationAndEnergy.energy
+
+    const prices = this.currentStationTariffs.reduce((memo,tariff)=>{
+      const chargePointPrice = this.findBySelectedChargePoint(tariff.chargePointPrices, selectedCP);
+      const pricePerKWh = chargePointPrice.price / cpDurationAndEnergy.energy;
+
+      if(chargePointPrice) memo.push({ price: chargePointPrice.price, pricePerKWh: pricePerKWh, distribution: chargePointPrice.price_distribution, tariff: tariff });
+      return memo;
+    },[]);
+
+    
 
     this.sidebar.updateStationPrice(this.currentStation,prices,options);
   }

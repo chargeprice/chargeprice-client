@@ -61,6 +61,7 @@ export default class Sidebar {
   registerConverters(){
     $.views.converters({
       dec: val => val.toFixed(2),
+      perc: val => `${(val*100).toFixed(0)}%`,
       int: val=>val.toFixed(0),
       time: val => {
         const h = Math.floor(val / 60);

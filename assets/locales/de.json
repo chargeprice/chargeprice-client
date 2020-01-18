@@ -62,5 +62,7 @@
   "unbalancedLoadDetail": "Erlaubt das Laden mit mehr als 4.5 kW an AC-Stationen für Autos mit 1-phasigem AC-Lader",
   "onlyTariffsWithoutMonthlyFees": "Nur Tarife ohne monatliche Gebühren",
   "stationsWithAtLeast2ChargePoints": "Nur Ladestationen mit mind. 2 Ladepunkten",
-  "expertOptions": "Für Experten"
+  "expertOptions": "Für Experten",
+  "session": "Fixpreis",
+  "average": "ø"
 }

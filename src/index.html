@@ -104,7 +104,7 @@
       <table class="w3-table w3-striped w3-margin-top">
         <tr>
           <th>{{:~t("tariff")}}</th>
-          <th>&euro;</th>
+          <th class="w3-right">&euro;</th>
         </tr>
         <tbody id="priceList">
             
@@ -266,7 +266,13 @@
         {{/if}}
       </td>
       <td>
-        <label class="w3-right">{{dec:price}}</label>
+        <label class="w3-right">{{dec:price}}</label><br>
+        <label class="w3-right w3-small">
+          {{if distribution.session}}{{perc:distribution.session}} {{:~t("session")}} {{/if}}
+          {{if distribution.minute}}{{perc:distribution.minute}} <i class="fa fa-clock-o"></i> {{/if}}
+          {{if distribution.kwh}}{{perc:distribution.kwh}} kWh {{/if}}
+          {{if price > 0}} - {{:~t("average")}} {{dec:pricePerKWh}}/kWh {{/if}}
+        </label>
         {{if featuring}}
           <br>
           <a href="{{:tariff.url}}" target="_blank"><img class="w3-right feature-logo" src="{{:featuring.logoUrl}}"/></a>
