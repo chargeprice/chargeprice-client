@@ -33,6 +33,13 @@ export default class ThemeLoader {
         themeColor: "#ffdc00",
         appleTouchIcon: "themes/oeamtc/logo.png"
       },
+      ak: {
+        titleBarHtml: `<img id=\"logo\" src=\"themes/ak/logo.png\"/><span class=\"title\">E-Laderechner</span>`,
+        favicon: "themes/ak/logo.png",
+        name: `AK E-Laderechner`,
+        themeColor: "#fff",
+        appleTouchIcon: "themes/ok/logo.png"
+      },
     }
   }
 

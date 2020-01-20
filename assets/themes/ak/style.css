@@ -1,0 +1,45 @@
+.pc-main{
+  color: #000 !important;
+  background-color: #ececec !important;
+}
+
+.pc-secondary{
+  color: #fff !important;
+  background-color: #bd0d22 !important;
+}
+
+.w3-hover-dark-gray:hover{
+  background-color: #ccc !important;
+}
+
+#top-bar .title {
+  margin: 0px 0px 0px 10px;
+  display: inline-block;
+  color: black;
+}
+
+#top-bar {
+  box-shadow: 0px 1px 5px #ccc;
+}
+
+#logo {
+  height: 32px;
+  margin-top: 0px;
+}
+
+#logoText {
+  height: 32px;
+  margin-left: 10px;
+}
+
+.noUi-connect {
+  background: #bd0d22 !important;
+}
+
+.inverted {
+  filter: none;
+}
+
+#sidebarHeader {
+  color: #fff;
+}
