@@ -4,7 +4,7 @@ import JsonApiDeserializer from '../helper/json_api_deserializer.js'
 export default class StationTariffs {
 
   constructor(){
-    const useLocalData = false;
+    const useLocalData = true;
     const isRunningLocally = window.location.href.indexOf("127.0.0.1") != -1
     this.base_url = useLocalData && isRunningLocally ? "http://localhost:9292" : "https://api.chargeprice.app";
     this.apiKey = process.env.CHARGEPRICE_API_KEY;
