@@ -19,7 +19,7 @@
   "errorStationsUnavailable": "Erreur d'affichage",
   "errorPricesUnavailable": "Erreur de chargement des prix. Veuillez rafraîchir la page. ",
   "totalPriceInfo": "€ = prix total hors frais mensuels éventuels<br>\n*les tarifs sont calculés en tenant compte d'une perte d'énergie théorique de 10%. Les valeurs réelles dépendent du véhicule, de la station, des conditions climatiques, etc.<br>\n**frais de session ou forfait mensuel",
-  "timeFormat": "{0} et {1} min.",
+  "timeFormat": "{0}h et {1} min.",
   "chargeDuration": "Durée de la recharge",
   "chargeEnergy": "Énergie",
   "carChargesACWithUniphase": "VE recharge monophasée",
