@@ -14,14 +14,39 @@ export default class Translation {
     $.views.helpers("sf",this.stringFormat);
   }
 
+  translateMeta(){
+    this.setMeta("metaTitle", `Chargeprice - ${this.get("metaTitle")}`);
+    this.setMeta("metaDescription", this.get("metaDescription"));
+    this.setMeta("metaKeywords", this.get("metaKeywords"));
+    this.setMeta("metaLanguage", this.currentLocale);
+
+    this.setMeta("ogTitle", this.get("metaTitle"));
+    this.setMeta("ogDescription", this.get("metaDescription"));
+  }
+
+  setMeta(id, value){
+    document.getElementById(id).setAttribute("content",value);
+  }
+
   currentLocaleOrFallback(){
-    return navigator.languages.map(l=>l.split("-")[0]).find(l=>this.supportedLocales.includes(l)) || this.fallbackLocale;
+    return this.languageFromUrl() ||
+      navigator.languages.map(l=>l.split("-")[0]).find(l=>this.isValidLanguage(l)) || 
+      this.fallbackLocale;
   }
 
   async setCurrentLocaleTranslations(){
     const url = `/locales/${this.currentLocale}.json`;
     const response = await fetch(url);
     this.currentLocaleTranslations = await response.json();
+  }
+
+  languageFromUrl(){
+    const urlLang = new URL(window.location.href).searchParams.get("lang")
+    return this.isValidLanguage(urlLang) ? urlLang : null;
+  }
+
+  isValidLanguage(lang){
+    return this.supportedLocales.includes(lang);
   }
 
   get(key){

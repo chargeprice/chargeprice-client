@@ -29,6 +29,7 @@ class App {
     // First Load translations
     this.translation = new Translation();
     await this.translation.setCurrentLocaleTranslations();
+    this.translation.translateMeta();
 
     // Static content is needed for almost everything else
     this.loadStaticContent();

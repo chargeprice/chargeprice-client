@@ -1,4 +1,7 @@
 {
+  "metaTitle": "Der Ladetarifrechner für dein Elektroauto",
+  "metaDescription": "Der Ladetarifrechner für dein Elektroauto. Auto auswählen und den günstigsten Tarif finden.",
+  "metaKeywords": "Ladetarif,Ladepreise,Ladetarife,Ladekosten,Tarifrechner,Elektroauto,E-Mobilität,Ladekarten,Ladestation,EV,Stromanbieter,Energie,Strom,vergleichen,günstig,Ladekartenanbieter,Preis",
   "paypalLocale": "de_DE/AT",
   "title": "Chargeprice - Der Ladetarifrechner für dein Elektroauto",
   "locationSearchPlaceholder": "Nach Ort suchen...",

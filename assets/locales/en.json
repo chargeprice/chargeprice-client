@@ -1,4 +1,7 @@
 {
+  "metaTitle": "Find the best charging price",
+  "metaDescription": "Just enter how many kWh you need and find the best charging price on every stations.",
+  "metaKeywords": "Charging,Prices,Charge,EV,Electric car,car,Charging costs,Charging price,compare,check,cheap,charging station",
   "paypalLocale": "en_US/AT",
   "title": "Chargeprice - Check the best charging tariffs for your EVs",
   "locationSearchPlaceholder": "Search for location...",
