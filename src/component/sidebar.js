@@ -27,7 +27,7 @@ export default class Sidebar {
     });
 
     $("#settings-ok").click(() => this.close());
-    $("#greenDriveLink").click(()=> this.analytics.log('send', 'event', 'Affiliate', 'greendrive'));
+    $("#greenDriveLink").click(()=> this.analytics.log('send', 'event', 'AffiliatePartner', 'greendrive'));
     ["onlyHPC","onlyFree","openNow","onlyShowMyTariffs"].forEach(id=>{
       $(`#${id}`).click(this.optionsChanged.bind(this));
     });

@@ -75,6 +75,8 @@ export default class StationPrices {
     $("#prices").toggle(!station.isFreeCharging && prices.length > 0 || prices.length > 0);
     $("#noPricesAvailable").toggle(!station.isFreeCharging && prices.length == 0);
     $("#parameterNote").html($.render.parameterNoteTempl(options));
+    
+    $(".affiliateLinkEMP").click((linkObject)=> this.analytics.log('send', 'event', 'AffiliateEMP', linkObject.currentTarget.href));
   }
 
   addFeaturings(prices){
