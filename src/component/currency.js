@@ -3,7 +3,7 @@ require('jsrender')($);
 export default class Currency {
   constructor(sidebar) {
     this.sidebar = sidebar;
-    this.currencies = ["EUR","CHF","CZK","DKK","GBP","HUF","ISk","PLN","SEK","NOK","HRK"];
+    this.currencies = ["EUR","CHF","CZK","DKK","GBP","HUF","ISK","PLN","SEK","NOK","HRK"];
     this.defaultCurrency = "EUR";
     this.settingsKey = "displayedCurrency"
     this.selectedCurrency = this.defaultCurrency;
