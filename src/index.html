@@ -104,7 +104,7 @@
       <table class="w3-table w3-striped w3-margin-top">
         <tr>
           <th>{{:~t("tariff")}}</th>
-          <th class="w3-right">&euro;</th>
+          <th id="pricesListCurrencyHeader" class="w3-right"></th>
         </tr>
         <tbody id="priceList">
             
@@ -145,6 +145,10 @@
 
     <input id="openNow" class="w3-check w3-margin-top" type="checkbox">
     <label>{{:~t("onlyOpenNow")}}</label><br>
+
+    <label class="w3-block w3-margin-top">{{:~t("displayedCurrencyHeader")}}</label>
+    <select id="selectCurrency" class="w3-select cp-quarter w3-block w3-border">
+    </select>
 
     {{if showUnbalancedLoad }}
     <label class="w3-margin-top w3-large w3-block">{{:~t("expertOptions")}}</label>

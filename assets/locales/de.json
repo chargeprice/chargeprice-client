@@ -69,5 +69,6 @@
   "session": "Fixpreis",
   "average": "ø",
   "per": "pro",
-  "partnerHeader": "Unsere Partner"
+  "partnerHeader": "Unsere Partner",
+  "displayedCurrencyHeader": "Währung"
 }

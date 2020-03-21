@@ -69,5 +69,6 @@
   "session": "Session fee",
   "average": "ø",
   "per": "per",
-  "partnerHeader": "Our Partners"
+  "partnerHeader": "Our Partners",
+  "displayedCurrencyHeader": "Valuta"
 }

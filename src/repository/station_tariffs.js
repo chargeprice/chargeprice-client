@@ -90,6 +90,7 @@ export default class StationTariffs {
     const hasOwnTariffs = options.onlyShowMyTariffs && options.myTariffs.length > 0;
 
     const jsonOptions = {
+      currency: options.displayedCurrency,
       allow_unbalanced_load: options.allowUnbalancedLoad,
       provider_customer_tariffs: (options.providerCustomerTarrifs || hasOwnTariffs)
     }

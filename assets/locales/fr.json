@@ -18,7 +18,7 @@
   "infoHeader": "Infos",
   "pricesHeader": "Prix",
   "manageMyTariffsHeader": "Gérer mes forfaits",
-  "manageMyTariffsDescription": "Sélectionnez les forfaits auxquels vous avez souscrit",
+  "manageMyTariffsDescription": "Sélectionnez les forfaits auxquels vous avez souscrits",
   "errorStationsUnavailable": "Erreur d'affichage",
   "errorPricesUnavailable": "Erreur de chargement des prix. Veuillez rafraîchir la page. ",
   "totalPriceInfo": "€ = prix total hors frais mensuels éventuels<br>\n*les tarifs sont calculés en tenant compte d'une perte d'énergie théorique de 10%. Les valeurs réelles dépendent du véhicule, de la station, des conditions climatiques, etc.<br>\n**frais de session ou forfait mensuel",
@@ -69,5 +69,6 @@
   "session": "Frais fixes",
   "average": "moy.",
   "per": "par",
-  "partnerHeader": "Nos partenaires"
+  "partnerHeader": "Nos partenaires",
+  "displayedCurrencyHeader": "Monnaie"
 }

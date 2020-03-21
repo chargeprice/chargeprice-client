@@ -119,6 +119,10 @@ html, body, .flex-container{
   margin-top: 4px !important;
 }
 
+#selectCurrency {
+  width: 25% !important;
+}
+
 
 /* Featured */
 

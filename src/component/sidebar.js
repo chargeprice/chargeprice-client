@@ -2,6 +2,7 @@ require('jsrender')($);
 
 import ManageMyTariffs from './manage_my_tariffs';
 import MyVehicle from './my_vehicle';
+import Currency from './currency';
 import AppInstall from './app_install';
 import StationPrices from './station_prices';
 
@@ -13,6 +14,7 @@ export default class Sidebar {
     this.manageMyTariffs = new ManageMyTariffs(this,analytics);
     this.appInstall = new AppInstall(analytics);
     this.myVehicle = new MyVehicle(this,analytics);
+    this.currency = new Currency(this);
     this.stationPrices = new StationPrices(this,analytics);
     this.loaded = false;
     this.component = $("#sidebar");
@@ -89,7 +91,8 @@ export default class Sidebar {
       onlyTariffsWithoutMonthlyFees: $("#onlyTariffsWithoutMonthlyFees:checked").length == 1,
       batteryRange: this.stationPrices.getBatteryRange(),
       myTariffs: this.manageMyTariffs.getMyTariffs(),
-      myVehicle: this.myVehicle.getVehicle()
+      myVehicle: this.myVehicle.getVehicle(),
+      displayedCurrency: this.currency.getDisplayedCurrency()
     }
   }
 
@@ -164,7 +167,7 @@ export default class Sidebar {
   }
 
   optionsChanged(){
-    this.optionsChangedCallback();
+    if(this.optionsChangedCallback) this.optionsChangedCallback();
   }
 
   open(contentKey) {
