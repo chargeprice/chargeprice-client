@@ -20,11 +20,9 @@ export default class FetchStations {
   }
 
   deduplicate(goingElectricResult, internalResult){
-    const deduplicatedResult = internalResult.filter(station=>
-      !goingElectricResult.some(geStation=>haversine(geStation,station,{unit: 'meter'}) < this.deduplicateThreshold)
-    );
+    const nonFrenchGEStatons = goingElectricResult.filter(st=>st.country != "Frankreich")
 
-    return goingElectricResult.concat(deduplicatedResult);
+    return nonFrenchGEStatons.concat(internalResult);
   }
 
   async detail(model, options) {

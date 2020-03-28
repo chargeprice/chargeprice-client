@@ -93,6 +93,7 @@ export default class GoingElectric {
       id: String(data.ge_id),
       longitude: data.coordinates.lng,
       latitude: data.coordinates.lat,
+      country: data.address.country,
       chargePoints: data.chargepoints.map(cp=>{ return {power: cp.power }})
     }
   }
