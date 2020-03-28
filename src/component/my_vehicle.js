@@ -5,6 +5,7 @@ import StationTariffs from '../repository/station_tariffs.js';
 export default class MyVehicle {
   constructor(sidebar,analytics) {
     this.sidebar = sidebar;
+    this.analytics = analytics;
     this.allVehicles = [];
     this.myVehicle = null;
     this.defaultVehicleId = "7de25a64-e9fa-484f-bf99-d02b02cfb17d"; // Model 3 LR
@@ -67,6 +68,9 @@ export default class MyVehicle {
     this.myVehicle = this.allVehicles.find(v => v.id == id);
     localStorage.setItem("myVehicle",JSON.stringify(this.myVehicle));
     this.sidebar.optionsChanged();
+
+    this.analytics.log('send', 'event', 'VehicleSelected', this.myVehicle.name);
+    this.analytics.log('send', 'event', 'VehicleBrandSelected', this.myVehicle.brand);
   }
 
   getVehicle(){

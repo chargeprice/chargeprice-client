@@ -42,6 +42,9 @@ export default class StationPrices {
     this.slider.noUiSlider.on('update', ()=>this.updateBatteryRangeInfo());
     this.slider.noUiSlider.on('end', ()=>{
       this.storeBatteryRange();
+      const range = this.getBatteryRange();
+      const totalPercentage = range[1]-range[0]; 
+      this.analytics.log('send', 'event', 'BatteryChanged', totalPercentage,null,range[0]);
       this.batteryChangedCallback()
     });
   }

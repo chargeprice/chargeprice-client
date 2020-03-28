@@ -113,8 +113,8 @@ class App {
     },this.translation.get("errorStationsUnavailable"));
   }
 
-  async stationSelected(model) {
-    this.analytics.log('send', 'event', 'Station', 'show');
+  async stationSelected(model,powerType) {
+    this.analytics.log('send', 'event', 'Station', powerType);
 
     await this.withNetwork(async ()=>{
       const options = this.sidebar.chargingOptions();

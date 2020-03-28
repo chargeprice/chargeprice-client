@@ -92,20 +92,25 @@ export default class Map {
   addStation(model, onClickCallback) {
 
     let color = '';
+    let powerType = null;
 
     const maxPower = model.chargePoints.reduce((max,value)=> max > value.power ? max : value.power, 0);
 
     if(maxPower > 50){
       color = "darkred"
+      powerType = ">50"
     }
     else if(maxPower > 22){
       color = "orange"
+      powerType = ">22"
     }
     else if(maxPower > 3.7){
       color = "blue"
+      powerType = ">3.7"
     }
     else{
       color = "gray";
+      powerType = "<=3.7"
     }
 
     const markerIcon = L.AwesomeMarkers.icon({
@@ -115,7 +120,7 @@ export default class Map {
     });
         
     const marker = L.marker([model.latitude, model.longitude],{icon: markerIcon});
-    marker.on('click', () => onClickCallback(model));
+    marker.on('click', () => onClickCallback(model,powerType));
     marker.on('click', () => this.changeSelectedStation(model));
 
     // If shows before at this location, show it again
