@@ -17,6 +17,8 @@ export default class Map {
   }
 
   initializeLayer() {
+    this.component.zoomControl.setPosition('topright');
+
     import(/* webpackChunkName: "mapbox" */ './mapbox.js').then(()=>{
       L.mapboxGL({
         attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',

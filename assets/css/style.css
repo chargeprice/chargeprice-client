@@ -123,6 +123,13 @@ html, body, .flex-container{
   width: 25% !important;
 }
 
+.leaflet-top {
+  top: 65px !important;
+}
+
+.leaflet-right {
+  right: 10px !important;
+}
 
 /* Featured */
 
