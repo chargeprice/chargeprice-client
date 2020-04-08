@@ -9,7 +9,7 @@ export default class StationTariffs {
     this.base_url = useLocalData && isRunningLocally ? "http://localhost:9292" : "https://api.chargeprice.app";
     this.apiKey = process.env.CHARGEPRICE_API_KEY;
 
-    this.defaultPlugs = ["type1","type2","schuko","type3"];
+    this.defaultPlugs = ["type1","type2","schuko"];
   }
 
   async getTariffsOfStation(station,options){
