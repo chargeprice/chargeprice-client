@@ -92,7 +92,8 @@ export default class StationTariffs {
     const jsonOptions = {
       currency: options.displayedCurrency,
       allow_unbalanced_load: options.allowUnbalancedLoad,
-      provider_customer_tariffs: (options.providerCustomerTarrifs || hasOwnTariffs)
+      provider_customer_tariffs: (options.providerCustomerTarrifs || hasOwnTariffs),
+      start_time: options.startTime
     }
 
     if(options.onlyTariffsWithoutMonthlyFees && !hasOwnTariffs){

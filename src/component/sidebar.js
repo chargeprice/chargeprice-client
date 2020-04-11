@@ -92,7 +92,8 @@ export default class Sidebar {
       batteryRange: this.stationPrices.getBatteryRange(),
       myTariffs: this.manageMyTariffs.getMyTariffs(),
       myVehicle: this.myVehicle.getVehicle(),
-      displayedCurrency: this.currency.getDisplayedCurrency()
+      displayedCurrency: this.currency.getDisplayedCurrency(),
+      startTime: this.getStartTime()
     }
   }
 
@@ -196,5 +197,10 @@ export default class Sidebar {
       const content = this.sidebarContent[key];
       $(`#${content.contentId}`).hide();
     }
+  }
+
+  getStartTime(){
+    const time = new Date();
+    return time.getHours()*60+time.getMinutes();
   }
 }
