@@ -2,8 +2,6 @@
 
 Provides prices of charging cards for EV charging stations.
 
-See [Chargeprice](https://github.com/hoenic07/chargeprice) for the Web Service.
-
 ## Updating Locales (Translations)
 
 ### Prepare credentials
