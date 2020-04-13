@@ -27,6 +27,7 @@ export default class StationPrices extends ViewBase{
         <i class="fa fa-clock-o"></i> 
           <span class="link-text" @click="${()=>this.selectStartTime()}">${this.h().timeOfDay(this.getStartTime())}</span> 
           <i class="fa fa-angle-right"></i> ~${this.h().timeOfDay(this.getEndTime(obj.chargePointDuration))}
+          <br>
         (${this.h().time(obj.chargePointDuration)})
         
       </span>
