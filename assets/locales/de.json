@@ -71,5 +71,9 @@
   "per": "pro",
   "partnerHeader": "Unsere Partner",
   "displayedCurrencyHeader": "Währung",
-  "openInMapsLink": "In Maps öffnen"
+  "openInMapsLink": "In Maps öffnen",
+  "startTimeSelectionHeader": "Wann willst du laden?",
+  "startTimeSelectionNow": "Jetzt",
+  "startTimeSelectionCustomTime": "Uhrzeit wählen",
+  "cancel": "Abbrechen"
 }

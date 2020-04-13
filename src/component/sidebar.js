@@ -15,7 +15,7 @@ export default class Sidebar {
     this.appInstall = new AppInstall(analytics);
     this.myVehicle = new MyVehicle(this,analytics);
     this.currency = new Currency(this);
-    this.stationPrices = new StationPrices(this,analytics);
+    this.stationPrices = new StationPrices(this,analytics,translation);
     this.loaded = false;
     this.component = $("#sidebar");
     $("#sidebar-close").click(() => this.close());
@@ -93,7 +93,7 @@ export default class Sidebar {
       myTariffs: this.manageMyTariffs.getMyTariffs(),
       myVehicle: this.myVehicle.getVehicle(),
       displayedCurrency: this.currency.getDisplayedCurrency(),
-      startTime: this.getStartTime()
+      startTime: this.stationPrices.getStartTime()
     }
   }
 
@@ -197,10 +197,5 @@ export default class Sidebar {
       const content = this.sidebarContent[key];
       $(`#${content.contentId}`).hide();
     }
-  }
-
-  getStartTime(){
-    const time = new Date();
-    return time.getHours()*60+time.getMinutes();
   }
 }

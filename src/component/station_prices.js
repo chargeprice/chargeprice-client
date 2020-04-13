@@ -1,31 +1,47 @@
 require('jsrender')($);
 
 import ProviderFeaturing from './providerFeaturing';
+import ViewBase from './viewBase';
+import StartTimeSelection from '../modal/startTimeSelection';
+import {html, render} from 'lit-html';
+import RepositoryStartTime from '../repository/settings/startTime';
 
-export default class StationPrices {
-  constructor(sidebar,analytics) {
+export default class StationPrices extends ViewBase{
+  constructor(sidebar,analytics, translation) {
+    super(translation)
     this.sidebar = sidebar;
     this.analytics = analytics;
     this.slider = null;
     this.defaultBatteryRange = [20,80];
-    this.registerTemplates();
+    this.startTimeRepo = new RepositoryStartTime();
     this.initSlider();
   }
 
-  registerTemplates(){
-    $.templates({
-      "batteryRangeInfoTempl":`
-        {{:~sf(~t("batteryRangeInfo"),from,to)}}
-      `,
-      "parameterNoteTempl": `
-        {{:~t("chargeDuration")}}: {{:~c("time",chargePointDuration)}},
-        {{:~t("chargeEnergy")}}: {{:~c("int",chargePointEnergy)}} kWh, 
-        {{:~t("average")}} {{:~c("dec", (chargePointEnergy*60/chargePointDuration))}} kW*
-      `,
-      "chargePointTempl": `
-        <option value="{{:id}}" {{if !supportedByVehicle}}disabled{{/if}}>{{upper:plug}} {{:power}}kw ({{:count}}x)</option>
-      `
-    });
+  batteryRangeInfoTempl(obj){
+    return this.sf(this.t("batteryRangeInfo"),obj.from,obj.to);
+  }
+
+  parameterNoteTempl(obj){
+    return html`
+      <span class="w3-left">
+        <i class="fa fa-clock-o"></i> 
+          <span class="link-text" @click="${()=>this.selectStartTime()}">${this.h().timeOfDay(this.getStartTime())}</span> 
+          <i class="fa fa-angle-right"></i> ~${this.h().timeOfDay(this.getEndTime(obj.chargePointDuration))}
+        (${this.h().time(obj.chargePointDuration)})
+        
+      </span>
+      <span class="w3-right">
+        <i class="fa fa-bolt"></i>
+        ${this.h().int(obj.chargePointEnergy)} kWh 
+        (${this.t("average")} ${this.h().power(obj.chargePointEnergy*60/obj.chargePointDuration)} kW)
+      </span>
+    `;
+  }
+
+  chargePointTempl(list){
+    return list.map(obj=>html`
+      <option value="${obj.id}" ?disabled="${!obj.supportedByVehicle}">${this.h().upper(obj.plug)} ${obj.power} kw (${obj.count}x)</option>
+    `);
   }
 
   initSlider(){
@@ -55,7 +71,7 @@ export default class StationPrices {
 
   updateBatteryRangeInfo(){
     const range = this.getBatteryRange();
-    $("#batteryRangeInfo").html($.render.batteryRangeInfoTempl({from: range[0], to: range[1]}));
+    render(this.batteryRangeInfoTempl({from: range[0], to: range[1]}),this.getEl("batteryRangeInfo"));
   }
 
   showStation(station,options){
@@ -66,7 +82,7 @@ export default class StationPrices {
       if(b1 == a1) return (b.power-a.power);
       else return b1 - a1;
     });
-    $("#select-charge-point").html($.render.chargePointTempl(sortedCP));   
+    render(this.chargePointTempl(sortedCP),this.getEl("select-charge-point"));
   }
  
   updateStationPrice(station,prices,options){
@@ -77,7 +93,7 @@ export default class StationPrices {
     $("#station-info").html($.templates("#stationTempl").render(station));
     $("#prices").toggle(!station.isFreeCharging && prices.length > 0 || prices.length > 0);
     $("#noPricesAvailable").toggle(!station.isFreeCharging && prices.length == 0);
-    $("#parameterNote").html($.render.parameterNoteTempl(options));
+    render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
     
     $(".affiliateLinkEMP").click((linkObject)=> this.analytics.log('send', 'event', 'AffiliateEMP', linkObject.currentTarget.href));
   }
@@ -100,6 +116,30 @@ export default class StationPrices {
       return JSON.parse(localStorage.getItem("batteryRange"));
     }
     else return this.defaultBatteryRange;
+  }
+
+  onStartTimeChanged(callback){
+    this.startTimeChangedCallback = callback;
+  }
+
+  getStartTime(){
+    const storedStartTime = this.startTimeRepo.get();
+    if(storedStartTime != null) return storedStartTime;
+    const time = new Date();
+    return time.getHours()*60+time.getMinutes();
+  }
+
+  getEndTime(duration){
+    return (this.getStartTime() + duration) % 1440;
+  }
+
+  selectStartTime(){
+    new StartTimeSelection(this.translation).show(this.startTimeRepo.get(), (result)=>{
+      this.startTimeRepo.set(result);
+      if(this.startTimeChangedCallback) this.startTimeChangedCallback();
+      const hourTime = result == null ? "now" : (result/60).toFixed(0);
+      this.analytics.log('send', 'event', 'StartTimeChanged', hourTime);
+    })
   }
 
 }

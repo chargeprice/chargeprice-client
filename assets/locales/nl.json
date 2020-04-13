@@ -71,5 +71,9 @@
   "per": "per",
   "partnerHeader": "Our Partners",
   "displayedCurrencyHeader": "Valuta",
-  "openInMapsLink": "Open in Maps"
+  "openInMapsLink": "Open in Maps",
+  "startTimeSelectionHeader": "When do you want to charge?",
+  "startTimeSelectionNow": "Now",
+  "startTimeSelectionCustomTime": "Select time of day",
+  "cancel": "Cancel"
 }

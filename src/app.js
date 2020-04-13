@@ -54,7 +54,8 @@ class App {
     this.map.onBoundsChanged(this.showStationsAtLocation.bind(this));
     this.sidebar.onSelectedChargePointChanged(this.selectedChargePointChanged.bind(this));
     this.sidebar.onOptionsChanged(this.optionsChanged.bind(this));
-    this.sidebar.stationPrices.onBatteryRangeChanged(this.updatePrices.bind(this));
+    this.sidebar.stationPrices.onBatteryRangeChanged(()=>this.updatePrices());
+    this.sidebar.stationPrices.onStartTimeChanged(()=>this.updatePrices());
     this.locationSearch.onResultSelected(coords=>{
       this.map.centerLocation(coords);
       this.map.setSearchLocation(coords);

@@ -71,5 +71,9 @@
   "per": "par",
   "partnerHeader": "Nos partenaires",
   "displayedCurrencyHeader": "Devise",
-  "openInMapsLink": "Ouvrir dans Maps"
+  "openInMapsLink": "Ouvrir dans Maps",
+  "startTimeSelectionHeader": "Quand voulez-vous effectuer la recharge ?",
+  "startTimeSelectionNow": "Maintenant",
+  "startTimeSelectionCustomTime": "sélectionner l'heure",
+  "cancel": "Annuler"
 }
