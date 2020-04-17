@@ -1,6 +1,6 @@
 import FetchStations from './useCase/fetchStations.js';
 import StationTariffs from './repository/station_tariffs.js';
-import Platform from './component/platform.js';
+import CustomConfig from './component/customConfig.js';
 import Translation from './component/translation.js';
 import ThemeLoader from './component/theme_loader.js';
 import Map from './component/map.js';
@@ -29,7 +29,7 @@ class App {
     
     // First Load translations
     this.translation = new Translation();
-    this.platform = new Platform();
+    this.customConfig = new CustomConfig();
     await this.translation.setCurrentLocaleTranslations();
     this.translation.translateMeta();
 

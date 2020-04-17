@@ -272,6 +272,12 @@
           <br>
           <label class="w3-margin-top w3-small">{{:~t("providerCustomerOnly")}}</label> 
         {{/if}}
+
+        {{if ~beta() && tariff.links && tariff.links.open_app_at_station }}
+          <br>
+          <a href="{{:tariff.links.open_app_at_station}}" class="w3-button w3-small w3-blue" target="_blank"><i class="fa fa-bolt"></i> Charge Now</a> 
+        {{/if}}
+
       </td>
       <td class="cp-price-right">
         <label class="w3-right">{{dec:price}}</label><br>

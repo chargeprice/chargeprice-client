@@ -31,6 +31,9 @@ export default class JsonApiDeserializer {
     for(let key in obj.relationships){
       attr[this.snakeToCamel(key)] = this.dereference(included,obj.relationships[key])
     }
+
+    attr["links"] = obj.links
+
     return attr;
   }
 
