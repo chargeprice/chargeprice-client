@@ -13,7 +13,7 @@ export default class ThemeLoader {
         appleTouchIcon: "/img/logos/apple-touch-icon.png"
       },
       emc: {
-        titleBarHtml: `<img id=\"logo\" src=\"themes/emc/logo.png\"/><img id=\"logoText\" src=\"themes/emc/logo_text.png\"/>`,
+        titleBarHtml: `<a href="https://www.emcaustria.at/" target="_blank"><img id=\"logo\" src=\"themes/emc/logo.png\"/><img id=\"logoText\" src=\"themes/emc/logo_text.png\"/></a>`,
         favicon: "themes/emc/logo.png",
         name: `EMC ${translation.get("themeTitle")}`,
         themeColor: "#8fbf22",
