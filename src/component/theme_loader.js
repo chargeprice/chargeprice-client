@@ -6,7 +6,7 @@ export default class ThemeLoader {
     this.defaultTheme = "plugchecker";
     this.themes = {
       [this.defaultTheme] : {
-        titleBarHtml: "<img id=\"logo\" src=\"themes/plugchecker/logo.png\"/>",
+        titleBarHtml: "chargeprice",
         title: translation.get("title"),
         favicon: "img/favicon-32x32.png",
         themeColor: "#3498db",

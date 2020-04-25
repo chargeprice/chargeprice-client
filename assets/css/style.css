@@ -81,6 +81,11 @@ html, body, .flex-container{
   z-index: 1000000;
 }
 
+#logo-container {
+  font-size: 21px;
+  font-weight: bold;
+}
+
 #search {
   right: 20px;
   top: 70px;
