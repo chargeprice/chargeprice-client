@@ -75,5 +75,20 @@
   "startTimeSelectionHeader": "Wann willst du laden?",
   "startTimeSelectionNow": "Jetzt",
   "startTimeSelectionCustomTime": "Uhrzeit wählen",
-  "cancel": "Abbrechen"
+  "cancel": "Abbrechen",
+  "popupWelcomeHeader": "Willkommen bei Chargeprice!",
+  "popupWelcomeText1": "E-Autos sind cool und das Laden genauso!\nWir helfen dir die optimale Ladekarte für deine Anforderungen zu finden!",
+  "popupWelcomeText2": "Du brauchst dir keine Gedanken zu machen ob ein Tarif Zeit oder kWh basiert ist, oder wie lange es dauert bis dein Auto vollgeladen ist. Wir berechnen ganz einfach deine Ladekosten und Ladedauer!",
+  "popupWelcomeCTA": "Los geht's!",
+  "popupSocialMediaHeader": "Wir informieren dich über die neuesten Preise!",
+  "popupSocialMediaText1": "Auf unseren Social Media Channels halten wir dich über Ladetarife und den neuesten E-Mobilitätstrends am Laufenden!",
+  "popupSocialMediaText2": "Folgende Channels stehen dir zur Verfügung:",
+  "popupInstallHeader": "Installiere die Chargeprice App!",
+  "popupInstallText": "Hast du gewusst, dass du Chargeprice wie jede normale App benutzen kannst?",
+  "popupInstallTextPin": "So funktioniert es:",
+  "popupInstallTextPinStep": "Schritt",
+  "popupInstallTextPinAndroid": "Zum Startbildschirm zufügen",
+  "popupInstallCTAInstall": "Jetzt installieren!",
+  "popupDonateHeader": "Unterstütze unsere Mission!",
+  "popupDonateText": "Chargeprice ist und bleibt kostenlos für alle E-Autofahrer! Unsere Server sind es allerdings nicht. Hilf uns den Service zu betreiben, am Laufenden zu halten und immer weiter zu verbessern! Danke!"
 }

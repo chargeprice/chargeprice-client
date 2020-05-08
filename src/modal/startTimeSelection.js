@@ -13,10 +13,10 @@ export default class StartTimeSelection extends ViewBase {
 
     return html`
     <div class="w3-modal-content">
-      <div class="w3-bar pc-secondary w3-padding">
-        <h3 id="messageDialogHeader">${this.t("startTimeSelectionHeader")}</h3>
+      <div class="w3-bar pc-secondary">
+        <span class="w3-bar-item w3-large">${this.t("startTimeSelectionHeader")}</span>
       </div>
-      <div id="messageDialogContent" class="w3-container w3-padding">
+      <div class="w3-container w3-padding">
         <p>
           <input id="selectStartTimeUseCurrentTime" class="w3-radio" type="radio" name="startTime" ?checked="${startTime == null}">
           <label>${this.t("startTimeSelectionNow")}</label>

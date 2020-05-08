@@ -1,13 +1,11 @@
 import FetchStations from './useCase/fetchStations.js';
+import ShowPopUpOnStart from './useCase/showPopUpOnStart'
 import StationTariffs from './repository/station_tariffs.js';
-import CustomConfig from './component/customConfig.js';
-import Translation from './component/translation.js';
 import ThemeLoader from './component/theme_loader.js';
 import Map from './component/map.js';
 import Sidebar from './component/sidebar.js';
 import LocationSearch from './component/location_search.js';
-import PlugcheckerToChargeprice from './component/plugchecker_to_chargeprice.js';
-import Analytics from './component/analytics'
+import Dependencies from './helper/dependencies'
 import loadGoogleMapsApi from "load-google-maps-api"
 import 'nouislider/distribute/nouislider.css';
 
@@ -26,10 +24,11 @@ class App {
   async initialize(){
     this.deptsLoaded++;
     if(this.deptsLoaded < this.deptCount) return;
+
+    this.depts = new Dependencies();
     
     // First Load translations
-    this.translation = new Translation();
-    this.customConfig = new CustomConfig();
+    this.translation = this.depts.translation();
     await this.translation.setCurrentLocaleTranslations();
     this.translation.translateMeta();
 
@@ -38,7 +37,7 @@ class App {
 
     new ThemeLoader(this.translation).setCurrentTheme();
 
-    this.analytics = new Analytics();
+    this.analytics = this.depts.analytics();
     this.stationTariffs = new StationTariffs();
     this.map = new Map();
     this.sidebar = new Sidebar(this.translation,this.analytics);
@@ -64,7 +63,7 @@ class App {
     
     this.sidebar.open("settings");
 
-    new PlugcheckerToChargeprice(this.translation).tryShowDialog();
+    new ShowPopUpOnStart(this.depts).run();
   }
 
   loadStaticContent(){

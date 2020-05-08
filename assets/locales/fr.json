@@ -75,5 +75,20 @@
   "startTimeSelectionHeader": "Quand voulez-vous effectuer la recharge ?",
   "startTimeSelectionNow": "Maintenant",
   "startTimeSelectionCustomTime": "sélectionner l'heure",
-  "cancel": "Annuler"
+  "cancel": "Annuler",
+  "popupWelcomeHeader": "Welcome to Chargeprice!",
+  "popupWelcomeText1": "Electric Vehicles are cool and charging is too!\nWe guide you through the different charging cards and apps and tell you which one works best for you!",
+  "popupWelcomeText2": "No need to think of kWh, minute and session based prices or how long the charge would take. \nWe do the math and show you the estimated costs of your charging session.",
+  "popupWelcomeCTA": "Let's get started!",
+  "popupSocialMediaHeader": "Never miss a new price!",
+  "popupSocialMediaText1": "On our Social Media Channels we always keep you up to date about the newest trends in charging your EV!",
+  "popupSocialMediaText2": "Choose your favourite channel:",
+  "popupInstallHeader": "Install the Chargeprice app!",
+  "popupInstallText": "Did you know that you can use Chargeprice just like a normal app, outside the browser?",
+  "popupInstallTextPin": "Just follow these simple instructions:",
+  "popupInstallTextPinStep": "Step",
+  "popupInstallTextPinAndroid": "Pin to Homescreen",
+  "popupInstallCTAInstall": "Install now!",
+  "popupDonateHeader": "Together we our on a mission to transparent charging!",
+  "popupDonateText": "Chargeprice is and should stay free for all EV driver! However the servers it runs on are not.\nHelp us to operating, maintaining and especially improving Chargeprice in the future! Thank you!"
 }

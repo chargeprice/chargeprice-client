@@ -66,6 +66,19 @@ html, body, .flex-container{
   z-index: 100000;
 }
 
+.app-install-img {
+  width: 300px;
+  max-width: 100%;
+}
+
+.popup-header {
+  padding: 11px 16px!important;
+}
+
+.popup-header-close {
+  width: 60px;
+}
+
 #snackbar {
   display: none;
   width: 250px;

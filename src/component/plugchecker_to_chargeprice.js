@@ -1,8 +1,8 @@
 require('jsrender')($);
 
 export default class PlugcheckerToChargeprice {
-  constructor(translation){
-    this.translation = translation;
+  constructor(depts){
+    this.translation = depts.translation();
     $("#messageDialogOk").click(()=>this.hideDialog());
   }
 
@@ -16,13 +16,15 @@ export default class PlugcheckerToChargeprice {
   }
 
   tryShowDialog(){
-    if(!this.isPlugchecker()) return;
+    if(!this.isPlugchecker()) return false;
 
     $("#messageDialogHeader").html(this.translation.get("plugcheckerToChargepriceHeader"))
     $("#messageDialogContent").html(this.translation.get("plugcheckerToChargepriceContent"))
     $("#messageDialogOk").html(this.translation.get("plugcheckerToChargepriceBtn"))
 
     $("#messageDialog").show();
+
+    return true;
   }
 
   hideDialog(){
