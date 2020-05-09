@@ -59,11 +59,15 @@ class App {
       this.map.centerLocation(coords);
       this.map.setSearchLocation(coords);
     });
-    this.getCurrentLocation();
     
-    this.sidebar.open("settings");
-
-    new ShowPopUpOnStart(this.depts).run();
+    var geId = new URL(window.location.href).searchParams.get("ge_id")
+    if (geId != null) {
+      this.geId = geId;
+    } else {
+      this.getCurrentLocation();
+      this.sidebar.open("settings");
+      new ShowPopUpOnStart(this.depts).run();
+    }
   }
 
   loadStaticContent(){
@@ -94,6 +98,14 @@ class App {
   toggleLoading(value){
     $("#loadingIndicator").toggle(value);
   }
+  
+  async showStationById(geId) {
+    this.stationSelected({
+      id: geId,
+      dataAdapter: "going_electric",
+      charge_points: []
+    }, ">3.7", true)
+  }
 
   async showStationsAtLocation(bounds) {
     if(!bounds) return; // Map not ready yet
@@ -115,13 +127,20 @@ class App {
     },this.translation.get("errorStationsUnavailable"));
   }
 
-  async stationSelected(model,powerType) {
+  async stationSelected(model,powerType,centerOnPosition) {
     this.analytics.log('send', 'event', 'Station', powerType);
 
     await this.withNetwork(async ()=>{
       const options = this.sidebar.chargingOptions();
       this.currentStation = await (new FetchStations()).detail(model, options);
     },this.translation.get("errorStationsUnavailable"));
+    
+    if (centerOnPosition) {
+      this.map.centerLocation({
+        latitude: this.currentStation.latitude,
+        longitude: this.currentStation.longitude
+      });
+    }
 
     await this.updatePrices();
     this.sidebar.showStation(this.currentStation);
@@ -181,6 +200,10 @@ class App {
   }
 
   optionsChanged(){
+    if (this.geId != undefined){
+      this.showStationById(this.geId);
+      this.geId = null;
+    }
     this.showStationsAtLocation(this.map.getBounds());
   }
 
