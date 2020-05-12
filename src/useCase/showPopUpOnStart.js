@@ -10,6 +10,7 @@ export default class ShowPopUpOnStart {
   constructor(depts){
     this.depts = depts;
     this.translation = depts.translation();
+    this.analytics = depts.analytics();
     this.customConfig = depts.customConfig();
     this.settingsPrimitive = depts.settingsPrimitive();
   }
@@ -38,20 +39,28 @@ export default class ShowPopUpOnStart {
   }
 
   showSocialMedia(){
+    
+    this.logPopUp("socialMedia");
     new ModalSocialMedia(this.depts).show();
   }
 
   showDonate(){
+    this.logPopUp("donate");
     new ModalDonate(this.depts).show();
   }
 
   showAppInstall(){
     if(!this.customConfig.isMobileOrTablet() || this.customConfig.isRunningStandalone()) return;
 
+    this.logPopUp("appInstall");
     new ModalInstallApp(this.depts).show();
   }
 
   didVisitBeforeWelcomeDialogExisted(){
     return !!localStorage.getItem("myVehicle");
+  }
+
+  logPopUp(name){
+    this.analytics.log('send', 'event', 'Popup', name);
   }
 }
