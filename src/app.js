@@ -59,10 +59,13 @@ class App {
       this.map.centerLocation(coords);
       this.map.setSearchLocation(coords);
     });
-    
-    var geId = new URL(window.location.href).searchParams.get("ge_id")
-    if (geId != null) {
-      this.geId = geId;
+
+    var params = new URL(window.location.href).searchParams;
+    var poiId = params.get("poi_id")
+    var poiSource = params.get("poi_source")
+    if (poiId != null && poiSource != null) {
+      this.poiId = poiId;
+      this.poiSource = poiSource;
     } else {
       this.getCurrentLocation();
       this.sidebar.open("settings");
@@ -99,10 +102,10 @@ class App {
     $("#loadingIndicator").toggle(value);
   }
   
-  async showStationById(geId) {
+  async showStationById(poiId, poiSource) {
     this.stationSelected({
-      id: geId,
-      dataAdapter: "going_electric",
+      id: poiId,
+      dataAdapter: poiSource,
       charge_points: []
     }, ">3.7", true)
   }
@@ -200,9 +203,8 @@ class App {
   }
 
   optionsChanged(){
-    if (this.geId != undefined){
-      this.showStationById(this.geId);
-      this.geId = null;
+    if (this.poiId !== undefined && this.poiSource !== undefined) {
+      this.showStationById(this.poiId, this.poiSource);
     }
     this.showStationsAtLocation(this.map.getBounds());
   }
