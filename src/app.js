@@ -130,7 +130,7 @@ class App {
     },this.translation.get("errorStationsUnavailable"));
   }
 
-  async stationSelected(model,powerType,centerOnPosition) {
+  async stationSelected(model,powerType,updateMap) {
     this.analytics.log('send', 'event', 'Station', powerType);
 
     await this.withNetwork(async ()=>{
@@ -138,11 +138,12 @@ class App {
       this.currentStation = await (new FetchStations()).detail(model, options);
     },this.translation.get("errorStationsUnavailable"));
     
-    if (centerOnPosition) {
+    if (updateMap) {
       this.map.centerLocation({
         latitude: this.currentStation.latitude,
         longitude: this.currentStation.longitude
       });
+      this.map.changeSelectedStation(this.currentStation)
     }
 
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname +
