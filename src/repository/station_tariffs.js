@@ -4,7 +4,7 @@ import JsonApiDeserializer from '../helper/json_api_deserializer.js'
 export default class StationTariffs {
 
   constructor(){
-    const useLocalData = false;
+    const useLocalData = true;
     const isRunningLocally = window.location.href.indexOf("127.0.0.1") != -1
     this.base_url = useLocalData && isRunningLocally ? "http://localhost:9292" : "https://api.chargeprice.app";
     this.apiKey = process.env.CHARGEPRICE_API_KEY;
@@ -83,7 +83,8 @@ export default class StationTariffs {
     if(response.status != 200) throw "Error in request";
 
     const apiResponse = await (new JsonApiDeserializer(response)).deserialize();
-    return apiResponse.data.map(station=>this.toStationDetailModel(station, options));
+    const stations = apiResponse.data.map(station=>this.toStationDetailModel(station, options));
+    return { stations: stations, meta: apiResponse.meta };
   }
 
   buildJsonApiRequestBody(station,options){

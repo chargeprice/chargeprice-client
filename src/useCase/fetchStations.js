@@ -6,7 +6,7 @@ const haversine = require('haversine')
 export default class FetchStations {
 
   constructor(){
-    this.deduplicateThreshold = 20;
+    this.deduplicateThreshold = 50;
   }
 
   async list(northEast, southWest,options){
@@ -20,9 +20,23 @@ export default class FetchStations {
   }
 
   deduplicate(goingElectricResult, internalResult){
-    const nonFrenchGEStatons = goingElectricResult.filter(st=>st.country != "Frankreich")
+    const disabledGoingElectricCountries = internalResult.meta.disabled_going_electric_countries;
+    const internalStations = internalResult.stations;
 
-    return nonFrenchGEStatons.concat(internalResult);
+    const enabledGoingElectricStations = goingElectricResult.filter(geStation=>
+      !this.hideGoingElectricStation(geStation, internalStations, disabledGoingElectricCountries)
+    );
+
+    return internalStations.concat(enabledGoingElectricStations);
+  }
+
+  hideGoingElectricStation(geStation, internalStations, disabledGoingElectricCountries){
+    return disabledGoingElectricCountries.includes(geStation.country) || 
+      this.isStationCloseToInternalStation(geStation, internalStations);
+  }
+
+  isStationCloseToInternalStation(geStation, internalStations){
+    return internalStations.some(station=>haversine(geStation,station,{unit: 'meter'}) < this.deduplicateThreshold);
   }
 
   async detail(model, options) {
