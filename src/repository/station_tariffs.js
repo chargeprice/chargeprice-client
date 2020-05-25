@@ -87,6 +87,21 @@ export default class StationTariffs {
     return { stations: stations, meta: apiResponse.meta };
   }
 
+  async getStationDetails(id,options){
+    const url = `${this.base_url}/v1/charging_stations/${id}`;
+    const response = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "Api-Key": this.apiKey
+      }
+    })
+    
+    if(response.status != 200) throw "Error in request";
+
+    const apiResponse = await (new JsonApiDeserializer(response)).deserialize();
+    return this.toStationDetailModel(apiResponse.data, options);
+  }
+
   buildJsonApiRequestBody(station,options){
     const hasOwnTariffs = options.onlyShowMyTariffs && options.myTariffs.length > 0;
 
