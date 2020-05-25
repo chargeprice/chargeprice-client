@@ -59,11 +59,18 @@ class App {
       this.map.centerLocation(coords);
       this.map.setSearchLocation(coords);
     });
-    this.getCurrentLocation();
-    
-    this.sidebar.open("settings");
 
-    new ShowPopUpOnStart(this.depts).run();
+    var params = new URL(window.location.href).searchParams;
+    var poiId = params.get("poi_id")
+    var poiSource = params.get("poi_source")
+    if (poiId != null && poiSource != null) {
+      this.poiId = poiId;
+      this.poiSource = poiSource;
+    } else {
+      this.getCurrentLocation();
+      this.sidebar.open("settings");
+      new ShowPopUpOnStart(this.depts).run();
+    }
   }
 
   loadStaticContent(){
@@ -94,6 +101,14 @@ class App {
   toggleLoading(value){
     $("#loadingIndicator").toggle(value);
   }
+  
+  async showStationById(poiId, poiSource) {
+    this.stationSelected({
+      id: poiId,
+      dataAdapter: poiSource,
+      charge_points: []
+    }, ">3.7", true)
+  }
 
   async showStationsAtLocation(bounds) {
     if(!bounds) return; // Map not ready yet
@@ -115,13 +130,25 @@ class App {
     },this.translation.get("errorStationsUnavailable"));
   }
 
-  async stationSelected(model,powerType) {
+  async stationSelected(model,powerType,updateMap) {
     this.analytics.log('send', 'event', 'Station', powerType);
 
     await this.withNetwork(async ()=>{
       const options = this.sidebar.chargingOptions();
       this.currentStation = await (new FetchStations()).detail(model, options);
     },this.translation.get("errorStationsUnavailable"));
+    
+    if (updateMap) {
+      this.map.centerLocation({
+        latitude: this.currentStation.latitude,
+        longitude: this.currentStation.longitude
+      });
+      this.map.changeSelectedStation(this.currentStation)
+    }
+
+    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname +
+        '?poi_id=' + this.currentStation.id + '&poi_source=' + this.currentStation.dataAdapter;
+    window.history.pushState({path: newurl}, '', newurl);
 
     await this.updatePrices();
     this.sidebar.showStation(this.currentStation);
@@ -181,6 +208,9 @@ class App {
   }
 
   optionsChanged(){
+    if (this.poiId !== undefined && this.poiSource !== undefined) {
+      this.showStationById(this.poiId, this.poiSource);
+    }
     this.showStationsAtLocation(this.map.getBounds());
   }
 
