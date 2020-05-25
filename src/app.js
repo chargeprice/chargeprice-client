@@ -66,6 +66,7 @@ class App {
     if (poiId != null && poiSource != null) {
       this.poiId = poiId;
       this.poiSource = poiSource;
+      this.analytics.log('send', 'event', 'PoiDeeplink', poiSource);
     } else {
       this.getCurrentLocation();
       this.sidebar.open("settings");
@@ -105,6 +106,7 @@ class App {
   async showStationById(poiId, poiSource) {
     this.stationSelected({
       id: poiId,
+      lite: true,
       dataAdapter: poiSource,
       charge_points: []
     }, ">3.7", true)
@@ -131,7 +133,11 @@ class App {
   }
 
   async stationSelected(model,powerType,updateMap) {
-    this.analytics.log('send', 'event', 'Station', powerType);
+    if(!model.lite) {
+      // If CP was opened by Deeplink, don't track the station
+      // Look at PoiDeeplink instead
+      this.analytics.log('send', 'event', 'Station', powerType);
+    }
 
     await this.withNetwork(async ()=>{
       const options = this.sidebar.chargingOptions();
