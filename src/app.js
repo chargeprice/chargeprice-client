@@ -154,7 +154,9 @@ class App {
 
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname +
         '?poi_id=' + this.currentStation.id + '&poi_source=' + this.currentStation.dataAdapter;
-    window.history.pushState({path: newurl}, '', newurl);
+    if (newUrl != window.location.href) {
+        window.history.pushState({path: newurl}, '', newurl);
+    }
 
     await this.updatePrices();
     this.sidebar.showStation(this.currentStation);
