@@ -20,7 +20,7 @@
   "dependencies": {
     "dayjs": "^1.8.24",
     "haversine": "^1.1.1",
-    "jquery": "3.4.1",
+    "jquery": "3.5.0",
     "jsrender": "1.0.3",
     "leaflet": "1.4.0",
     "leaflet.awesome-markers": "2.0.5",
