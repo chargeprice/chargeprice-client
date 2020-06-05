@@ -45,7 +45,7 @@
   "feedbackContent": "Vous avez besoin d'une nouvelle fonctionnalité ? Quelque chose ne fonctionne pas ? Écrivez-nous : <a href='mailto:contact@chargeprice.net?subject=Chargeprice Feedback'>contact@chargeprice.net</a>!",
   "disclaimerHeader": "Avertissements",
   "dataSourceHeader": "Sources de données",
-  "dataSourceContentGoingElectric": "Stations de recharge (coordonnées, prises, opérateurs compatibles, <b>NO</b> prix) : <a href='http://www.goingelectric.de' target='_blank'>GoingElectric API</a>",
+  "dataSourceContentGoingElectric": "Stations de recharge (coordonnées, prises) : <a href='http://www.goingelectric.de' target='_blank'>GoingElectric API</a>",
   "dataSourceContentPlugsurfing": "Prix PlugSurfing: <a href='http://www.plugsurfing.com' target='_blank'>PlugSurfing API</a>",
   "dataSourceContentNewMotion": "Prix New Motion: <a href='https://my.newmotion.com' target='_blank'>New Motion API</a>",
   "dataSourceContentOther": "Autres opérateurs de mobilité : directement auprès des opérateurs",
