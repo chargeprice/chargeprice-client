@@ -29,8 +29,9 @@ export default class Translation {
   }
 
   currentLocaleOrFallback(){
-    return this.languageFromUrl() ||
-      navigator.languages.map(l=>l.split("-")[0]).find(l=>this.isValidLanguage(l)) || 
+    return this.languageFromDomain() || 
+      this.languageFromQuery() ||
+      this.languageFromBrowserSetting()|| 
       this.fallbackLocale;
   }
 
@@ -40,9 +41,18 @@ export default class Translation {
     this.currentLocaleTranslations = await response.json();
   }
 
-  languageFromUrl(){
+  languageFromDomain(){
+    const domainLang = new URL(window.location.href).hostname.split(".")[0];
+    return this.isValidLanguage(domainLang) ? domainLang : null;
+  }
+
+  languageFromQuery(){
     const urlLang = new URL(window.location.href).searchParams.get("lang")
     return this.isValidLanguage(urlLang) ? urlLang : null;
+  }
+
+  languageFromBrowserSetting(){
+    return navigator.languages.map(l=>l.split("-")[0]).find(l=>this.isValidLanguage(l));
   }
 
   isValidLanguage(lang){
