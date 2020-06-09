@@ -7,6 +7,7 @@ import Sidebar from './component/sidebar.js';
 import LocationSearch from './component/location_search.js';
 import Dependencies from './helper/dependencies'
 import loadGoogleMapsApi from "load-google-maps-api"
+import UrlModifier from './helper/urlModifier'
 import 'nouislider/distribute/nouislider.css';
 
 require('jsrender')($);
@@ -152,9 +153,7 @@ class App {
       this.map.changeSelectedStation(this.currentStation)
     }
 
-    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname +
-        '?poi_id=' + this.currentStation.id + '&poi_source=' + this.currentStation.dataAdapter;
-    window.history.pushState({path: newurl}, '', newurl);
+    new UrlModifier().modifyUrlParam({poi_id: this.currentStation.id, poi_source: this.currentStation.dataAdapter})
 
     await this.updatePrices();
     this.sidebar.showStation(this.currentStation);
