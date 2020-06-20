@@ -261,8 +261,8 @@
         {{if tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0}}
           <br>
           <label class="w3-margin-top w3-small">
-          {{if tariff.totalMonthlyFee > 0 }}{{:~t("baseFee")}}: &euro;{{dec:tariff.totalMonthlyFee}}/{{:~t("month")}}** {{/if}}
-          {{if tariff.monthlyMinSales > 0 }}{{:~t("minSales")}}: &euro;{{dec:tariff.monthlyMinSales}}/{{:~t("month")}} {{/if}}
+          {{if tariff.totalMonthlyFee > 0 }}{{:~t("baseFee")}}: {{dec:tariff.totalMonthlyFee}}/{{:~t("month")}}** {{/if}}
+          {{if tariff.monthlyMinSales > 0 }}{{:~t("minSales")}}: {{dec:tariff.monthlyMinSales}}/{{:~t("month")}} {{/if}}
         </label>
         {{/if}}
         

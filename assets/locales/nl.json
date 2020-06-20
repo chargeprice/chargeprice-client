@@ -21,7 +21,7 @@
   "manageMyTariffsDescription": "Selecteer alle laadtarieven bij die je geregistreerd bent",
   "errorStationsUnavailable": "Laadpaal kon niet geladen worden",
   "errorPricesUnavailable": "Opnieuw laden",
-  "totalPriceInfo": "€ = Total price excl. monthly fees<br>\n* Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br>\n** Depending on tariff: Base fee, service fee, membership fee",
+  "totalPriceInfo": "Total price excl. monthly fees<br>\n* Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br>\n** Depending on tariff: Base fee, service fee, membership fee",
   "timeFormat": "{0}h {1}min",
   "chargeDuration": "Laadtijd",
   "chargeEnergy": "Laadenergie",
@@ -90,5 +90,6 @@
   "popupInstallTextPinAndroid": "Vastpinnen op thuisscherm",
   "popupInstallCTAInstall": "Nu installeren",
   "popupDonateHeader": "Samen zijn we op een missie laadtarieven transparant te maken!",
-  "popupDonateText": "Chargeprice is en blijft gratis voor de ev-rijder, maar onze operationele kosten zijn niet gratis. Met een donatie help je ons platform jouw dienstbaar te blijven. Hartelijk dank!"
+  "popupDonateText": "Chargeprice is en blijft gratis voor de ev-rijder, maar onze operationele kosten zijn niet gratis. Met een donatie help je ons platform jouw dienstbaar te blijven. Hartelijk dank!",
+  "transparentEMP": "Transparante provider"
 }

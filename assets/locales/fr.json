@@ -21,7 +21,7 @@
   "manageMyTariffsDescription": "Sélectionnez les forfaits auxquels vous avez souscrits",
   "errorStationsUnavailable": "Erreur d'affichage",
   "errorPricesUnavailable": "Erreur de chargement des prix. Veuillez rafraîchir la page. ",
-  "totalPriceInfo": "€ = prix total hors frais mensuels éventuels<br>\n*les tarifs sont calculés en tenant compte d'une perte d'énergie théorique de 10%. Les valeurs réelles dépendent du véhicule, de la station, des conditions climatiques, etc.<br>\n**frais de session ou forfait mensuel",
+  "totalPriceInfo": "prix total hors frais mensuels éventuels<br>\n*les tarifs sont calculés en tenant compte d'une perte d'énergie théorique de 10%. Les valeurs réelles dépendent du véhicule, de la station, des conditions climatiques, etc.<br>\n**frais de session ou forfait mensuel",
   "timeFormat": "{0}h et {1} min.",
   "chargeDuration": "Durée de la recharge",
   "chargeEnergy": "Énergie",
@@ -90,5 +90,6 @@
   "popupInstallTextPinAndroid": "Épingler sur la page d'accueil ",
   "popupInstallCTAInstall": "Installer maintenant ",
   "popupDonateHeader": "Ensemble, travaillons pour la transparence des prix",
-  "popupDonateText": "Chargeprice est et restera gratuit pour tous les conducteurs de véhicules électriques ! \nToutefois, nos serveurs ne sont pas gratuits. Pour nous aider à exister et améliorer le service, vous pouvez faire un don ici, merci !"
+  "popupDonateText": "Chargeprice est et restera gratuit pour tous les conducteurs de véhicules électriques ! \nToutefois, nos serveurs ne sont pas gratuits. Pour nous aider à exister et améliorer le service, vous pouvez faire un don ici, merci !",
+  "transparentEMP": "Opérateur transparent"
 }

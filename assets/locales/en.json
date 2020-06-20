@@ -21,7 +21,7 @@
   "manageMyTariffsDescription": "Select all tariffs that you own below.",
   "errorStationsUnavailable": "Stations unavailable",
   "errorPricesUnavailable": "Prices unavailable. Please try to reload the page.",
-  "totalPriceInfo": "€ = Total price excl. monthly fees<br>\n* Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br>\n** Depending on tariff: Base fee, service fee, membership fee",
+  "totalPriceInfo": "Total price excl. monthly fees<br>\n* Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br>\n** Depending on tariff: Base fee, service fee, membership fee",
   "timeFormat": "{0}h {1}min",
   "chargeDuration": "Duration of charge",
   "chargeEnergy": "Energy of charge",
@@ -90,5 +90,6 @@
   "popupInstallTextPinAndroid": "Pin to Homescreen",
   "popupInstallCTAInstall": "Install now!",
   "popupDonateHeader": "Together we are on a mission to make charging transparent!",
-  "popupDonateText": "Chargeprice is and should stay free for all EV driver! However hosting services for our server are not.\nHelp us to operating, maintaining and especially improving Chargeprice in the future! Thank you!"
+  "popupDonateText": "Chargeprice is and should stay free for all EV driver! However hosting services for our server are not.\nHelp us to operating, maintaining and especially improving Chargeprice in the future! Thank you!",
+  "transparentEMP": "Transparent Provider"
 }
