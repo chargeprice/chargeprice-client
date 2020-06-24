@@ -137,6 +137,10 @@ html, body, .flex-container{
   margin-top: 4px !important;
 }
 
+.cp-margin-small {
+  margin: 8px !important;
+}
+
 #selectCurrency {
   width: 25% !important;
 }
@@ -148,6 +152,11 @@ html, body, .flex-container{
 .leaflet-right {
   right: 10px !important;
 }
+
+.w3-input-inline {
+  display: inline-block;
+  width: auto;
+} 
 
 /* Featured */
 

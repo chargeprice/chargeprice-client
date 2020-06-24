@@ -27,7 +27,7 @@ export default class ManageMyTariffs {
       const b1 = !!b.featuring;
       const a1 = !!a.featuring;
 
-      if(b1 == a1) return a.provider.localeCompare(b.provider);
+      if(b1 == a1) return a.name.localeCompare(b.name);
       else return b1 - a1; // Show featured providers
     });
 

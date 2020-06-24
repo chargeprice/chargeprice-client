@@ -91,5 +91,6 @@
   "popupInstallCTAInstall": "Install now!",
   "popupDonateHeader": "Together we are on a mission to make charging transparent!",
   "popupDonateText": "Chargeprice is and should stay free for all EV driver! However hosting services for our server are not.\nHelp us to operating, maintaining and especially improving Chargeprice in the future! Thank you!",
-  "transparentEMP": "Transparent Provider"
+  "transparentEMP": "Transparent Provider",
+  "chargePointHeader": "Charge Points"
 }

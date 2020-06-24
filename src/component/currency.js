@@ -1,41 +1,54 @@
-require('jsrender')($);
+import {html, render} from 'lit-html';
+import GenericList from '../modal/genericList';
 
 export default class Currency {
-  constructor(sidebar) {
+  constructor(sidebar,depts) {
     this.sidebar = sidebar;
-    this.currencies = ["EUR","CHF","CZK","DKK","GBP","HUF","ISK","PLN","SEK","NOK","HRK"];
+    this.depts = depts;
+    this.translation = depts.translation();
+    this.currencies = ["EUR","CHF","CZK","DKK","GBP","HUF","ISK","PLN","SEK","NOK","HRK"].sort();
     this.defaultCurrency = "EUR";
     this.settingsKey = "displayedCurrency"
     this.selectedCurrency = this.defaultCurrency;
-    this.registerTemplates();
     this.initCurrencies();
   }
 
-  registerTemplates(){
-    $.templates("currencyTempl",`
-      {{for currencies}}
-        <option value="{{:iso}}" {{if selected}}selected{{/if}}>{{:iso}}</option>
-      {{/for}}
-    `);
+  template(){
+    return html`
+      <span @click="${()=>this.changeCurrency()}" class="w3-button w3-light-gray">
+        ${this.selectedCurrency}
+      </span>
+    `;
+  }
+
+  renderTemplate(){
+    render(this.template(),document.getElementById("selectCurrency"));
   }
 
   initCurrencies(){
     if(localStorage.getItem(this.settingsKey)){
       this.selectedCurrency = localStorage.getItem(this.settingsKey);
     }
-
-    const uiCurrencies = this.currencies.map(c=>new Object({iso: c, selected: this.selectedCurrency == c}));
-    $("#selectCurrency").html($.render.currencyTempl({ currencies: uiCurrencies }));
-    $("#selectCurrency").on('change', ()=>this.currencyChanged());
-
-    this.currencyChanged();
+    this.renderTemplate();
+    this.currencyChanged(this.selectedCurrency);
   }
 
-  currencyChanged(){
-    this.selectedCurrency = $("#selectCurrency").val();
+  currencyChanged(value){
+    this.selectedCurrency = value;
     localStorage.setItem(this.settingsKey,this.selectedCurrency);
     this.sidebar.optionsChanged();
+    this.renderTemplate();
     $("#pricesListCurrencyHeader").html(this.selectedCurrency);
+  }
+
+  changeCurrency(){
+    new GenericList(this.depts).show(
+      {
+        items: this.currencies,
+        header: this.translation.get("displayedCurrencyHeader"), 
+        convert: i => i,
+        narrow: true
+      },(c)=>this.currencyChanged(c));
   }
 
   getDisplayedCurrency(){

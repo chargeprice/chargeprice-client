@@ -41,7 +41,7 @@ class App {
     this.analytics = this.depts.analytics();
     this.stationTariffs = new StationTariffs();
     this.map = new Map();
-    this.sidebar = new Sidebar(this.translation,this.analytics);
+    this.sidebar = new Sidebar(this.depts);
     this.locationSearch = new LocationSearch(this.analytics);
 
     this.currentStationTariffs = null;
@@ -52,18 +52,19 @@ class App {
     }
 
     this.map.onBoundsChanged(this.showStationsAtLocation.bind(this));
-    this.sidebar.onSelectedChargePointChanged(this.selectedChargePointChanged.bind(this));
     this.sidebar.onOptionsChanged(this.optionsChanged.bind(this));
     this.sidebar.stationPrices.onBatteryRangeChanged(()=>this.updatePrices());
     this.sidebar.stationPrices.onStartTimeChanged(()=>this.updatePrices());
+    this.sidebar.stationPrices.onSelectedChargePointChanged(this.selectedChargePointChanged.bind(this));
     this.locationSearch.onResultSelected(coords=>{
       this.map.centerLocation(coords);
       this.map.setSearchLocation(coords);
     });
 
     var params = new URL(window.location.href).searchParams;
-    var poiId = params.get("poi_id")
-    var poiSource = params.get("poi_source")
+    this.deeplinkActivated = false;
+    const poiId = params.get("poi_id")
+    const poiSource = params.get("poi_source")
     if (poiId != null && poiSource != null) {
       this.poiId = poiId;
       this.poiSource = poiSource;
@@ -185,8 +186,8 @@ class App {
 
   selectedChargePointChanged(){
     const options = this.sidebar.chargingOptions();
-    const selectedCP = this.currentStation.chargePoints.find(c=>c.id == options.chargePointId);
-    if(selectedCP == null) return;
+    const selectedCP = options.chargePoint;
+    if(selectedCP==null) return;
 
     const cpDurationAndEnergy = this.findBySelectedChargePoint(this.currentStationMeta.charge_points, selectedCP);
     if(cpDurationAndEnergy == null) return;
@@ -203,8 +204,6 @@ class App {
       return memo;
     },[]);
 
-    
-
     this.sidebar.updateStationPrice(this.currentStation,prices,options);
   }
 
@@ -213,7 +212,8 @@ class App {
   }
 
   optionsChanged(){
-    if (this.poiId !== undefined && this.poiSource !== undefined) {
+    if (this.poiId !== undefined && this.poiSource !== undefined && !this.deeplinkActivated) {
+      this.deeplinkActivated = true;
       this.showStationById(this.poiId, this.poiSource);
     }
     this.showStationsAtLocation(this.map.getBounds());

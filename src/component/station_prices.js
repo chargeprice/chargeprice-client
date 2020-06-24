@@ -5,15 +5,18 @@ import ViewBase from './viewBase';
 import StartTimeSelection from '../modal/startTimeSelection';
 import {html, render} from 'lit-html';
 import RepositoryStartTime from '../repository/settings/startTime';
+import GenericList from '../modal/genericList';
 
 export default class StationPrices extends ViewBase{
-  constructor(sidebar,analytics, translation) {
-    super(translation)
+  constructor(sidebar,depts) {
+    super(depts.translation())
+    this.depts = depts;
     this.sidebar = sidebar;
-    this.analytics = analytics;
+    this.analytics = depts.analytics();
     this.slider = null;
     this.defaultBatteryRange = [20,80];
     this.startTimeRepo = new RepositoryStartTime();
+    this.currentChargePoint = null;
     this.initSlider();
   }
 
@@ -28,21 +31,25 @@ export default class StationPrices extends ViewBase{
           <span class="link-text" @click="${()=>this.selectStartTime()}">${this.h().timeOfDay(this.getStartTime())}</span> 
           <i class="fa fa-angle-right"></i> ~${this.h().timeOfDay(this.getEndTime(obj.chargePointDuration))}
           <br>
-        (${this.h().time(obj.chargePointDuration)})
+        (${this.h().time(obj.chargePointDuration)})*
         
       </span>
       <span class="w3-right">
         <i class="fa fa-bolt"></i>
         ${this.h().int(obj.chargePointEnergy)} kWh 
-        (${this.t("average")} ${this.h().power(obj.chargePointEnergy*60/obj.chargePointDuration)} kW)
+        (${this.t("average")} ${this.h().power(obj.chargePointEnergy*60/obj.chargePointDuration)} kW)*
       </span>
     `;
   }
 
-  chargePointTempl(list){
-    return list.map(obj=>html`
-      <option value="${obj.id}" ?disabled="${!obj.supportedByVehicle}">${this.h().upper(obj.plug)} ${obj.power} kw (${obj.count}x)</option>
-    `);
+  currentChargePointTemplate(){
+    const obj = this.currentChargePoint;
+    if(!obj)return "";
+    return html`
+      <span @click="${()=>this.changeChargePoint()}" class="w3-button w3-light-gray w3-margin-top w3-margin-bottom">
+        ${this.h().upper(obj.plug)} ${obj.power} kw (${obj.count}x)
+      </span>
+    `;
   }
 
   initSlider(){
@@ -75,15 +82,37 @@ export default class StationPrices extends ViewBase{
     render(this.batteryRangeInfoTempl({from: range[0], to: range[1]}),this.getEl("batteryRangeInfo"));
   }
 
+  changeChargePoint(){
+    new GenericList(this.depts).show(
+      {
+        items: this.sortedCP,
+        header: this.translation.get("chargePointHeader"), 
+        convert: obj => html`${this.h().upper(obj.plug)} ${obj.power} kw (${obj.count}x)`,
+        narrow: true
+      },(v)=>this.onChargePointChanged(v));
+  }
+
   showStation(station,options){
-    const sortedCP = station.chargePoints.sort((a,b)=>{
+    this.sortedCP = station.chargePoints.sort((a,b)=>{
       const b1 = b.supportedByVehicle;
       const a1 = a.supportedByVehicle;
 
       if(b1 == a1) return (b.power-a.power);
       else return b1 - a1;
     });
-    render(this.chargePointTempl(sortedCP),this.getEl("select-charge-point"));
+    this.currentChargePoint = this.sortedCP[0];
+    this.renderCurrentChargePointTemplate();
+    this.selectedChargePointChangedCallback();
+  }
+
+  renderCurrentChargePointTemplate(){
+    render(this.currentChargePointTemplate(),document.getElementById("select-charge-point"));
+  }
+
+  onChargePointChanged(value){
+    this.currentChargePoint = value;
+    this.renderCurrentChargePointTemplate();
+    if(this.selectedChargePointChangedCallback) this.selectedChargePointChangedCallback(value);
   }
  
   updateStationPrice(station,prices,options){
@@ -123,6 +152,10 @@ export default class StationPrices extends ViewBase{
     this.startTimeChangedCallback = callback;
   }
 
+  onSelectedChargePointChanged(callback){
+    this.selectedChargePointChangedCallback=callback;
+  }
+
   getStartTime(){
     const storedStartTime = this.startTimeRepo.get();
     if(storedStartTime != null) return storedStartTime;
@@ -132,6 +165,10 @@ export default class StationPrices extends ViewBase{
 
   getEndTime(duration){
     return (this.getStartTime() + duration) % 1440;
+  }
+
+  getCurrentChargePoint(){
+    return this.currentChargePoint;
   }
 
   selectStartTime(){

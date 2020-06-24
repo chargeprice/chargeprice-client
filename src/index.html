@@ -92,7 +92,7 @@
 
   <script id="pricesContentTempl" type="text/html">  
     <div id="station-info"></div>
-    <select id="select-charge-point" class="w3-select w3-margin-top w3-margin-bottom" name="option"></select>
+    <div id="select-charge-point"></div>
 
     <div id="noPricesAvailable" class="w3-margin-top"><label>{{:~t("noTariffAvailable")}}</label></div>
     
@@ -120,8 +120,7 @@
   <script id="settingsTempl" type="text/html">
 
     <label class="w3-block">{{:~t("myVehicle")}}</label>
-    <select id="selectVehicle" class="w3-select w3-border w3-margin-bottom">
-    </select>
+    <div id="selectVehicle" class="w3-margin-bottom"></div>
 
     <input id="onlyTariffsWithoutMonthlyFees" class="w3-check" type="checkbox">
     <label>{{:~t("onlyTariffsWithoutMonthlyFees")}}</label><br>
@@ -147,8 +146,7 @@
     <label>{{:~t("onlyOpenNow")}}</label><br>
 
     <label class="w3-block w3-margin-top">{{:~t("displayedCurrencyHeader")}}</label>
-    <select id="selectCurrency" class="w3-select cp-quarter w3-block w3-border">
-    </select>
+    <div id="selectCurrency"></div>
 
     {{if showUnbalancedLoad }}
     <label class="w3-margin-top w3-large w3-block">{{:~t("expertOptions")}}</label>

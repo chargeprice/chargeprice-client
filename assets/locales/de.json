@@ -91,5 +91,6 @@
   "popupInstallCTAInstall": "Jetzt installieren!",
   "popupDonateHeader": "Unterstütze unsere Mission!",
   "popupDonateText": "Chargeprice ist und bleibt kostenlos für alle E-Autofahrer! Unsere Server sind es allerdings nicht. Hilf uns den Service zu betreiben, am Laufenden zu halten und immer weiter zu verbessern! Danke!",
-  "transparentEMP": "Transparenter Anbieter"
+  "transparentEMP": "Transparenter Anbieter",
+  "chargePointHeader": "Ladepunkte"
 }

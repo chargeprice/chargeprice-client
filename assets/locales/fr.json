@@ -91,5 +91,6 @@
   "popupInstallCTAInstall": "Installer maintenant ",
   "popupDonateHeader": "Ensemble, travaillons pour la transparence des prix",
   "popupDonateText": "Chargeprice est et restera gratuit pour tous les conducteurs de véhicules électriques ! \nToutefois, nos serveurs ne sont pas gratuits. Pour nous aider à exister et améliorer le service, vous pouvez faire un don ici, merci !",
-  "transparentEMP": "Opérateur transparent"
+  "transparentEMP": "Opérateur transparent",
+  "chargePointHeader": "chargeurs"
 }

@@ -24,12 +24,8 @@ export default class StartTimeSelection extends ViewBase {
           <input class="w3-radio" type="radio" name="startTime" ?checked="${startTime != null}">
           <label>${this.t("startTimeSelectionCustomTime")}</label>
           <div>
-            <select id="selectStartTimeHour" class="w3-select w3-margin-right" style="width: 100px">
-              ${[...new Array(24)].map((v,idx)=>html`<option value="${idx}" ?selected="${hour == idx}">${idx}</option>`)}
-            </select>
-            <select id="selectStartTimeMinute" class="w3-select" style="width: 100px">
-              ${[...new Array(12)].map((v,idx)=>html`<option value="${idx*5}" ?selected="${minute == (idx*5)}">${idx*5}</option>`)}
-            </select>
+            <input id="selectStartTimeHour" class="w3-input w3-input-inline " value="${hour}" type="number" min="0" max="23"> : 
+            <input id="selectStartTimeMinute" class="w3-input w3-input-inline " value="${minute}" type="number" min="0" max="59">
           </div>
         <p>
       </div>
@@ -51,11 +47,10 @@ export default class StartTimeSelection extends ViewBase {
     let startTime = null;
 
     if(!useCurrentTime){
-      const hour = parseInt(this.getSelectedValue("selectStartTimeHour"));
-      const minute = parseInt(this.getSelectedValue("selectStartTimeMinute"));
+      const hour = parseInt(this.getEl("selectStartTimeHour").value);
+      const minute = parseInt(this.getEl("selectStartTimeMinute").value);
       startTime = hour*60 + minute;
     }
-    
     if(this.callback) this.callback(startTime);
   }
 

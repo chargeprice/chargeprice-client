@@ -8,14 +8,15 @@ import StationPrices from './station_prices';
 
 export default class Sidebar {
 
-  constructor(translation,analytics) {
-    this.translation=translation;
-    this.analytics = analytics;
-    this.manageMyTariffs = new ManageMyTariffs(this,analytics);
-    this.appInstall = new AppInstall(analytics);
-    this.myVehicle = new MyVehicle(this,analytics);
-    this.currency = new Currency(this);
-    this.stationPrices = new StationPrices(this,analytics,translation);
+  constructor(depts) {
+    this.depts = depts;
+    this.translation= depts.translation();
+    this.analytics = depts.analytics();
+    this.manageMyTariffs = new ManageMyTariffs(this,this.analytics);
+    this.appInstall = new AppInstall(this.analytics);
+    this.myVehicle = new MyVehicle(this,this.depts);
+    this.currency = new Currency(this,this.depts);
+    this.stationPrices = new StationPrices(this,this.depts);
     this.loaded = false;
     this.component = $("#sidebar");
     $("#sidebar-close").click(() => this.close());
@@ -34,19 +35,19 @@ export default class Sidebar {
 
     this.sidebarContent = {
       "settings": {
-        header: translation.get("settingsHeader"),
+        header: this.translation.get("settingsHeader"),
         contentId: "settingsContent"
       },
       "info": {
-        header: translation.get("infoHeader"),
+        header: this.translation.get("infoHeader"),
         contentId: "infoContent"
       },
       "prices": {
-        header: translation.get("pricesHeader"),
+        header: this.translation.get("pricesHeader"),
         contentId: "pricesContent"
       },
       "manageMyTariffs": {
-        header: translation.get("manageMyTariffsHeader"),
+        header: this.translation.get("manageMyTariffsHeader"),
         contentId: "manageMyTariffsContent"
       }
     };
@@ -80,7 +81,6 @@ export default class Sidebar {
     return {
       duration: parseInt(parseFloat($("#select-duration").val())*60),
       kwh: parseFloat($("#select-kwh").val()),
-      chargePointId: $("#select-charge-point option:selected").val(),
       onlyHPC: $("#onlyHPC:checked").length == 1,
       onlyFree: $("#onlyFree:checked").length == 1,
       openNow: $("#openNow:checked").length == 1,
@@ -93,7 +93,8 @@ export default class Sidebar {
       myTariffs: this.manageMyTariffs.getMyTariffs(),
       myVehicle: this.myVehicle.getVehicle(),
       displayedCurrency: this.currency.getDisplayedCurrency(),
-      startTime: this.stationPrices.getStartTime()
+      startTime: this.stationPrices.getStartTime(),
+      chargePoint: this.stationPrices.getCurrentChargePoint()
     }
   }
 
@@ -155,12 +156,6 @@ export default class Sidebar {
 
   updateStationPrice(station,prices,options){
     this.stationPrices.updateStationPrice(station,prices,options)
-  }
-
-  onSelectedChargePointChanged(callback){
-    $("#select-charge-point").change(()=>{
-      callback();
-    });
   }
 
   onOptionsChanged(callback){
