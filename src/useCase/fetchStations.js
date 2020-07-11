@@ -7,6 +7,7 @@ export default class FetchStations {
 
   constructor(){
     this.deduplicateThreshold = 50;
+    this.deduplicateThresholdFast = 120;
   }
 
   async list(northEast, southWest,options){
@@ -36,7 +37,12 @@ export default class FetchStations {
   }
 
   isStationCloseToInternalStation(geStation, internalStations){
-    return internalStations.some(station=>haversine(geStation,station,{unit: 'meter'}) < this.deduplicateThreshold);
+    return internalStations.some(station=>haversine(geStation,station,{unit: 'meter'}) < this.threshold(geStation));
+  }
+
+  threshold(geStation){
+    const maxPower = geStation.chargePoints.reduce((max,value)=> max > value.power ? max : value.power, 0);
+    return maxPower >= 50 ? this.deduplicateThresholdFast : this.deduplicateThreshold;
   }
 
   async detail(model, options) {
