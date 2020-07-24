@@ -1,5 +1,5 @@
 var dayjs = require('dayjs');
-
+import {unsafeHTML} from 'lit-html/directives/unsafe-html.js';
 export default class ViewBase {
 
   constructor(translation) {
@@ -8,6 +8,10 @@ export default class ViewBase {
 
   getSelectedValue(id){
     return document.getElementById(id).selectedOptions[0].value;
+  }
+
+  ut(key){
+    return unsafeHTML(this.translation.get(key));
   }
 
   t(key){

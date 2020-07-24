@@ -5,6 +5,7 @@ import ThemeLoader from './component/theme_loader.js';
 import Map from './component/map.js';
 import Sidebar from './component/sidebar.js';
 import InfoSidebar from './component/infoSidebar.js';
+import PricesSidebar from './component/pricesSidebar.js';
 import LocationSearch from './component/location_search.js';
 import Dependencies from './helper/dependencies'
 import loadGoogleMapsApi from "load-google-maps-api"
@@ -79,11 +80,11 @@ class App {
 
   loadStaticContent(){
     $("#search").html($.templates("#locationSearchTempl").render());
-    $("#pricesContent").html($.templates("#pricesContentTempl").render());
     $("#settingsContent").html($.templates("#settingsTempl").render(
       { showUnbalancedLoad: this.translation.showUnbalancedLoad() }
     ));
     new InfoSidebar(this.depts).render();
+    new PricesSidebar(this.depts).render();
     $("#pleaseZoom").html($.templates("#pleaseZoomTempl").render());
   }
 

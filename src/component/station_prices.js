@@ -6,6 +6,7 @@ import StartTimeSelection from '../modal/startTimeSelection';
 import {html, render} from 'lit-html';
 import RepositoryStartTime from '../repository/settings/startTime';
 import GenericList from '../modal/genericList';
+import ModalFeedback from '../modal/feedback';
 
 export default class StationPrices extends ViewBase{
   constructor(sidebar,depts) {
@@ -49,6 +50,18 @@ export default class StationPrices extends ViewBase{
       <span @click="${()=>this.changeChargePoint()}" class="w3-button w3-light-gray w3-margin-top w3-margin-bottom">
         ${this.h().upper(obj.plug)} ${obj.power} kw (${obj.count}x)
       </span>
+    `;
+  }
+
+  feedbackTemplate(context){
+    return html`
+      <label class="w3-block" >Report if Price is ...</label>
+      <button @click="${()=>this.onReportPrice("missing_price",context)}" class="w3-btn pc-secondary">
+        Missing
+      </button>
+      <button @click="${()=>this.onReportPrice("wrong_price",context)}" class="w3-btn pc-secondary">
+        Wrong
+      </button>
     `;
   }
 
@@ -124,6 +137,7 @@ export default class StationPrices extends ViewBase{
     $("#prices").toggle(!station.isFreeCharging && prices.length > 0 || prices.length > 0);
     $("#noPricesAvailable").toggle(!station.isFreeCharging && prices.length == 0);
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
+    render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback"));
     
     $(".affiliateLinkEMP").click((linkObject)=> this.analytics.log('send', 'event', 'AffiliateEMP', linkObject.currentTarget.href));
   }
@@ -154,6 +168,25 @@ export default class StationPrices extends ViewBase{
 
   onSelectedChargePointChanged(callback){
     this.selectedChargePointChangedCallback=callback;
+  }
+
+  onReportPrice(type, context){
+    const opts = context.options;
+    const contextString = [
+      `${opts.myVehicle.brand} ${opts.myVehicle.name}`,
+      `Battery: ${this.getBatteryRange()}`,
+      `${this.currentChargePoint.plug} ${this.currentChargePoint.power} kw`,
+      opts.displayedCurrency
+    ].join(", ")
+
+    const options = {
+      cpo: context.station.network,
+      poiLink: window.location.href,
+      prices: context.prices,
+      context: contextString
+    }
+
+    new ModalFeedback(this.depts).show(type,options);
   }
 
   getStartTime(){
