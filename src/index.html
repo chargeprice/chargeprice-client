@@ -90,33 +90,6 @@
     <input id="search-box" class="w3-border w3-input w3-padding" placeholder="{{:~t('locationSearchPlaceholder')}}"/>
   </script>
 
-  <script id="pricesContentTempl" type="text/html">  
-    <div id="station-info"></div>
-    <div id="select-charge-point"></div>
-
-    <div id="noPricesAvailable" class="w3-margin-top"><label>{{:~t("noTariffAvailable")}}</label></div>
-    
-    <div id="prices">
-      <label id="batteryRangeInfo" class="w3-block"></label>
-      <div id ="batteryRange" class="w3-margin-top"></div>
-
-      <label id="parameterNote" class="w3-margin-bottom w3-margin-top w3-medium w3-block"></label>
-      <table class="w3-table w3-striped w3-margin-top">
-        <tr>
-          <th>{{:~t("tariff")}}</th>
-          <th id="pricesListCurrencyHeader" class="w3-right"></th>
-        </tr>
-        <tbody id="priceList">
-            
-        </tbody>
-      </table>
-      <label class="w3-margin-top w3-small w3-block">
-        {{:~t("totalPriceInfo")}}
-      </label>
-    </div>        
-  
-  </script>
-
   <script id="settingsTempl" type="text/html">
 
     <label class="w3-block">{{:~t("myVehicle")}}</label>

@@ -1,5 +1,6 @@
 
 import JsonApiDeserializer from '../helper/json_api_deserializer.js'
+import JsonApiSerializer from '../helper/jsonApiSerializer.js'
 
 export default class StationTariffs {
 
@@ -100,6 +101,20 @@ export default class StationTariffs {
 
     const apiResponse = await (new JsonApiDeserializer(response)).deserialize();
     return this.toStationDetailModel(apiResponse.data, options);
+  }
+
+  async postUserFeedback(feedback){
+    const url = `${this.base_url}/v1/user_feedback`;
+    const body = new JsonApiSerializer(feedback).serialize();
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Api-Key": this.apiKey
+      },
+      body: JSON.stringify(body),
+    })
+    if(response.status != 204) throw "Error in request";
   }
 
   buildJsonApiRequestBody(station,options){
