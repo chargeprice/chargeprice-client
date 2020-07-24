@@ -2,6 +2,7 @@
 import Translation from '../component/translation.js';
 import CustomConfig from '../component/customConfig';
 import Analytics from '../component/analytics'
+import ThemeLoader from '../component/theme_loader'
 import RepositorySettingsPrimitive from '../repository/settings/primitive'
 
 export default class Dependencies {
@@ -17,6 +18,10 @@ export default class Dependencies {
 
   analytics(){
     return new Analytics();
+  }
+
+  themeLoader(){
+    return new ThemeLoader(this.translation());
   }
 
   translation(){

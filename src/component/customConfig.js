@@ -27,8 +27,4 @@ export default class CustomConfig {
     const chromeStandalone = (window.matchMedia('(display-mode: standalone)').matches);
     return iOSstandalone || chromeStandalone;
   }
-
-  isWhiteLabel(){
-    return !(window.location.hostname.includes("chargeprice.app") || window.location.hostname.includes("127.0.0.1"));
-  }
 }

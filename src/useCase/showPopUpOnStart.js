@@ -10,6 +10,7 @@ export default class ShowPopUpOnStart {
   constructor(depts){
     this.depts = depts;
     this.translation = depts.translation();
+    this.themeLoader = depts.themeLoader();
     this.analytics = depts.analytics();
     this.customConfig = depts.customConfig();
     this.settingsPrimitive = depts.settingsPrimitive();
@@ -21,7 +22,7 @@ export default class ShowPopUpOnStart {
     this.settingsPrimitive.incrementAppStartCount();
 
     // don't show any pop ups for white labels!
-    if(this.customConfig.isWhiteLabel()) return;
+    if(!this.themeLoader.isDefaultTheme()) return;
 
     switch(previousStartCount){
       case 0: this.showWelcome(); break;

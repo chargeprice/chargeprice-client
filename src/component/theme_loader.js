@@ -33,14 +33,19 @@ export default class ThemeLoader {
         themeColor: "#ffdc00",
         appleTouchIcon: "themes/oeamtc/logo.png"
       },
-      ak: {
-        titleBarHtml: `<img id=\"logo\" src=\"themes/ak/logo.png\"/><span class=\"title\">E-Laderechner</span>`,
-        favicon: "themes/ak/logo.png",
-        name: `AK E-Laderechner`,
-        themeColor: "#fff",
-        appleTouchIcon: "themes/ok/logo.png"
+      "billig-tanken" : {
+        titleBarHtml: "chargeprice",
+        title: translation.get("title"),
+        favicon: "img/favicon-32x32.png",
+        name: `Billig Tanken Ladeäulen`,
+        themeColor: "#009688",
+        appleTouchIcon: "/img/logos/apple-touch-icon.png"
       },
     }
+  }
+
+  isDefaultTheme(){
+    return this.getValidatedTheme() == this.defaultTheme;
   }
 
   getValidatedTheme(){
@@ -70,12 +75,13 @@ export default class ThemeLoader {
 
     // Theme Color
     document.getElementById("theme-color").setAttribute("content",theme.themeColor);
-
+    
     if(themeId == this.defaultTheme) {
       document.getElementById("theme-info").setAttribute("style","display: none;")
       document.getElementsByTagName("title")[0].innerText = theme.title;
     }
     else {
+      document.getElementById("donate-button").setAttribute("style","display: none;");
       document.getElementById("theme-name").innerText = theme.name;
       document.getElementsByTagName("title")[0].innerText = `${theme.name} ${this.translation.get("poweredBy")} Chargeprice`;
     }
