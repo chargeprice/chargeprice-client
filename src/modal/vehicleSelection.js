@@ -15,7 +15,7 @@ export default class VehicleSelection extends ModalBase {
       ${this.header(this.t("myVehicle"))}
       ${this.step == 1 ? this.step1Template() : this.step2Template()}
       <button @click="${()=>this.onReportMissingVehicle()}" class="w3-btn pc-secondary w3-margin-bottom w3-margin-left">
-        Report a missing vehicle
+        ${this.t("fbReportMissingVehicleHeader")}
       </button>
     </div>
     `

@@ -41,10 +41,8 @@ export default class InfoSidebar extends ViewBase {
     </div>
 
     <p>
-      <label class="w3-margin-top w3-large">${this.t("feedbackHeader")}</label><br>
-      <div>${this.ut("feedbackContent")}</div>
-      <button @click="${()=>this.onGiveFeedback("other_feedback")}" class="w3-btn pc-secondary w3-margin-top">Give Feedback</button>
-      <button @click="${()=>this.onGiveFeedback("missing_station")}" class="w3-btn pc-secondary w3-margin-top">Report Missing Station</button>
+      <button @click="${()=>this.onGiveFeedback("other_feedback")}" class="w3-btn pc-secondary w3-margin-top">${this.t("fbGiveFeedback")}</button>
+      <button @click="${()=>this.onGiveFeedback("missing_station")}" class="w3-btn pc-secondary w3-margin-top">${this.t("fbReportMissingStationHeader")}</button>
     </p>
 
     <label class="w3-margin-top w3-large">${this.t("partnerHeader")}</label><br>

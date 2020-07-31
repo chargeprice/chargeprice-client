@@ -16,19 +16,19 @@ export default class ModalFeedback extends ModalBase {
       <div class="w3-container w3-padding">
         ${customTemplate}
         <p>
-          ${ notesHeader ? html`<label>Other details</label>` : "" }
-          <textarea id="notes" value="" maxlength="1000" placeholder="Enter all details here!" class="w3-input w3-border"></textarea>
+          ${ notesHeader ? html`<label>${this.t("fbNotesHeader")}</label>` : "" }
+          <textarea id="notes" value="" maxlength="1000" placeholder="${this.t("fbNotesPlaceholder")}" class="w3-input w3-border"></textarea>
         </p>
         <p>
-          <label>In case you want us to respond, please provide your e-mail</label>
+          <label>${this.t("fbEmailHeader")}</label>
           <input id="email" value="" maxlength="100" placeholder="my.email@gmail.com" class="w3-input w3-border"/>
         </p>
         <p>
-          You can also reach out to us directly via e-mail: <a href="mailto:contact@chargeprice.net">contact@chargeprice.net</a>
+        ${this.t("fbEmailFooter")} <a href="mailto:contact@chargeprice.net">contact@chargeprice.net</a>
         </p>
       </div>
       <button @click="${()=>this.submit()}" class="w3-btn pc-secondary w3-margin-bottom w3-margin-left">
-        Submit
+      ${this.t("fbSubmit")}
       </button>
     </div>
     `
@@ -37,12 +37,12 @@ export default class ModalFeedback extends ModalBase {
   missingStationTemplate(){
     return html`
       <p>
-        <label>Location of the Station</label>
-        <input id="location" value="" maxlength="200" placeholder="e.g. Rue de Charge 12, Paris" class="w3-input w3-border"/>
+        <label>${this.t("fbLocationHeader")}</label>
+        <input id="location" value="" maxlength="200" placeholder="${this.t("fbLocationPlaceholder")}" class="w3-input w3-border"/>
       </p>
       <p>
-        <label>Station Operator (CPO)</label>
-        <input id="cpo" value="" maxlength="100" placeholder="e.g. IONITY" class="w3-input w3-border"/>
+        <label>${this.t("fbCpoHeader")}</label>
+        <input id="cpo" value="" maxlength="100" placeholder="${this.t("fbExample")} IONITY" class="w3-input w3-border"/>
       </p>
     `
   }
@@ -50,12 +50,12 @@ export default class ModalFeedback extends ModalBase {
   missingVehicleTemplate(){
     return html`
       <p>
-        <label>Brand</label>
-        <input id="brand" value="" maxlength="100" placeholder="e.g. Tesla" class="w3-input w3-border"/>
+        <label>${this.t("fbBrandHeader")}</label>
+        <input id="brand" value="" maxlength="100" placeholder="${this.t("fbExample")} Tesla" class="w3-input w3-border"/>
       </p>
       <p>
-        <label>Model</label>
-        <input id="model" value="" maxlength="100" placeholder="e.g. Model 3 LR+" class="w3-input w3-border"/>
+        <label>${this.t("fbModelHeader")}</label>
+        <input id="model" value="" maxlength="100" placeholder="${this.t("fbExample")} Model 3 LR+" class="w3-input w3-border"/>
       </p>
     `
   }
@@ -63,15 +63,15 @@ export default class ModalFeedback extends ModalBase {
   missingPriceTemplate(options){
     return html`
       <p>
-        <label>Station Operator: ${options.cpo}</label>
+        <label>${this.t("fbCpoHeader")}: ${options.cpo}</label>
       </p>
       <p>
-        <label>Provider and Tariff</label>
-        <input id="tariff" value="" maxlength="100" placeholder="e.g. Plugsurfing" class="w3-input w3-border"/>
+        <label>${this.t("fbEmpHeader")}</label>
+        <input id="tariff" value="" maxlength="100" placeholder="${this.t("fbExample")} Plugsurfing" class="w3-input w3-border"/>
       </p>
       <p>
-        <label>Price</label>
-        <input id="price" value="" maxlength="100" placeholder="Price per kWh, minute etc." class="w3-input w3-border"/>
+        <label>${this.t("fbPriceHeader")}</label>
+        <input id="price" value="" maxlength="100" placeholder="${this.t("fbPricePlaceholder")}" class="w3-input w3-border"/>
       </p>
     `
   }
@@ -79,11 +79,11 @@ export default class ModalFeedback extends ModalBase {
   wrongPriceTemplate(options){
     return html`
       <p>
-        <label>Station Operator: ${options.cpo}</label>
+        <label>${this.t("fbCpoHeader")}: ${options.cpo}</label>
       </p>
 
       <p>
-        <label>Provider and Tariff</label>
+        <label>${this.t("fbEmpHeader")}</label>
         <select id="feedbackTariffList" class="w3-select">
           ${options.prices.map((p,idx)=>
             html`<option value="${idx}">${p.tariff.provider} ${p.tariff.tariffName}: ${this.h().dec(p.price)}</option>`)
@@ -91,8 +91,8 @@ export default class ModalFeedback extends ModalBase {
         </select>
       </p>
       <p>
-        <label>Actual Price</label>
-        <input id="price" value="" maxlength="100" placeholder="Total Price or Price per kWh, minute etc." class="w3-input w3-border"/>
+        <label>${this.t("fbActualPriceHeader")}</label>
+        <input id="price" value="" maxlength="100" placeholder="${this.t("fbActualPricePlaceholder")}" class="w3-input w3-border"/>
       </p>
     `
   }
@@ -100,12 +100,12 @@ export default class ModalFeedback extends ModalBase {
   submittedTemplate(){
     return html`
       <div class="w3-modal-content">
-        ${this.header("Thank you!")}
+        ${this.header(this.t("fbThankYouHeader"))}
         <div class="w3-container w3-padding">
-        <label>With your feedback you make this service more valueable for all others!</label>
+        <label>${this.t("fbThankYouText")}</label>
         </div>
         <button @click="${()=>this.hide()}" class="w3-btn pc-secondary w3-margin-bottom w3-margin-left">
-          Close
+          ${this.t("close")}
         </button>
       </div>
     `
@@ -122,26 +122,26 @@ export default class ModalFeedback extends ModalBase {
     switch(type){
       case "other_feedback":
         template = "";
-        header = "Feedback"
+        header = this.t("fbReportOtherHeader")
         break;
       case "missing_station":
         template = this.missingStationTemplate();
-        header = "Report Missing Station"
+        header = this.t("fbReportMissingStationHeader")
         notesHeader = true;
         break;
       case "missing_vehicle":
         template = this.missingVehicleTemplate();
-        header = "Report Missing Vehicle"
+        header = this.t("fbReportMissingVehicleHeader")
         notesHeader = true;
         break;
       case "missing_price":
         template = this.missingPriceTemplate(options);
-        header = "Report Missing Price"
+        header = this.t("fbReportMissingPriceHeader")
         notesHeader = true;
         break;
       case "wrong_price":
         template = this.wrongPriceTemplate(options);
-        header = "Report Wrong Price"
+        header = this.t("fbReportWrongPriceHeader")
         notesHeader = true;
         break;
     }
