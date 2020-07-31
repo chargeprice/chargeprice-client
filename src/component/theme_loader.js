@@ -41,6 +41,13 @@ export default class ThemeLoader {
         themeColor: "#009688",
         appleTouchIcon: "/img/logos/apple-touch-icon.png"
       },
+      aprr: {
+        titleBarHtml: `<img id=\"logo\" src=\"themes/aprr/logo.png\"/><span class=\"title\">${translation.get("themeTitle")}</span>`,
+        favicon: "themes/aprr/logo.png",
+        name: translation.get("themeTitle"),
+        themeColor: "#ce0000",
+        appleTouchIcon: "themes/aprr/logo.png"
+      },
     }
   }
 

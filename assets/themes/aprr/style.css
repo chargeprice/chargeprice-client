@@ -1,0 +1,23 @@
+.pc-main{
+  color: #fff !important;
+  background-color: #ce0000 !important;
+}
+
+.pc-secondary{
+  color: #fff !important;
+  background-color: #9a0110 !important;
+}
+
+#logo {
+  height: 27px;
+  margin-top: -10px;
+  margin-right: 10px;
+}
+
+.noUi-connect {
+  background: #009688 !important;
+}
+
+.inverted {
+  filter: invert(100%);
+}
