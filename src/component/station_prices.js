@@ -55,12 +55,12 @@ export default class StationPrices extends ViewBase{
 
   feedbackTemplate(context){
     return html`
-      <label class="w3-block" >Report if Price is ...</label>
+      <label class="w3-block" >${this.t("fbReportPriceText")}</label>
       <button @click="${()=>this.onReportPrice("missing_price",context)}" class="w3-btn pc-secondary">
-        Missing
+      ${this.t("fbReportMissing")}
       </button>
       <button @click="${()=>this.onReportPrice("wrong_price",context)}" class="w3-btn pc-secondary">
-        Wrong
+        ${this.t("fbReportWrong")}
       </button>
     `;
   }
