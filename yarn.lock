@@ -3149,11 +3149,6 @@ lit-html@^1.2.1:
   resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-1.2.1.tgz#1fb933dc1e2ddc095f60b8086277d4fcd9d62cc8"
   integrity sha512-GSJHHXMGLZDzTRq59IUfL9FCdAlGfqNp/dEa7k7aBaaWD+JKaCjsAk9KYm2V12ItonVaYx2dprN66Zdm1AuBTQ==
 
-load-google-maps-api@1.3.3:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/load-google-maps-api/-/load-google-maps-api-1.3.3.tgz#9d3670a05527609ce9b31331bdd5957ddc0343fb"
-  integrity sha512-THOSdgymg98eQz8KcZZ2BGjVQIcpMBMUxjKb+0vkgXPQauK238zMNBgUoQBb9JzoP73J9Qgq9dvyHGu3oYvBMQ==
-
 loader-runner@^2.3.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.4.0.tgz#ed47066bfe534d7e84c4c7b9998c2a75607d9357"

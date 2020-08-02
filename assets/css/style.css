@@ -158,6 +158,10 @@ html, body, .flex-container{
   width: auto;
 } 
 
+#searchResult ul li{
+  cursor: pointer;
+}
+
 /* Featured */
 
 #prices tr.featured {

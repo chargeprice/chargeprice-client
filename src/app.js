@@ -6,7 +6,6 @@ import Map from './component/map.js';
 import Sidebar from './component/sidebar.js';
 import LocationSearch from './component/location_search.js';
 import Dependencies from './helper/dependencies'
-import loadGoogleMapsApi from "load-google-maps-api"
 import UrlModifier from './helper/urlModifier'
 import 'nouislider/distribute/nouislider.css';
 
@@ -15,7 +14,7 @@ require('jsrender')($);
 class App {
   constructor() {
     this.deptsLoaded = 0;
-    this.deptCount = 2;
+    this.deptCount = 1;
     this.fallBackLocation = {
       longitude: 11.6174228,
       latitude: 47.5399148
@@ -42,7 +41,8 @@ class App {
     this.stationTariffs = new StationTariffs();
     this.map = new Map();
     this.sidebar = new Sidebar(this.depts);
-    this.locationSearch = new LocationSearch(this.analytics);
+    this.locationSearch = new LocationSearch(this.depts);
+    this.locationSearch.render();
 
     this.currentStationTariffs = null;
     this.currentStation = null;
@@ -77,7 +77,6 @@ class App {
   }
 
   loadStaticContent(){
-    $("#search").html($.templates("#locationSearchTempl").render());
     $("#pricesContent").html($.templates("#pricesContentTempl").render());
     $("#settingsContent").html($.templates("#settingsTempl").render(
       { showUnbalancedLoad: this.translation.showUnbalancedLoad() }
@@ -229,5 +228,4 @@ class App {
 
 var app = new App();
 $(document).ready(()=>app.initialize());
-loadGoogleMapsApi({key: process.env.GOOGLE_CLOUD_API_KEY,libraries: ["places"]}).then(()=>app.initialize());
 

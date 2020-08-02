@@ -4,6 +4,7 @@ import CustomConfig from '../component/customConfig';
 import Analytics from '../component/analytics'
 import ThemeLoader from '../component/theme_loader'
 import RepositorySettingsPrimitive from '../repository/settings/primitive'
+import LocationIQ from '../repository/locationIQ';
 
 export default class Dependencies {
 
@@ -30,6 +31,10 @@ export default class Dependencies {
 
   customConfig(){
     return this.customConfigInstance;
+  }
+
+  locationSearch(){
+    return new LocationIQ();
   }
 }
 
