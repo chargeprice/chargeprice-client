@@ -27,17 +27,15 @@ export default class InfoSidebar extends ViewBase {
       ${this.t("installApp")}
     </button>
     
-    <div id="donate-button" class="w3-margin-bottom">
+    <div class="w3-margin-bottom">
       <label class="w3-margin-top w3-large">${this.t("aboutHeader")}</label><br>
       <a href="http://www.chargeprice.net">chargeprice.net</a>
     </div>
 
-    <div class="w3-margin-bottom">
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-      <input type="hidden" name="cmd" value="_s-xclick" />
-      <input type="hidden" name="hosted_button_id" value="48LQQZJAW7W42" />
-      <input type="image" src="https://www.paypalobjects.com/${this.t('paypalLocale')}/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-      </form>
+    <div id="donate-button" class="w3-margin-bottom">
+      <a href="http://paypal.me/chargeprice">
+        <img src="https://www.paypalobjects.com/${this.t('paypalLocale')}/i/btn/btn_donateCC_LG.gif"/>
+      </a>
     </div>
 
     <p>
