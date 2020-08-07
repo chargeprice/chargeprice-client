@@ -27,7 +27,7 @@ export default class InfoSidebar extends ViewBase {
       ${this.t("installApp")}
     </button>
     
-    <div class="w3-margin-bottom">
+    <div id="donate-button" class="w3-margin-bottom">
       <label class="w3-margin-top w3-large">${this.t("aboutHeader")}</label><br>
       <a href="http://www.chargeprice.net">chargeprice.net</a>
     </div>
