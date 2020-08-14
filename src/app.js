@@ -62,6 +62,10 @@ class App {
       this.map.centerLocation(coords);
       this.map.setSearchLocation(coords);
     });
+    this.locationSearch.onCenterMyLocation(()=>{
+      this.map.centerMyLocation();
+      this.getCurrentLocation();
+    });
 
     var params = new URL(window.location.href).searchParams;
     this.deeplinkActivated = false;
@@ -72,6 +76,7 @@ class App {
       this.poiSource = poiSource;
       this.analytics.log('send', 'event', 'PoiDeeplink', poiSource);
     } else {
+      this.showFallbackLocation();
       this.getCurrentLocation();
       this.sidebar.open("settings");
       new ShowPopUpOnStart(this.depts).run();
@@ -89,7 +94,6 @@ class App {
   }
 
   getCurrentLocation() {
-    this.showFallbackLocation();
     navigator.geolocation.getCurrentPosition(
       pos => {
         this.map.centerLocation(pos.coords);

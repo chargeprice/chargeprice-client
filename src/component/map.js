@@ -31,6 +31,13 @@ export default class Map {
   centerLocation(coords, zoom=13) {
     this.mapReady = true;
     this.component.setView([coords.latitude, coords.longitude], zoom);
+    this.component._onResize(); 
+  }
+
+  centerMyLocation(){
+    if(this.myLocation==null) return;
+    const ll = this.myLocation._latlng;
+    this.centerLocation({latitude: ll.lat, longitude: ll.lng});
   }
 
   watchLocation(){

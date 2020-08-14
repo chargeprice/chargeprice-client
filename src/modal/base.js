@@ -9,7 +9,7 @@ export default class ModalBase extends ViewBase {
 
   header(text){
     return html`
-      <div class="w3-row pc-secondary">
+      <div class="w3-row w3-bar pc-secondary">
         <button @click="${()=>this.hide()}" class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close">
           <img class="inverted" class="w3-button " src="img/close.svg">
         </button>

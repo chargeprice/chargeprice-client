@@ -13,8 +13,16 @@ export default class LocationSearch extends ViewBase {
 
   template(){
     return html`
-      <input id="search-box" @keyup="${(e)=>this.onKeyUp(e)}" @focusout="${()=>this.onFocusOut()}" class="w3-border w3-input w3-padding" placeholder="${this.t('locationSearchPlaceholder')}"/>
-      <div id="searchResult"></div>
+      <div class="w3-row">
+        <button id="jump-to-my-location" @click="${()=>this.onMyLocation()}" class="w3-button w3-light-gray w3-border w3-col">
+          <i class="fa fa-dot-circle-o"></i>
+        </button>
+        <div class="w3-rest">
+          <input id="search-box" @keyup="${(e)=>this.onKeyUp(e)}" @focusout="${()=>this.onFocusOut()}" class="w3-border w3-input w3-padding" placeholder="${this.t('locationSearchPlaceholder')}"/>
+          <div id="searchResult"></div>
+        </div>
+      </div>
+      
     `
   }
 
@@ -48,7 +56,7 @@ export default class LocationSearch extends ViewBase {
     this.showResults([]);
     this.analytics.log('send', 'event', 'LocationSearch','search');
 
-    if(this.callback) this.callback(place);
+    if(this.searchResultCallback) this.searchResultCallback(place);
   }
 
   async onSearchTermChanged(searchTerm) {
@@ -69,7 +77,16 @@ export default class LocationSearch extends ViewBase {
     render(this.searchResultTemplate(results,emptyMessage),this.getEl("searchResult"));
   }
 
+  onMyLocation(){
+    this.analytics.log('send', 'event', 'LocationSearch','currentLocation');
+    if(this.myLocationCallback) this.myLocationCallback();
+  }
+
+  onCenterMyLocation(callback){
+    this.myLocationCallback = callback;
+  }
+
   onResultSelected(callback){
-    this.callback = callback;
+    this.searchResultCallback = callback;
   }
 }
