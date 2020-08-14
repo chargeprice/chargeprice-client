@@ -190,6 +190,20 @@ html, body, .flex-container{
   margin-right: 8px;
 }
 
+.my-location-icon{
+  width: 20px !important;
+  height: 20px !important;
+  background-color: #276d9a;
+  border: 2px solid white;
+  border-radius: 20px;
+  box-shadow: 0px 4px 6px #888;
+}
+
+.key-marker{
+  display: inline-block;
+  height: 35px;
+}
+
 /* Featured */
 
 #prices tr.featured {

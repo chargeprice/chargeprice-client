@@ -21,7 +21,7 @@
   "manageMyTariffsDescription": "Wählen unten alle Tarife aus, bei denen du registriert bist.",
   "errorStationsUnavailable": "Stationen konnten nicht geladen werden.",
   "errorPricesUnavailable": "Preise konnten nicht geladen werden. Bitte versuchen Sie die Seite neu zu laden.",
-  "totalPriceInfo": "Gesamtpreis exkl. monatliche Gebühren<br>\n* Errechnete Werte inkl. 10% Ladeverlust. Die realen Werte hängen in der Realität von Fahrzeug, Station, Wetter etc. ab.<br>\n** Abhängig von Tarif: Grundgebühr, Servicepauschale oder Mitgliedsbeitrag",
+  "totalPriceInfo": "Gesamtpreis exkl. monatliche Gebühren<br>\n* Errechnete Werte inkl. 10% Ladeverlust. Die Werte hängen in der Realität von Fahrzeug, Station, Wetter etc. ab.<br>\n** Abhängig von Tarif: Grundgebühr, Servicepauschale oder Mitgliedsbeitrag",
   "timeFormat": "{0}h {1}min",
   "chargeDuration": "Ladedauer",
   "chargeEnergy": "Ladeenergie",
@@ -37,8 +37,8 @@
   "manageMyTariffsLink": "Meine Tarife verwalten",
   "ok": "Ok",
   "poiKey": "Legende",
-  "chargePowerTo": "bis {0}kW",
-  "chargePowerFrom": "ab {0}kW",
+  "chargePowerTo": "bis {0} kW",
+  "chargePowerFrom": "ab {0} kW",
   "poweredBy": "powered by",
   "aboutHeader": "Impressum",
   "feedbackHeader": "Feedback",
@@ -57,7 +57,8 @@
   "plugcheckerToChargepriceHeader": "Plugchecker.com heißt jetzt Chargeprice.app!",
   "plugcheckerToChargepriceContent": "Gleiche Funktionen, neuer Name!<br>\nDie Adresse www.plugchecker.com wird natürlich weiterhin funktionien, jedoch ist ab jetzt die offizielle Adresse www.chargeprice.app",
   "plugcheckerToChargepriceBtn": "Weiter zu www.chargeprice.app",
-  "locationPin": "Meine Position / Gesuchter Ort",
+  "searchResultPin": "Gesuchter Ort",
+  "myLocationPin": "Meine Position",
   "hours": "Stunden",
   "myVehicle": "Mein Fahrzeug",
   "batteryRangeInfo": "Laden von {0}% bis {1}%",
@@ -121,5 +122,6 @@
   "fbReportPriceText": "Ein Preis bzw. Tariff ...",
   "fbReportMissing": "fehlt",
   "fbReportWrong": "ist falsch",
-  "locationSearchEnterInfo": "Suchen mit \"Enter\""
+  "locationSearchEnterInfo": "Suchen mit \"Enter\"",
+  "fastChargerMultiInfo": "Schnelllader mit mind. 2 Ladepunkten"
 }

@@ -53,7 +53,7 @@ export default class GoingElectric {
       body: this.encodeBody(body),
     })
 
-    return await this.parseStationsResponse(response);
+    return await this.parseStationsResponse(response, options.myVehicle);
   }
 
   async getStationDetails(stationId,options){
@@ -67,38 +67,35 @@ export default class GoingElectric {
       body: this.encodeBody(body),
     })
 
-    const result = await this.parseStationResponse(response);
-    this.addChargePointSupportedFlag(result,options.myVehicle);
-
-    return result;
+    return await this.parseStationResponse(response, options.myVehicle);
   }
 
   encodeBody(body){
     return Object.keys(body).map((k) => [k, body[k]].join("=")).join("&")
   }
 
-  async parseStationsResponse(response) {
+  async parseStationsResponse(response, vehicle) {
     const root = await response.json();
-    return root.chargelocations.map(m => this.toLightModel(m))
+    return root.chargelocations.map(m => this.toLightModel(m, vehicle))
   }
 
-  async parseStationResponse(response) {
+  async parseStationResponse(response, vehicle) {
     const root = await response.json();
-    return root.chargelocations.map(m => this.toDetailModel(m))[0]
+    return root.chargelocations.map(m => this.toDetailModel(m, vehicle))[0]
   }
 
-  toLightModel(data) {
+  toLightModel(data,vehicle) {
     return {
       dataAdapter: "going_electric",
       id: String(data.ge_id),
       longitude: data.coordinates.lng,
       latitude: data.coordinates.lat,
       country: data.address.country,
-      chargePoints: data.chargepoints.map(cp=>{ return {power: cp.power }})
+      chargePoints: data.chargepoints.map((cp,idx) => this.parseChargePoint(cp,idx,vehicle))
     }
   }
 
-  toDetailModel(data) {
+  toDetailModel(data,vehicle) {
     return {
       dataAdapter:       "going_electric",
       id:                String(data.ge_id),
@@ -113,7 +110,7 @@ export default class GoingElectric {
       priceDescription:  this.valueOrFallback(data.cost.description_long),
       country:           data.address.country,
       chargeCardIds:     this.valueOrFallback(data.chargecards, []).map(cc => String(cc.id)),
-      chargePoints:      data.chargepoints.map((cp,idx) => this.parseChargePoint(cp,idx)),
+      chargePoints:      data.chargepoints.map((cp,idx) => this.parseChargePoint(cp,idx,vehicle)),
       goingElectricUrl:  "https:" + data.url
     }
   }
@@ -122,13 +119,17 @@ export default class GoingElectric {
     return value != false ? value : fallback
   }
 
-  parseChargePoint(hash,idx){
-    return {
+  parseChargePoint(hash,idx,vehicle){
+    const chargepoint = {
       id: String(idx), 
       power: hash.power,
       plug:  hash.type,
       count: hash.count
     }
+
+    this.addChargePointSupportedFlag(chargepoint,vehicle);
+
+    return chargepoint;
   }
 
   mapPlugs(vehiclePlugs){
@@ -138,18 +139,16 @@ export default class GoingElectric {
     ;
   }
 
-  addChargePointSupportedFlag(result,vehicle){
-    result.chargePoints.forEach((cp)=>{
-      if(!vehicle){
-        cp.supportedByVehicle=true;
-        return;
-      }
+  addChargePointSupportedFlag(chargepoint,vehicle){
+    if(!vehicle){
+      chargepoint.supportedByVehicle=true;
+      return;
+    }
 
-      const isDefaultPort = this.defaultPlugs.includes(cp.plug);
-      const isSupportedFastCharger = vehicle.dcChargePorts.some((type)=>this.plugMapping[type].includes(cp.plug));
+    const isDefaultPort = this.defaultPlugs.includes(chargepoint.plug);
+    const isSupportedFastCharger = vehicle.dcChargePorts.some((type)=>this.plugMapping[type].includes(chargepoint.plug));
 
-      cp.supportedByVehicle = isDefaultPort || isSupportedFastCharger;
-    })
+    chargepoint.supportedByVehicle = isDefaultPort || isSupportedFastCharger;
   }
 
 }

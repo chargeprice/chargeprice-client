@@ -37,8 +37,8 @@
   "manageMyTariffsLink": "Manage My Tariffs",
   "ok": "Ok",
   "poiKey": "Map Key",
-  "chargePowerTo": "<= {0}kW",
-  "chargePowerFrom": "> {0}kW",
+  "chargePowerTo": "<= {0} kW",
+  "chargePowerFrom": "> {0} kW",
   "poweredBy": "powered by",
   "aboutHeader": "About",
   "feedbackHeader": "Feedback",
@@ -57,7 +57,8 @@
   "plugcheckerToChargepriceHeader": "Plugchecker.com is now Chargeprice.app!",
   "plugcheckerToChargepriceContent": "Same features, different name!<br>\nThe website www.plugchecker.com will of course continue to work, but the official new name is now www.chargeprice.app",
   "plugcheckerToChargepriceBtn": "Continue to www.chargeprice.app",
-  "locationPin": "My Position / Searched Location",
+  "searchResultPin": "Searched Location",
+  "myLocationPin": "My Position",
   "hours": "hours",
   "myVehicle": "My Vehicle",
   "batteryRangeInfo": "Charge from {0}% to {1}%",
@@ -110,7 +111,7 @@
   "fbActualPriceHeader": "Actual Price",
   "fbActualPricePlaceholder": "Total Price or Price per kWh, minute etc.",
   "fbThankYouHeader": "Thank you!",
-  "fbThankYouText": "With your feedback you make this service more valueable for all others!",
+  "fbThankYouText": "With your feedback you make this service more valueable for all others!\nFollow us on Facebook <a href=\"https://www.facebook.com/chargepriceapp\">Facebook</a> and Twitter <a href=\"https://twitter.com/chargeprice\">Twitter</a> to be informed of all updates on Chargeprice. ",
   "fbReportMissingStationHeader": "Report Missing Station",
   "fbReportMissingVehicleHeader": "Report Missing Vehicle",
   "fbReportMissingPriceHeader": "Report Missing Price",
@@ -121,5 +122,6 @@
   "fbReportPriceText": "Report if Price is ...",
   "fbReportMissing": "Missing",
   "fbReportWrong": "Wrong",
-  "locationSearchEnterInfo": "Hit enter to search"
+  "locationSearchEnterInfo": "Hit enter to search",
+  "fastChargerMultiInfo": "Fast chargers with 2 or more charging points"
 }

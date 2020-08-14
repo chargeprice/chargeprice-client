@@ -11,11 +11,23 @@ export default class InfoSidebar extends ViewBase {
     return html`
     <div class="w3-margin-bottom">
       <label class="w3-margin-top w3-large">${this.t("poiKey")}</label><br>
-      <span class="w3-tag w3-green w3-margin-top" style="background: #575757 !important">${this.sf(this.t("chargePowerTo"),3.7)}</span>
-      <span class="w3-tag w3-green w3-margin-top" style="background: #36a5d8 !important">${this.sf(this.t("chargePowerTo"),22)}</span>
-      <span class="w3-tag w3-green w3-margin-top" style="background: #f4952f !important">${this.sf(this.t("chargePowerTo"),50)}</span>
-      <span class="w3-tag w3-green w3-margin-top" style="background: #9d3135 !important">${this.sf(this.t("chargePowerFrom"),50)}</span>    
-      <span class="w3-tag w3-green w3-margin-top" style="background: #d33d2a !important">${this.t("locationPin")}</span>    
+      <p>
+        <img src="img/markers/slow_single.png" class="key-marker"> ${this.sf(this.t("chargePowerTo"),3.7)}
+        <img src="img/markers/ac_single.png" class="key-marker w3-margin-left"> ${this.sf(this.t("chargePowerTo"),22)}
+      </p>
+      <p>
+        <img src="img/markers/fast_single.png" class="key-marker"> ${this.sf(this.t("chargePowerTo"),50)}
+        <img src="img/markers/ultra_single.png" class="key-marker w3-margin-left"> ${this.sf(this.t("chargePowerFrom"),50)}
+      </p>
+      <span>
+        <img src="img/markers/fast_multi.png" class="key-marker">
+        <img src="img/markers/ultra_multi.png" class="key-marker">
+        ${this.t("fastChargerMultiInfo")}
+      </span>
+      <p>
+        <div class="key-marker my-location-icon"></div> ${this.t("myLocationPin")}
+        <img src="img/markers/search_single.png" class="key-marker w3-margin-left"> ${this.t("searchResultPin")}
+      </p>
     </div>
 
     <div id="theme-info" class="w3-margin-bottom">

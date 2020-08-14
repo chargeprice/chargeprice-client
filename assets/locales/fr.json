@@ -37,8 +37,8 @@
   "manageMyTariffsLink": "Gérer mes forfaits",
   "ok": "Ok",
   "poiKey": "Légende",
-  "chargePowerTo": "< {0}kW",
-  "chargePowerFrom": "> {0}kW",
+  "chargePowerTo": "< {0} kW",
+  "chargePowerFrom": "> {0} kW",
   "poweredBy": "Powered by",
   "aboutHeader": "Mentions légales",
   "feedbackHeader": "Commentaires",
@@ -57,7 +57,8 @@
   "plugcheckerToChargepriceHeader": "Plugchecker.com s'appelle désormais Chargeprice.app !",
   "plugcheckerToChargepriceContent": "Même fonctionnalités, nouveau nom !<br>\nL'adresse www.plugchecker.com fonctionne toujours, mais l'URL officielle est désormais www.chargeprice.app",
   "plugcheckerToChargepriceBtn": "Aller sur www.chargeprice.app",
-  "locationPin": "Ma localisation / Ma recherche",
+  "searchResultPin": "Ma recherche",
+  "myLocationPin": "Ma localisation",
   "hours": "heure",
   "myVehicle": "Mon véhicule",
   "batteryRangeInfo": "Recharger de {0}% à {1}%",
@@ -110,7 +111,7 @@
   "fbActualPriceHeader": "Prix actuel",
   "fbActualPricePlaceholder": "Prix total ou prix au kWh, à la minute, etc",
   "fbThankYouHeader": "Merci",
-  "fbThankYouText": "Grâce à vos retours, nous améliorons le service pour toute la communauté Chargeprice ",
+  "fbThankYouText": "Grâce à vos retours, nous améliorons le service pour toute la communauté Chargeprice !\nPour rester au courant de toutes les actualités et mises à jour, suivez-nous sur Facebook    \n<a href=\"https://www.facebook.com/chargepriceapp\">Facebook</a>\net Twitter <a href=\"https://twitter.com/chargeprice\">Twitter</a>",
   "fbReportMissingStationHeader": "Signaler une borne manquante",
   "fbReportMissingVehicleHeader": "Signaler un véhicule manquant",
   "fbReportMissingPriceHeader": "Signaler un prix manquant",
@@ -121,5 +122,6 @@
   "fbReportPriceText": "Signaler si un prix est",
   "fbReportMissing": "manquant",
   "fbReportWrong": "incorrect ",
-  "locationSearchEnterInfo": "Taper sur Entrée pour rechercher"
+  "locationSearchEnterInfo": "Taper sur Entrée pour rechercher",
+  "fastChargerMultiInfo": "Bornes de recharge rapide avec au moins 2 points de charge"
 }

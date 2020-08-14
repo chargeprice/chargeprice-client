@@ -37,8 +37,8 @@
   "manageMyTariffsLink": "Mijn tarieven beheren",
   "ok": "Ok",
   "poiKey": "Legenda",
-  "chargePowerTo": "Tot {0} KW",
-  "chargePowerFrom": "Vanaf {0} KW",
+  "chargePowerTo": "Tot {0} kW",
+  "chargePowerFrom": "Vanaf {0} kW",
   "poweredBy": "Powered by",
   "aboutHeader": "Voorwaarden",
   "feedbackHeader": "Feedback",
@@ -57,7 +57,8 @@
   "plugcheckerToChargepriceHeader": "Plugchecker.com heet nu chargeprice.app!",
   "plugcheckerToChargepriceContent": "Nieuwe naam, zelfde voordelen! Vanaf nu is chargeprice.app ons officiele webadres",
   "plugcheckerToChargepriceBtn": "Verder naar www.chargeprice.app",
-  "locationPin": "Mijn positie / gezochte lokatie",
+  "searchResultPin": "Gezochte lokatie",
+  "myLocationPin": "Mijn positie",
   "hours": "Uren",
   "myVehicle": "Mijn auto",
   "batteryRangeInfo": "Laden van {0}% naar {1}%",
@@ -121,5 +122,6 @@
   "fbReportPriceText": "Melden wanneer prijs ...",
   "fbReportMissing": "ontbreekt",
   "fbReportWrong": "incorrect is",
-  "locationSearchEnterInfo": "Enter"
+  "locationSearchEnterInfo": "Enter",
+  "fastChargerMultiInfo": "Fast chargers with 2 or more charging points"
 }

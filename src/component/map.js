@@ -45,7 +45,7 @@ export default class Map {
   }
 
   setMyLocation(coords){
-    if(!this.myLocation) this.myLocation = this.buildLocationMarker(coords, "circle");
+    if(!this.myLocation) this.myLocation = this.buildMyLocationMarker(coords);
     else this.myLocation.setLatLng([coords.latitude, coords.longitude]);
   }
 
@@ -54,14 +54,27 @@ export default class Map {
     else this.searchLocation.setLatLng([coords.latitude, coords.longitude]);
   }
 
+  buildMyLocationMarker(coords){
+    const marker = L.marker([coords.latitude, coords.longitude],{icon: L.divIcon({className: 'my-location-icon'})});
+
+    marker.addTo(this.component);
+    marker.setZIndexOffset(10000);
+    return marker;
+  }
+
   buildLocationMarker(coords, icon){
-    const markerIcon = L.AwesomeMarkers.icon({
-      icon: icon,
-      markerColor: "red",
-      prefix: 'fa'
+    const markerIcon = L.icon({
+      iconUrl: `img/markers/search_single.png`,
+      shadowUrl: '/img/leaflet/markers-shadow.png',
+
+      iconSize:     [28, 40],
+      iconAnchor:   [14, 40],
+      shadowSize:   [40,24],
+      shadowAnchor: [10,24]
     });
 
     const marker = L.marker([coords.latitude, coords.longitude],{icon: markerIcon});
+    marker.setZIndexOffset(10001);
     marker.addTo(this.component);
 
     return marker;
@@ -102,37 +115,48 @@ export default class Map {
 
     let color = '';
     let powerType = null;
+    let zIndex = 0;
 
     const maxPower = model.chargePoints.reduce((max,value)=> max > value.power ? max : value.power, 0);
+    const fastChargerCount = model.chargePoints.reduce((sum,value)=> value.supportedByVehicle && value.power >= 50 ? sum + value.count : sum,0);
 
     if(maxPower > 50){
-      color = "darkred"
+      color = fastChargerCount > 1 ? "ultra_multi" : "ultra_single";
       powerType = ">50"
+      zIndex = 1000;
     }
     else if(maxPower > 22){
-      color = "orange"
+      color = fastChargerCount > 1 ? "fast_multi" : "fast_single";
       powerType = ">22"
+      zIndex = 900;
     }
     else if(maxPower > 3.7){
-      color = "blue"
+      color = "ac_single";
       powerType = ">3.7"
+      zIndex = 800;
     }
     else{
-      color = "gray";
+      color = "slow_single";
       powerType = "<=3.7"
+      zIndex = 700;
     }
 
-    const markerIcon = L.AwesomeMarkers.icon({
-      icon: "plug",
-      markerColor: color,
-      prefix: 'fa'
+    const markerIcon = L.icon({
+        iconUrl: `img/markers/${color}.png`,
+        shadowUrl: '/img/leaflet/markers-shadow.png',
+  
+        iconSize:     [28, 40],
+        iconAnchor:   [14, 40],
+        shadowSize:   [40,24],
+        shadowAnchor: [10,24]
     });
         
     const marker = L.marker([model.latitude, model.longitude],{icon: markerIcon});
     marker.on('click', () => onClickCallback(model,powerType));
     marker.on('click', () => this.changeSelectedStation(model));
+    marker.setZIndexOffset(zIndex);
 
-    // If shows before at this location, show it again
+    // If shown before at this location, show it again
     // If not shown, station highlighted before is not shown anymore
     if(this.selectedStationCircle && this.selectedStationCircle.options.id == model.id){
       this.selectedStationCircle.addTo(this.component);
