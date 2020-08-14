@@ -99,6 +99,7 @@ export default class StationPrices extends ViewBase{
     new GenericList(this.depts).show(
       {
         items: this.sortedCP,
+        enabled: p => p.supportedByVehicle, 
         header: this.translation.get("chargePointHeader"), 
         convert: obj => html`${this.h().upper(obj.plug)} ${obj.power} kw (${obj.count}x)`,
         narrow: true
