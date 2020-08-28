@@ -111,7 +111,7 @@
   "fbActualPriceHeader": "Prix actuel",
   "fbActualPricePlaceholder": "Prix total ou prix au kWh, à la minute, etc",
   "fbThankYouHeader": "Merci",
-  "fbThankYouText": "Grâce à vos retours, nous améliorons le service pour toute la communauté Chargeprice !\nPour rester au courant de toutes les actualités et mises à jour, suivez-nous sur Facebook    \n<a href=\"https://www.facebook.com/chargepriceapp\">Facebook</a>\net Twitter <a href=\"https://twitter.com/chargeprice\">Twitter</a>",
+  "fbThankYouText": "Grâce à vos retours, nous améliorons le service pour toute la communauté Chargeprice !\nPour rester au courant de toutes les actualités et mises à jour, suivez-nous sur \n<a href=\"https://www.facebook.com/chargepriceapp\" target=\"_blank\">Facebook</a>\net <a href=\"https://twitter.com/chargeprice\" target=\"_blank\">Twitter</a>",
   "fbReportMissingStationHeader": "Signaler une borne manquante",
   "fbReportMissingVehicleHeader": "Signaler un véhicule manquant",
   "fbReportMissingPriceHeader": "Signaler un prix manquant",

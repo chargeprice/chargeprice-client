@@ -111,7 +111,7 @@
   "fbActualPriceHeader": "Richtiger Preis",
   "fbActualPricePlaceholder": "Gesamtpreis oder Preis pro kWh, Minute etc.",
   "fbThankYouHeader": "Danke!",
-  "fbThankYouText": "Dein Feedback verbessert unseren Service und viele Nutzer werden davon profitieren!",
+  "fbThankYouText": "Dein Feedback verbessert unseren Service und viele Nutzer werden davon profitieren!<br>\nFolge uns auf <a href=\"https://www.facebook.com/chargepriceapp\" target=\"_blank\">Facebook</a> und <a href=\"https://twitter.com/chargeprice\" target=\"_blank\">Twitter</a> um über alle Änderungen informiert zu bleiben! ",
   "fbReportMissingStationHeader": "Fehlende Station melden",
   "fbReportMissingVehicleHeader": "Fehlendes Fahrzeug melden",
   "fbReportMissingPriceHeader": "Fehlenden Preis melden",

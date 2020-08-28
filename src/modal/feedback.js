@@ -102,7 +102,7 @@ export default class ModalFeedback extends ModalBase {
       <div class="w3-modal-content">
         ${this.header(this.t("fbThankYouHeader"))}
         <div class="w3-container w3-padding">
-        <label>${this.t("fbThankYouText")}</label>
+        <label>${this.ut("fbThankYouText")}</label>
         </div>
         <button @click="${()=>this.hide()}" class="w3-btn pc-secondary w3-margin-bottom w3-margin-left">
           ${this.t("close")}

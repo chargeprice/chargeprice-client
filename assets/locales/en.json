@@ -111,7 +111,7 @@
   "fbActualPriceHeader": "Actual Price",
   "fbActualPricePlaceholder": "Total Price or Price per kWh, minute etc.",
   "fbThankYouHeader": "Thank you!",
-  "fbThankYouText": "With your feedback you make this service more valueable for all others!\nFollow us on Facebook <a href=\"https://www.facebook.com/chargepriceapp\">Facebook</a> and Twitter <a href=\"https://twitter.com/chargeprice\">Twitter</a> to be informed of all updates on Chargeprice. ",
+  "fbThankYouText": "With your feedback you make this service more valueable for all others!<br>\nFollow us on <a href=\"https://www.facebook.com/chargepriceapp\" target=\"_blank\">Facebook</a> and <a href=\"https://twitter.com/chargeprice\" target=\"_blank\">Twitter</a> to be informed of all updates on Chargeprice. ",
   "fbReportMissingStationHeader": "Report Missing Station",
   "fbReportMissingVehicleHeader": "Report Missing Vehicle",
   "fbReportMissingPriceHeader": "Report Missing Price",
