@@ -19,13 +19,9 @@ export default class Map {
   initializeLayer() {
     this.component.zoomControl.setPosition('topright');
 
-    import(/* webpackChunkName: "mapbox" */ './mapbox.js').then(()=>{
-      L.mapboxGL({
-        attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
-        accessToken: 'not-needed',
-        style: `https://api.maptiler.com/maps/streets/style.json?key=${process.env.MAPTILER_API_KEY}`
-      }).addTo(this.component);
-    });
+    L.tileLayer(`https://{s}-tiles.locationiq.com/v2/streets/r/{z}/{x}/{y}.png?key=${process.env.LOCATION_IQ_KEY}`, {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.component);
   }
 
   centerLocation(coords, zoom=13) {
