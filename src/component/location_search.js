@@ -3,8 +3,7 @@ import ViewBase from './viewBase';
 
 export default class LocationSearch extends ViewBase {
   constructor(depts) {
-    super(depts.translation());
-    this.depts = depts;
+    super(depts);
     this.analytics = depts.analytics();
     this.locationSearch = depts.locationSearch();
     this.root = "search";

@@ -3,7 +3,7 @@ import ViewBase from '../component/viewBase';
 
 export default class ModalBase extends ViewBase {
   constructor(depts){
-    super(depts.translation());
+    super(depts);
     this.root = "messageDialog";
   }
 

@@ -141,6 +141,11 @@ html, body, .flex-container{
   margin-top: 4px !important;
 }
 
+.cp-margin-top-right-small {
+  margin-top: 4px !important;
+  margin-right: 4px !important;
+}
+
 .cp-margin-small {
   margin: 8px !important;
 }

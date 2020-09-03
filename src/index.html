@@ -164,52 +164,6 @@
     </table>
   </script>
 
-  <script id="priceTempl" type="text/html">
-    <tr style="{{if featuring}} background: {{:featuring.backgroundColor}} !important; {{/if}}" >
-      <td class="cp-price-left">
-        {{if tariff.tariffName == null}}
-        <a class="affiliateLinkEMP" href="{{:tariff.url}}" target="_blank"><span>{{:tariff.provider}}</span></a>
-        {{else}}
-        <a class="affiliateLinkEMP" href="{{:tariff.url}}" target="_blank"><span>{{:tariff.tariffName}}</span></a><br>
-          <label class="w3-margin-top w3-small">{{:tariff.provider}}</label>
-        {{/if}}
-        {{if tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0}}
-          <br>
-          <label class="w3-margin-top w3-small">
-          {{if tariff.totalMonthlyFee > 0 }}{{:~t("baseFee")}}: {{dec:tariff.totalMonthlyFee}}/{{:~t("month")}}** {{/if}}
-          {{if tariff.monthlyMinSales > 0 }}{{:~t("minSales")}}: {{dec:tariff.monthlyMinSales}}/{{:~t("month")}} {{/if}}
-        </label>
-        {{/if}}
-        
-        {{if tariff.providerCustomerTariff }}
-          <br>
-          <label class="w3-margin-top w3-small">{{:~t("providerCustomerOnly")}}</label> 
-        {{/if}}
-
-        {{if ~beta() && tariff.links && tariff.links.open_app_at_station }}
-          <br>
-          <a href="{{:tariff.links.open_app_at_station}}" class="w3-button w3-small w3-blue" target="_blank"><i class="fa fa-bolt"></i> Start Charging!</a> 
-        {{/if}}
-
-      </td>
-      <td class="cp-price-right">
-        <label class="w3-right">{{dec:price}}</label><br>
-        <label class="w3-right w3-small">
-          {{if price > 0}}{{:~t("average")}} {{dec:pricePerKWh}}/kWh{{/if}}
-        </label><br>
-        <label class="w3-right w3-small">
-          {{if distribution.session}} {{if distribution.session < 1}}{{perc:distribution.session}}{{/if}} {{:~t("session")}}{{/if}}
-          {{if distribution.minute}} {{if distribution.minute < 1}}{{perc:distribution.minute}}{{/if}} {{:~t("per")}} <i class="fa fa-clock-o"></i>{{/if}}
-          {{if distribution.kwh}} {{if distribution.kwh < 1}}{{perc:distribution.kwh}}{{/if}} {{:~t("per")}} kWh{{/if}}
-        </label>
-        {{if featuring}}
-          <br>
-          <a href="{{:tariff.url}}" target="_blank"><img class="w3-right feature-logo" src="{{:featuring.logoUrl}}"/></a>
-        {{/if}}
-      </td>
-    </tr>
-  </script>
-
   <script id="stationTempl" type="text/html">
     <label class="w3-margin-top w3-large">{{:name}}</label><br>    
     <label>{{:address}}</label><br>    

@@ -2,11 +2,6 @@ import { html, render } from 'lit-html';
 import ViewBase from './viewBase';
 import ModalFeedback from '../modal/feedback';
 export default class InfoSidebar extends ViewBase {
-  constructor(depts) {
-    super(depts.translation());
-    this.depts = depts;
-  }
-
   template(){
     return html`
     <div class="w3-margin-bottom">

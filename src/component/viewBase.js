@@ -2,8 +2,10 @@ var dayjs = require('dayjs');
 import {unsafeHTML} from 'lit-html/directives/unsafe-html.js';
 export default class ViewBase {
 
-  constructor(translation) {
-    this.translation = translation; 
+  constructor(depts) {
+    this.depts=depts;
+    this.customConfig = depts.customConfig();
+    this.translation = depts.translation(); 
   }
 
   getSelectedValue(id){
@@ -43,7 +45,8 @@ export default class ViewBase {
         const minutes = time % 60;
         return dayjs(new Date().setHours(hours,minutes)).format("HH:mm");
       },
-      upper: val => val.toUpperCase()
+      upper: val => val.toUpperCase(),
+      customConfig: this.customConfig
     }
   }
 }

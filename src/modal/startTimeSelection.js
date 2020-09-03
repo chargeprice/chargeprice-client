@@ -2,8 +2,8 @@ import {html, render} from 'lit-html';
 import ViewBase from '../component/viewBase';
 
 export default class StartTimeSelection extends ViewBase {
-  constructor(translation){
-    super(translation);
+  constructor(depts){
+    super(depts);
     this.root = "messageDialog";
   }
 

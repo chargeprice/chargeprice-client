@@ -1,11 +1,6 @@
 import { html, render } from 'lit-html';
 import ViewBase from './viewBase';
 export default class PricesSidebar extends ViewBase {
-  constructor(depts) {
-    super(depts.translation());
-    this.depts = depts;
-  }
-
   template(){
     return html`
       <div id="station-info"></div>

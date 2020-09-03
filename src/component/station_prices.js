@@ -7,11 +7,11 @@ import {html, render} from 'lit-html';
 import RepositoryStartTime from '../repository/settings/startTime';
 import GenericList from '../modal/genericList';
 import ModalFeedback from '../modal/feedback';
+import PriceListView from '../views/priceList';
 
 export default class StationPrices extends ViewBase{
   constructor(sidebar,depts) {
-    super(depts.translation())
-    this.depts = depts;
+    super(depts);
     this.sidebar = sidebar;
     this.analytics = depts.analytics();
     this.slider = null;
@@ -133,7 +133,7 @@ export default class StationPrices extends ViewBase{
     const sortedPrices = prices.sort((a,b)=>a.price - b.price);
     this.addFeaturings(sortedPrices);
 
-    $("#priceList").html($.templates("#priceTempl").render(sortedPrices));
+    new PriceListView(this.depts).render(sortedPrices,"priceList")
     $("#station-info").html($.templates("#stationTempl").render(station));
     $("#prices").toggle(!station.isFreeCharging && prices.length > 0 || prices.length > 0);
     $("#noPricesAvailable").toggle(!station.isFreeCharging && prices.length == 0);
@@ -206,7 +206,7 @@ export default class StationPrices extends ViewBase{
   }
 
   selectStartTime(){
-    new StartTimeSelection(this.translation).show(this.startTimeRepo.get(), (result)=>{
+    new StartTimeSelection(this.depts).show(this.startTimeRepo.get(), (result)=>{
       this.startTimeRepo.set(result);
       if(this.startTimeChangedCallback) this.startTimeChangedCallback();
       const hourTime = result == null ? "now" : (result/60).toFixed(0);
