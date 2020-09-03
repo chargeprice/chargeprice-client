@@ -12,7 +12,7 @@ export default class PriceListView extends ViewBase {
             html`<a class="affiliateLinkEMP" href="${tariff.url}" target="_blank"><span>${tariff.tariffName}</span></a><br>
                  ${!p.featuring ? html`<label class="w3-margin-top w3-small">${tariff.provider}</label>`:""}`
           }
-          <div>${this.renderTags(p.tariff.tags)}</div>
+          ${this.renderTags(p.tariff.tags)}
           ${tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0 ?
             html`
               <br>
