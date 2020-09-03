@@ -4,9 +4,10 @@ import StationTariffs from '../repository/station_tariffs.js';
 import ProviderFeaturing from './providerFeaturing';
 
 export default class ManageMyTariffs {
-  constructor(sidebar,analytics) {
+  constructor(sidebar,depts) {
     this.sidebar = sidebar;
-    this.analytics = analytics;
+    this.depts = depts;
+    this.analytics = depts.analytics();
     this.allTariffs = [];
     this.myTariffIds = [];
     this.loadAllTariffs();
@@ -14,7 +15,7 @@ export default class ManageMyTariffs {
   }
 
   async loadAllTariffs(){
-    this.allTariffs = (await new StationTariffs().getAllTariffs()).data;
+    this.allTariffs = (await new StationTariffs(this.depts).getAllTariffs()).data;
     this.addFeaturings(this.allTariffs);
   }
 

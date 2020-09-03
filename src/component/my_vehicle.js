@@ -23,7 +23,7 @@ export default class MyVehicle {
   }
 
   async initVehicles(){
-    this.allVehicles = (await new StationTariffs().getAllVehicles()).data;
+    this.allVehicles = (await new StationTariffs(this.depts).getAllVehicles()).data;
 
     let vehicleId = this.defaultVehicleId;
 

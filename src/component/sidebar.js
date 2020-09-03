@@ -12,7 +12,7 @@ export default class Sidebar {
     this.depts = depts;
     this.translation= depts.translation();
     this.analytics = depts.analytics();
-    this.manageMyTariffs = new ManageMyTariffs(this,this.analytics);
+    this.manageMyTariffs = new ManageMyTariffs(this,depts);
     this.appInstall = new AppInstall(this.analytics);
     this.myVehicle = new MyVehicle(this,this.depts);
     this.currency = new Currency(this,this.depts);

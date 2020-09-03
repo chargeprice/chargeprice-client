@@ -4,7 +4,8 @@ import JsonApiSerializer from '../helper/jsonApiSerializer.js'
 
 export default class StationTariffs {
 
-  constructor(){
+  constructor(depts){
+    this.translation = depts.translation();
     const useLocalData = true;
     const isRunningLocally = window.location.href.indexOf("127.0.0.1") != -1
     this.base_url = useLocalData && isRunningLocally ? "http://localhost:9292" : "https://api.chargeprice.app";
@@ -21,6 +22,7 @@ export default class StationTariffs {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Accept-Language": this.translation.currentLocaleOrFallback(),
         "Api-Key": this.apiKey
       },
       body: body,

@@ -5,7 +5,8 @@ const haversine = require('haversine')
 
 export default class FetchStations {
 
-  constructor(){
+  constructor(depts){
+    this.depts=depts;
     this.deduplicateThreshold = 50;
     this.deduplicateThresholdFast = 120;
   }
@@ -13,7 +14,7 @@ export default class FetchStations {
   async list(northEast, southWest,options){
 
     let goingElectric = new GoingElectric().getStations(northEast, southWest,options);
-    let internalStations = new StationTariffs().getStations(northEast, southWest,options);
+    let internalStations = new StationTariffs(this.depts).getStations(northEast, southWest,options);
 
     const [goingElectricResult, internalResult] = await Promise.all([goingElectric, internalStations]);
 
@@ -50,7 +51,7 @@ export default class FetchStations {
       case "going_electric":
         return await (new GoingElectric()).getStationDetails(model.id, options);
       case "chargeprice":
-        return model.lite ? (await (new StationTariffs()).getStationDetails(model.id, options)) : model ;
+        return model.lite ? (await (new StationTariffs(this.depts)).getStationDetails(model.id, options)) : model ;
     }
   }
 }

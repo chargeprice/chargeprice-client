@@ -40,7 +40,7 @@ class App {
     new ThemeLoader(this.translation).setCurrentTheme();
 
     this.analytics = this.depts.analytics();
-    this.stationTariffs = new StationTariffs();
+    this.stationTariffs = new StationTariffs(this.depts);
     this.map = new Map();
     this.sidebar = new Sidebar(this.depts);
     this.locationSearch = new LocationSearch(this.depts);
@@ -134,7 +134,7 @@ class App {
     }
 
     await this.withNetwork(async ()=>{
-      const stations = await (new FetchStations()).list(bounds.northEast, bounds.southWest,options);
+      const stations = await (new FetchStations(this.depts)).list(bounds.northEast, bounds.southWest,options);
       this.map.clearMarkers();
       stations.forEach(st => this.map.addStation(st, this.stationSelected.bind(this)));
     },this.translation.get("errorStationsUnavailable"));
@@ -149,7 +149,7 @@ class App {
 
     await this.withNetwork(async ()=>{
       const options = this.sidebar.chargingOptions();
-      this.currentStation = await (new FetchStations()).detail(model, options);
+      this.currentStation = await (new FetchStations(this.depts)).detail(model, options);
     },this.translation.get("errorStationsUnavailable"));
     
     if (updateMap) {

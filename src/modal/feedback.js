@@ -190,7 +190,7 @@ export default class ModalFeedback extends ModalBase {
     }
 
     try {
-      await new StationTariffs().postUserFeedback(feedback);
+      await new StationTariffs(this.depts).postUserFeedback(feedback);
       render(this.submittedTemplate(),this.getEl(this.root));
     }
     catch(ex){
