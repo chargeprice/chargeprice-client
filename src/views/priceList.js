@@ -50,6 +50,7 @@ export default class PriceListView extends ViewBase {
   }
 
   renderTags(tags){
+    if(tags.length==0) return "";
     const colorMapping = {
       alert: "w3-deep-orange",
       info: "pc-main",
@@ -62,12 +63,13 @@ export default class PriceListView extends ViewBase {
       star: "star",
       lock: "lock"
     }
-    return tags.map(tag=>
+    const entries = tags.map(tag=>
       html`
         <span class="${ `w3-tag w3-small cp-margin-top-right-small ${colorMapping[tag.kind]}`}"><label><i class="${`fa fa-${iconMapping[tag.kind]}`}"></i> 
           ${tag.url ? html`<a href="${tag.url.replace("{locale}",this.translation.currentLocaleOrFallback())}" target="_blank">${tag.text}</a>` : tag.text}
         </label>
     `);
+    return html`<div>${entries}</div>`
   }
 
   render(prices,root){
