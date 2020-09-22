@@ -156,7 +156,8 @@ export default class ModalFeedback extends ModalBase {
       type: this.type,
       email: this.getEl("email").value,
       context: this.buildContext(),
-      notes: this.getEl("notes").value
+      notes: this.getEl("notes").value,
+      language: this.translation.currentLocaleOrFallback()
     }
 
     switch(this.type){
@@ -200,7 +201,6 @@ export default class ModalFeedback extends ModalBase {
 
   buildContext(){
     return [
-      `lang: ${this.translation.currentLocaleOrFallback()}`,
       `iOS: ${this.customConfig.isIOS()}`,
       `beta: ${this.customConfig.isBeta()}`,
       `mobile: ${this.customConfig.isMobileOrTablet()}`,
