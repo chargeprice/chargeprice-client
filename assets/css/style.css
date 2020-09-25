@@ -183,6 +183,7 @@ html, body, .flex-container{
 
 .w3-tag{
   border-radius: 2px;
+  text-align: left;
 }
 
 #jump-to-my-location{

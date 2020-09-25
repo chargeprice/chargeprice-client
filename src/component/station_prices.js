@@ -65,6 +65,16 @@ export default class StationPrices extends ViewBase{
     `;
   }
 
+  stationPriceGeneralInfoTemplate(station, prices){
+    if(!station.isFreeCharging && prices.length == 0){
+      return html`<label class="w3-tag w3-light-blue-grey w3-margin-top"><i class="fa fa-info"></i> ${this.t("noTariffAvailable")}</label>`;
+    }
+    else if(station.isFreeCharging && prices.length > 0) {
+      return html`<label class="w3-tag w3-pale-red w3-margin-top"><i class="fa fa-exclamation"></i> ${this.t("freeStationWithPricesInfo")}</label>`;
+    }
+    else return "";
+  }
+
   initSlider(){
     this.slider = document.getElementById('batteryRange');
 
@@ -136,7 +146,7 @@ export default class StationPrices extends ViewBase{
     new PriceListView(this.depts).render(sortedPrices,options.myTariffs,"priceList")
     $("#station-info").html($.templates("#stationTempl").render(station));
     $("#prices").toggle(!station.isFreeCharging && prices.length > 0 || prices.length > 0);
-    $("#noPricesAvailable").toggle(!station.isFreeCharging && prices.length == 0);
+    render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
     render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback"));
     

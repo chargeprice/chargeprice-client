@@ -123,5 +123,6 @@
   "fbReportMissing": "Missing",
   "fbReportWrong": "Wrong",
   "locationSearchEnterInfo": "Hit enter to search",
-  "fastChargerMultiInfo": "Fast chargers with 2 or more charging points"
+  "fastChargerMultiInfo": "Fast chargers with 2 or more charging points",
+  "freeStationWithPricesInfo": "This station is marked as free charging, but it's also connected to a charging network. If you need to activate the station with a charging card or app, the prices listed below might still apply!"
 }
