@@ -133,8 +133,6 @@ export default class StationPrices extends ViewBase{
     const sortedPrices = prices.sort((a,b)=>a.price - b.price);
     this.addFeaturings(sortedPrices);
 
-
-
     new PriceListView(this.depts).render(sortedPrices,options.myTariffs,"priceList")
     $("#station-info").html($.templates("#stationTempl").render(station));
     $("#prices").toggle(!station.isFreeCharging && prices.length > 0 || prices.length > 0);
