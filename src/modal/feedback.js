@@ -174,7 +174,7 @@ export default class ModalFeedback extends ModalBase {
       case "missing_price":
         feedback.tariff = this.getEl("tariff").value;
         feedback.price = this.getEl("price").value;
-        feedback.cpo = this.options.cpo;
+        feedback.cpo = this.options.cpo || "n/a";
         feedback.poiLink = this.options.poiLink;
         feedback.context = feedback.context + ", " + this.options.context;
         break;

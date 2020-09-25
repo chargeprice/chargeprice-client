@@ -23,11 +23,11 @@ export default class PricesSidebar extends ViewBase {
               
           </tbody>
         </table>
-        <div id="priceFeedback" class="w3-margin-top"></div>
         <label class="w3-margin-top w3-small w3-block">
           ${this.ut("totalPriceInfo")}
         </label>
       </div> 
+      <div id="priceFeedback" class="w3-margin-top"></div>
     `;
   }
 
