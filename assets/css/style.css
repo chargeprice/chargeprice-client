@@ -209,6 +209,19 @@ html, body, .flex-container{
   height: 35px;
 }
 
+.bold {
+  font-weight: bold;
+}
+
+a.tariff-link {
+  text-decoration: none;
+  border-bottom: 1px dotted black;
+} 
+
+i.fav-icon {
+  color: orange;
+}
+
 /* Featured */
 
 #prices tr.featured {

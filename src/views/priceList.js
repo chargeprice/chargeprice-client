@@ -6,47 +6,57 @@ export default class PriceListView extends ViewBase {
       const tariff = p.tariff;
       return html`
       <tr style="${p.featuring ? `background: ${p.featuring.backgroundColor} !important;` : ""}" >
-        <td class="cp-price-left">
-          ${tariff.tariffName == null || tariff.tariffName == tariff.provider ?
-            html`<a class="affiliateLinkEMP" href="${tariff.url}" target="_blank"><span>${tariff.provider}</span></a>` :
-            html`<a class="affiliateLinkEMP" href="${tariff.url}" target="_blank"><span>${tariff.tariffName}</span></a><br>
-                 ${!p.featuring ? html`<label class="w3-margin-top w3-small">${tariff.provider}</label>`:""}`
-          }
-          ${this.renderTags(p.tariff.tags)}
-          ${tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0 ?
-            html`
-              <br>
-              <label class="w3-margin-top w3-small">
-              ${tariff.totalMonthlyFee > 0 ? `${this.t("baseFee")}: ${this.h().dec(tariff.totalMonthlyFee)}/${this.t("month")}**`:"" }
-              ${tariff.monthlyMinSales > 0 ? `${this.t("minSales")}:${this.h().dec(tariff.monthlyMinSales)}/${this.t("month")}`:"" }
-              </label>
-            `:""}
-          ${tariff.providerCustomerTariff ?
-            html`
-              <br>
-              <label class="w3-margin-top w3-small">${this.t("providerCustomerOnly")}</label> 
-            `:""}
-          ${p.featuring ? html`
-            <a href="${tariff.url}" target="_blank"><img class="feature-logo" src="${p.featuring.logoUrl}"/></a>
-          `:""}
-          ${this.h().customConfig.isBeta() && tariff.links && tariff.links.open_app_at_station ?
-            html`<br>
-            <a href="${tariff.links.open_app_at_station}" class="w3-button w3-small w3-blue" target="_blank"><i class="fa fa-bolt"></i> Start Charging!</a> 
-            `:""}
-        </td>
-        <td class="cp-price-right">
-          <label class="w3-right">${this.h().dec(p.price)}</label><br>
-          ${p.price > 0 ?
-            html`<label class="w3-right w3-small">${this.t("average")} ${this.h().dec(p.pricePerKWh)}/kWh</label><br>`:""
-          }
-          <label class="w3-right w3-small">
-            ${p.distribution.session ? `${(p.distribution.session < 1 ? this.h().perc(p.distribution.session) : "")} ${this.t("session")}` : ""}
-            ${p.distribution.minute ? html`${(p.distribution.minute < 1 ? this.h().perc(p.distribution.minute) : "")} ${this.t("per")} <i class="fa fa-clock-o"></i>` : ""}
-            ${p.distribution.kwh ? `${(p.distribution.kwh < 1 ? this.h().perc(p.distribution.kwh) : "")} ${this.t("per")} kWh` : ""}
-          </label>
-        </td>
+        ${this.tariffOverviewTemplate(p,tariff)}
+        ${this.priceTemplate(p,tariff)}
       </tr>
     `});
+  }
+
+  tariffOverviewTemplate(price,tariff){
+    return html`
+    <td class="cp-price-left">
+      ${tariff.tariffName == null || tariff.tariffName == tariff.provider ?
+        html`<a class="affiliateLinkEMP tariff-link" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"bold":""}">${tariff.provider}</span></a>` :
+        html`<a class="affiliateLinkEMP tariff-link" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"bold":""}">${tariff.tariffName}</span></a><br>
+            ${!price.featuring ? html`<label class="w3-margin-top w3-small ${this.isMyTariff(tariff)?"bold":""}">${tariff.provider}</label>`:""}`
+      }
+      ${this.renderTags(price.tariff.tags)}
+      ${tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0 ?
+        html`
+          <label class=" w3-small w3-block">
+          ${tariff.totalMonthlyFee > 0 ? `${this.t("baseFee")}: ${this.h().dec(tariff.totalMonthlyFee)}/${this.t("month")}**`:"" }
+          ${tariff.monthlyMinSales > 0 ? `${this.t("minSales")}:${this.h().dec(tariff.monthlyMinSales)}/${this.t("month")}`:"" }
+          </label>
+        `:""}
+      ${tariff.providerCustomerTariff ?
+        html`
+          <label class="w3-small w3-block">${this.t("providerCustomerOnly")}</label> 
+        `:""}
+      ${price.featuring ? html`
+        <a href="${tariff.url}" target="_blank"><img class="feature-logo" src="${price.featuring.logoUrl}"/></a>
+      `:""}
+      ${this.h().customConfig.isBeta() && tariff.links && tariff.links.open_app_at_station ?
+        html`<br>
+        <a href="${tariff.links.open_app_at_station}" class="w3-button w3-small w3-blue" target="_blank"><i class="fa fa-bolt"></i> Start Charging!</a> 
+        `:""}
+    </td>
+    `;
+  }
+
+  priceTemplate(price,tariff){
+    return html`
+    <td class="cp-price-right">
+      <label class="w3-right ${this.isMyTariff(tariff)?"bold":""}">${this.isMyTariff(tariff) ? html`<i class="fa fa-star fav-icon"></i> `:"" }${this.h().dec(price.price)}</label><br>
+      ${price.price > 0 ?
+        html`<label class="w3-right w3-small">${this.t("average")} ${this.h().dec(price.pricePerKWh)}/kWh</label><br>`:""
+      }
+      <label class="w3-right w3-small">
+        ${price.distribution.session ? `${(price.distribution.session < 1 ? this.h().perc(price.distribution.session) : "")} ${this.t("session")}` : ""}
+        ${price.distribution.minute ? html`${(price.distribution.minute < 1 ? this.h().perc(price.distribution.minute) : "")} ${this.t("per")} <i class="fa fa-clock-o"></i>` : ""}
+        ${price.distribution.kwh ? `${(price.distribution.kwh < 1 ? this.h().perc(price.distribution.kwh) : "")} ${this.t("per")} kWh` : ""}
+      </label>
+    </td>
+    `;
   }
 
   renderTags(tags){
@@ -72,8 +82,13 @@ export default class PriceListView extends ViewBase {
     return html`<div>${entries}</div>`
   }
 
-  render(prices,root){
+  render(prices, myTariffs,root){
+    this.myTariffs = myTariffs;
     render(this.template(prices),this.getEl(root));
+  }
+
+  isMyTariff(tariff){
+    return this.myTariffs.some(t=>t.id == tariff.tariff.id); 
   }
 }
 
