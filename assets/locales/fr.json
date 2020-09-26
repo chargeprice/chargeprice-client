@@ -124,5 +124,7 @@
   "fbReportWrong": "incorrect ",
   "locationSearchEnterInfo": "Taper sur Entrée pour rechercher",
   "fastChargerMultiInfo": "Bornes de recharge rapide avec au moins 2 points de charge",
-  "freeStationWithPricesInfo": "Attention : bien qu’il soit possible de recharger gratuitement sur ce réseau avec certaines cartes de recharge ou sans identification, certains opérateurs facturent la recharge."
+  "freeStationWithPricesInfo": "Attention : bien qu’il soit possible de recharger gratuitement sur ce réseau avec certaines cartes de recharge ou sans identification, certains opérateurs facturent la recharge.",
+  "minPowerInfo": "Stations with min. power of {0} kW",
+  "minPowerInfoAny": "No min. power specified"
 }

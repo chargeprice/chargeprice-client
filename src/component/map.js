@@ -77,7 +77,12 @@ export default class Map {
   }
 
   isBigArea(minPower){
-    const maxValue = minPower >= 43 ? 9 : 11 
+    let maxValue = 11;
+
+    if(minPower >= 43) maxValue = 9;
+    if(minPower > 50) maxValue = 7;
+    if(minPower > 150) maxValue = 5;
+
     return this.component.getZoom() < maxValue;
   }
 

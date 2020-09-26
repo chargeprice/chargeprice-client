@@ -4,6 +4,7 @@ export default class SettingsSidebar extends ViewBase {
   constructor(depts) {
     super(depts);
     this.settingsPrimitive = depts.settingsPrimitive();
+    this.selectedMinPower = 0;
   }
 
   template(){
@@ -25,8 +26,8 @@ export default class SettingsSidebar extends ViewBase {
 
     <label class="w3-margin-top w3-large w3-block">${this.t("mapFilter")}</label>
 
-    <input @click="${()=>this.onOptionsChanged()}" id="onlyHPC" class="w3-check" type="checkbox">
-    <label>${this.t("onlyHPC")}</label><br>
+    <div id="powerSliderInfo" >${this.powerValueTemplate()}</div>
+    <div class="w3-row w3-margin-top" id="powerSlider"></div>
 
     <input @click="${()=>this.onOptionsChanged()}" id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
     <label>${this.t("onlyFreeStations")}</label><br>
@@ -54,11 +55,48 @@ export default class SettingsSidebar extends ViewBase {
   render(){
     render(this.template(),document.getElementById("settingsContent"));
     this.loadModel();
+    this.initSlider();
   }
 
-  inject(sidebar){
-    this.sidebar = sidebar;
-    this.sidebar.settingsView = this;
+  powerValueTemplate(){
+    const powerStringValue = parseInt(this.selectedMinPower)==this.selectedMinPower ? parseInt(this.selectedMinPower) : this.selectedMinPower;
+    if(this.selectedMinPower==0) return html`${this.t("minPowerInfoAny")}`;
+    return html`${this.sf(this.t("minPowerInfo"),powerStringValue)}`;
+  }
+
+  initSlider(){
+    const slider = document.getElementById('powerSlider');
+    noUiSlider.create(slider, {
+      start: [this.selectedMinPower],
+      connect: 'upper',
+      snap: true,
+      range: { min: 0,max: 350 },
+      range: {
+        'min': 0,
+        '11%': 3.7,
+        '22%': 11,
+        '33%': 22,
+        '44%': 43,
+        '55%': 50,
+        '66%': 75,
+        '77%': 100,
+        '88%': 150,
+        'max': 300,
+      },
+      pips: {
+        mode: 'positions',
+        values: [0, 22, 33, 55, 77, 100],
+        density: 11,
+        stepped: true
+      }
+    });
+
+    slider.noUiSlider.on('update', (values)=>{
+      this.selectedMinPower = values[0];
+      render(this.powerValueTemplate(),document.getElementById("powerSliderInfo"));
+    });
+
+    slider.noUiSlider.on('end', ()=>this.onOptionsChanged());
   }
 
   onShowMyTariffs(){
@@ -76,9 +114,14 @@ export default class SettingsSidebar extends ViewBase {
     this.sidebar.optionsChanged();
   }
 
+  inject(sidebar){
+    this.sidebar = sidebar;
+    this.sidebar.settingsView = this;
+  }
+
   getModel(){
     return {
-      minPower: this.isChecked("onlyHPC") ? 43 : 0,
+      minPower: this.selectedMinPower,
       onlyFree: this.isChecked("onlyFree"),
       openNow: this.isChecked("openNow"),
       providerCustomerTariffs: this.isChecked("providerCustomerTariffs"),
@@ -88,8 +131,7 @@ export default class SettingsSidebar extends ViewBase {
   }
 
   loadModel(){
-    this.setChecked("onlyHPC",this.settingsPrimitive.getFloat("minPower",0) == 43);
-
+    this.selectedMinPower = this.settingsPrimitive.getFloat("minPower",11);
     ["onlyFree","openNow","providerCustomerTariffs","onlyShowMyTariffs","onlyTariffsWithoutMonthlyFees"].forEach(
       key => this.setChecked(key,this.settingsPrimitive.getBoolean(key))
     );
@@ -97,7 +139,7 @@ export default class SettingsSidebar extends ViewBase {
 
   saveModel(){
     const model = this.getModel();
-    this.settingsPrimitive.setFloat("minPower", model.minPower);
+    this.settingsPrimitive.setFloat("minPower", this.selectedMinPower);
     ["onlyFree","openNow","providerCustomerTariffs","onlyShowMyTariffs","onlyTariffsWithoutMonthlyFees"].forEach(
       key => this.settingsPrimitive.setBoolean(key, model[key])
     );

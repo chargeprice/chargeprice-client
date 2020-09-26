@@ -223,6 +223,10 @@ i.fav-icon {
   color: orange;
 }
 
+#powerSlider {
+  margin-bottom: 30px
+}
+
 /* Featured */
 
 #prices tr.featured {
