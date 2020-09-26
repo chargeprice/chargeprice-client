@@ -28,7 +28,7 @@ export default class GoingElectric {
       sw_lng: southWest.longitude
     }
 
-    if(options.onlyHPC) body["min_power"]=43;
+    if(options.minPower) body["min_power"]=options.minPower;
     if(options.onlyFree){
       body["freecharging"]=true;
       body["freeparking"]=true;
