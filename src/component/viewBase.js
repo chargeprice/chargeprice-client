@@ -36,7 +36,7 @@ export default class ViewBase {
       power: val => val >= 10 ? val.toFixed(0) : val.toFixed(1),
       time: val => {
         const h = Math.floor(val / 60);
-        const min = Math.floor(val % 60);
+        const min = Math.ceil(val % 60);
         return this.translation.stringFormatWithKey("timeFormat",h,min);
       },
       timeOfDay: time => {
