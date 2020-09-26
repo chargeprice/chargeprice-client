@@ -2,6 +2,11 @@ import { html, render } from 'lit-html';
 import ViewBase from './viewBase';
 import ModalFeedback from '../modal/feedback';
 export default class InfoSidebar extends ViewBase {
+  constructor(depts) {
+    super(depts);
+    this.analytics = depts.analytics();
+  }
+
   template(){
     return html`
     <div class="w3-margin-bottom">
@@ -51,7 +56,7 @@ export default class InfoSidebar extends ViewBase {
     </p>
 
     <label class="w3-margin-top w3-large">${this.t("partnerHeader")}</label><br>
-    <a id="greenDriveLink" href="https://www.greendrive-accessories.com/" target="_blank"><img width="100%" src="img/partners/greendrive.png"></a>
+    <a @click="${()=>this.onGreenDrive()}" href="https://www.greendrive-accessories.com/" target="_blank"><img width="100%" src="img/partners/greendrive.png"></a>
     <br><br>
 
     <label class="w3-margin-top w3-large">${this.t("dataSourceHeader")}</label><br>
@@ -78,6 +83,10 @@ export default class InfoSidebar extends ViewBase {
 
   onGiveFeedback(type){
     new ModalFeedback(this.depts).show(type);
+  }
+
+  onGreenDrive(){
+    this.analytics.log('send', 'event', 'AffiliatePartner', 'greendrive');
   }
 }
 

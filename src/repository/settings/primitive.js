@@ -15,4 +15,24 @@ export default class RepositorySettingsPrimitive {
   incrementAppStartCount(){
     localStorage.setItem(this.appStartCount, this.getAppStartCount() + 1);
   }
+
+  setBoolean(key, value){
+    localStorage.setItem(key, value);
+  }
+
+  getBoolean(key, fallback=false){
+    const value = localStorage.getItem(key);
+    if(value == undefined) return fallback;
+    else return value == "true"
+  }
+
+  setFloat(key,value){
+    localStorage.setItem(key, value);
+  }
+
+  getFloat(key, fallback=null){
+    const value = localStorage.getItem(key);
+    if(value == undefined) return fallback;
+    else return parseFloat(value);
+  }
 }

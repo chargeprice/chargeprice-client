@@ -12,6 +12,14 @@ export default class ViewBase {
     return document.getElementById(id).selectedOptions[0].value;
   }
 
+  isChecked(id){
+    return this.getEl(id).checked;
+  }
+
+  setChecked(id,value){
+    this.getEl(id).checked = value;
+  }
+
   ut(key){
     return unsafeHTML(this.translation.get(key));
   }

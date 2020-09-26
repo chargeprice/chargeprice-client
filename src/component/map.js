@@ -76,8 +76,8 @@ export default class Map {
     return marker;
   }
 
-  isBigArea(onlyHPC){
-    const maxValue = onlyHPC ? 9 : 11 
+  isBigArea(minPower){
+    const maxValue = minPower >= 43 ? 9 : 11 
     return this.component.getZoom() < maxValue;
   }
 

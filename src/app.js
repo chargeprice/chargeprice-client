@@ -6,6 +6,7 @@ import Map from './component/map.js';
 import Sidebar from './component/sidebar.js';
 import InfoSidebar from './component/infoSidebar.js';
 import PricesSidebar from './component/pricesSidebar.js';
+import SettingsSidebar from './views/settingsSidebar.js';
 import LocationSearch from './component/location_search.js';
 import Dependencies from './helper/dependencies'
 import UrlModifier from './helper/urlModifier'
@@ -35,7 +36,8 @@ class App {
     this.translation.translateMeta();
 
     // Static content is needed for almost everything else
-    this.loadStaticContent();
+    const settingsSidebar = new SettingsSidebar(this.depts)
+    this.loadStaticContent(settingsSidebar);
 
     new ThemeLoader(this.translation).setCurrentTheme();
 
@@ -48,6 +50,8 @@ class App {
 
     this.currentStationTariffs = null;
     this.currentStation = null;
+
+    settingsSidebar.inject(this.sidebar);
 
     if (!navigator.geolocation) {
       this.showFallbackLocation();
@@ -83,11 +87,8 @@ class App {
     }
   }
 
-  loadStaticContent(){
-    $("#pricesContent").html($.templates("#pricesContentTempl").render());
-    $("#settingsContent").html($.templates("#settingsTempl").render(
-      { showUnbalancedLoad: this.translation.showUnbalancedLoad() }
-    ));
+  loadStaticContent(settingsSidebar){
+    settingsSidebar.render();
     new InfoSidebar(this.depts).render();
     new PricesSidebar(this.depts).render();
     $("#pleaseZoom").html($.templates("#pleaseZoomTempl").render());
@@ -125,7 +126,7 @@ class App {
 
     const options = this.sidebar.chargingOptions();
 
-    const isBigArea = this.map.isBigArea(options.onlyHPC);
+    const isBigArea = this.map.isBigArea(options.minPower);
 
     $("#pleaseZoom").toggle(isBigArea);
     if(isBigArea){

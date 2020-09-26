@@ -69,7 +69,7 @@ export default class StationTariffs {
     query["filter[longitude.gte]"] = southWest.longitude;
     query["filter[longitude.lte]"] = northEast.longitude;
 
-    if(options.onlyHPC) query["filter[charge_points.power.gte"] = 43;
+    if(options.minPower) query["filter[charge_points.power.gte"] = options.minPower;
 
     if(options.myVehicle){
       query["filter[charge_points.plug.in]"]= this.defaultPlugs.concat(options.myVehicle.dcChargePorts);
@@ -125,7 +125,7 @@ export default class StationTariffs {
     const jsonOptions = {
       currency: options.displayedCurrency,
       allow_unbalanced_load: options.allowUnbalancedLoad,
-      provider_customer_tariffs: (options.providerCustomerTarrifs || hasOwnTariffs),
+      provider_customer_tariffs: (options.providerCustomerTariffs || hasOwnTariffs),
       start_time: options.startTime
     }
 
