@@ -69,7 +69,7 @@ export default class StationPrices extends ViewBase{
     if(!station.isFreeCharging && prices.length == 0){
       return html`<label class="w3-tag w3-light-blue-grey w3-margin-top"><i class="fa fa-info"></i> ${this.t("noTariffAvailable")}</label>`;
     }
-    else if(station.isFreeCharging && prices.length > 0) {
+    else if(station.isFreeCharging && prices.length > 0 && prices.some(p=>p.price > 0)) {
       return html`<label class="w3-tag w3-pale-red w3-margin-top"><i class="fa fa-exclamation"></i> ${this.t("freeStationWithPricesInfo")}</label>`;
     }
     else return "";
