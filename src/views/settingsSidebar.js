@@ -22,7 +22,7 @@ export default class SettingsSidebar extends ViewBase {
     <input @click="${()=>this.onOptionsChanged()}" id="onlyShowMyTariffs" class="w3-check w3-margin-top" type="checkbox">
     <label>${this.t("onlyShowMyTariffs")}</label><br>
     <label class="w3-small">${this.t("onlyShowMyTariffsDetail")}</label><br>
-    <label id="manage-my-tariffs" @click="${()=>this.onShowMyTariffs()}" class="w3-small link-text">${this.t("manageMyTariffsLink")}</label><br>
+    <label @click="${()=>this.onShowMyTariffs()}" class="link-text">${this.t("manageMyTariffsLink")}</label><br>
 
     <label class="w3-margin-top w3-large w3-block">${this.t("mapFilter")}</label>
 
@@ -101,7 +101,6 @@ export default class SettingsSidebar extends ViewBase {
 
   onShowMyTariffs(){
     this.sidebar.open("manageMyTariffs");
-    this.sidebar.manageMyTariffs.initMyTariffs();
   }
 
   onOk(){

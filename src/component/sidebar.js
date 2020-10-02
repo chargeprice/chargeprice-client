@@ -38,7 +38,9 @@ export default class Sidebar {
       },
       "manageMyTariffs": {
         header: this.translation.get("manageMyTariffsHeader"),
-        contentId: "manageMyTariffsContent"
+        contentId: "manageMyTariffsContent",
+        onClosed: ()=>this.optionsChanged(),
+        onOpen: ()=>this.manageMyTariffs.render()
       }
     };
 
@@ -117,9 +119,11 @@ export default class Sidebar {
     if (this.currentSidebarContentKey) {
       const oldContent = this.sidebarContent[this.currentSidebarContentKey];
       $(`#${oldContent.contentId}`).hide();
+      if(oldContent.onClosed) oldContent.onClosed();
     }
     $(`#${content.contentId}`).show();
     this.currentSidebarContentKey = contentKey;
+    if(content.onOpen) content.onOpen();
   }
 
   close() {
