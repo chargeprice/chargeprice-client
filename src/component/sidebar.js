@@ -1,5 +1,3 @@
-require('jsrender')($);
-
 import ManageMyTariffs from './manage_my_tariffs';
 import MyVehicle from './my_vehicle';
 import Currency from './currency';
@@ -45,24 +43,8 @@ export default class Sidebar {
     
     this.close();
     this.hideAllSidebarContent();
-    this.registerConverters();
 
     this.loaded = true;
-  }
-
-  registerConverters(){
-    $.views.converters({
-      dec: val => val.toFixed(2),
-      perc: val => `${(val*100).toFixed(0)}%`,
-      int: val=>val.toFixed(0),
-      time: val => {
-        const h = Math.floor(val / 60);
-        const min = Math.floor(val % 60);
-        return this.translation.stringFormatWithKey("timeFormat",h,min);
-      },
-      upper: val => val.toUpperCase()
-    });
-    $.views.helpers("c",(converter,param)=>$.views.converters[converter](param));
   }
 
   chargingOptions(){

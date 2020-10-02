@@ -1,4 +1,3 @@
-require('jsrender')($);
 var L = require('leaflet');
 require('leaflet.awesome-markers');
 

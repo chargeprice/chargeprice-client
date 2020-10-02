@@ -1,5 +1,3 @@
-require('jsrender')($);
-
 export default class ThemeLoader {
   constructor(translation) {
     this.translation = translation;

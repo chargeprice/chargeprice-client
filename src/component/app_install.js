@@ -1,5 +1,3 @@
-require('jsrender')($);
-
 export default class AppInstall {
   constructor(analytics) {
     this.analytics = analytics;

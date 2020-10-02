@@ -13,8 +13,6 @@ import UrlModifier from './helper/urlModifier';
 import RootContainer from './views/rootContainer';
 import 'nouislider/distribute/nouislider.css';
 
-require('jsrender')($);
-
 class App {
   constructor() {
     this.deptsLoaded = 0;

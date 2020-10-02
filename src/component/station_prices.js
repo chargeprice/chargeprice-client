@@ -1,5 +1,3 @@
-require('jsrender')($);
-
 import ProviderFeaturing from './providerFeaturing';
 import ViewBase from './viewBase';
 import StartTimeSelection from '../modal/startTimeSelection';

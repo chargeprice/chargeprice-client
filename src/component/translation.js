@@ -1,17 +1,9 @@
-require('jsrender')($);
-
 export default class Translation {
   constructor() {
     this.supportedLocales = ["en","de","fr","nl"]
     this.fallbackLocale = "en"
     this.currentLocale = this.currentLocaleOrFallback(); 
     this.unbalancedLoadLocales = ["de"];
-    this.setHelpers();
-  }
-  
-  setHelpers(){
-    $.views.helpers("t",this.get.bind(this));
-    $.views.helpers("sf",this.stringFormat);
   }
 
   translateMeta(){

@@ -1,5 +1,3 @@
-require('jsrender')($);
-
 export default class PlugcheckerToChargeprice {
   constructor(depts){
     this.translation = depts.translation();

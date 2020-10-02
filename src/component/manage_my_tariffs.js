@@ -1,4 +1,3 @@
-require('jsrender')($);
 import { html, render } from 'lit-html';
 
 import StationTariffs from '../repository/station_tariffs.js';
