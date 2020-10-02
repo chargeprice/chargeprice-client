@@ -13,10 +13,12 @@ export default class ViewBase {
   }
 
   isChecked(id){
+    if(this.getEl(id)==null)return false;
     return this.getEl(id).checked;
   }
 
   setChecked(id,value){
+    if(this.getEl(id)==null)return;
     this.getEl(id).checked = value;
   }
 
