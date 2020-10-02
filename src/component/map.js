@@ -13,7 +13,6 @@ export default class Map {
     this.searchLocation = null;
     this.mapReady = false;
     this.initializeLayer();
-    $("#map").show();
   }
 
   initializeLayer() {

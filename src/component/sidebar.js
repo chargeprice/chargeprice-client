@@ -19,9 +19,6 @@ export default class Sidebar {
     this.stationPrices = new StationPrices(this,this.depts);
     this.loaded = false;
     this.component = $("#sidebar");
-    $("#sidebar-close").click(() => this.close());
-    $("#adapt-settings").click(() => this.open("settings"));
-    $("#show-info").click(() => this.open("info"));
 
     this.sidebarContent = {
       "settings": {
@@ -79,7 +76,7 @@ export default class Sidebar {
       carACPhases: 3,
       providerCustomerTariffs: settingsModel.providerCustomerTariffs,
       onlyShowMyTariffs: settingsModel.onlyShowMyTariffs,
-      allowUnbalancedLoad: !this.translation.showUnbalancedLoad() || ($("#allowUnbalancedLoad:checked").length == 1),
+      allowUnbalancedLoad: !this.translation.showUnbalancedLoad() || settingsModel.allowUnbalancedLoad,
       onlyTariffsWithoutMonthlyFees: settingsModel.onlyTariffsWithoutMonthlyFees,
       batteryRange: this.stationPrices.getBatteryRange(),
       myTariffs: this.manageMyTariffs.getMyTariffs(),

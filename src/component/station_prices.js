@@ -8,6 +8,7 @@ import RepositoryStartTime from '../repository/settings/startTime';
 import GenericList from '../modal/genericList';
 import ModalFeedback from '../modal/feedback';
 import PriceListView from '../views/priceList';
+import StationDetailsView from '../views/stationDetails';
 
 export default class StationPrices extends ViewBase{
   constructor(sidebar,depts) {
@@ -144,13 +145,11 @@ export default class StationPrices extends ViewBase{
     this.addFeaturings(sortedPrices);
 
     new PriceListView(this.depts).render(sortedPrices,options.myTariffs,"priceList")
-    $("#station-info").html($.templates("#stationTempl").render(station));
+    new StationDetailsView(this.depts).render(station,"station-info")
     $("#prices").toggle(!station.isFreeCharging && prices.length > 0 || prices.length > 0);
     render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
-    render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback"));
-    
-    $(".affiliateLinkEMP").click((linkObject)=> this.analytics.log('send', 'event', 'AffiliateEMP', linkObject.currentTarget.href));
+    render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback")); 
   }
 
   addFeaturings(prices){

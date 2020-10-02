@@ -8,8 +8,9 @@ import InfoSidebar from './component/infoSidebar.js';
 import PricesSidebar from './component/pricesSidebar.js';
 import SettingsSidebar from './views/settingsSidebar.js';
 import LocationSearch from './component/location_search.js';
-import Dependencies from './helper/dependencies'
-import UrlModifier from './helper/urlModifier'
+import Dependencies from './helper/dependencies';
+import UrlModifier from './helper/urlModifier';
+import RootContainer from './views/rootContainer';
 import 'nouislider/distribute/nouislider.css';
 
 require('jsrender')($);
@@ -36,8 +37,9 @@ class App {
     this.translation.translateMeta();
 
     // Static content is needed for almost everything else
-    const settingsSidebar = new SettingsSidebar(this.depts)
-    this.loadStaticContent(settingsSidebar);
+    const settingsSidebar = new SettingsSidebar(this.depts);
+    const rootContainer = new RootContainer(this.depts);
+    this.loadStaticContent(rootContainer,settingsSidebar);
 
     new ThemeLoader(this.translation).setCurrentTheme();
 
@@ -52,6 +54,7 @@ class App {
     this.currentStation = null;
 
     settingsSidebar.inject(this.sidebar);
+    rootContainer.inject(this.sidebar);
 
     if (!navigator.geolocation) {
       this.showFallbackLocation();
@@ -87,11 +90,11 @@ class App {
     }
   }
 
-  loadStaticContent(settingsSidebar){
+  loadStaticContent(rootContainer, settingsSidebar){
+    rootContainer.render();
     settingsSidebar.render();
     new InfoSidebar(this.depts).render();
     new PricesSidebar(this.depts).render();
-    $("#pleaseZoom").html($.templates("#pleaseZoomTempl").render());
   }
 
   getCurrentLocation() {

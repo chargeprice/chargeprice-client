@@ -1,6 +1,11 @@
 import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
 export default class PriceListView extends ViewBase {
+  constructor(depts) {
+    super(depts);
+    this.analytics = depts.analytics();
+  }
+
   template(prices){
     return prices.map(p=>{
       const tariff = p.tariff;
@@ -16,8 +21,8 @@ export default class PriceListView extends ViewBase {
     return html`
     <td class="cp-price-left">
       ${tariff.tariffName == null || tariff.tariffName == tariff.provider ?
-        html`<a class="affiliateLinkEMP tariff-link" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"bold":""}">${tariff.provider}</span></a>` :
-        html`<a class="affiliateLinkEMP tariff-link" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"bold":""}">${tariff.tariffName}</span></a><br>
+        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"bold":""}">${tariff.provider}</span></a>` :
+        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"bold":""}">${tariff.tariffName}</span></a><br>
             ${!price.featuring ? html`<label class="w3-margin-top w3-small ${this.isMyTariff(tariff)?"bold":""}">${tariff.provider}</label>`:""}`
       }
       ${this.renderTags(price.tariff.tags)}
@@ -85,6 +90,10 @@ export default class PriceListView extends ViewBase {
   render(prices, myTariffs,root){
     this.myTariffs = myTariffs;
     render(this.template(prices),this.getEl(root));
+  }
+
+  onAffiliateClicked(tariff){
+    this.analytics.log('send', 'event', 'AffiliateEMP', tariff.url);
   }
 
   isMyTariff(tariff){

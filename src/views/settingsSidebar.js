@@ -42,7 +42,7 @@ export default class SettingsSidebar extends ViewBase {
       html`
       <label class="w3-margin-top w3-large w3-block">${this.t("expertOptions")}</label>
 
-      <input id="allowUnbalancedLoad" class="w3-check" type="checkbox">
+      <input id="allowUnbalancedLoad"  @click="${()=>this.onOptionsChanged()}" class="w3-check" type="checkbox">
       <label>${this.t("unbalancedLoadHeader")}</label><br>
       <label class="w3-small">${this.t("unbalancedLoadDetail")}</label><br>
       `:""
@@ -125,13 +125,14 @@ export default class SettingsSidebar extends ViewBase {
       openNow: this.isChecked("openNow"),
       providerCustomerTariffs: this.isChecked("providerCustomerTariffs"),
       onlyShowMyTariffs: this.isChecked("onlyShowMyTariffs"),
-      onlyTariffsWithoutMonthlyFees: this.isChecked("onlyTariffsWithoutMonthlyFees")
+      onlyTariffsWithoutMonthlyFees: this.isChecked("onlyTariffsWithoutMonthlyFees"),
+      allowUnbalancedLoad: this.isChecked("allowUnbalancedLoad")
     }
   }
 
   loadModel(){
     this.selectedMinPower = this.settingsPrimitive.getFloat("minPower",11);
-    ["onlyFree","openNow","providerCustomerTariffs","onlyShowMyTariffs","onlyTariffsWithoutMonthlyFees"].forEach(
+    ["onlyFree","openNow","providerCustomerTariffs","onlyShowMyTariffs","onlyTariffsWithoutMonthlyFees","allowUnbalancedLoad"].forEach(
       key => this.setChecked(key,this.settingsPrimitive.getBoolean(key))
     );
   }
@@ -139,7 +140,7 @@ export default class SettingsSidebar extends ViewBase {
   saveModel(){
     const model = this.getModel();
     this.settingsPrimitive.setFloat("minPower", this.selectedMinPower);
-    ["onlyFree","openNow","providerCustomerTariffs","onlyShowMyTariffs","onlyTariffsWithoutMonthlyFees"].forEach(
+    ["onlyFree","openNow","providerCustomerTariffs","onlyShowMyTariffs","onlyTariffsWithoutMonthlyFees","allowUnbalancedLoad"].forEach(
       key => this.settingsPrimitive.setBoolean(key, model[key])
     );
   }
