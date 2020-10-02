@@ -36,6 +36,14 @@ export default class ModalFeedback extends ModalBase {
 
   missingStationTemplate(){
     return html`
+    ${ this.translation.currentLocale == "de" ? html`
+      <p>
+        <strong class="w3-large">
+          ${this.ut("fbLocationGEInfo")}
+        </strong>
+      </p>
+      `:""
+      }
       <p>
         <label>${this.t("fbLocationHeader")}</label>
         <input id="location" value="" maxlength="200" placeholder="${this.t("fbLocationPlaceholder")}" class="w3-input w3-border"/>
@@ -78,10 +86,6 @@ export default class ModalFeedback extends ModalBase {
 
   wrongPriceTemplate(options){
     return html`
-      <p>
-        <label>${this.t("fbCpoHeader")}: ${options.cpo}</label>
-      </p>
-
       <p>
         <label>${this.t("fbEmpHeader")}</label>
         <select id="feedbackTariffList" class="w3-select">

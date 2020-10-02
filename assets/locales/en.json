@@ -99,6 +99,7 @@
   "fbEmailHeader": "In case you want us to respond, please provide your e-mail",
   "fbEmailFooter": "You can also reach out to us directly via e-mail:",
   "fbSubmit": "Submit",
+  "fbLocationGEInfo": "",
   "fbLocationHeader": "Location of the Station",
   "fbLocationPlaceholder": "e.g. Rue de Charge 12, Paris",
   "fbCpoHeader": "Station Operator (CPO)",
