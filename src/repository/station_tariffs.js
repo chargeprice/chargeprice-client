@@ -75,6 +75,10 @@ export default class StationTariffs {
       query["filter[charge_points.plug.in]"]= this.defaultPlugs.concat(options.myVehicle.dcChargePorts);
     }
 
+    if(options.onlyFree){
+      query["filter[free_charging]"] = true;
+    }
+
     const url = `${this.base_url}/v1/charging_stations?${this.toQuery(query)}`;
     const response = await fetch(url, {
       headers: {
