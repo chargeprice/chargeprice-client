@@ -82,8 +82,9 @@ class App {
     } else {
       this.showFallbackLocation();
       this.getCurrentLocation();
-      this.sidebar.open("settings");
       new ShowPopUpOnStart(this.depts).run();
+      
+      this.sidebar.showSettingsOnStart();
     }
   }
 

@@ -11,6 +11,8 @@ export default class Sidebar {
     this.translation= depts.translation();
     this.analytics = depts.analytics();
     this.urlModifier = depts.urlModifier();
+    this.settingsPrimitive=depts.settingsPrimitive();
+    this.customConfig = depts.customConfig();
     this.manageMyTariffs = new ManageMyTariffs(this,depts);
     this.appInstall = new AppInstall(this.analytics);
     this.myVehicle = new MyVehicle(this,this.depts);
@@ -69,6 +71,14 @@ export default class Sidebar {
       startTime: this.stationPrices.getStartTime(),
       chargePoint: this.stationPrices.getCurrentChargePoint()
     }
+  }
+
+  showSettingsOnStart(){
+    const isMobileOrTablet = this.customConfig.isMobileOrTablet();
+    const isFirstAppStart = this.settingsPrimitive.getAppStartCount() == 1;
+
+    if(isMobileOrTablet && !isFirstAppStart) return;
+    this.open("settings");
   }
 
   showStation(station){
