@@ -5,6 +5,7 @@ import Analytics from '../component/analytics'
 import ThemeLoader from '../component/theme_loader'
 import RepositorySettingsPrimitive from '../repository/settings/primitive'
 import LocationIQ from '../repository/locationIQ';
+import UrlModifier from '../helper/urlModifier';
 
 export default class Dependencies {
 
@@ -35,6 +36,10 @@ export default class Dependencies {
 
   locationSearch(){
     return new LocationIQ();
+  }
+
+  urlModifier(){
+    return new UrlModifier();
   }
 }
 

@@ -10,4 +10,11 @@ export default class UrlModifier {
         window.history.replaceState({path: newurl}, '', newurl);
     }
   }
+
+  resetUrl(){
+    if (window.history.replaceState) {     
+      let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+      window.history.replaceState({path: newurl}, '', newurl);
+  }
+  }
 }

@@ -10,6 +10,7 @@ export default class Sidebar {
     this.depts = depts;
     this.translation= depts.translation();
     this.analytics = depts.analytics();
+    this.urlModifier = depts.urlModifier();
     this.manageMyTariffs = new ManageMyTariffs(this,depts);
     this.appInstall = new AppInstall(this.analytics);
     this.myVehicle = new MyVehicle(this,this.depts);
@@ -29,7 +30,8 @@ export default class Sidebar {
       },
       "prices": {
         header: this.translation.get("pricesHeader"),
-        contentId: "pricesContent"
+        contentId: "pricesContent",
+        onClosed: ()=>this.urlModifier.resetUrl()
       },
       "manageMyTariffs": {
         header: this.translation.get("manageMyTariffsHeader"),
@@ -95,11 +97,7 @@ export default class Sidebar {
     const content = this.sidebarContent[contentKey];
     $("#sidebarHeader").text(content.header)
 
-    if (this.currentSidebarContentKey) {
-      const oldContent = this.sidebarContent[this.currentSidebarContentKey];
-      $(`#${oldContent.contentId}`).hide();
-      if(oldContent.onClosed) oldContent.onClosed();
-    }
+    this.hideOldContent();
     $(`#${content.contentId}`).show();
     this.currentSidebarContentKey = contentKey;
     if(content.onOpen) content.onOpen();
@@ -107,6 +105,16 @@ export default class Sidebar {
 
   close() {
     this.component.hide();
+    this.hideOldContent();
+  }
+
+  hideOldContent(){
+    if (this.currentSidebarContentKey) {
+      const oldContent = this.sidebarContent[this.currentSidebarContentKey];
+      $(`#${oldContent.contentId}`).hide();
+      if(oldContent.onClosed) oldContent.onClosed();
+      this.currentSidebarContentKey=null;
+    }
   }
 
   hideAllSidebarContent() {

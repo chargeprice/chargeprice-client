@@ -9,7 +9,6 @@ import PricesSidebar from './component/pricesSidebar.js';
 import SettingsSidebar from './views/settingsSidebar.js';
 import LocationSearch from './component/location_search.js';
 import Dependencies from './helper/dependencies';
-import UrlModifier from './helper/urlModifier';
 import RootContainer from './views/rootContainer';
 import 'nouislider/distribute/nouislider.css';
 
@@ -162,11 +161,11 @@ class App {
       this.map.changeSelectedStation(this.currentStation)
     }
 
-    new UrlModifier().modifyUrlParam({poi_id: this.currentStation.id, poi_source: this.currentStation.dataAdapter})
-
     await this.updatePrices();
     this.sidebar.showStation(this.currentStation);
     this.selectedChargePointChanged();
+
+    this.depts.urlModifier().modifyUrlParam({poi_id: this.currentStation.id, poi_source: this.currentStation.dataAdapter})
   }
 
   async updatePrices() {
