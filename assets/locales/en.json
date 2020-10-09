@@ -68,6 +68,7 @@
   "stationsWithAtLeast2ChargePoints": "Stations with at least 2 charge points only",
   "expertOptions": "For experts",
   "session": "Session fee",
+  "blockingFeeFrom": "Blocking fee from {0}",
   "average": "ø",
   "per": "per",
   "partnerHeader": "Our Partners",

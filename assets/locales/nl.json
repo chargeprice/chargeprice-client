@@ -68,6 +68,7 @@
   "stationsWithAtLeast2ChargePoints": "Alleen laadpalen met minstens twee laadpunten",
   "expertOptions": "Voor experts",
   "session": "Sessietarief",
+  "blockingFeeFrom": "Blocking fee from {0}",
   "average": "ø",
   "per": "per",
   "partnerHeader": "Onze partners",

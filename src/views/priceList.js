@@ -56,12 +56,21 @@ export default class PriceListView extends ViewBase {
         html`<label class="w3-right w3-small">${this.t("average")} ${this.h().dec(price.pricePerKWh)}/kWh</label><br>`:""
       }
       <label class="w3-right w3-small">
-        ${price.distribution.session ? `${(price.distribution.session < 1 ? this.h().perc(price.distribution.session) : "")} ${this.t("session")}` : ""}
-        ${price.distribution.minute ? html`${(price.distribution.minute < 1 ? this.h().perc(price.distribution.minute) : "")} ${this.t("per")} <i class="fa fa-clock-o"></i>` : ""}
-        ${price.distribution.kwh ? `${(price.distribution.kwh < 1 ? this.h().perc(price.distribution.kwh) : "")} ${this.t("per")} kWh` : ""}
+        ${[
+          price.distribution.session ? `${(price.distribution.session < 1 ? this.h().perc(price.distribution.session) : "")} ${this.t("session")}` : null,
+          price.distribution.kwh ? `${(price.distribution.kwh < 1 ? this.h().perc(price.distribution.kwh) : "")} ${this.t("per")} kWh` : null,
+          price.distribution.minute ? 
+            `${(price.distribution.minute < 1 ? this.h().perc(price.distribution.minute) : "")} `+ 
+            `${this.t("per")} min${price.blockingFeeStart ? ` (${this.blockingFeeTemplate(price)})` : ""}` : null,
+          (price.distribution.minute == undefined || price.distribution.minute == 0) && price.blockingFeeStart ? this.blockingFeeTemplate(price) : null
+        ].filter(t=>t).join(" + ")}
       </label>
     </td>
     `;
+  }
+  
+  blockingFeeTemplate(price){
+    return this.sf(this.t("blockingFeeFrom"),this.h().time(price.blockingFeeStart));
   }
 
   renderTags(tags){

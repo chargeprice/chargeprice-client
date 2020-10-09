@@ -111,6 +111,7 @@ export default class ManageMyTariffs extends ViewBase{
   async loadAllTariffs(){
     this.allTariffs = (await new StationTariffs(this.depts).getAllTariffs()).data;
     this.addFeaturings(this.allTariffs);
+    this.sidebar.optionsChanged();
   }
 
   loadFromStorage(){
@@ -128,6 +129,7 @@ export default class ManageMyTariffs extends ViewBase{
   }
 
   getMyTariffs(){
+    if(this.allTariffs.length==0) return this.myTariffIds.map(id=>{ return {id: id, type: "tariff" } }) ;
     return this.allTariffs.filter(t=>this.myTariffIds.includes(t.id));
   }
 }

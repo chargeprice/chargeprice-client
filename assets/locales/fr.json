@@ -68,6 +68,7 @@
   "stationsWithAtLeast2ChargePoints": "Stations disposant de 2 points de charge minimum seulement",
   "expertOptions": "Pour les experts",
   "session": "Frais fixes",
+  "blockingFeeFrom": "Frais de parking à partir de {0}",
   "average": "moy.",
   "per": "par",
   "partnerHeader": "Nos partenaires",

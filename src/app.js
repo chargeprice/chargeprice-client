@@ -207,7 +207,12 @@ class App {
       
       if(chargePointPrice) {
         const pricePerKWh = chargePointPrice.price / cpDurationAndEnergy.energy;
-        memo.push({ price: chargePointPrice.price, pricePerKWh: pricePerKWh, distribution: chargePointPrice.price_distribution, tariff: tariff });
+        memo.push({ 
+          price: chargePointPrice.price, 
+          pricePerKWh: pricePerKWh, 
+          distribution: chargePointPrice.price_distribution,
+          blockingFeeStart: chargePointPrice.blocking_fee_start,
+          tariff: tariff });
       }
       return memo;
     },[]);

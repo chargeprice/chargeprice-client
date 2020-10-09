@@ -47,7 +47,9 @@ export default class ViewBase {
       time: val => {
         const h = Math.floor(val / 60);
         const min = Math.ceil(val % 60);
-        return this.translation.stringFormatWithKey("timeFormat",h,min);
+        if(h==0 && min > 0) return `${min}min`;
+        else if(h>0 && min == 0)return `${h}h`;
+        else return this.translation.stringFormatWithKey("timeFormat",h,min);
       },
       timeOfDay: time => {
         if(time == null) return "";
