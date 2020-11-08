@@ -171,7 +171,30 @@ html, body, .flex-container{
   cursor: pointer;
 }
 
-.w3-button, .w3-btn{
+.cp-button {
+  border: none;
+  display: inline-block;
+  padding: 8px 16px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cp-button label{
+  cursor: pointer;
+}
+
+.w3-disabled, .w3-btn:disabled, .w3-button:disabled {
+  cursor: not-allowed !important;
+  opacity: 0.3;
+}
+
+.w3-button, .w3-btn, .cp-button{
   border-radius: 20px;
   box-shadow: 0px 1px 2px #dedede;
 }
@@ -179,10 +202,6 @@ html, body, .flex-container{
 .w3-bar .w3-button, .w3-bar .w3-btn, .w3-tag .w3-button {
   box-shadow: none !important;
   border-radius: 0px;
-}
-
-.w3-button label{
-  cursor: pointer !important;
 }
 
 .w3-tag{

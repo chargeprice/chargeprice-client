@@ -47,7 +47,7 @@ export default class StationPrices extends ViewBase{
     const obj = this.currentChargePoint;
     if(!obj)return "";
     return this.sortedCP.map(cp=> html`
-      <span @click="${()=>this.onChargePointChanged(cp)}" class="w3-button ${cp == obj ? "pc-main" : "w3-light-gray"} w3-margin-top w3-margin-bottom ${cp.supportedByVehicle ? "": "w3-disabled"}">
+      <span @click="${()=>this.onChargePointChanged(cp)}" class="cp-button ${cp == obj ? "pc-main" : "w3-light-gray"} w3-margin-top w3-margin-bottom ${cp.supportedByVehicle ? "": "w3-disabled"}">
         <label>${cp.power} kw</label><br>
         <label class="w3-small">${this.h().upper(cp.plug)}, ${cp.count}x</label>
       </span>
@@ -124,6 +124,7 @@ export default class StationPrices extends ViewBase{
   }
 
   onChargePointChanged(value){
+    if(!value.supportedByVehicle) return;
     this.currentChargePoint = value;
     this.renderCurrentChargePointTemplate();
     if(this.selectedChargePointChangedCallback) this.selectedChargePointChangedCallback(value);
