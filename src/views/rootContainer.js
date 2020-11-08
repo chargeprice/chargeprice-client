@@ -32,12 +32,16 @@ export default class RootContainer extends ViewBase {
 
           <div id="map" class="flex-item-d"></div>
           <div id="search" class="w3-display-topright"></div>
+          <div id="map-key" class="w3-display-bottommiddle">
+            <span class="map-key-item" style="background: #565656"><=3.7 kW</span><span class="map-key-item" style="background: #3498db"><= 22 kW</span><span class="map-key-item" style="background: #f49630"><= 50 kW</span><span class="map-key-item" style="background: #9a3032">>50 kW</span>
+          </div>
+
           <div id="pleaseZoom" class="w3-tag w3-padding w3-orange w3-center" style="display: none;">${this.t("pleaseZoomIn")}</div>
         </div>
       </div>
 
       <div id="snackbar"></div>
-
+      
       <div id="messageDialog" class="w3-modal">
         <div class="w3-modal-content">
           <div class="w3-bar pc-secondary w3-padding">

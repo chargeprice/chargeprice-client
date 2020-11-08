@@ -11,14 +11,6 @@ export default class InfoSidebar extends ViewBase {
     return html`
     <div class="w3-margin-bottom">
       <label class="w3-margin-top w3-large">${this.t("poiKey")}</label><br>
-      <p>
-        <img src="img/markers/slow_single.png" class="key-marker"> ${this.sf(this.t("chargePowerTo"),3.7)}
-        <img src="img/markers/ac_single.png" class="key-marker w3-margin-left"> ${this.sf(this.t("chargePowerTo"),22)}
-      </p>
-      <p>
-        <img src="img/markers/fast_single.png" class="key-marker"> ${this.sf(this.t("chargePowerTo"),50)}
-        <img src="img/markers/ultra_single.png" class="key-marker w3-margin-left"> ${this.sf(this.t("chargePowerFrom"),50)}
-      </p>
       <span>
         <img src="img/markers/fast_multi.png" class="key-marker">
         <img src="img/markers/ultra_multi.png" class="key-marker">

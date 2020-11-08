@@ -189,6 +189,24 @@ html, body, .flex-container{
   cursor: pointer;
 }
 
+#map-key {
+  text-align: center;
+  z-index: 1000;
+  width: 100%
+}
+
+#pleaseZoom {
+  z-index: 1001;
+}
+
+.map-key-item {
+  padding: 2px 6px;
+  margin: 0px !important;
+  display: inline;
+  font-size: 12px;
+  color: white;
+}
+
 .w3-disabled, .w3-btn:disabled, .w3-button:disabled {
   cursor: not-allowed !important;
   opacity: 0.3;
