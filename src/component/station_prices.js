@@ -17,6 +17,7 @@ export default class StationPrices extends ViewBase{
     this.defaultBatteryRange = [20,80];
     this.startTimeRepo = new RepositoryStartTime();
     this.currentChargePoint = null;
+    this.sortedCP = []
     this.initSlider();
   }
 
@@ -45,11 +46,12 @@ export default class StationPrices extends ViewBase{
   currentChargePointTemplate(){
     const obj = this.currentChargePoint;
     if(!obj)return "";
-    return html`
-      <span @click="${()=>this.changeChargePoint()}" class="w3-button w3-light-gray w3-margin-top w3-margin-bottom">
-        ${this.h().upper(obj.plug)} ${obj.power} kw (${obj.count}x)
+    return this.sortedCP.map(cp=> html`
+      <span @click="${()=>this.onChargePointChanged(cp)}" class="w3-button ${cp == obj ? "pc-main" : "w3-light-gray"} w3-margin-top w3-margin-bottom ${cp.supportedByVehicle ? "": "w3-disabled"}">
+        <label>${cp.power} kw</label><br>
+        <label class="w3-small">${this.h().upper(cp.plug)}, ${cp.count}x</label>
       </span>
-    `;
+    `);
   }
 
   feedbackTemplate(context){
@@ -102,17 +104,6 @@ export default class StationPrices extends ViewBase{
   updateBatteryRangeInfo(){
     const range = this.getBatteryRange();
     render(this.batteryRangeInfoTempl({from: range[0], to: range[1]}),this.getEl("batteryRangeInfo"));
-  }
-
-  changeChargePoint(){
-    new GenericList(this.depts).show(
-      {
-        items: this.sortedCP,
-        enabled: p => p.supportedByVehicle, 
-        header: this.translation.get("chargePointHeader"), 
-        convert: obj => html`${this.h().upper(obj.plug)} ${obj.power} kw (${obj.count}x)`,
-        narrow: true
-      },(v)=>this.onChargePointChanged(v));
   }
 
   showStation(station,options){

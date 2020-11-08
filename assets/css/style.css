@@ -181,6 +181,10 @@ html, body, .flex-container{
   border-radius: 0px;
 }
 
+.w3-button label{
+  cursor: pointer !important;
+}
+
 .w3-tag{
   border-radius: 2px;
   text-align: left;
@@ -225,6 +229,11 @@ i.fav-icon {
 
 #powerSlider {
   margin-bottom: 30px
+}
+
+#select-charge-point {
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 /* Featured */
