@@ -17,6 +17,12 @@ export default class InfoSidebar extends ViewBase {
         ${this.t("fastChargerMultiInfo")}
       </span>
       <p>
+        <span>
+          <img src="img/markers/fast_single_fault.png" class="key-marker">
+          ${this.t("faultReported")}
+        </span>
+      </p>
+      <p>
         <div class="key-marker my-location-icon"></div> ${this.t("myLocationPin")}
         <img src="img/markers/search_single.png" class="key-marker w3-margin-left"> ${this.t("searchResultPin")}
       </p>

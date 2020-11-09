@@ -141,7 +141,7 @@ export default class Map {
     }
 
     const markerIcon = L.icon({
-        iconUrl: `img/markers/${color}.png`,
+        iconUrl: `img/markers/${color}${model.faultReported ? "_fault" : ""}.png`,
         shadowUrl: '/img/leaflet/markers-shadow.png',
   
         iconSize:     [28, 40],

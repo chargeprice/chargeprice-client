@@ -197,6 +197,7 @@ export default class StationTariffs {
       priceDescription:  "",
       country:           data.country,
       chargePoints:      data.chargePoints.map((cp,idx) => this.parseChargePoint(cp,idx, vehicle)),
+      faultReported:     false
     }
   }
 

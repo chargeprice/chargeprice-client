@@ -227,6 +227,11 @@ html, body, .flex-container{
   text-align: left;
 }
 
+.w3-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 #jump-to-my-location{
   border-radius: 20px;
   padding: 0px;
