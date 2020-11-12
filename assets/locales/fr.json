@@ -26,7 +26,7 @@
   "chargeDuration": "Durée de la recharge",
   "chargeEnergy": "Énergie",
   "carChargesACWithUniphase": "VE recharge monophasée",
-  "showExclusiveProviderCustomerTariffs": "Montrer les prix clients opérateurs",
+  "showExclusiveProviderCustomerTariffs": "Montrer les prix pour les clients opérateurs",
   "showExclusiveProviderCustomerTariffsDetail": "Certains opérateurs et fournisseurs d'énergie offrent des prix plus bas pour les clients des offres énergie, gas, etc. ",
   "mapFilter": "Filtrer les résultats",
   "onlyHPC": "Recharge rapide seulement",
