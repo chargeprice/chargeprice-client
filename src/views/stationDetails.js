@@ -15,7 +15,6 @@ export default class StationDetailsView extends ViewBase {
       <label class="w3-margin-top w3-large">${station.name}</label><br>    
       <label>${station.address}</label><br>    
       
-      ${station.priceDescription ? html`<div class="w3-margin-top">${station.priceDescription}</div>`:""}
       <div class="cp-margin-top-small">
         ${station.faultReported ? html`<span class="w3-tag w3-link w3-red cp-margin-top-small" @click="${()=>this.onFaultReport(station)}">
           <i class="fa fa-exclamation"></i> ${this.t("faultReported")}</span>`:""}
