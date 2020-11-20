@@ -108,6 +108,11 @@ html, body, .flex-container{
 
 #search-box {
   border-radius: 20px;
+  outline: none;
+}
+
+#search-box:focus {
+  border-color: #777 !important;
 }
 
 .link-text {
