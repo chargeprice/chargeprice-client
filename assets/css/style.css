@@ -300,6 +300,12 @@ i.fav-icon {
 }
 
 @media (max-width: 800px) {
+  body {
+    -webkit-user-select: none !important;
+    -webkit-tap-highlight-color: transparent  !important;
+    -webkit-touch-callout: none  !important;
+  }
+
   #top-bar .w3-button {
     padding-left: 6px !important;
     padding-right: 6px !important;
