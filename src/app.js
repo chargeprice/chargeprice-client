@@ -42,7 +42,7 @@ class App {
 
     this.analytics = this.depts.analytics();
     this.stationTariffs = new StationTariffs(this.depts);
-    this.map = new Map();
+    this.map = new Map(this.depts);
     this.sidebar = new Sidebar(this.depts);
     this.locationSearch = new LocationSearch(this.depts);
     this.locationSearch.render();
@@ -130,6 +130,9 @@ class App {
     const isBigArea = this.map.isBigArea(options.minPower);
 
     $("#pleaseZoom").toggle(isBigArea);
+
+    this.map.rerender();
+    
     if(isBigArea){
       this.map.clearMarkers();
       return;

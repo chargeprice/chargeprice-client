@@ -3,7 +3,8 @@ require('leaflet.awesome-markers');
 
 export default class Map {
 
-  constructor() {
+  constructor(depts) {
+    this.customConfig = depts.customConfig();
     this.component = L.map('map');
     this.markers = L.layerGroup([]);
     this.markers.addTo(this.component);
@@ -17,9 +18,24 @@ export default class Map {
   initializeLayer() {
     this.component.zoomControl.setPosition('topright');
 
+    if(this.customConfig.isIOS() || this.customConfig.isBeta() ) this.initVectorLayer();
+    else this.initRasterLayer()
+  }
+
+  initRasterLayer(){
     L.tileLayer(`https://{s}-tiles.locationiq.com/v2/streets/r/{z}/{x}/{y}.png?key=${process.env.LOCATION_IQ_KEY}`, {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.component);
+  }
+
+  initVectorLayer(){
+    import(/* webpackChunkName: "mapbox" */ './mapbox.js').then(()=>{
+      L.mapboxGL({
+        attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
+        accessToken: 'not-needed',
+        style: `https://tiles.locationiq.com/v2/streets/vector.json?key=${process.env.LOCATION_IQ_KEY}`
+      }).addTo(this.component);
+    });
   }
 
   centerLocation(coords, zoom=13) {
@@ -180,6 +196,10 @@ export default class Map {
 
   onBoundsChanged(callback) {
     this.component.on("moveend", (res) => callback(this.getBounds()));
+  }
+
+  rerender(){
+    window.dispatchEvent(new Event('resize'));
   }
 
 }
