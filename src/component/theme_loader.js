@@ -67,7 +67,7 @@ export default class ThemeLoader {
     // Set CSS
     var newSS=document.createElement('link');
     newSS.rel='stylesheet';
-    newSS.href=`themes/${themeId}/style.css`;
+    newSS.href=`themes/${themeId}/style.css?v=1`;
     document.getElementsByTagName("head")[0].appendChild(newSS);
 
     // Title Bar
@@ -82,12 +82,9 @@ export default class ThemeLoader {
     document.getElementById("theme-color").setAttribute("content",theme.themeColor);
     
     if(themeId == this.defaultTheme) {
-      document.getElementById("theme-info").setAttribute("style","display: none;")
       document.getElementsByTagName("title")[0].innerText = theme.title;
     }
     else {
-      document.getElementById("donate-button").setAttribute("style","display: none;");
-      document.getElementById("theme-name").innerText = theme.name;
       document.getElementsByTagName("title")[0].innerText = `${theme.name} ${this.translation.get("poweredBy")} Chargeprice`;
     }
   }

@@ -15,7 +15,7 @@
   "tariff": "Prix",
   "noTariffAvailable": "Les prix de recharge pour cette station ne sont pas encore disponibles. Vous les connaissez ? Écrivez-nous : contact@chargeprice.net ou utilisez l'outil de signalement.",
   "settingsHeader": "Paramètres",
-  "infoHeader": "Infos",
+  "infoHeader": "Infos et plus",
   "pricesHeader": "Prix",
   "manageMyTariffsHeader": "Gérer mes forfaits",
   "manageMyTariffsDescription": "Sélectionnez les forfaits auxquels vous avez souscrits",
@@ -44,7 +44,7 @@
   "feedbackHeader": "Commentaires",
   "feedbackContent": "Vous avez besoin d'une nouvelle fonctionnalité ? Quelque chose ne fonctionne pas ? Écrivez-nous : <a href='mailto:contact@chargeprice.net?subject=Chargeprice Feedback'>contact@chargeprice.net</a>!",
   "disclaimerHeader": "Avertissements",
-  "dataSourceHeader": "Sources de données",
+  "dataSourceHeader": "API & Sources de données",
   "dataSourceContentGoingElectric": "Stations de recharge (coordonnées, prises) : <a href='http://www.goingelectric.de' target='_blank'>GoingElectric API</a>",
   "dataSourceContentPlugsurfing": "Prix PlugSurfing: <a href='http://www.plugsurfing.com' target='_blank'>PlugSurfing API</a>",
   "dataSourceContentNewMotion": "Prix New Motion: <a href='https://my.newmotion.com' target='_blank'>New Motion API</a>",
@@ -71,7 +71,8 @@
   "blockingFeeFrom": "Frais de parking à partir de {0}",
   "average": "moy.",
   "per": "par",
-  "partnerHeader": "Nos partenaires",
+  "partnerHeader": "Offres spéciales et partenaires",
+  "partnerSub": "Promotions et recommandations",
   "displayedCurrencyHeader": "Devise",
   "openInMapsLink": "Ouvrir dans Maps",
   "startTimeSelectionHeader": "Quand voulez-vous effectuer la recharge ?",
@@ -129,5 +130,8 @@
   "freeStationWithPricesInfo": "Attention : bien qu’il soit possible de recharger gratuitement sur ce réseau avec certaines cartes de recharge ou sans identification, certains opérateurs facturent la recharge.",
   "minPowerInfo": "Stations avec une puissance minimale de {0} kW",
   "minPowerInfoAny": "Puissance minimale non spécifiée",
-  "faultReported": "Erreur signalée"
+  "faultReported": "Erreur signalée",
+  "infoApiSub": "Intégrez Chargeprice dans votre application",
+  "infoDonateHeader": "Soutenez Chargeprice",
+  "infoDonateSub": "Vos donations nous aident à développer Chargeprice"
 }

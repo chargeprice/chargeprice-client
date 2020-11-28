@@ -44,7 +44,7 @@
   "feedbackHeader": "Comentarios",
   "feedbackContent": "¿Necisita usted una nueva funcionalidad? ¿Algun problema en el fuciontamiento? Mandenos un coreo electronico : <a href='mailto:contact@chargeprice.net?subject=Chargeprice Feedback'>contact@chargeprice.net</a>!",
   "disclaimerHeader": "Advertencia",
-  "dataSourceHeader": "Fuentes de datos",
+  "dataSourceHeader": "API & Fuentes de datos",
   "dataSourceContentGoingElectric": "Estaciones de recarga (dirección, enchufes) ",
   "dataSourceContentPlugsurfing": "Precio PlugSurfing",
   "dataSourceContentNewMotion": "Precio New Motion",
@@ -72,6 +72,7 @@
   "average": "media",
   "per": "por",
   "partnerHeader": "Nuestros socios",
+  "partnerSub": "EV related stores & services we can recommend",
   "displayedCurrencyHeader": "Divisa",
   "openInMapsLink": "Abrir en Maps",
   "startTimeSelectionHeader": "¿Cuándo quiere usted recargar el coche?",
@@ -129,5 +130,8 @@
   "freeStationWithPricesInfo": "Advertencia: aunque es posible hacer una recarga gratuita en esta red con ciertas tarjetas de recarga o sin identificación, algunos operadores cobran por la recarga.",
   "minPowerInfo": "Estaciones con una potencia minima de kWh",
   "minPowerInfoAny": "Potencia minima no especificada",
-  "faultReported": "Error encontrado"
+  "faultReported": "Error encontrado",
+  "infoApiSub": "Integrate Chargeprice into your app",
+  "infoDonateHeader": "Support Us",
+  "infoDonateSub": "Your donation helps to further develop Chargeprice"
 }

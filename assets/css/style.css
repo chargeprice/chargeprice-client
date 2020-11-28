@@ -223,7 +223,7 @@ html, body, .flex-container{
   box-shadow: 0px 1px 2px #dedede;
 }
 
-.w3-bar .w3-button, .w3-bar .w3-btn, .w3-tag .w3-button {
+.w3-bar .w3-button, .w3-bar .w3-btn, .w3-tag .w3-button, .w3-bar-item.w3-button {
   box-shadow: none !important;
   border-radius: 0px;
 }

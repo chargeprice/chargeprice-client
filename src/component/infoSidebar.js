@@ -1,77 +1,104 @@
 import { html, render } from 'lit-html';
 import ViewBase from './viewBase';
 import ModalFeedback from '../modal/feedback';
+import ModalMapKey from '../modal/mapKey';
+import ModalSocialMedia from '../modal/socialMedia';
+import ModalInstallApp from '../modal/installApp';
+import ModalDonate from '../modal/donate';
+import ModalPartner from '../modal/partner';
+import ModalDisclaimer from '../modal/disclaimer';
+import ModalDataSources from '../modal/dataSources';
+
 export default class InfoSidebar extends ViewBase {
   constructor(depts) {
     super(depts);
     this.analytics = depts.analytics();
+    this.themeLoader = depts.themeLoader();
+    this.customConfig = depts.customConfig();
+    this.menuItems = [
+      {
+        id: "install",
+        title: this.t("installApp"),
+        icon: "download",
+        class: "bold",
+        show: ()=> this.customConfig.isMobileOrTablet() && !this.customConfig.isRunningStandalone(),
+        action: ()=> new ModalInstallApp(this.depts).show()
+      },
+      {
+        id: "map_legend",
+        title: this.t("poiKey"),
+        icon: "map",
+        action: ()=> new ModalMapKey(this.depts).show()
+      },
+      {
+        id: "donate",
+        title: this.t("infoDonateHeader"),
+        subTitle: this.t("infoDonateSub"),
+        icon: "eur",
+        show: ()=> this.themeLoader.isDefaultTheme(),
+        action: ()=> new ModalDonate(this.depts).show()
+      },
+      {
+        id: "social_media",
+        title: this.t("popupSocialMediaHeader"),
+        subTitle: this.t("popupSocialMediaText1"),
+        icon: "facebook-official",
+        show: ()=> this.themeLoader.isDefaultTheme(),
+        action: ()=> new ModalSocialMedia(this.depts).show()
+      },
+      {
+        id: "data_sources",
+        title: this.t("dataSourceHeader"),
+        subTitle: this.t("infoApiSub"),
+        icon: "connectdevelop",
+        action: ()=> new ModalDataSources(this.depts).show()
+      },
+      {
+        id: "partner",
+        title: this.t("partnerHeader"),
+        subTitle: this.t("partnerSub"),
+        icon: "percent",
+        show: ()=> this.themeLoader.isDefaultTheme(),
+        action: ()=> new ModalPartner(this.depts).show()
+      },
+      {
+        id: "feedback",
+        title: this.t("fbGiveFeedback"),
+        icon: "comment",
+        action: ()=>this.onGiveFeedback("other_feedback")
+      },
+      {
+        id: "missing_station",
+        title: this.t("fbReportMissingStationHeader"),
+        icon: "comment",
+        action: ()=>this.onGiveFeedback("missing_station")
+      },
+      {
+        id: "disclaimer",
+        title: this.t("disclaimerHeader"),
+        icon: "legal",
+        action: ()=> new ModalDisclaimer(this.depts).show()
+      },
+      {
+        id: "about",
+        title: this.t("aboutHeader"),
+        subTitle: "chargeprice.net",
+        icon: "info-circle",
+        action: ()=>window.open("https://www.chargeprice.net")
+      }
+    ]
   }
 
   template(){
     return html`
-    <div class="w3-margin-bottom">
-      <label class="w3-margin-top w3-large">${this.t("poiKey")}</label><br>
-      <span>
-        <img src="img/markers/fast_multi.png" class="key-marker">
-        <img src="img/markers/ultra_multi.png" class="key-marker">
-        ${this.t("fastChargerMultiInfo")}
-      </span>
-      <p>
-        <span>
-          <img src="img/markers/fast_single_fault.png" class="key-marker">
-          ${this.t("faultReported")}
-        </span>
-      </p>
-      <p>
-        <div class="key-marker my-location-icon"></div> ${this.t("myLocationPin")}
-        <img src="img/markers/search_single.png" class="key-marker w3-margin-left"> ${this.t("searchResultPin")}
-      </p>
-    </div>
-
-    <div id="theme-info" class="w3-margin-bottom">
-      <span id="theme-name"></span> ${this.t("poweredBy")} <a href="https://www.chargeprice.app" target="_blank">Chargeprice</a>
-    </div>
-
-    <button id="btAppInstall" class="w3-btn pc-secondary w3-margin-top w3-margin-bottom hidden">
-      <img class="inverted" src="img/download.svg">
-      ${this.t("installApp")}
-    </button>
-    
-    <div class="w3-margin-bottom">
-      <label class="w3-margin-top w3-large">${this.t("aboutHeader")}</label><br>
-      <a href="https://www.chargeprice.net">chargeprice.net</a>
-    </div>
-
-    <div id="donate-button" class="w3-margin-bottom">
-      <a href="http://paypal.me/chargeprice">
-        <img src="https://www.paypalobjects.com/${this.t('paypalLocale')}/i/btn/btn_donateCC_LG.gif"/>
-      </a>
-    </div>
-
-    <p>
-      <button @click="${()=>this.onGiveFeedback("other_feedback")}" class="w3-btn pc-secondary w3-margin-top">${this.t("fbGiveFeedback")}</button>
-      <button @click="${()=>this.onGiveFeedback("missing_station")}" class="w3-btn pc-secondary w3-margin-top">${this.t("fbReportMissingStationHeader")}</button>
-    </p>
-
-    <label class="w3-margin-top w3-large">${this.t("partnerHeader")}</label><br>
-    <a @click="${()=>this.onGreenDrive()}" href="https://www.greendrive-accessories.com/" target="_blank"><img width="100%" src="img/partners/greendrive.png"></a>
-    <br><br>
-
-    <label class="w3-margin-top w3-large">${this.t("dataSourceHeader")}</label><br>
-    <ul>
-      <li>${this.ut("dataSourceContentGoingElectric")}</li>
-      <li>${this.t("dataSourceContentOther")}</li>
-    </ul>
-
-    <label class="w3-margin-top w3-large">${this.t("disclaimerHeader")}</label><br>
-    <div class="w3-margin-bottom">${this.t("disclaimerContent")}</div>
-
-    <label class="w3-margin-top w3-large">${this.t("openSourceHeader")}</label><br>
-    <div class="w3-margin-bottom">
-      <a href="https://github.com/chargeprice/chargeprice-client" target="_blank">Chargeprice (Github)</a><br>
-      <a href="https://github.com/chargeprice/chargeprice-api-docs" target="_blank">Chargeprice API (Github)</a><br>
-      <a href="https://github.com/chargeprice/open-ev-data" target="_blank">Open EV Data (Github)</a><br>
-    </div>
+      <div class="w3-bar-block">
+        ${this.menuItems.filter(entry=>!entry.show || entry.show()).map(entry=>html`
+          <a @click="${()=>this.executeAction(entry)}" href="#" class="w3-bar-item w3-button w3-border-bottom">
+            <i class="fa fa-${entry.icon} pc-main-text"></i> <span class="${entry.class}">${entry.title}</span>
+            ${entry.subTitle ? html`<span class="w3-small w3-block w3-text-dark-gray">${entry.subTitle}</span>`:""}
+          </a>
+        `)}
+      </div>
     `;
   }
 
@@ -83,8 +110,9 @@ export default class InfoSidebar extends ViewBase {
     new ModalFeedback(this.depts).show(type);
   }
 
-  onGreenDrive(){
-    this.analytics.log('send', 'event', 'AffiliatePartner', 'greendrive');
+  executeAction(entry){
+    this.analytics.log('send', 'event', 'Menu', entry.id);
+    entry.action();
   }
 }
 

@@ -44,7 +44,7 @@
   "feedbackHeader": "Feedback",
   "feedbackContent": "Mis je een feature, een laadpas of klopt er iets niet? Schrijf ons een email via <a href='mailto:contact@chargeprice.net?subject=Chargeprice Feedback'>contact@chargeprice.net</a>",
   "disclaimerHeader": "Disclaimer",
-  "dataSourceHeader": "Bron data",
+  "dataSourceHeader": "API & Bron data",
   "dataSourceContentGoingElectric": "API",
   "dataSourceContentPlugsurfing": "Charging prices PlugSurfing: <a href='http://www.plugsurfing.com' target='_blank'>PlugSurfing API</a>",
   "dataSourceContentNewMotion": "Charging prices New Motion: <a href='https://my.newmotion.com' target='_blank'>New Motion API</a>",
@@ -72,6 +72,7 @@
   "average": "ø",
   "per": "per",
   "partnerHeader": "Onze partners",
+  "partnerSub": "EV related stores & services we can recommend",
   "displayedCurrencyHeader": "Valuta",
   "openInMapsLink": "Openen in Maps",
   "startTimeSelectionHeader": "Wanneer wil je laden?",
@@ -129,5 +130,8 @@
   "freeStationWithPricesInfo": "This station is marked as free charging, but it's also connected to a charging network. If you need to activate the station with a charging card or app, the prices listed below might still apply!",
   "minPowerInfo": "Stations with min. power of {0} kW",
   "minPowerInfoAny": "No min. power specified",
-  "faultReported": "Storing gemeld"
+  "faultReported": "Storing gemeld",
+  "infoApiSub": "Integrate Chargeprice into your app",
+  "infoDonateHeader": "Support Us",
+  "infoDonateSub": "Your donation helps to further develop Chargeprice"
 }

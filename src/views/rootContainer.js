@@ -31,7 +31,7 @@ export default class RootContainer extends ViewBase {
               </div>
 
               <div id="settingsContent" class="w3-container w3-padding-16"></div>
-              <div id="infoContent" class="w3-container w3-padding-16"></div>
+              <div id="infoContent" class="w3-row"></div>
               <div id="pricesContent" class="w3-container w3-padding-16"></div>
               <div id="manageMyTariffsContent" class="w3-container w3-padding-16"></div>
           </div>
