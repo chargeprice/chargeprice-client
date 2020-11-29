@@ -24,7 +24,9 @@ export default class ModelMapKey extends ModalBase {
         </p>
         <p>
           <div class="key-marker my-location-icon"></div> ${this.t("myLocationPin")}
-          <img src="img/markers/search_single.png" class="key-marker w3-margin-left"> ${this.t("searchResultPin")}
+        </p>
+        <p>
+          <img src="img/markers/search_single.png" class="key-marker"> ${this.t("searchResultPin")}
         </p>
       </div>
     </div>
