@@ -1,6 +1,12 @@
 html, body, .flex-container{
   height: 100%;
+  width: 100%;
   font-family: 'Quicksand', sans-serif;
+}
+
+html, body {
+  position: fixed;
+  overflow: hidden;
 }
 
 .flex-container {
