@@ -133,5 +133,9 @@
   "faultReported": "Erreur signalée",
   "infoApiSub": "Intégrez Chargeprice dans votre application",
   "infoDonateHeader": "Soutenez Chargeprice",
-  "infoDonateSub": "Vos donations nous aident à développer Chargeprice"
+  "infoDonateSub": "Vos donations nous aident à développer Chargeprice",
+  "refreshHeader": "Rafraichir la page",
+  "refreshSub": "Au cas où vous ayez l'ancienne version de Chargeprice",
+  "myTariffs": "Mes abonnements",
+  "otherTariffs": "Autres tarifs"
 }

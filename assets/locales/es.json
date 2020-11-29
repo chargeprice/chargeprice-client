@@ -133,5 +133,9 @@
   "faultReported": "Error encontrado",
   "infoApiSub": "Integrate Chargeprice into your app",
   "infoDonateHeader": "Support Us",
-  "infoDonateSub": "Your donation helps to further develop Chargeprice"
+  "infoDonateSub": "Your donation helps to further develop Chargeprice",
+  "refreshHeader": "Refresh app",
+  "refreshSub": "In case you see an outdated version of Chargeprice",
+  "myTariffs": "My Tariffs",
+  "otherTariffs": "Other Tariffs"
 }

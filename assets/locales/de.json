@@ -122,7 +122,7 @@
   "close": "Schließen",
   "fbReportOtherHeader": "Feedback",
   "fbGiveFeedback": "Feedback geben",
-  "fbReportPriceText": "Ein Preis bzw. Tariff ...",
+  "fbReportPriceText": "Ein Preis bzw. Tarif ...",
   "fbReportMissing": "fehlt",
   "fbReportWrong": "ist falsch",
   "locationSearchEnterInfo": "Suchen mit \"Enter\"",
@@ -133,5 +133,9 @@
   "faultReported": "Störung gemeldet",
   "infoApiSub": "Integriere Chargeprice in deine App",
   "infoDonateHeader": "Unterstütze uns",
-  "infoDonateSub": "Deine Spende hilft Chargeprice weiter zu entwickeln"
+  "infoDonateSub": "Deine Spende hilft Chargeprice weiter zu entwickeln",
+  "refreshHeader": "App neu laden",
+  "refreshSub": "Falls du eine veraltete Version von Chargeprice siehst",
+  "myTariffs": "Meine Tarife",
+  "otherTariffs": "Weitere Tarife"
 }

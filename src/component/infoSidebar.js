@@ -31,6 +31,14 @@ export default class InfoSidebar extends ViewBase {
         action: ()=> new ModalMapKey(this.depts).show()
       },
       {
+        id: "update",
+        title: this.t("refreshHeader"),
+        subTitle: this.t("refreshSub"),
+        icon: "refresh",
+        show: ()=> this.customConfig.isMobileOrTablet(),
+        action: ()=> location.reload(true)
+      },
+      {
         id: "donate",
         title: this.t("infoDonateHeader"),
         subTitle: this.t("infoDonateSub"),
