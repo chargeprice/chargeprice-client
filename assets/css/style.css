@@ -304,6 +304,7 @@ i.fav-icon {
 
 .cp-price-right{
   text-align: right !important;
+  padding-right: 16px !important;
 }
 
 @media (max-width: 800px) {

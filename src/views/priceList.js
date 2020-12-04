@@ -1,26 +1,45 @@
 import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
 export default class PriceListView extends ViewBase {
-  constructor(depts) {
+  constructor(depts,sidebar) {
     super(depts);
     this.analytics = depts.analytics();
     this.currency = depts.currency();
+    this.sidebar = sidebar;
   }
 
-  template(prices){
+  template(pricesForMyTariffs, otherPrices){
     return html`
-      <table class="w3-table w3-striped w3-margin-top">
+      ${pricesForMyTariffs.length > 0 ? 
+      html`<table class="w3-table w3-striped w3-margin-top">
         <tr>
-          <th>${this.t("tariff")}</th>
-          <th class="w3-right">${this.currency.getDisplayedCurrency()}</th>
+          <th width="60%"><i class="fa fa-star fav-icon"></i> <a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("myTariffs")} <i class="fa fa-pencil"></a></th>
+          <th class="w3-right cp-price-right">${this.currency.getDisplayedCurrency()}</th>
         </tr>
         <tbody>
-          ${this.rowsTemplate(prices)}
+          ${this.rowsTemplate(pricesForMyTariffs)}
         </tbody>
       </table>
-      <label class="w3-margin-top w3-small w3-block">
+      `:""}
+
+        ${pricesForMyTariffs.length > 0 && otherPrices.length > 0 ? html`
+          <hr/>
+        `:""}
+
+      ${otherPrices.length > 0 ? 
+        html`<table class="w3-table w3-striped w3-margin-top">
+          <tr>
+            <th width="60%">${pricesForMyTariffs.length > 0 ? this.t("otherTariffs") : this.t("tariff")}</th>
+            <th class="w3-right cp-price-right">${this.currency.getDisplayedCurrency()}</th>
+          </tr>
+          <tbody>
+            ${this.rowsTemplate(otherPrices)}
+          </tbody>
+        </table>
+        `:""}
+      <div class="w3-margin-top w3-small w3-container">
         ${this.ut("totalPriceInfo")}
-      </label>
+      </div>
     `;
   }
 
@@ -39,9 +58,9 @@ export default class PriceListView extends ViewBase {
     return html`
     <td class="cp-price-left">
       ${tariff.tariffName == null || tariff.tariffName == tariff.provider ?
-        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"bold":""}">${tariff.provider}</span></a>` :
-        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"bold":""}">${tariff.tariffName}</span></a><br>
-            ${!price.featuring ? html`<label class="w3-margin-top w3-small ${this.isMyTariff(tariff)?"bold":""}">${tariff.provider}</label>`:""}`
+        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.provider}</span></a>` :
+        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.tariffName}</span></a><br>
+            ${!price.featuring ? html`<label class="w3-margin-top w3-small ${this.isMyTariff(tariff)?"":""}">${tariff.provider}</label>`:""}`
       }
       ${this.renderTags(price.tariff.tags)}
       ${tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0 ?
@@ -69,7 +88,7 @@ export default class PriceListView extends ViewBase {
   priceTemplate(price,tariff){
     return html`
     <td class="cp-price-right">
-      <label class="w3-right ${this.isMyTariff(tariff)?"bold":""}">${this.isMyTariff(tariff) ? html`<i class="fa fa-star fav-icon"></i> `:"" }${this.h().dec(price.price)}</label><br>
+      <label class="w3-right ${this.isMyTariff(tariff)?"":""}">${this.isMyTariff(tariff) ? html``:"" }${this.h().dec(price.price)}</label><br>
       ${price.price > 0 ?
         html`<label class="w3-right w3-small">${this.t("average")} ${this.h().dec(price.pricePerKWh)}/kWh</label><br>`:""
       }
@@ -116,7 +135,13 @@ export default class PriceListView extends ViewBase {
 
   render(prices, myTariffs,root){
     this.myTariffs = myTariffs;
-    render(this.template(prices),this.getEl(root));
+    const pricesForMyTariffs = prices.filter(p=>this.isMyTariff(p.tariff));
+    const otherPrices = prices.filter(p=>!this.isMyTariff(p.tariff));
+    render(this.template(pricesForMyTariffs, otherPrices),this.getEl(root));
+  }
+
+  onManageMyTariffs(){
+    this.sidebar.open("manageMyTariffs");
   }
 
   onAffiliateClicked(tariff){
