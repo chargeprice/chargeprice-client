@@ -1,9 +1,12 @@
 import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
+import GenericList from '../modal/genericList';
+
 export default class SettingsSidebar extends ViewBase {
   constructor(depts) {
     super(depts);
     this.settingsPrimitive = depts.settingsPrimitive();
+    this.currency = depts.currency();
     this.selectedMinPower = 0;
   }
 
@@ -36,7 +39,7 @@ export default class SettingsSidebar extends ViewBase {
     <label>${this.t("onlyOpenNow")}</label><br>
 
     <label class="w3-block w3-margin-top">${this.t("displayedCurrencyHeader")}</label>
-    <div id="selectCurrency"></div>
+    <div id="selectCurrency">${this.currencyTemplate()}</div>
 
     ${this.translation.showUnbalancedLoad() ?
       html`
@@ -52,8 +55,16 @@ export default class SettingsSidebar extends ViewBase {
     `;
   }
 
+  currencyTemplate(){
+    return html`
+      <span @click="${()=>this.onChangeCurrency()}" class="w3-button w3-light-gray">
+        ${this.currency.getDisplayedCurrency()}
+      </span>
+    `;
+  }
+
   render(){
-    render(this.template(),document.getElementById("settingsContent"));
+    render(this.template(),this.getEl("settingsContent"));
     this.loadModel();
     this.initSlider();
   }
@@ -62,6 +73,22 @@ export default class SettingsSidebar extends ViewBase {
     const powerStringValue = parseInt(this.selectedMinPower)==this.selectedMinPower ? parseInt(this.selectedMinPower) : this.selectedMinPower;
     if(this.selectedMinPower==0) return html`${this.t("minPowerInfoAny")}`;
     return html`${this.sf(this.t("minPowerInfo"),powerStringValue)}`;
+  }
+
+  onChangeCurrency(){
+    new GenericList(this.depts).show(
+      {
+        items: this.currency.getAvailableCurrencies(),
+        header: this.translation.get("displayedCurrencyHeader"), 
+        convert: i => i,
+        narrow: true
+      },(c)=>this.currencyChanged(c));
+  }
+
+  currencyChanged(value){
+    this.currency.changeCurrency(value);
+    this.sidebar.optionsChanged();
+    render(this.currencyTemplate(),this.getEl("selectCurrency"));
   }
 
   initSlider(){

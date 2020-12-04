@@ -1,6 +1,5 @@
 import ManageMyTariffs from './manage_my_tariffs';
 import MyVehicle from './my_vehicle';
-import Currency from './currency';
 import AppInstall from './app_install';
 import StationPrices from './station_prices';
 
@@ -13,10 +12,10 @@ export default class Sidebar {
     this.urlModifier = depts.urlModifier();
     this.settingsPrimitive=depts.settingsPrimitive();
     this.customConfig = depts.customConfig();
+    this.currency = depts.currency();
     this.manageMyTariffs = new ManageMyTariffs(this,depts);
     this.appInstall = new AppInstall(this.analytics);
     this.myVehicle = new MyVehicle(this,this.depts);
-    this.currency = new Currency(this,this.depts);
     this.stationPrices = new StationPrices(this,this.depts);
     this.loaded = false;
     this.component = $("#sidebar");

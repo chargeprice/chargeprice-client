@@ -15,18 +15,7 @@ export default class PricesSidebar extends ViewBase {
 
       <div id="priceInfo" class="w3-row"></div>
 
-      <div id="prices">
-        <table class="w3-table w3-striped w3-margin-top">
-          <tr>
-            <th>${this.t("tariff")}</th>
-            <th id="pricesListCurrencyHeader" class="w3-right"></th>
-          </tr>
-          <tbody id="priceList"></tbody>
-        </table>
-        <label class="w3-margin-top w3-small w3-block">
-          ${this.ut("totalPriceInfo")}
-        </label>
-      </div> 
+      <div id="prices"></div> 
       <div id="priceFeedback" class="w3-margin-top w3-row"></div>
     `;
   }

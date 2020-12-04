@@ -4,9 +4,27 @@ export default class PriceListView extends ViewBase {
   constructor(depts) {
     super(depts);
     this.analytics = depts.analytics();
+    this.currency = depts.currency();
   }
 
   template(prices){
+    return html`
+      <table class="w3-table w3-striped w3-margin-top">
+        <tr>
+          <th>${this.t("tariff")}</th>
+          <th class="w3-right">${this.currency.getDisplayedCurrency()}</th>
+        </tr>
+        <tbody>
+          ${this.rowsTemplate(prices)}
+        </tbody>
+      </table>
+      <label class="w3-margin-top w3-small w3-block">
+        ${this.ut("totalPriceInfo")}
+      </label>
+    `;
+  }
+
+  rowsTemplate(prices){
     return prices.map(p=>{
       const tariff = p.tariff;
       return html`

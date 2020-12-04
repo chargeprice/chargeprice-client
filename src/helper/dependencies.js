@@ -6,12 +6,14 @@ import ThemeLoader from '../component/theme_loader'
 import RepositorySettingsPrimitive from '../repository/settings/primitive'
 import LocationIQ from '../repository/locationIQ';
 import UrlModifier from '../helper/urlModifier';
+import Currency from '../component/currency'
 
 export default class Dependencies {
 
   constructor(){
     this.translationInstance = new Translation();
     this.customConfigInstance = new CustomConfig();
+    this.currencyInstance = new Currency();
   }
 
   settingsPrimitive(...args){
@@ -40,6 +42,10 @@ export default class Dependencies {
 
   urlModifier(){
     return new UrlModifier();
+  }
+
+  currency(){
+    return this.currencyInstance;
   }
 }
 
