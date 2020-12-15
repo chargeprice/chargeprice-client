@@ -46,6 +46,13 @@ export default class ThemeLoader {
         themeColor: "#ce0000",
         appleTouchIcon: "themes/aprr/logo.png"
       },
+      asfinag: {
+        titleBarHtml: `<img id=\"logo\" src=\"themes/asfinag/logo.png\"/><span class=\"title\">${translation.get("themeTitle")}</span>`,
+        favicon: "themes/asfinag/logo.png",
+        name: translation.get("themeTitle"),
+        themeColor: "#bc5408",
+        appleTouchIcon: "themes/asfinag/logo.png"
+      },
     }
   }
 
