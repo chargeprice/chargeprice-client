@@ -18,6 +18,9 @@ export default class Map {
   initializeLayer() {
     this.component.zoomControl.setPosition('topright');
 
+    const scaleWidth = this.customConfig.isMobileOrTablet() ? 60 : 100;
+    L.control.scale({maxWidth: scaleWidth}).addTo(this.component);
+
     if(this.customConfig.isIOS() || this.customConfig.isBeta() ) this.initVectorLayer();
     else this.initRasterLayer()
   }
