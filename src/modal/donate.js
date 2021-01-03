@@ -15,7 +15,7 @@ export default class ModalDonate extends ModalBase {
       <p>${this.t("popupDonateText")}</p>
       </div>
       <div class="w3-margin-bottom w3-margin-left">
-        <a href="http://paypal.me/chargeprice" @click="${()=>this.donate()}">
+        <a href="http://paypal.me/chargepricesupport" @click="${()=>this.donate()}">
           <img src="https://www.paypalobjects.com/${this.t('paypalLocale')}/i/btn/btn_donateCC_LG.gif"/>
         </a>
       </div>
