@@ -135,7 +135,7 @@ export default class Map {
     let powerType = null;
     let zIndex = 0;
 
-    const maxPower = model.chargePoints.reduce((max,value)=> max > value.power ? max : value.power, 0);
+    const maxPower = model.chargePoints.filter(v=>v.supportedByVehicle).reduce((max,value)=> max > value.power ? max : value.power, 0);
     const fastChargerCount = model.chargePoints.reduce((sum,value)=> value.supportedByVehicle && value.power >= 50 ? sum + value.count : sum,0);
 
     if(maxPower > 50){
