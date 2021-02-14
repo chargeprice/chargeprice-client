@@ -100,6 +100,12 @@ export default class InfoSidebar extends ViewBase {
   template(){
     return html`
       <div class="w3-bar-block">
+        ${!this.themeLoader.isDefaultTheme() ? html`
+         <div class="w3-padding w3-border-bottom w3-center">
+          <a href="https://www.chargeprice.net" target="_blank"><img id="powered-by" height=50 src="img/powered_by.svg"/></a>
+         </div>
+        ` : ""
+        }
         ${this.menuItems.filter(entry=>!entry.show || entry.show()).map(entry=>html`
           <a @click="${()=>this.executeAction(entry)}" href="#" class="w3-bar-item w3-button w3-border-bottom">
             <i class="fa fa-${entry.icon} pc-main-text"></i> <span class="${entry.class}">${entry.title}</span>

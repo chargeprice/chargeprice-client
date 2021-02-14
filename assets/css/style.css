@@ -307,6 +307,10 @@ i.fav-icon {
   padding-right: 16px !important;
 }
 
+#powered-by{
+  height: 32px;
+}
+
 .mobile-hidden {
   display: initial !important;
 }
