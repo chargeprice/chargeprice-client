@@ -1,3 +1,5 @@
+import { html, render } from 'lit-html';
+
 export default class ThemeLoader {
   constructor(translation) {
     this.translation = translation;
@@ -11,7 +13,12 @@ export default class ThemeLoader {
         appleTouchIcon: "/img/logos/apple-touch-icon.png"
       },
       emc: {
-        titleBarHtml: `<a href="https://www.emcaustria.at/" target="_blank"><img id=\"logo\" src=\"themes/emc/logo.png\"/><img id=\"logoText\" src=\"themes/emc/logo_text.png\"/></a>`,
+        titleBarHtml: html`
+          <a href="https://www.emcaustria.at/" target="_blank">
+            <img id="logo" src="themes/emc/logo.png"/>
+            <img id="logoText" src="themes/emc/text.svg"/>
+          </a>
+        `,
         favicon: "themes/emc/logo.png",
         name: `EMC ${translation.get("themeTitle")}`,
         themeColor: "#8fbf22",
@@ -53,6 +60,17 @@ export default class ThemeLoader {
         themeColor: "#bc5408",
         appleTouchIcon: "themes/asfinag/logo.png"
       },
+      instadrive: {
+        titleBarHtml: html`
+          <img id="logo" class="mobile-hidden" src="themes/instadrive/logo.svg"/>
+          <img id="logo" class="mobile-shown" src="themes/instadrive/icon.svg"/>
+          <img id="logoText" src="themes/instadrive/text.svg"/>
+        `,
+        favicon: "themes/instadrive/favicon.png",
+        name: "Instadrive Ladepreise",
+        themeColor: "#16bae7",
+        appleTouchIcon: "themes/asfinag/logo.png"
+      },
     }
   }
 
@@ -78,7 +96,12 @@ export default class ThemeLoader {
     document.getElementsByTagName("head")[0].appendChild(newSS);
 
     // Title Bar
-    document.getElementById("logo-container").innerHTML = theme.titleBarHtml;
+    if(theme.titleBarHtml instanceof String) {
+      document.getElementById("logo-container").innerHTML = theme.titleBarHtml;
+    }
+    else {
+      render(theme.titleBarHtml,document.getElementById("logo-container"));
+    }
 
     // Favicon
     document.getElementById("metaIcon").setAttribute("href",theme.favicon);

@@ -1,0 +1,31 @@
+.pc-main{
+  color: #fff !important;
+  background-color: #16bae7 !important;
+}
+
+.pc-main-text {
+  color: #16bae7;
+}
+
+.pc-secondary{
+  color: #fff !important;
+  background-color: #16bae7 !important;
+}
+
+#logo {
+  margin-top: 0px;
+  height: 20px;
+}
+
+#logoText {
+  height: 30px;
+  margin-left: 8px;
+}
+
+#logo-container {
+  font-size: inherit;
+}
+
+.noUi-connect {
+  background: #16bae7 !important;
+}

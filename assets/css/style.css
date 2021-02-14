@@ -307,6 +307,14 @@ i.fav-icon {
   padding-right: 16px !important;
 }
 
+.mobile-hidden {
+  display: initial !important;
+}
+
+.mobile-shown {
+  display: none !important;
+}
+
 @media (max-width: 800px) {
   body {
     -webkit-user-select: none !important;
@@ -332,5 +340,13 @@ i.fav-icon {
 
   .cp-price-right{
     padding-left: 0px !important;
+  }
+
+  .mobile-hidden {
+    display: none !important;
+  }
+
+  .mobile-shown {
+    display: initial !important;
   }
 }

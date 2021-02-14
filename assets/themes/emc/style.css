@@ -25,8 +25,16 @@
 }
 
 #logoText {
-  height: 32px;
-  margin-left: 10px;
+  height: 30px;
+  margin-left: 8px;
+}
+
+#logo-container {
+  font-size: inherit;
+}
+
+#logo-container a {
+  text-decoration: none;
 }
 
 .noUi-connect {

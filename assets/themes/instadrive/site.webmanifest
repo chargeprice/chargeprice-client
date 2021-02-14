@@ -1,0 +1,13 @@
+{
+    "name": "Ladepreise",
+    "short_name": "Ladepreise",
+    "icons": [
+        {
+            "src": "/themes/instadrive/icon.svg"
+        }
+    ],
+    "theme_color": "#16bae7",
+    "background_color": "#16bae7",
+    "display": "standalone",
+    "start_url": "/"
+}
