@@ -82,6 +82,7 @@ export default class StationPrices extends ViewBase{
     noUiSlider.create(this.slider, {
         start: this.getStoredOrDefaultBatteryRange(),
         step: 1,
+        margin: 1,
         connect: true,
         range: { min: 0,max: 100 }
     });
