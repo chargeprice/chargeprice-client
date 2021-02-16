@@ -96,7 +96,7 @@ export default class ThemeLoader {
     document.getElementsByTagName("head")[0].appendChild(newSS);
 
     // Title Bar
-    if(theme.titleBarHtml instanceof String) {
+    if(typeof theme.titleBarHtml == "string") {
       document.getElementById("logo-container").innerHTML = theme.titleBarHtml;
     }
     else {
