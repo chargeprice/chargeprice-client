@@ -38,6 +38,18 @@ export default class ViewBase {
     return document.getElementById(id);
   }
 
+  show(id){
+    this.getEl(id).style.display = 'block';
+  }
+
+  hide(id){
+    this.getEl(id).style.display = 'none';
+  }
+
+  toggle(id, isShown){
+    isShown ? this.show(id) : this.hide(id);
+  }
+
   h(){
     return {
       dec: (val,digits=2) => val.toFixed(digits),

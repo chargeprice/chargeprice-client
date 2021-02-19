@@ -79,5 +79,20 @@ export default class RootContainer extends ViewBase {
   onOpenInfo(){
     this.sidebar.open("info")
   }
+
+  toggleLoadingIndicator(isShown){
+    this.toggle("loadingIndicator", isShown);
+  }
+
+  togglePleaseZoom(isShown){
+    this.toggle("pleaseZoom", isShown);
+  }
+
+  showAlert(message) {
+    this.getEl("snackbar").innerText = message;
+    this.show("snackbar");
+    
+    setTimeout(()=>this.hide("snackbar"), 5000);
+  }
 }
 

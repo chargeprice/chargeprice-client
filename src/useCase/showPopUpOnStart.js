@@ -1,5 +1,4 @@
 
-import PlugcheckerToChargeprice from '../component/plugchecker_to_chargeprice.js';
 import ModalSocialMedia from '../modal/socialMedia';
 import ModalInstallApp from '../modal/installApp';
 import ModalDonate from '../modal/donate';
@@ -17,7 +16,6 @@ export default class ShowPopUpOnStart {
   }
 
   run(){
-    if(new PlugcheckerToChargeprice(this.depts).tryShowDialog()) return;
     const previousStartCount = this.settingsPrimitive.getAppStartCount();
     this.settingsPrimitive.incrementAppStartCount();
 

@@ -133,11 +133,12 @@ export default class PriceListView extends ViewBase {
     return html`<div>${entries}</div>`
   }
 
-  render(prices, myTariffs,root){
+  render(prices, myTariffs, station, root){
     this.myTariffs = myTariffs;
     const pricesForMyTariffs = prices.filter(p=>this.isMyTariff(p.tariff));
     const otherPrices = prices.filter(p=>!this.isMyTariff(p.tariff));
-    render(this.template(pricesForMyTariffs, otherPrices),this.getEl(root));
+    const template = this.emptyPriceList(station,prices) ? this.template(pricesForMyTariffs, otherPrices) : "";
+    render(template,this.getEl(root));
   }
 
   onManageMyTariffs(){
@@ -151,6 +152,10 @@ export default class PriceListView extends ViewBase {
   onTagClicked(tag){
     if(!tag.url) return;
     this.analytics.log('send', 'event', 'TagLink', tag.url);
+  }
+
+  emptyPriceList(station, prices){
+    return !station.isFreeCharging && prices.length > 0 || prices.length > 0;
   }
 
   isMyTariff(tariff){

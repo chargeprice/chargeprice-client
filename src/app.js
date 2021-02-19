@@ -10,12 +10,11 @@ import SettingsSidebar from './views/settingsSidebar.js';
 import LocationSearch from './component/location_search.js';
 import Dependencies from './helper/dependencies';
 import RootContainer from './views/rootContainer';
+import AppInstall from './component/app_install';
 import 'nouislider/distribute/nouislider.css';
 
 class App {
   constructor() {
-    this.deptsLoaded = 0;
-    this.deptCount = 1;
     this.fallBackLocation = {
       longitude: 11.6174228,
       latitude: 47.5399148
@@ -23,9 +22,6 @@ class App {
   }
 
   async initialize(){
-    this.deptsLoaded++;
-    if(this.deptsLoaded < this.deptCount) return;
-
     this.depts = new Dependencies();
     
     // First Load translations
@@ -35,8 +31,8 @@ class App {
 
     // Static content is needed for almost everything else
     const settingsSidebar = new SettingsSidebar(this.depts);
-    const rootContainer = new RootContainer(this.depts);
-    this.loadStaticContent(rootContainer,settingsSidebar);
+    this.rootContainer = new RootContainer(this.depts);
+    this.loadStaticContent(this.rootContainer,settingsSidebar);
 
     new ThemeLoader(this.translation).setCurrentTheme();
 
@@ -51,7 +47,7 @@ class App {
     this.currentStation = null;
 
     settingsSidebar.inject(this.sidebar);
-    rootContainer.inject(this.sidebar);
+    this.rootContainer.inject(this.sidebar);
 
     if (!navigator.geolocation) {
       this.showFallbackLocation();
@@ -70,6 +66,9 @@ class App {
       this.map.centerMyLocation();
       this.getCurrentLocation();
     });
+
+    this.redirectLegacyUrls();
+    new AppInstall().registerServiceWorker();
 
     var params = new URL(window.location.href).searchParams;
     this.deeplinkActivated = false;
@@ -108,10 +107,6 @@ class App {
   showFallbackLocation() {
     this.map.centerLocation(this.fallBackLocation,8);
   }
-
-  toggleLoading(value){
-    $("#loadingIndicator").toggle(value);
-  }
   
   async showStationById(poiId, poiSource) {
     this.stationSelected({
@@ -129,7 +124,7 @@ class App {
 
     const isBigArea = this.map.isBigArea(options.minPower);
 
-    $("#pleaseZoom").toggle(isBigArea);
+    this.rootContainer.togglePleaseZoom(isBigArea);
 
     this.map.rerender();
     
@@ -183,16 +178,16 @@ class App {
   }
 
   async withNetwork(func,errorMsg){
-    this.toggleLoading(true);
+    this.rootContainer.toggleLoadingIndicator(true);
     try{
       await func();
     }
     catch(ex){
-      this.showAlert(errorMsg);
+      this.rootContainer.showAlert(errorMsg);
       console.error(ex);
     }
     
-    this.toggleLoading(false);
+    this.rootContainer.toggleLoadingIndicator(false);
   }
 
   selectedChargePointChanged(){
@@ -235,14 +230,14 @@ class App {
     this.showStationsAtLocation(this.map.getBounds());
   }
 
-  showAlert(message) {
-    $("#snackbar").text(message);
-    $("#snackbar").show();
-    
-    setTimeout(()=>$("#snackbar").hide(), 5000);
+  redirectLegacyUrls(){
+    const isLegacyUrl = window.location.host == "www.plugchecker.com" ||
+      window.location.host == "laden.isvoi.org";
+
+    if(isLegacyUrl) {
+      window.location = "https://www.chargeprice.app";
+    }
   }
 }
 
-var app = new App();
-$(document).ready(()=>app.initialize());
-
+new App().initialize();

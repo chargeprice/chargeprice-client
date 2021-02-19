@@ -1,11 +1,13 @@
 import ManageMyTariffs from './manage_my_tariffs';
 import MyVehicle from './my_vehicle';
-import AppInstall from './app_install';
 import StationPrices from './station_prices';
+import ViewBase from './viewBase';
 
-export default class Sidebar {
+
+export default class Sidebar extends ViewBase {
 
   constructor(depts) {
+    super(depts);
     this.depts = depts;
     this.translation= depts.translation();
     this.analytics = depts.analytics();
@@ -14,11 +16,10 @@ export default class Sidebar {
     this.customConfig = depts.customConfig();
     this.currency = depts.currency();
     this.manageMyTariffs = new ManageMyTariffs(this,depts);
-    this.appInstall = new AppInstall(this.analytics);
     this.myVehicle = new MyVehicle(this,this.depts);
     this.stationPrices = new StationPrices(this,this.depts);
     this.loaded = false;
-    this.component = $("#sidebar");
+    this.rootId = "sidebar";
 
     this.sidebarContent = {
       "settings": {
@@ -101,26 +102,26 @@ export default class Sidebar {
   open(contentKey) {
     this.analytics.log('send', 'event', 'Sidebar', 'open', contentKey); 
 
-    this.component.show();
+    this.show(this.rootId)
 
     const content = this.sidebarContent[contentKey];
-    $("#sidebarHeader").text(content.header)
+    this.getEl("sidebarHeader").innerText = content.header;
 
     this.hideOldContent();
-    $(`#${content.contentId}`).show();
+    this.show(content.contentId);
     this.currentSidebarContentKey = contentKey;
     if(content.onOpen) content.onOpen();
   }
 
   close() {
-    this.component.hide();
+    this.hide(this.rootId)
     this.hideOldContent();
   }
 
   hideOldContent(){
     if (this.currentSidebarContentKey) {
       const oldContent = this.sidebarContent[this.currentSidebarContentKey];
-      $(`#${oldContent.contentId}`).hide();
+      this.hide(oldContent.contentId);
       if(oldContent.onClosed) oldContent.onClosed();
       this.currentSidebarContentKey=null;
     }
@@ -129,7 +130,7 @@ export default class Sidebar {
   hideAllSidebarContent() {
     for (var key in this.sidebarContent) {
       const content = this.sidebarContent[key];
-      $(`#${content.contentId}`).hide();
+      this.hide(content.contentId);
     }
   }
 }

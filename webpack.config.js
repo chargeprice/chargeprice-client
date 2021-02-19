@@ -22,10 +22,6 @@ var config = {
     }),
     new webpack.ProvidePlugin({
       noUiSlider: 'nouislider'
-    }),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery'
     })
   ],
   module: {
