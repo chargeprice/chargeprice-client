@@ -209,6 +209,8 @@ html, body {
 
 #pleaseZoom {
   z-index: 1001;
+  background: #ff9800;
+  color: black;
 }
 
 .map-key-item {

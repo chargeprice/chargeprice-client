@@ -26,6 +26,12 @@
   font-size: inherit;
 }
 
+#pleaseZoom {
+  z-index: 1001;
+  background: #5db24a;
+  color: white;
+}
+
 .noUi-connect {
   background: #16bae7 !important;
 }

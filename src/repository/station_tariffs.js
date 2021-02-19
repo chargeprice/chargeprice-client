@@ -6,9 +6,7 @@ export default class StationTariffs {
 
   constructor(depts){
     this.translation = depts.translation();
-    const useLocalData = true;
-    const isRunningLocally = window.location.href.indexOf("127.0.0.1") != -1
-    this.base_url = useLocalData && isRunningLocally ? "http://localhost:9292" : "https://api.chargeprice.app";
+    this.base_url = process.env.CHARGEPRICE_API_URL;
     this.apiKey = process.env.CHARGEPRICE_API_KEY;
 
     this.defaultPlugs = ["type1","type2","schuko","type3"];

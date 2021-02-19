@@ -42,7 +42,7 @@ export default class RootContainer extends ViewBase {
             <span class="map-key-item" style="background: #565656"><=3.7 kW</span><span class="map-key-item" style="background: #3498db"><= 22 kW</span><span class="map-key-item" style="background: #f49630"><= 50 kW</span><span class="map-key-item" style="background: #9a3032">>50 kW</span>
           </div>
 
-          <div id="pleaseZoom" class="w3-tag w3-padding w3-orange w3-center" style="display: none;">${this.t("pleaseZoomIn")}</div>
+          <div id="pleaseZoom" class="w3-tag w3-padding w3-center" style="display: none;">${this.t("pleaseZoomIn")}</div>
         </div>
       </div>
 
