@@ -35,7 +35,6 @@ export default class GoingElectric {
     } 
     if(options.openNow) body["open_now"]=true;
     if(options.onlyShowMyTariffs && options.myTariffs.length > 0){
-      body["barrierfree"]=true;
       body["chargecards"]=options.myTariffs
         .map(t=>t.chargeCardId)
         .filter((value, index, self) => self.indexOf(value) === index)
