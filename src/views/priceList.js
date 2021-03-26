@@ -86,7 +86,7 @@ export default class PriceListView extends ViewBase {
   }
 
   priceTemplate(price,tariff){
-    if(!price.price) return this.noPriceAvailableTemplate(price);
+    if(price.price==null) return this.noPriceAvailableTemplate(price);
 
     return html`
     <td class="cp-price-right">
