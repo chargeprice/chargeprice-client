@@ -20,7 +20,7 @@ export default class ModalFeedback extends ModalBase {
           <textarea id="notes" value="" maxlength="1000" placeholder="${this.t("fbNotesPlaceholder")}" class="w3-input w3-border"></textarea>
         </p>
         <p>
-          <label>${this.t("fbEmailHeader")}</label>
+          <label>${this.t("fbEmailHeader")}*</label>
           <input id="email" value="" maxlength="100" placeholder="my.email@gmail.com" class="w3-input w3-border"/>
         </p>
         <p>
@@ -154,14 +154,17 @@ export default class ModalFeedback extends ModalBase {
   }
 
   async submit(){
-    this.analytics.log('send', 'event', 'UserReport', this.type);
-
     const feedback = {
       type: this.type,
       email: this.getEl("email").value,
       context: this.buildContext(),
       notes: this.getEl("notes").value,
       language: this.translation.currentLocaleOrFallback()
+    }
+
+    if(feedback.email == "" || feedback.email.indexOf("@") == -1) {
+      alert(this.t("fbEmailHeader"));
+      return;
     }
 
     switch(this.type){
@@ -193,6 +196,8 @@ export default class ModalFeedback extends ModalBase {
         feedback.context = feedback.context + ", " + this.options.context;
         break;
     }
+
+    this.analytics.log('send', 'event', 'UserReport', this.type);
 
     try {
       await new StationTariffs(this.depts).postUserFeedback(feedback);
