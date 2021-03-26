@@ -86,6 +86,8 @@ export default class PriceListView extends ViewBase {
   }
 
   priceTemplate(price,tariff){
+    if(!price.price) return this.noPriceAvailableTemplate(price);
+
     return html`
     <td class="cp-price-right">
       <label class="w3-right ${this.isMyTariff(tariff)?"":""}">${this.isMyTariff(tariff) ? html``:"" }${this.h().dec(price.price)}</label><br>
@@ -102,6 +104,15 @@ export default class PriceListView extends ViewBase {
           (price.distribution.minute == undefined || price.distribution.minute == 0) && price.blockingFeeStart ? this.blockingFeeTemplate(price) : null
         ].filter(t=>t).join(" + ")}
       </label>
+    </td>
+    `;
+  }
+
+  noPriceAvailableTemplate(price){
+    return html`
+    <td class="cp-price-right">
+      <label class="w3-right">${this.t("priceUnavailable")}</label>
+      <label class="w3-right w3-small">${price.noPriceReason}</label>
     </td>
     `;
   }

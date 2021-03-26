@@ -126,7 +126,8 @@ export default class StationTariffs {
       currency: options.displayedCurrency,
       allow_unbalanced_load: options.allowUnbalancedLoad,
       provider_customer_tariffs: (options.providerCustomerTariffs),
-      start_time: options.startTime
+      start_time: options.startTime,
+      show_price_unavailable: true
     }
 
     if(options.onlyTariffsWithoutMonthlyFees){

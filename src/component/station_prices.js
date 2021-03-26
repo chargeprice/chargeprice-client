@@ -132,7 +132,7 @@ export default class StationPrices extends ViewBase{
   }
  
   updateStationPrice(station,prices,options){
-    const sortedPrices = prices.sort((a,b)=>a.price - b.price);
+    const sortedPrices = prices.sort((a,b)=>this.sortPrice(a.price, b.price));
     this.addFeaturings(sortedPrices);
 
     new PriceListView(this.depts,this.sidebar).render(sortedPrices,options.myTariffs,station,"prices")
@@ -140,6 +140,13 @@ export default class StationPrices extends ViewBase{
     render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
     render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback")); 
+  }
+
+  sortPrice(a,b){
+    if(a && b) return a - b;
+    if(!a && b) return 1;
+    if(!b && a) return -1;
+    return 0;
   }
 
   addFeaturings(prices){

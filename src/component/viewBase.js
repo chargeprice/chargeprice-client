@@ -52,7 +52,7 @@ export default class ViewBase {
 
   h(){
     return {
-      dec: (val,digits=2) => val.toFixed(digits),
+      dec: (val,digits=2) => val ? val.toFixed(digits) : "-",
       perc: val => `${(val*100).toFixed(0)}%`,
       int: val=>val.toFixed(0),
       power: val => val >= 10 ? val.toFixed(0) : val.toFixed(1),

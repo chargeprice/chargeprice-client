@@ -69,7 +69,7 @@
   "expertOptions": "Voor experts",
   "session": "Sessietarief",
   "blockingFeeFrom": "Blocking fee from {0}",
-  "average": "ø",
+  "average": "average",
   "per": "per",
   "partnerHeader": "Onze partners",
   "partnerSub": "EV related stores & services we can recommend",
@@ -137,5 +137,6 @@
   "refreshHeader": "Refresh app",
   "refreshSub": "In case you see an outdated version of Chargeprice",
   "myTariffs": "My Tariffs",
-  "otherTariffs": "Other Tariffs"
+  "otherTariffs": "Other Tariffs",
+  "priceUnavailable": "Price unknown"
 }

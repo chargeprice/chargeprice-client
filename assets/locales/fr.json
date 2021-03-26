@@ -137,5 +137,6 @@
   "refreshHeader": "Rafraichir la page",
   "refreshSub": "Au cas où vous ayez l'ancienne version de Chargeprice",
   "myTariffs": "Mes abonnements",
-  "otherTariffs": "Autres tarifs"
+  "otherTariffs": "Autres tarifs",
+  "priceUnavailable": "Prix ​​inconnu"
 }

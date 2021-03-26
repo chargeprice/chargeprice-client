@@ -69,7 +69,7 @@
   "expertOptions": "Für Experten",
   "session": "Startgebühr",
   "blockingFeeFrom": "ab {0} Blockiergebühr",
-  "average": "ø",
+  "average": "durchschn.",
   "per": "pro",
   "partnerHeader": "Angebote von Partnern",
   "partnerSub": "E-Mobilitäts-Shops und Dienste, die wir empfehlen",
@@ -137,5 +137,6 @@
   "refreshHeader": "App neu laden",
   "refreshSub": "Falls du eine veraltete Version von Chargeprice siehst",
   "myTariffs": "Meine Tarife",
-  "otherTariffs": "Weitere Tarife"
+  "otherTariffs": "Weitere Tarife",
+  "priceUnavailable": "Preis unbekannt"
 }

@@ -214,6 +214,7 @@ class App {
           pricePerKWh: pricePerKWh, 
           distribution: chargePointPrice.price_distribution,
           blockingFeeStart: chargePointPrice.blocking_fee_start,
+          noPriceReason: chargePointPrice.no_price_reason,
           tariff: tariff });
       }
       return memo;
