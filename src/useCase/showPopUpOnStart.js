@@ -49,8 +49,6 @@ export default class ShowPopUpOnStart {
   }
 
   showAppInstall(){
-    if(!this.customConfig.isMobileOrTablet() || this.customConfig.isRunningStandalone()) return;
-
     this.logPopUp("appInstall");
     new ModalInstallApp(this.depts).show();
   }
