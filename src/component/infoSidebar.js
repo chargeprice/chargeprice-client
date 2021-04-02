@@ -21,7 +21,6 @@ export default class InfoSidebar extends ViewBase {
         title: this.t("installApp"),
         icon: "download",
         class: "bold",
-        show: ()=> this.customConfig.isMobileOrTablet() && !this.customConfig.isRunningStandalone(),
         action: ()=> new ModalInstallApp(this.depts).show()
       },
       {
