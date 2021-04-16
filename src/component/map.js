@@ -22,7 +22,7 @@ export default class Map {
     const scaleWidth = this.customConfig.isMobileOrTablet() ? 60 : 100;
     L.control.scale({maxWidth: scaleWidth}).addTo(this.component);
 
-    if(this.customConfig.isIOS() || this.customConfig.isBeta() ) this.initVectorLayer();
+    if(this.customConfig.isBeta()) this.initVectorLayer();
     else this.initRasterLayer()
   }
 
