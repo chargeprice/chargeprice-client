@@ -20,8 +20,8 @@ import '../assets/css/style.css'
 class App {
   constructor() {
     this.fallBackLocation = {
-      longitude: 11.6174228,
-      latitude: 47.5399148
+      longitude: 13.037706424201586,
+      latitude: 47.80292337050403
     };
   }
 
@@ -109,7 +109,7 @@ class App {
   }
 
   showFallbackLocation() {
-    this.map.centerLocation(this.fallBackLocation,8);
+    this.map.centerLocation(this.fallBackLocation,12);
   }
   
   async showStationById(poiId, poiSource) {
