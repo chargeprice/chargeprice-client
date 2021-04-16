@@ -292,6 +292,21 @@ i.fav-icon {
   white-space: nowrap;
 }
 
+.cp-map-cluster-marker {
+  width: 40px;
+  height: 40px;
+  background: #2980b9;
+  color: white;
+  text-align: center;
+  left: -20px;
+  top: -20px;
+  position: absolute;
+  border-radius: 20px;
+  padding: 10px;
+  font-family: 'Quicksand';
+  font-size: 15px;
+}
+
 /* Featured */
 
 #prices tr.featured {

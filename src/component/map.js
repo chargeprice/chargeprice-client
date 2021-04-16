@@ -7,7 +7,7 @@ export default class Map {
   constructor(depts) {
     this.customConfig = depts.customConfig();
     this.component = L.map('map');
-    this.markers = L.markerClusterGroup();;
+    this.markers = L.markerClusterGroup({ iconCreateFunction: this.buildClusterMarker});
     this.markers.addTo(this.component);
     this.selectedStationCircle = null;
     this.myLocation = null;
@@ -74,6 +74,10 @@ export default class Map {
     marker.addTo(this.component);
     marker.setZIndexOffset(10000);
     return marker;
+  }
+
+  buildClusterMarker(cluster){
+    return L.divIcon({ html: '<div class="cp-map-cluster-marker">' + cluster.getChildCount() + '</div>' });
   }
 
   buildLocationMarker(coords, icon){
