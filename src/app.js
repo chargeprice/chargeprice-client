@@ -15,6 +15,8 @@ import 'nouislider/distribute/nouislider.css';
 import '../assets/css/w3.css'
 import '../assets/css/w3-colors-flat.css'
 import '../assets/css/leaflet.awesome-markers.css'
+import '../assets/css/MarkerCluster.css'
+import '../assets/css/MarkerCluster.Default.css'
 import '../assets/css/style.css'
 
 class App {

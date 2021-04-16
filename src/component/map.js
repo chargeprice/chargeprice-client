@@ -1,12 +1,13 @@
 var L = require('leaflet');
 require('leaflet.awesome-markers');
+require('leaflet.markercluster');
 
 export default class Map {
 
   constructor(depts) {
     this.customConfig = depts.customConfig();
     this.component = L.map('map');
-    this.markers = L.layerGroup([]);
+    this.markers = L.markerClusterGroup();;
     this.markers.addTo(this.component);
     this.selectedStationCircle = null;
     this.myLocation = null;
