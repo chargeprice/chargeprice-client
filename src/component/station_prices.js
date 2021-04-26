@@ -38,7 +38,7 @@ export default class StationPrices extends ViewBase{
       <span class="w3-right">
         <i class="fa fa-bolt"></i>
         ${this.h().int(obj.chargePointEnergy)} kWh 
-        (${this.t("average")} ${this.h().power(obj.chargePointEnergy*60/obj.chargePointDuration)} kW)*
+        (ø ${this.h().power(obj.chargePointEnergy*60/obj.chargePointDuration)} kW)*
       </span>
     `;
   }
