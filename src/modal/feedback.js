@@ -90,7 +90,7 @@ export default class ModalFeedback extends ModalBase {
         <label>${this.t("fbEmpHeader")}</label>
         <select id="feedbackTariffList" class="w3-select">
           ${options.prices.map((p,idx)=>
-            html`<option value="${idx}">${p.tariff.provider} ${p.tariff.tariffName}: ${this.h().dec(p.price)}</option>`)
+            html`<option value="${idx}">${p.tariff.provider} ${p.tariff.tariffName} ${p.tariff.providerCustomerTariff ? ` (${this.t("providerCustomerOnly")})` : ""}: ${this.h().dec(p.price)}</option>`)
           }
         </select>
       </p>
