@@ -7,7 +7,7 @@ export default class Map {
   constructor(depts) {
     this.customConfig = depts.customConfig();
     this.component = L.map('map');
-    this.markers = L.markerClusterGroup({ iconCreateFunction: this.buildClusterMarker});
+    this.markers = L.markerClusterGroup({ iconCreateFunction: this.buildClusterMarker, maxClusterRadius: 40});
     this.markers.addTo(this.component);
     this.selectedStationCircle = null;
     this.myLocation = null;
@@ -132,6 +132,19 @@ export default class Map {
     if(this.selectedStationCircle){
       this.component.removeLayer(this.selectedStationCircle);
     }
+  }
+
+  toggleClustering(stationCount){
+    this.component.removeLayer(this.markers);
+
+    if(stationCount >=160){
+      this.markers = L.markerClusterGroup({ iconCreateFunction: this.buildClusterMarker});
+    }
+    else {
+      this.markers = L.layerGroup([]);
+    }
+
+    this.markers.addTo(this.component);
   }
 
   addStation(model, onClickCallback) {

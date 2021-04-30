@@ -141,6 +141,7 @@ class App {
     await this.withNetwork(async ()=>{
       const stations = await (new FetchStations(this.depts)).list(bounds.northEast, bounds.southWest,options);
       this.map.clearMarkers();
+      this.map.toggleClustering(stations.length);
       stations.forEach(st => this.map.addStation(st, this.stationSelected.bind(this)));
     },this.translation.get("errorStationsUnavailable"));
   }
