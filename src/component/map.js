@@ -136,8 +136,7 @@ export default class Map {
 
   toggleClustering(stationCount){
     this.component.removeLayer(this.markers);
-
-    if(stationCount >=160){
+    if(stationCount >=250){
       this.markers = L.markerClusterGroup({ iconCreateFunction: this.buildClusterMarker});
     }
     else {
