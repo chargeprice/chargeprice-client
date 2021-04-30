@@ -92,7 +92,7 @@ export default class PriceListView extends ViewBase {
     <td class="cp-price-right">
       <label class="w3-right ${this.isMyTariff(tariff)?"":""}">${this.isMyTariff(tariff) ? html``:"" }${this.h().dec(price.price)}</label><br>
       ${price.price > 0 ?
-        html`<label class="w3-right w3-small">${this.t("average")}: ${this.h().dec(price.pricePerKWh)}</label><br>`:""
+        html`<label class="w3-right w3-small">${this.t("average")} ${this.h().dec(price.pricePerKWh)}</label><br>`:""
       }
       <label class="w3-right w3-small">
         ${price.price > 0 ? this.t("per") : ""}
