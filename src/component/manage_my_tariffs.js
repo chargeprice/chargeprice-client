@@ -120,7 +120,7 @@ export default class ManageMyTariffs extends ViewBase{
 
   addFeaturings(tariffs){
     const featurings = new ProviderFeaturing().getFeaturedProviders();
-    tariffs.forEach(t=>t.featuring = featurings[t.provider]);
+    tariffs.forEach(t=>t.featuring = featurings[t.id]);
   }
 
   saveToStorage(){

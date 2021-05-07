@@ -7,7 +7,7 @@ export default class Map {
   constructor(depts) {
     this.customConfig = depts.customConfig();
     this.component = L.map('map');
-    this.markers = L.markerClusterGroup({ iconCreateFunction: this.buildClusterMarker, maxClusterRadius: 40});
+    this.markers = L.layerGroup([]);
     this.markers.addTo(this.component);
     this.selectedStationCircle = null;
     this.myLocation = null;
@@ -22,8 +22,7 @@ export default class Map {
     const scaleWidth = this.customConfig.isMobileOrTablet() ? 60 : 100;
     L.control.scale({maxWidth: scaleWidth}).addTo(this.component);
 
-    if(this.customConfig.isBeta()) this.initVectorLayer();
-    else this.initRasterLayer()
+    this.initRasterLayer();
   }
 
   initRasterLayer(){

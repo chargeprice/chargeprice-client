@@ -151,7 +151,7 @@ export default class StationPrices extends ViewBase{
 
   addFeaturings(prices){
     const featurings = new ProviderFeaturing().getFeaturedProviders();
-    prices.forEach(p=>p.featuring = featurings[p.tariff.provider]);
+    prices.forEach(p=>p.featuring = featurings[p.tariff.tariff.id]);
   }
 
   onBatteryRangeChanged(callback){

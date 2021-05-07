@@ -67,7 +67,7 @@ export default class PriceListView extends ViewBase {
         html`
           <label class=" w3-small w3-block">
           ${tariff.totalMonthlyFee > 0 ? `${this.t("baseFee")}: ${this.h().dec(tariff.totalMonthlyFee)}/${this.t("month")}**`:"" }
-          ${tariff.monthlyMinSales > 0 ? `${this.t("minSales")}:${this.h().dec(tariff.monthlyMinSales)}/${this.t("month")}`:"" }
+          ${tariff.monthlyMinSales > 0 ? `${this.t("minSales")}: ${this.h().dec(tariff.monthlyMinSales)}/${this.t("month")}`:"" }
           </label>
         `:""}
       ${tariff.providerCustomerTariff ?
