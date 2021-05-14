@@ -1,4 +1,3 @@
-import ProviderFeaturing from './providerFeaturing';
 import ViewBase from './viewBase';
 import StartTimeSelection from '../modal/startTimeSelection';
 import {html, render} from 'lit-html';
@@ -133,7 +132,6 @@ export default class StationPrices extends ViewBase{
  
   updateStationPrice(station,prices,options){
     const sortedPrices = prices.sort((a,b)=>this.sortPrice(a.price, b.price));
-    this.addFeaturings(sortedPrices);
 
     new PriceListView(this.depts,this.sidebar).render(sortedPrices,options.myTariffs,station,"prices")
     new StationDetailsView(this.depts).render(station,"station-info");
@@ -147,11 +145,6 @@ export default class StationPrices extends ViewBase{
     if(a==null && b!=null) return 1;
     if(b==null && a!=null) return -1;
     return 0;
-  }
-
-  addFeaturings(prices){
-    const featurings = new ProviderFeaturing().getFeaturedProviders();
-    prices.forEach(p=>p.featuring = featurings[p.tariff.tariff.id]);
   }
 
   onBatteryRangeChanged(callback){

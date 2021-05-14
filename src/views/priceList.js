@@ -47,7 +47,7 @@ export default class PriceListView extends ViewBase {
     return prices.map(p=>{
       const tariff = p.tariff;
       return html`
-      <tr style="${p.featuring ? `background: ${p.featuring.backgroundColor} !important;` : ""}" >
+      <tr style="${tariff.branding ? `background: ${tariff.branding.background_color} !important;` : ""}" >
         ${this.tariffOverviewTemplate(p,tariff)}
         ${this.priceTemplate(p,tariff)}
       </tr>
@@ -60,7 +60,7 @@ export default class PriceListView extends ViewBase {
       ${tariff.tariffName == null || tariff.tariffName == tariff.provider ?
         html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.provider}</span></a>` :
         html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.tariffName}</span></a><br>
-            ${!price.featuring ? html`<label class="w3-margin-top w3-small ${this.isMyTariff(tariff)?"":""}">${tariff.provider}</label>`:""}`
+            ${!tariff.branding ? html`<label class="w3-margin-top w3-small ${this.isMyTariff(tariff)?"":""}">${tariff.provider}</label>`:""}`
       }
       ${this.renderTags(price.tariff.tags)}
       ${tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0 ?
@@ -74,8 +74,8 @@ export default class PriceListView extends ViewBase {
         html`
           <label class="w3-small w3-block">${this.t("providerCustomerOnly")}</label> 
         `:""}
-      ${price.featuring ? html`
-        <a href="${tariff.url}" target="_blank"><img class="feature-logo" src="${price.featuring.logoUrl}"/></a>
+      ${tariff.branding ? html`
+        <a href="${tariff.url}" target="_blank"><img class="feature-logo" src="${tariff.branding.logo_url}"/></a>
       `:""}
       ${this.h().customConfig.isBeta() && tariff.links && tariff.links.open_app_at_station ?
         html`<br>

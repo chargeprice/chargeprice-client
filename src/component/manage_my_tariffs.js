@@ -1,7 +1,6 @@
 import { html, render } from 'lit-html';
 
 import StationTariffs from '../repository/station_tariffs.js';
-import ProviderFeaturing from './providerFeaturing';
 import ViewBase from './viewBase';
 
 export default class ManageMyTariffs extends ViewBase{
@@ -27,7 +26,7 @@ export default class ManageMyTariffs extends ViewBase{
       <table id="charge-card-list" class="w3-table w3-striped w3-margin-top">
         <tbody>
         ${tariffs.map(tariff=>html`
-          <tr style="${tariff.featuring ? `background: ${tariff.featuring.backgroundColor} !important;`:""}">
+          <tr style="${tariff.branding ? `background: ${tariff.branding.background_color} !important;`:""}">
             <td width="50">
             ${
               this.myTariffIds.includes(tariff.id) ?
@@ -37,17 +36,17 @@ export default class ManageMyTariffs extends ViewBase{
             </td>
             <td>
               ${tariff.name == null || tariff.name == tariff.provider ?
-                html`<span>${tariff.provider}</span>` :
+                html`<span>${tariff.provider}</span><br>` :
                 html`<span>${tariff.name}</span><br>
-                    ${!tariff.featuring ? html`<label class="w3-margin-top w3-small">${tariff.provider}</label>`:""}`
+                    ${!tariff.branding ? html`<label class="w3-margin-top w3-small">${tariff.provider}</label>`:""}`
               }
               ${tariff.providerCustomerOnly ?
                 html`
                   <label class="w3-small w3-block">${this.t("providerCustomerOnly")}</label> 
                 `:""}
 
-              ${tariff.featuring ? html`
-                <img class="feature-logo" src="${tariff.featuring.logoUrl}"/>
+              ${tariff.branding ? html`
+                <img class="feature-logo" src="${tariff.branding.logo_url}"/>
               `:""}
             </td>
           </tr>
@@ -72,8 +71,8 @@ export default class ManageMyTariffs extends ViewBase{
       const aMy = !!indexedMyTariffs[a.id];
       const bMy = !!indexedMyTariffs[b.id];
 
-      const bF = !!b.featuring;
-      const aF = !!a.featuring;
+      const bF = !!b.branding;
+      const aF = !!a.branding;
 
       if(aMy == bMy){
         if(bF == aF) return a.name.localeCompare(b.name);
@@ -110,17 +109,11 @@ export default class ManageMyTariffs extends ViewBase{
 
   async loadAllTariffs(){
     this.allTariffs = (await new StationTariffs(this.depts).getAllTariffs()).data;
-    this.addFeaturings(this.allTariffs);
     this.sidebar.optionsChanged();
   }
 
   loadFromStorage(){
     this.myTariffIds = JSON.parse(localStorage.getItem("myTariffIds")) || [];  
-  }
-
-  addFeaturings(tariffs){
-    const featurings = new ProviderFeaturing().getFeaturedProviders();
-    tariffs.forEach(t=>t.featuring = featurings[t.id]);
   }
 
   saveToStorage(){
