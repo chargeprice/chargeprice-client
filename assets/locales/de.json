@@ -124,6 +124,7 @@
   "fbGiveFeedback": "Feedback geben",
   "fbReportPriceText": "Ein Preis bzw. Tarif ...",
   "fbReportMissing": "fehlt",
+  "fbMissingStationSelectOnMap": "Wähle nun den Standort der fehlenden Station aus, indem du an diesen Standort auf die Karte klickst. Bitte versuche den Standort möglichst genau zu definieren!\nUm abzubrechen klicke irgendwo auf die Karte und schließe den nachfolgenden Dialog.",
   "fbReportWrong": "ist falsch",
   "locationSearchEnterInfo": "Suchen mit \"Enter\"",
   "fastChargerMultiInfo": "Schnelllader mit mind. 2 Ladepunkten",

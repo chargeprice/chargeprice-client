@@ -28,7 +28,10 @@ export default class ModalFeedback extends ModalBase {
         </p>
       </div>
       <button @click="${()=>this.submit()}" class="w3-btn pc-secondary w3-margin-bottom w3-margin-left">
-      ${this.t("fbSubmit")}
+        ${this.t("fbSubmit")}
+      </button>
+      <button @click="${()=>this.hide()}" class="w3-btn w3-light-gray w3-margin-bottom w3-margin-left">
+        ${this.t("cancel")}
       </button>
     </div>
     `
@@ -44,6 +47,9 @@ export default class ModalFeedback extends ModalBase {
       </p>
       `:""
       }
+      <p>
+        <img src="${this.staticMapWithMarkerLink()}" style="max-width: 100%;"/>
+      </p>
       <p>
         <label>${this.t("fbLocationHeader")}</label>
         <input id="location" value="" maxlength="200" placeholder="${this.t("fbLocationPlaceholder")}" class="w3-input w3-border"/>
@@ -117,6 +123,7 @@ export default class ModalFeedback extends ModalBase {
 
   // options: 
   // - missing_price,wrong_price=cpo,poiLink,context,prices
+  // - missing_station=location
   show(type,options){
     this.type = type;
     this.options = options;
@@ -173,6 +180,7 @@ export default class ModalFeedback extends ModalBase {
       case "missing_station":
         feedback.location = this.getEl("location").value;
         feedback.cpo = this.getEl("cpo").value;
+        feedback.context = `Longitude: ${this.options.location.longitude.toFixed(8)}, Latitude: ${this.options.location.latitude.toFixed(8)}` + feedback.context;
         break;
       case "missing_vehicle":
         feedback.brand = this.getEl("brand").value;
@@ -206,6 +214,10 @@ export default class ModalFeedback extends ModalBase {
     catch(ex){
       alert("An error occured");
     }
+  }
+
+  staticMapWithMarkerLink(){
+    return `https://maps.locationiq.com/v3/staticmap?key=${process.env.LOCATION_IQ_KEY}&size=500x200&zoom=14&markers=${this.options.location.latitude},${this.options.location.longitude}|icon:small-red-cutout&format=png&zoom=17`
   }
 
   buildContext(){

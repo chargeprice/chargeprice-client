@@ -36,8 +36,9 @@ class App {
 
     // Static content is needed for almost everything else
     const settingsSidebar = new SettingsSidebar(this.depts);
+    const infoSidebar = new InfoSidebar(this.depts);
     this.rootContainer = new RootContainer(this.depts);
-    this.loadStaticContent(this.rootContainer,settingsSidebar);
+    this.loadStaticContent(this.rootContainer,settingsSidebar, infoSidebar);
 
     new ThemeLoader(this.translation).setCurrentTheme();
 
@@ -52,6 +53,7 @@ class App {
     this.currentStation = null;
 
     settingsSidebar.inject(this.sidebar);
+    infoSidebar.inject(this.map);
     this.rootContainer.inject(this.sidebar);
 
     if (!navigator.geolocation) {
@@ -92,10 +94,10 @@ class App {
     }
   }
 
-  loadStaticContent(rootContainer, settingsSidebar){
+  loadStaticContent(rootContainer, settingsSidebar, infoSidebar){
     rootContainer.render();
     settingsSidebar.render();
-    new InfoSidebar(this.depts).render();
+    infoSidebar.render();
     new PricesSidebar(this.depts).render();
   }
 

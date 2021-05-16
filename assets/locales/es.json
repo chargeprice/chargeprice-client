@@ -124,6 +124,7 @@
   "fbGiveFeedback": "Dar una sugerencia",
   "fbReportPriceText": "Informar si un precio es",
   "fbReportMissing": "Que falta ",
+  "fbMissingStationSelectOnMap": "Select the location of the missing station, by clicking on the correct location on the map. Please define the location as accurate as possible. \nTo cancel click anywhere on the map and cancel on the dialog afterwards.",
   "fbReportWrong": "Incorrecto",
   "locationSearchEnterInfo": "Tecla intro para buscar",
   "fastChargerMultiInfo": "Terminal de recarga rápida con al menos 2 puntos de carga ",

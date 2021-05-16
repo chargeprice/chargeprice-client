@@ -217,6 +217,14 @@ export default class Map {
     this.component.on("moveend", (res) => callback(this.getBounds()));
   }
 
+  registerClickOnce(callback){
+    const listener = (evt)=>{
+        callback({location: {longitude: evt.latlng.lng, latitude: evt.latlng.lat}});
+        this.component.off('click', listener);
+      };
+    this.component.on('click', listener);
+  }
+
   rerender(){
     window.dispatchEvent(new Event('resize'));
   }

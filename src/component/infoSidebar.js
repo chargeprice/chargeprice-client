@@ -78,7 +78,7 @@ export default class InfoSidebar extends ViewBase {
         id: "missing_station",
         title: this.t("fbReportMissingStationHeader"),
         icon: "comment",
-        action: ()=>this.onGiveFeedback("missing_station")
+        action: ()=>this.onMissingStation()
       },
       {
         id: "disclaimer",
@@ -119,8 +119,20 @@ export default class InfoSidebar extends ViewBase {
     render(this.template(),document.getElementById("infoContent"));
   }
 
+  inject(map){
+    this.map=map;
+  }
+
   onGiveFeedback(type){
     new ModalFeedback(this.depts).show(type);
+  }
+
+  onMissingStation(){
+    alert(this.t("fbMissingStationSelectOnMap"));
+
+    this.map.registerClickOnce(event=>{
+      new ModalFeedback(this.depts).show("missing_station",{ location: event.location });
+    });
   }
 
   executeAction(entry){
