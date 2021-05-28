@@ -124,7 +124,7 @@
   "fbGiveFeedback": "Donner un retour",
   "fbReportPriceText": "Signaler si un prix est",
   "fbReportMissing": "manquant",
-  "fbMissingStationSelectOnMap": "Select the location of the missing station, by clicking on the correct location on the map. Please define the location as accurate as possible. \nTo cancel click anywhere on the map and cancel on the dialog afterwards.",
+  "fbMissingStationSelectOnMap": "Sélectionnez l’emplacement de la station manquante, en cliquant sur l’emplacement correct sur la carte. Veuillez définir l’emplacement aussi précisément que possible.\nPour annuler, cliquez n’importe où sur la carte et annulez ensuite dans la boîte de dialogue.",
   "fbReportWrong": "incorrect ",
   "locationSearchEnterInfo": "Taper sur Entrée pour rechercher",
   "fastChargerMultiInfo": "Bornes de recharge rapide avec au moins 2 points de charge",
