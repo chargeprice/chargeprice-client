@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "dayjs": "^1.8.24",
+    "decode-google-map-polyline": "^1.0.1",
     "haversine": "^1.1.1",
     "leaflet": "1.4.0",
     "leaflet.awesome-markers": "2.0.5",

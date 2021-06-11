@@ -7,13 +7,14 @@ import RepositorySettingsPrimitive from '../repository/settings/primitive'
 import LocationIQ from '../repository/locationIQ';
 import UrlModifier from '../helper/urlModifier';
 import Currency from '../component/currency'
+import EventBus from '../repository/eventBus'
 
 export default class Dependencies {
-
   constructor(){
     this.translationInstance = new Translation();
     this.customConfigInstance = new CustomConfig();
     this.currencyInstance = new Currency();
+    this.eventBusInstance = new EventBus();
   }
 
   settingsPrimitive(...args){
@@ -46,6 +47,10 @@ export default class Dependencies {
 
   currency(){
     return this.currencyInstance;
+  }
+
+  eventBus(){
+    return this.eventBusInstance;
   }
 }
 

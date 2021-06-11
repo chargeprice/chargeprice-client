@@ -1,6 +1,7 @@
 import ManageMyTariffs from './manage_my_tariffs';
 import MyVehicle from './my_vehicle';
 import StationPrices from './station_prices';
+import RoutePlanner from '../views/routePlanner';
 import ViewBase from './viewBase';
 
 
@@ -18,6 +19,7 @@ export default class Sidebar extends ViewBase {
     this.manageMyTariffs = new ManageMyTariffs(this,depts);
     this.myVehicle = new MyVehicle(this,this.depts);
     this.stationPrices = new StationPrices(this,this.depts);
+    this.routePlanner = new RoutePlanner(this,this.depts);
     this.loaded = false;
     this.rootId = "sidebar";
 
@@ -40,7 +42,12 @@ export default class Sidebar extends ViewBase {
         contentId: "manageMyTariffsContent",
         onClosed: ()=>this.optionsChanged(),
         onOpen: ()=>this.manageMyTariffs.render()
-      }
+      },
+      "route": {
+        header: "Route Planner",
+        contentId: "routeContent",
+        onOpen: ()=>this.routePlanner.render()
+      },
     };
 
     this.currentSidebarContentKey = null;
@@ -82,7 +89,7 @@ export default class Sidebar extends ViewBase {
   }
 
   showStation(station){
-    this.stationPrices.showStation(station, this.chargingOptions());
+    this.stationPrices.showStation(station);
 
     this.open("prices");    
   }

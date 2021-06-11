@@ -6,14 +6,18 @@ export default class Map {
 
   constructor(depts) {
     this.customConfig = depts.customConfig();
+    this.eventBus = depts.eventBus();
     this.component = L.map('map');
     this.markers = L.layerGroup([]);
+    this.routing = L.layerGroup([]);
+    this.routing.addTo(this.component);
     this.markers.addTo(this.component);
     this.selectedStationCircle = null;
     this.myLocation = null;
     this.searchLocation = null;
     this.mapReady = false;
     this.initializeLayer();
+    this.registerEvents();
   }
 
   initializeLayer() {
@@ -39,6 +43,11 @@ export default class Map {
         style: `https://tiles.locationiq.com/v2/streets/vector.json?key=${process.env.LOCATION_IQ_KEY}`
       }).addTo(this.component);
     });
+  }
+
+  registerEvents(){
+    this.eventBus.subscribe("route.created",(payload)=>this.showRoute(payload));
+    this.eventBus.subscribe("route.deleted",(payload)=>this.deleteRoute(payload));
   }
 
   centerLocation(coords, zoom=13) {
@@ -197,6 +206,22 @@ export default class Map {
     }
 
     this.markers.addLayer(marker);
+  }
+
+  showRoute(routingResult){
+    this.deleteRoute();
+
+    const points = routingResult.route.points.map(ll=>[ll.latitude,ll.longitude]);
+
+    const routeLine = L.polyline(points, { color: "#3498db", weight: 5, distanceMarkers: true });
+    routeLine.addTo(this.routing);
+
+    this.component.fitBounds(routeLine.getBounds());
+    this.component._onResize(); 
+  }
+
+  deleteRoute(){
+    this.routing.clearLayers();
   }
 
   changeSelectedStation(model){
