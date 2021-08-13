@@ -129,16 +129,8 @@ class App {
 
     const options = this.sidebar.chargingOptions();
 
-    const isBigArea = this.map.isBigArea(options.minPower);
-
-    this.rootContainer.togglePleaseZoom(isBigArea);
-
+    options.minPower = this.map.minPowerOfStations(options.minPower);
     this.map.rerender();
-    
-    if(isBigArea){
-      this.map.clearMarkers();
-      return;
-    }
 
     await this.withNetwork(async ()=>{
       const stations = await (new FetchStations(this.depts)).list(bounds.northEast, bounds.southWest,options);

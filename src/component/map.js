@@ -106,14 +106,16 @@ export default class Map {
     return marker;
   }
 
-  isBigArea(minPower){
-    let maxValue = 11;
+  minPowerOfStations(minPower){
+    const currentZoom = this.component.getZoom();
+    let minPowerFromZoom = 0;
 
-    if(minPower >= 43) maxValue = 9;
-    if(minPower > 50) maxValue = 7;
-    if(minPower > 150) maxValue = 5;
-
-    return this.component.getZoom() < maxValue;
+    if(currentZoom<=6) minPowerFromZoom = 300;
+    else if(currentZoom<=7) minPowerFromZoom = 150;
+    else if(currentZoom<=8) minPowerFromZoom = 100;
+    else if(currentZoom<=10) minPowerFromZoom = 43;
+    
+    return minPower > minPowerFromZoom ? minPower : minPowerFromZoom;
   }
 
   getBounds() {

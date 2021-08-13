@@ -131,6 +131,7 @@
   "freeStationWithPricesInfo": "Advertencia: aunque es posible hacer una recarga gratuita en esta red con ciertas tarjetas de recarga o sin identificación, algunos operadores cobran por la recarga.",
   "minPowerInfo": "Estaciones con una potencia minima de kWh",
   "minPowerInfoAny": "Potencia minima no especificada",
+  "zoomLevelDependentStation": "We also hide stations based on the map zoom level.",
   "faultReported": "Error encontrado",
   "infoApiSub": "Integrate Chargeprice into your app",
   "infoDonateHeader": "Support Us",

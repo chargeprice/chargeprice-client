@@ -131,6 +131,7 @@
   "freeStationWithPricesInfo": "Attention : bien qu’il soit possible de recharger gratuitement sur ce réseau avec certaines cartes de recharge ou sans identification, certains opérateurs facturent la recharge.",
   "minPowerInfo": "Stations avec une puissance minimale de {0} kW",
   "minPowerInfoAny": "Puissance minimale non spécifiée",
+  "zoomLevelDependentStation": "Nous masquons également les stations en fonction du niveau de zoom de la carte.",
   "faultReported": "Erreur signalée",
   "infoApiSub": "Intégrez Chargeprice dans votre application",
   "infoDonateHeader": "Soutenez Chargeprice",

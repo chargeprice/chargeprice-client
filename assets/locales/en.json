@@ -131,6 +131,7 @@
   "freeStationWithPricesInfo": "This station is marked as free charging, but it's also connected to a charging network. If you need to activate the station with a charging card or app, the prices listed below might still apply!",
   "minPowerInfo": "Stations with min. power of {0} kW",
   "minPowerInfoAny": "Minimum power not specified",
+  "zoomLevelDependentStation": "We also hide stations based on the map zoom level.",
   "faultReported": "Fault reported",
   "infoApiSub": "Integrate Chargeprice into your app",
   "infoDonateHeader": "Support Us",

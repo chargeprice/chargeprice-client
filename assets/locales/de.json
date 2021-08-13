@@ -131,6 +131,7 @@
   "freeStationWithPricesInfo": "Diese Ladestation ist als \"Gratis laden\" markiert, gehört aber zu einem Ladeverbund. Wenn du die Station mit einer Ladekarte oder App aktivieren musst, könnten die unten angeführten Preise gelten!",
   "minPowerInfo": "Stationen mit mind. {0} kW Leistung",
   "minPowerInfoAny": "Alle Stationen (keine Mindestleistung)",
+  "zoomLevelDependentStation": "Wir blenden auch Stationen je nach Zoom-Level der Karte aus.",
   "faultReported": "Störung gemeldet",
   "infoApiSub": "Integriere Chargeprice in deine App",
   "infoDonateHeader": "Unterstütze uns",

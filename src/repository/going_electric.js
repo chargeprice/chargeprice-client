@@ -20,6 +20,43 @@ export default class GoingElectric {
   }
 
   async getStations(northEast, southWest,options) {
+    const body = this.buildStationsBody(northEast, southWest,options);
+    let stations = []
+    let result = null;
+
+    do {
+      const response = await fetch(this.url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: this.encodeBody(body),
+      })
+
+      result = await this.parseStationsResponse(response, options.myVehicle);
+      stations = stations.concat(result.stations);
+      body.startkey = result.startKey;
+    }
+    while(result.startKey != null);
+
+    return stations;
+  }
+
+  async getStationDetails(stationId,options){
+    const body = { key: this.apiKey, ge_id: stationId }
+
+    const response = await fetch(this.url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: this.encodeBody(body),
+    })
+
+    return await this.parseStationResponse(response, options.myVehicle);
+  }
+
+  buildStationsBody(northEast, southWest,options){
     const body = {
       key: this.apiKey,
       ne_lat: northEast.latitude,
@@ -45,29 +82,7 @@ export default class GoingElectric {
       body["plugs"]=this.mapPlugs(options.myVehicle.dcChargePorts);
     }
 
-    const response = await fetch(this.url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: this.encodeBody(body),
-    })
-
-    return await this.parseStationsResponse(response, options.myVehicle);
-  }
-
-  async getStationDetails(stationId,options){
-    const body = { key: this.apiKey, ge_id: stationId }
-
-    const response = await fetch(this.url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: this.encodeBody(body),
-    })
-
-    return await this.parseStationResponse(response, options.myVehicle);
+    return body;
   }
 
   encodeBody(body){
@@ -76,7 +91,10 @@ export default class GoingElectric {
 
   async parseStationsResponse(response, vehicle) {
     const root = await response.json();
-    return root.chargelocations.map(m => this.toLightModel(m, vehicle))
+    return {
+      stations: root.chargelocations.map(m => this.toLightModel(m, vehicle)),
+      startKey: root.startkey
+    }
   }
 
   async parseStationResponse(response, vehicle) {

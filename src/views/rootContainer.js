@@ -42,8 +42,6 @@ export default class RootContainer extends ViewBase {
           <div id="map-key" class="w3-display-bottommiddle ${this.customConfig.isIOS() ? "w3-margin-bottom":""}">
             <span class="map-key-item" style="background: #565656"><=3.7 kW</span><span class="map-key-item" style="background: #3498db"><= 22 kW</span><span class="map-key-item" style="background: #f49630"><= 50 kW</span><span class="map-key-item" style="background: #9a3032">>50 kW</span>
           </div>
-
-          <div id="pleaseZoom" class="w3-tag w3-padding w3-center" style="display: none;">${this.t("pleaseZoomIn")}</div>
         </div>
       </div>
 
@@ -83,10 +81,6 @@ export default class RootContainer extends ViewBase {
 
   toggleLoadingIndicator(isShown){
     this.toggle("loadingIndicator", isShown);
-  }
-
-  togglePleaseZoom(isShown){
-    this.toggle("pleaseZoom", isShown);
   }
 
   showAlert(message) {

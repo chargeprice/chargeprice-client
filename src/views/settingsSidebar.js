@@ -27,9 +27,10 @@ export default class SettingsSidebar extends ViewBase {
     <label class="w3-small">${this.t("onlyShowMyTariffsDetail")}</label><br>
     <label @click="${()=>this.onShowMyTariffs()}" class="link-text">${this.t("manageMyTariffsLink")}</label><br>
 
-    <label class="w3-margin-top w3-large w3-block">${this.t("mapFilter")}</label>
+    <label class="w3-margin-top w3-margin-bottom w3-large w3-block">${this.t("mapFilter")}</label>
 
     <div id="powerSliderInfo" >${this.powerValueTemplate()}</div>
+    <div class="w3-small">${this.t("zoomLevelDependentStation")}</div>
     <div class="w3-row w3-margin-top" id="powerSlider"></div>
 
     <input @click="${()=>this.onOptionsChanged()}" id="onlyFree" class="w3-check w3-margin-top" type="checkbox">

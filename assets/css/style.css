@@ -207,12 +207,6 @@ html, body {
   bottom: 1px;
 }
 
-#pleaseZoom {
-  z-index: 1001;
-  background: #ff9800;
-  color: black;
-}
-
 .map-key-item {
   padding: 2px 6px;
   margin: 0px !important;
