@@ -141,13 +141,13 @@
   "myTariffs": "Mes abonnements",
   "otherTariffs": "Autres tarifs",
   "priceUnavailable": "Bientôt disponible",
-  "routePlannerHeader": "Route Planner",
-  "routePlannerCalculate": "Calculate",
-  "routePlannerAddStop": "Add Stop",
-  "routePlannerClearRoute": "Clear Route",
-  "routePlannerDistance": "Distance",
-  "routePlannerFeedbackText": "This feature is in BETA mode! Give Feedback now!",
-  "routePlannerStart": "Starting point",
-  "routePlannerDestination": "Destination",
-  "routePlannerStop": "Stop"
+  "routePlannerHeader": "plannificateur de route",
+  "routePlannerCalculate": "calculer",
+  "routePlannerAddStop": "ajouter arrêt ",
+  "routePlannerClearRoute": "nettoyer itinéraire ",
+  "routePlannerDistance": "distance ",
+  "routePlannerFeedbackText": "cette fonctionnalité est une bêta, donnez-nous votre retour!",
+  "routePlannerStart": "point de départ ",
+  "routePlannerDestination": "destination",
+  "routePlannerStop": "arrêt "
 }
