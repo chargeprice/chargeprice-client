@@ -223,7 +223,8 @@ export default class Map {
     const routeLine = L.polyline(points, { color: "#3498db", weight: 5, distanceMarkers: true });
     routeLine.addTo(this.routing);
 
-    const turfLine = turf.helpers.lineString(points);
+    const invertedPoints = points.map(coord=>coord.reverse());
+    const turfLine = turf.helpers.lineString(invertedPoints);
     const turfOptions = {units: 'kilometers'};
     const totalDistance = turf.length(turfLine,turfOptions);
     
@@ -231,8 +232,9 @@ export default class Map {
     let currentDistance = delta;
 
     while(currentDistance < totalDistance){
-      var along = turf.along(turfLine, currentDistance, turfOptions)
-      L.marker(along.geometry.coordinates, { icon: this.distanceMarkerIcon(currentDistance) }).addTo(this.routing);
+      var along = turf.along(turfLine, currentDistance, turfOptions);
+      const coord = along.geometry.coordinates.reverse();
+      L.marker(coord, { icon: this.distanceMarkerIcon(currentDistance) }).addTo(this.routing);
       currentDistance += delta;
     }
 
