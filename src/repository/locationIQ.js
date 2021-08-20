@@ -2,12 +2,13 @@ const decodePolyline = require('decode-google-map-polyline');
 
 export default class LocationIQ{
 
-  constructor() {
+  constructor(depts) {
     this.apiKey = process.env.LOCATION_IQ_KEY;
+    this.translation = depts.translation();
   }
 
   async getAutocomplete(searchTerm){
-    const url = `https://api.locationiq.com/v1/autocomplete.php?key=${this.apiKey}&q=${encodeURI(searchTerm)}&limit=5`
+    const url = `https://api.locationiq.com/v1/autocomplete.php?key=${this.apiKey}&q=${encodeURI(searchTerm)}&limit=5&accept-language=${this.translation.currentLocaleOrFallback()}`
     const response = await fetch(url);
     if(response.status != 200) throw response.status;
 

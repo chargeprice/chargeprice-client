@@ -17,6 +17,14 @@ export default class Dependencies {
     this.eventBusInstance = new EventBus();
   }
 
+  static getInstance(){
+    if(this.instance == null){
+      this.instance = new Dependencies();
+    }
+
+    return this.instance;
+  }
+
   settingsPrimitive(...args){
     return new RepositorySettingsPrimitive(this,...args);
   }
@@ -38,7 +46,7 @@ export default class Dependencies {
   }
 
   locationSearch(){
-    return new LocationIQ();
+    return new LocationIQ(this);
   }
 
   urlModifier(){

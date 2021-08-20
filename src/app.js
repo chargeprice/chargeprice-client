@@ -27,7 +27,7 @@ class App {
   }
 
   async initialize(){
-    this.depts = new Dependencies();
+    this.depts = Dependencies.getInstance();
     
     // First Load translations
     this.translation = this.depts.translation();

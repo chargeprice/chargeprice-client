@@ -1,6 +1,7 @@
 import { html, render } from 'lit-html';
 
 import ViewBase from '../component/viewBase';
+import LocationSearchBox from '../component/locationSearchBox';
 
 export default class RoutePlanner extends ViewBase{
   constructor(sidebar,depts) {
@@ -10,14 +11,22 @@ export default class RoutePlanner extends ViewBase{
     this.locationSearch = depts.locationSearch();
     this.eventBus = depts.eventBus();
     this.result = null;
+    this.waypoints = [{placeholder: "Starting point"},{placeholder: "Destination"}]
   }
 
   template(){
     return html`
-      <input id="startLocation" placeholder="Starting Point" class="w3-input w3-border"/>
-      <input id="destinationLocation" placeholder="Destination" class="w3-input w3-border w3-margin-top"/>
+
+      ${this.waypoints.map((wp,idx)=>
+        html`
+        <div>
+          <location-search-box placeholder="${wp.placeholder}" placeName="${wp.place ? wp.place.name : null}" @place-changed="${(res)=>this.placeChanged(res.detail,idx)}" @removed="${()=>this.onRemoveStop(idx)}"></location-search-box>
+        </div>
+        `
+      )}
 
       <button @click="${()=>this.onCalculate()}" class="w3-btn pc-secondary w3-margin-top">Calculate</button>
+      <button @click="${()=>this.onAddStop()}" class="w3-btn pc-secondary w3-margin-top">Add Stop</button>
     
       ${this.resultTemplate()}
     `;
@@ -39,13 +48,30 @@ export default class RoutePlanner extends ViewBase{
     render(this.template(),this.getEl("routeContent"));
   }
 
-  async onCalculate(){
-    const startLocationString = this.getEl("startLocation").value;
-    const destinationLocationString = this.getEl("destinationLocation").value;
+  onRemoveStop(idx){
+    if(this.waypoints.length <= 2) return;
 
-    const startLocation = await this.locationSearch.getAutocomplete(startLocationString);
-    const destinationLocation = await this.locationSearch.getAutocomplete(destinationLocationString);
-    const waypoints = [startLocation[0], destinationLocation[0]];
+    this.waypoints.splice(idx, 1);
+    this.render();
+  }
+
+  placeChanged(place,idx){
+    this.waypoints[idx].place = place;
+  }
+
+  onAddStop(){
+    this.waypoints.push({ placeholder: "Stop" });
+    this.render();
+  }
+
+  async onCalculate(){
+    const allWaypointsFilled = this.waypoints.every(wp=>wp.place != null);
+    if(!allWaypointsFilled){
+      alert("Please fill all waypoints!");
+      return;
+    }
+
+    const waypoints = this.waypoints.map(wp=>wp.place);
 
     const route = await this.locationSearch.getDirections(waypoints);
     

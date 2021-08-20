@@ -8,6 +8,7 @@ export default class LocationSearch extends ViewBase {
     this.locationSearch = depts.locationSearch();
     this.root = "search";
     this.callback = null;
+    this.autocompleteNonce = 0;
   }
 
   template(){
@@ -47,8 +48,16 @@ export default class LocationSearch extends ViewBase {
   }
 
   onKeyUp(event){
-    if(event.keyCode == 13) this.onSearchTermChanged(event.srcElement.value);
-    else this.showResults([],this.t("locationSearchEnterInfo"));
+    const nonce = ++this.autocompleteNonce;
+    const searchTerm = event.srcElement.value;
+    if(searchTerm.length >=3){
+      setTimeout(()=>this.autocompleteFinish(nonce, searchTerm),500);
+    }
+  }
+
+  autocompleteFinish(nonce, value){
+    if(this.autocompleteNonce!=nonce) return;
+    this.onSearchTermChanged(value);
   }
 
   onPlaceChanged(place) {

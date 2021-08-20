@@ -24,7 +24,7 @@
     "leaflet": "1.4.0",
     "leaflet.awesome-markers": "2.0.5",
     "leaflet.markercluster": "^1.5.0",
-    "lit-html": "^1.2.1",
+    "lit": "^2.0.0-rc.2",
     "mapbox-gl": "^1.0.0",
     "mapbox-gl-leaflet": "^0.0.6",
     "nouislider": "14.0.2"

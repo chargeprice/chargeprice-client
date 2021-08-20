@@ -39,9 +39,7 @@ export default class SettingsSidebar extends ViewBase {
     <input @click="${()=>this.onOptionsChanged()}" id="openNow" class="w3-check w3-margin-top" type="checkbox">
     <label>${this.t("onlyOpenNow")}</label><br>
 
-    ${this.h().customConfig.isBeta() ? html`
-      <label @click="${()=>this.onPlanRoute()}" class="link-text w3-margin-top w3-block">Plan a Route</label><br>
-    `:""}
+    <label @click="${()=>this.onPlanRoute()}" class="link-text w3-margin-top w3-block">Plan a Route</label><br>
 
     <label class="w3-block w3-margin-top">${this.t("displayedCurrencyHeader")}</label>
     <div id="selectCurrency">${this.currencyTemplate()}</div>
