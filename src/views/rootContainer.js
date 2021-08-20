@@ -47,15 +47,7 @@ export default class RootContainer extends ViewBase {
 
       <div id="snackbar"></div>
       
-      <div id="messageDialog" class="w3-modal">
-        <div class="w3-modal-content">
-          <div class="w3-bar pc-secondary w3-padding">
-            <h3 id="messageDialogHeader"></h3>
-          </div>
-          <div id="messageDialogContent" class="w3-container w3-padding"></div>
-          <button id="messageDialogOk" class="w3-btn pc-secondary w3-margin"></button>
-        </div>
-      </div>
+      <div id="messageDialog" class="w3-modal"></div>
     `;
   }
 

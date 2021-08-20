@@ -301,6 +301,15 @@ i.fav-icon {
   font-size: 15px;
 }
 
+.distance-icon {
+  width: 50px !important;
+  margin-left: -25px !important;
+}
+
+.distance-icon span{
+  padding: 3px;
+}
+
 /* Featured */
 
 #prices tr.featured {

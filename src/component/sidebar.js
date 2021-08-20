@@ -15,6 +15,7 @@ export default class Sidebar extends ViewBase {
     this.urlModifier = depts.urlModifier();
     this.settingsPrimitive=depts.settingsPrimitive();
     this.customConfig = depts.customConfig();
+    this.eventBus = depts.eventBus();
     this.currency = depts.currency();
     this.manageMyTariffs = new ManageMyTariffs(this,depts);
     this.myVehicle = new MyVehicle(this,this.depts);
@@ -44,7 +45,7 @@ export default class Sidebar extends ViewBase {
         onOpen: ()=>this.manageMyTariffs.render()
       },
       "route": {
-        header: "Route Planner",
+        header: this.translation.get("routePlannerHeader"),
         contentId: "routeContent",
         onOpen: ()=>this.routePlanner.render()
       },
@@ -54,8 +55,13 @@ export default class Sidebar extends ViewBase {
     
     this.close();
     this.hideAllSidebarContent();
+    this.registerEvents();
 
     this.loaded = true;
+  }
+
+  registerEvents(){
+    this.eventBus.subscribe("sidebar.change",(payload)=>this.open(payload.sidebar));
   }
 
   chargingOptions(){

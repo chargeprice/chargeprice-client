@@ -1,6 +1,11 @@
 var L = require('leaflet');
 require('leaflet.awesome-markers');
 require('leaflet.markercluster');
+var turf = {
+  along: require('@turf/along').default,
+  length: require('@turf/length').default,
+  helpers: require('@turf/helpers')
+}
 
 export default class Map {
 
@@ -218,8 +223,28 @@ export default class Map {
     const routeLine = L.polyline(points, { color: "#3498db", weight: 5, distanceMarkers: true });
     routeLine.addTo(this.routing);
 
+    const turfLine = turf.helpers.lineString(points);
+    const turfOptions = {units: 'kilometers'};
+    const totalDistance = turf.length(turfLine,turfOptions);
+    
+    const delta= 50;
+    let currentDistance = delta;
+
+    while(currentDistance < totalDistance){
+      var along = turf.along(turfLine, currentDistance, turfOptions)
+      L.marker(along.geometry.coordinates, { icon: this.distanceMarkerIcon(currentDistance) }).addTo(this.routing);
+      currentDistance += delta;
+    }
+
     this.component.fitBounds(routeLine.getBounds());
     this.component._onResize(); 
+  }
+
+  distanceMarkerIcon(km){
+    return new L.DivIcon({
+      className: 'distance-icon',
+      html: `<span class="w3-black w3-border">${km} km</span>`
+    });
   }
 
   deleteRoute(){

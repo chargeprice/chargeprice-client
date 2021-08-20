@@ -140,5 +140,14 @@
   "refreshSub": "Falls du eine veraltete Version von Chargeprice siehst",
   "myTariffs": "Meine Tarife",
   "otherTariffs": "Weitere Tarife",
-  "priceUnavailable": "Preis noch nicht verfügar"
+  "priceUnavailable": "Preis noch nicht verfügar",
+  "routePlannerHeader": "Routenplaner",
+  "routePlannerCalculate": "Berechnen",
+  "routePlannerAddStop": "Weiteres Ziel",
+  "routePlannerClearRoute": "Route löschen",
+  "routePlannerDistance": "Distanz",
+  "routePlannerFeedbackText": "Diese Funktion ist noch im Testbetrieb! Sag uns was du davon hälst!",
+  "routePlannerStart": "Start",
+  "routePlannerDestination": "Ziel",
+  "routePlannerStop": "Ziel"
 }

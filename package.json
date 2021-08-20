@@ -18,6 +18,8 @@
     "startDev": "yarn run distDev && yarn run serve"
   },
   "dependencies": {
+    "@turf/along": "^6.5.0",
+    "@turf/length": "^6.5.0",
     "dayjs": "^1.8.24",
     "decode-google-map-polyline": "^1.0.1",
     "haversine": "^1.1.1",
