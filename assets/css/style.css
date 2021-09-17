@@ -384,5 +384,6 @@ i.fav-icon {
 @media (max-width: 500px) {
   #sidebar{
     width:100%; 
+    min-width: 100%;
   }
 }
