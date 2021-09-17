@@ -64,8 +64,9 @@ html, body {
 
 #sidebar{
   height: calc(100% - 43px);
-  width:25%; 
-  min-width: 320px;
+  width:35%; 
+  min-width: 420px;
+  max-width: 500px;
 }
 
 .w3-sidebar {
@@ -231,7 +232,7 @@ html, body {
 }
 
 .w3-tag{
-  border-radius: 2px;
+  border-radius: 6px;
   text-align: left;
 }
 
@@ -310,6 +311,10 @@ i.fav-icon {
   padding: 3px;
 }
 
+.fa, .fas {
+  font-size: 0.8em;
+}
+
 /* Featured */
 
 #prices tr.featured {
@@ -373,5 +378,11 @@ i.fav-icon {
 
   .mobile-shown {
     display: initial !important;
+  }
+}
+
+@media (max-width: 500px) {
+  #sidebar{
+    width:100%; 
   }
 }
