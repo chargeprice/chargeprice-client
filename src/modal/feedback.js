@@ -9,7 +9,7 @@ export default class ModalFeedback extends ModalBase {
     this.customConfig = depts.customConfig();
   }
 
-  generalTemplate(header,customTemplate, notesHeader){
+  generalTemplate(header,customTemplate, notesHeader,emailText){
     return html`
     <div class="w3-modal-content">
       ${this.header(header)}
@@ -24,7 +24,7 @@ export default class ModalFeedback extends ModalBase {
           <input id="email" value="" maxlength="100" placeholder="my.email@gmail.com" class="w3-input w3-border"/>
         </p>
         <p>
-        ${this.t("fbEmailFooter")} <a href="mailto:contact@chargeprice.net">contact@chargeprice.net</a>
+        ${emailText} <a href="mailto:contact@chargeprice.net">contact@chargeprice.net</a>
         </p>
       </div>
       <button @click="${()=>this.submit()}" class="w3-btn pc-secondary w3-margin-bottom w3-margin-left">
@@ -130,6 +130,7 @@ export default class ModalFeedback extends ModalBase {
     let template = null;
     let header = null;
     let notesHeader = false;
+    let emailText = this.t("fbEmailFooter");
     switch(type){
       case "other_feedback":
         template = "";
@@ -149,14 +150,16 @@ export default class ModalFeedback extends ModalBase {
         template = this.missingPriceTemplate(options);
         header = this.t("fbReportMissingPriceHeader")
         notesHeader = true;
+        emailText = this.t("fbEmailFooterSubmitInvoice");
         break;
       case "wrong_price":
         template = this.wrongPriceTemplate(options);
         header = this.t("fbReportWrongPriceHeader")
         notesHeader = true;
+        emailText = this.t("fbEmailFooterSubmitInvoice");
         break;
     }
-    render(this.generalTemplate(header, template, notesHeader),this.getEl(this.root));
+    render(this.generalTemplate(header, template, notesHeader,emailText),this.getEl(this.root));
     this.getEl(this.root).style.display = 'block';
   }
 

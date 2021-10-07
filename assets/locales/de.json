@@ -100,6 +100,7 @@
   "fbNotesPlaceholder": "Details über dein Anliegen!",
   "fbEmailHeader": "Bitte gibt deine E-Mail an, damit wir dich bezüglich Rückfragen erreichen können",
   "fbEmailFooter": "Du erreichst uns alternativ auch direkt per E-Mail:",
+  "fbEmailFooterSubmitInvoice": "Wenn du eine Rechnung hast, schicke sie bitte direkt per E-Mail:",
   "fbSubmit": "Absenden",
   "fbLocationGEInfo": "Ist die Station in Deutschland, Österreich und der Schweiz?<br>\nJa! Dann bitte <a href=\"https://www.goingelectric.de/stromtankstellen/new/\" target=\"_blank\">hier (GoingElectric)</a> eintragen!<br>\nDanke!",
   "fbLocationHeader": "Wo ist die Station?",

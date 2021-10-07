@@ -100,6 +100,7 @@
   "fbNotesPlaceholder": "Enter all details here!",
   "fbEmailHeader": "Please provide your e-mail, so that we can reach out to you if we have follow-up questions",
   "fbEmailFooter": "You can also reach out to us directly via e-mail:",
+  "fbEmailFooterSubmitInvoice": "If you have an invoice, feel free to send it via e-mail:",
   "fbSubmit": "Submit",
   "fbLocationGEInfo": "",
   "fbLocationHeader": "Station location",
