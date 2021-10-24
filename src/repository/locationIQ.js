@@ -14,8 +14,19 @@ export default class LocationIQ{
 
     const root = await response.json();
     return root.map(entry=>{
+
+      const ad = entry.address;
+
+      const fullDisplayName = [
+        ad.name != ad.road ? ad.name : null, 
+        [ad.road, ad.house_number].filter(n=>n).join(" "), 
+        [ad.postcode, ad.city].filter(n=>n).join(" "), 
+        ad.state != ad.city ? ad.state : null, 
+        ad.country
+      ].filter(n=>n).join(", ");
+
       return {
-        name: entry.display_name,
+        name: fullDisplayName,
         latitude: entry.lat,
         longitude: entry.lon
       }
