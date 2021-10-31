@@ -183,7 +183,7 @@ export default class ModalFeedback extends ModalBase {
       case "missing_station":
         feedback.location = this.getEl("location").value;
         feedback.cpo = this.getEl("cpo").value;
-        feedback.context = `Longitude: ${this.options.location.longitude.toFixed(8)}, Latitude: ${this.options.location.latitude.toFixed(8)}` + feedback.context;
+        feedback.context = `Longitude: ${this.options.location.longitude.toFixed(8)}, Latitude: ${this.options.location.latitude.toFixed(8)}, ` + feedback.context;
         break;
       case "missing_vehicle":
         feedback.brand = this.getEl("brand").value;
