@@ -38,12 +38,19 @@ export default class FetchStations {
   }
 
   isStationCloseToInternalStation(geStation, internalStations){
-    return internalStations.some(station=>haversine(geStation,station,{unit: 'meter'}) < this.threshold(geStation));
+    const maxPowerGeStation = this.getMaximumPower(geStation);
+    return internalStations.some(station=>
+      haversine(geStation,station,{unit: 'meter'}) < this.nearbyThreshold(maxPowerGeStation) && 
+        maxPowerGeStation <= this.getMaximumPower(station)
+    );
   }
 
-  threshold(geStation){
-    const maxPower = geStation.chargePoints.reduce((max,value)=> max > value.power ? max : value.power, 0);
+  nearbyThreshold(maxPower){
     return maxPower >= 50 ? this.deduplicateThresholdFast : this.deduplicateThreshold;
+  }
+
+  getMaximumPower(station){
+    return station.chargePoints.reduce((max,value)=> max > value.power ? max : value.power, 0);
   }
 
   async detail(model, options) {
