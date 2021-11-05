@@ -7,75 +7,50 @@ export default class VehicleSelection extends ModalBase {
     super(depts);
     this.depts = depts;
     this.analytics = depts.analytics();
+    this.filterText = "";
   }
 
-  template(){
+  template(filteredVehicles){
     return html`
     <div class="w3-modal-content" style="width: 400px">
       ${this.header(this.t("myVehicle"))}
-      ${this.step == 1 ? this.step1Template() : this.step2Template()}
-      <button @click="${()=>this.onReportMissingVehicle()}" class="w3-btn pc-secondary w3-margin-bottom w3-margin-left">
+      
+      <div class="w3-row">
+        <input @keyup="${(e)=>this.onFilterList(e.srcElement.value)}" placeholder="${this.t("searchPlaceholder")}" class="w3-input w3-border w3-padding"/>
+        <ul class="w3-ul">
+          ${filteredVehicles.map(v=>html`
+            <li @click="${()=>this.selectVehicle(v)}" class="cp-clickable">
+              <span><strong>${v.brand}</strong></span> <span>${v.name}</span>
+            </li>
+          `)}
+        </ul>
+      </div>
+
+      <button @click="${()=>this.onReportMissingVehicle()}" class="w3-btn pc-secondary w3-margin">
         ${this.t("fbReportMissingVehicleHeader")}
       </button>
     </div>
     `
   }
 
-  step1Template(){
-    return html`
-      <div class="w3-row cp-margin-small">
-        ${this.brands.sort((a,b)=>a.localeCompare(b)).map(brand=>html`
-          <span @click="${()=>this.selectBrand(brand)}" class="w3-button w3-light-gray cp-margin-small">
-            ${brand}
-          </span>
-        `)}
-      </div>
-    `;
-  }
-
-  step2Template(){
-    return html`
-      <div class="w3-row cp-margin-small">
-        <span class="w3-tag pc-main cp-margin-small">
-          <span @click="${()=>this.backToBrand()}" class="w3-button">&times;</span>
-          ${this.vehicles[0].brand}
-        </span>
-      </div>
-      <div class="w3-row cp-margin-small">
-        ${this.vehicles.sort((a,b)=>a.name.localeCompare(b.name)).map(v=>html`
-          <span @click="${()=>this.selectVehicle(v)}" class="w3-button w3-light-gray cp-margin-small">
-            ${v.name}
-          </span>
-        `)}
-      </div>
-    `;
-  }
-
   show(allVehicles, callback){
     this.callback = callback;
-    this.allVehicles = allVehicles;
-    this.brands = allVehicles.reduce((memo, obj) => {
-      if(!memo.includes(obj.brand))memo.push(obj.brand);
-      return memo;
-    },[]);
-    this.step = 1;
+    this.allVehicles = this.prepareVehicles(allVehicles);
     this.renderTemplate();
     this.getEl(this.root).style.display = 'block';
   }
 
+  prepareVehicles(vehicles){
+    vehicles.forEach(v=>v.fullName = this.fullVehicleName(v));
+    return vehicles.sort((a,b)=>a.fullName.localeCompare(b.fullName));
+  }
+
   renderTemplate(){
-    render(this.template(),this.getEl(this.root));
-  }
+    const filteredVehicles = this.filterText == "" ? this.allVehicles : this.allVehicles.filter(v=>{
+      return v.fullName.toLowerCase().includes(this.filterText);
+    });
 
-  backToBrand(){
-    this.step = 1;
-    this.renderTemplate();
-  }
-
-  selectBrand(brand){
-    this.vehicles = this.allVehicles.filter(v=>v.brand == brand);
-    this.step = 2
-    this.renderTemplate();
+    render(this.template(filteredVehicles),this.getEl(this.root));
   }
 
   selectVehicle(vehicle){
@@ -92,4 +67,14 @@ export default class VehicleSelection extends ModalBase {
   onReportMissingVehicle(){
     new ModalFeedback(this.depts).show("missing_vehicle");
   }
+
+  onFilterList(filterText){
+    this.filterText=filterText.toLowerCase();
+    this.renderTemplate();
+  }
+
+  fullVehicleName(vehicle){
+    return `${vehicle.brand} ${vehicle.name}`;
+  }
+
 }

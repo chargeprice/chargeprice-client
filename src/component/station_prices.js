@@ -6,6 +6,8 @@ import GenericList from '../modal/genericList';
 import ModalFeedback from '../modal/feedback';
 import PriceListView from '../views/priceList';
 import StationDetailsView from '../views/stationDetails';
+import noUiSlider from 'nouislider';
+import 'nouislider/dist/nouislider.css';
 
 export default class StationPrices extends ViewBase{
   constructor(sidebar,depts) {

@@ -241,6 +241,10 @@ html, body {
   cursor: pointer;
 }
 
+.cp-clickable {
+  cursor: pointer;
+}
+
 #jump-to-my-location{
   border-radius: 20px;
   padding: 0px;

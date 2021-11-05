@@ -11,7 +11,6 @@ import LocationSearch from './component/location_search.js';
 import Dependencies from './helper/dependencies';
 import RootContainer from './views/rootContainer';
 import AppInstall from './component/app_install';
-import 'nouislider/distribute/nouislider.css';
 import '../assets/css/w3.css'
 import '../assets/css/w3-colors-flat.css'
 import '../assets/css/leaflet.awesome-markers.css'

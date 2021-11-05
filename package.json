@@ -29,7 +29,7 @@
     "lit": "^2.0.0-rc.2",
     "mapbox-gl": "^1.0.0",
     "mapbox-gl-leaflet": "^0.0.6",
-    "nouislider": "14.0.2"
+    "nouislider": "^15.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",

@@ -21,7 +21,7 @@ export default class ManageMyTariffs extends ViewBase{
     return html`
       <div class="w3-margin-bottom">${this.t("manageMyTariffsDescription")}</div>
 
-      <input @keyup="${(e)=>this.onFilterList(e.srcElement.value)}" placeholder="Plugsurfing..." class="w3-input w3-border"/>
+      <input @keyup="${(e)=>this.onFilterList(e.srcElement.value)}" placeholder="${this.t("searchPlaceholder")}" class="w3-input w3-border"/>
 
       <table id="charge-card-list" class="w3-table w3-striped w3-margin-top">
         <tbody>

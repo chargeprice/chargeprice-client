@@ -57,6 +57,7 @@
   "plugcheckerToChargepriceHeader": "Plugchecker.com s'appelle désormais Chargeprice.app !",
   "plugcheckerToChargepriceContent": "Même fonctionnalités, nouveau nom !<br>\nL'adresse www.plugchecker.com fonctionne toujours, mais l'URL officielle est désormais www.chargeprice.app",
   "plugcheckerToChargepriceBtn": "Aller sur www.chargeprice.app",
+  "searchPlaceholder": "Rechercher",
   "searchResultPin": "Ma recherche",
   "myLocationPin": "Ma localisation",
   "hours": "heure",
