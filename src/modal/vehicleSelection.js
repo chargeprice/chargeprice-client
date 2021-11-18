@@ -20,7 +20,10 @@ export default class VehicleSelection extends ModalBase {
         <ul class="w3-ul">
           ${filteredVehicles.map(v=>html`
             <li @click="${()=>this.selectVehicle(v)}" class="cp-clickable">
-              <span><strong>${v.brand}</strong></span> <span>${v.name}</span>
+              <div><strong>${v.brand}</strong> ${v.name}</div>
+              <div class="w3-small">
+                <i class="fa fa-battery-full"></i> ${v.usableBatterySize} kWh | AC ${v.acMaxPower} kW ${v.dcMaxPower ? html`| DC ${v.dcMaxPower} kW` : ""}
+              </div>
             </li>
           `)}
         </ul>
