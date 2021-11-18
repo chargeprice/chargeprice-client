@@ -34,6 +34,7 @@ export default class StationDetailsView extends ViewBase {
           <a href="${url}" target="_blank"><i class="fa fa-location-arrow"></i> ${this.t("openInMapsLink")}</a>
         </span>
       </div>
+      <iframe class="cp-margin-top-small" style="overflow: hidden; border: 0; display: inline-block" width="75px" height="35px" src="https://scoring-widget.prod.elvah.de/v1/scoring?proximity=${station.longitude},${station.latitude}"></iframe>
     `;
   }
 
