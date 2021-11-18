@@ -159,7 +159,7 @@ export default class SettingsSidebar extends ViewBase {
   }
 
   loadModel(){
-    this.selectedMinPower = this.settingsPrimitive.getFloat("minPower",11);
+    this.selectedMinPower = this.settingsPrimitive.getFloat("minPower",3.7);
     ["onlyFree","openNow","providerCustomerTariffs","onlyShowMyTariffs","onlyTariffsWithoutMonthlyFees","allowUnbalancedLoad"].forEach(
       key => this.setChecked(key,this.settingsPrimitive.getBoolean(key))
     );
