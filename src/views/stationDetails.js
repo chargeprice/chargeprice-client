@@ -33,7 +33,35 @@ export default class StationDetailsView extends ViewBase {
         <span class="w3-tag w3-light-gray cp-margin-top-small">
           <a href="${url}" target="_blank"><i class="fa fa-location-arrow"></i> ${this.t("openInMapsLink")}</a>
         </span>
+
+        ${this.customConfig.isInternalMode() ? this.internalTemplate(station) : ""}
       </div>
+    `;
+  }
+
+  internalTemplate(station){
+    return html`
+      <table id="monitoringTable" class="google-sheets-table">
+        <tr>
+          <td>${station.network}</td>
+          <td>${station.id}</td>
+          <td>${station.dataAdapter}</td>
+          <td>${station.latitude}</td>
+          <td>${station.longitude}</td>
+          <td>${station.chargePoints.map(cp=>cp.power).filter((v, i, a) => a.indexOf(v) === i).join(", ")} kW</td>
+        </tr>
+      </table>
+      <table id="poiTable" class="google-sheets-table">
+        <tr>
+          <td>${station.name}</td>
+          <td></td>
+          <td>${station.address}</td>
+          <td>${station.latitude}</td>
+          <td>${station.longitude}</td>
+        </tr>
+      </table>
+      <button @click="${()=>this.copyTableToClipboard("monitoringTable")}">Copy monitoring</button>
+      <button @click="${()=>this.copyTableToClipboard("poiTable")}">Copy POI</button>
     `;
   }
 
@@ -46,5 +74,29 @@ export default class StationDetailsView extends ViewBase {
     const message = `${report.description} (${dayjs(new Date(report.created*1000)).format("DD.MM.YYYY")})`;
     new GenericPopup(this.depts).show({header: this.t("faultReported"), message: message});
   }
+
+  copyTableToClipboard(elementId){
+    let el = this.getEl(elementId);
+    let body = document.body, range, sel;
+    if (document.createRange && window.getSelection) {
+        range = document.createRange();
+        sel = window.getSelection();
+        sel.removeAllRanges();
+        try {
+            range.selectNodeContents(el);
+            sel.addRange(range);
+        } catch (e) {
+            range.selectNode(el);
+            sel.addRange(range);
+        }
+        document.execCommand("copy");
+
+    } else if (body.createTextRange) {
+        range = body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+        range.execCommand("Copy");
+    }
+}
 }
 

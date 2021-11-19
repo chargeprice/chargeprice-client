@@ -319,6 +319,11 @@ i.fav-icon {
   font-size: 0.8em;
 }
 
+.google-sheets-table{
+  font-family: Arial;
+  font-size: 10pt;
+}
+
 /* Featured */
 
 #prices tr.featured {

@@ -12,7 +12,7 @@ import EventBus from '../repository/eventBus'
 export default class Dependencies {
   constructor(){
     this.translationInstance = new Translation();
-    this.customConfigInstance = new CustomConfig();
+    this.customConfigInstance = null;
     this.currencyInstance = new Currency();
     this.eventBusInstance = new EventBus();
   }
@@ -42,6 +42,8 @@ export default class Dependencies {
   }
 
   customConfig(){
+    if(this.customConfigInstance) return this.customConfigInstance;
+    this.customConfigInstance = new CustomConfig(this);
     return this.customConfigInstance;
   }
 
