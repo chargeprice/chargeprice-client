@@ -6,6 +6,7 @@ export default class SettingsSidebar extends ViewBase {
   constructor(depts) {
     super(depts);
     this.settingsPrimitive = depts.settingsPrimitive();
+    this.customConfig = depts.customConfig();
     this.currency = depts.currency();
     this.selectedMinPower = 0;
   }
@@ -28,6 +29,11 @@ export default class SettingsSidebar extends ViewBase {
     <label @click="${()=>this.onShowMyTariffs()}" class="link-text">${this.t("manageMyTariffsLink")}</label><br>
 
     <label class="w3-margin-top w3-margin-bottom w3-large w3-block">${this.t("mapFilter")}</label>
+
+    ${this.customConfig.isInternalMode() ? html`
+      <label>Filter CPO (Chargeprice ID)</label><br>
+      <input id="cpoFilterChargeprice" @change="${()=>this.onOptionsChanged()}" class="w3-input w3-border w3-margin-bottom"></input>
+      ` : ""}
 
     <div id="powerSliderInfo" ></div>
     <div class="w3-small">${this.t("zoomLevelDependentStation")}</div>
@@ -146,6 +152,13 @@ export default class SettingsSidebar extends ViewBase {
     this.sidebar.settingsView = this;
   }
 
+  cpoFilterChargeprice(){
+    const cpoFilterElement = this.getEl("cpoFilterChargeprice");
+    if(!cpoFilterElement || cpoFilterElement.length==0) return null;
+
+    return cpoFilterElement.value;
+  }
+
   getModel(){
     return {
       minPower: this.selectedMinPower,
@@ -154,7 +167,8 @@ export default class SettingsSidebar extends ViewBase {
       providerCustomerTariffs: this.isChecked("providerCustomerTariffs"),
       onlyShowMyTariffs: this.isChecked("onlyShowMyTariffs"),
       onlyTariffsWithoutMonthlyFees: this.isChecked("onlyTariffsWithoutMonthlyFees"),
-      allowUnbalancedLoad: this.isChecked("allowUnbalancedLoad")
+      allowUnbalancedLoad: this.isChecked("allowUnbalancedLoad"),
+      cpoFilterChargeprice: this.cpoFilterChargeprice()
     }
   }
 
