@@ -21,7 +21,7 @@
   "manageMyTariffsDescription": "Selecteer alle laadtarieven bij die je geregistreerd bent",
   "errorStationsUnavailable": "Laadpaal kon niet geladen worden",
   "errorPricesUnavailable": "Opnieuw laden",
-  "totalPriceInfo": "Total price excl. monthly fees<br>\n* Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br>\n** Depending on tariff: Base fee, service fee, membership fee",
+  "totalPriceInfo": "Total price excl. monthly fees<br>\n* Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br>\n** Depending on tariff: Base fee, service fee, membership fee\n<br>\nLinks to providers might be affiliate links, where Chargeprice gets a commission per click. Affiliate partner are not ranked higher. Tariffs are only sorted by prices.",
   "timeFormat": "{0}h {1}min",
   "chargeDuration": "Laadtijd",
   "chargeEnergy": "Laadenergie",
