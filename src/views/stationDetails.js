@@ -35,7 +35,7 @@ export default class StationDetailsView extends ViewBase {
         </span>
 
         ${this.customConfig.isBeta() && ["DE","Deutschland"].includes(station.country) ? html`
-          <iframe style="width: 150px; height: 23px; border: none;  display: inline-block; vertical-align: bottom;" src="https://scoring-widget.prod.elvah.de/v1/scoring?proximity=${station.longitude},${station.latitude}"></iframe>
+          <iframe class="cp-margin-top-small" style="width: 150px; height: 23px; border: none;  display: inline-block; vertical-align: bottom;" src="https://scoring-widget.prod.elvah.de/v1/scoring?proximity=${station.longitude},${station.latitude}"></iframe>
         `:""}
 
         ${this.customConfig.isInternalMode() ? this.internalTemplate(station) : ""}
