@@ -26,7 +26,7 @@ export default class CustomConfig {
   }
 
   isBeta(){
-    return this.searchParam("beta")
+    return window.location.host == "beta.chargeprice.app" || this.searchParam("beta") 
   }
 
   isMobileOrTablet(){
