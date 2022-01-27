@@ -1,44 +1,37 @@
-# Chargeprice (Client)
+# Chargeprice Client
 
-Provides prices of charging cards for EV charging stations.
+Web client for Chargeprice: www.chargeprice.app
+
+## Setup of Project
+
+1. Install NodeJS (>=10.x)
+2. Install Yarn
+3. Create `.env` from `.env.sample` template file (and ask for the correct
+   values)
+4. Check if everything works by starting the server: `yarn start`
+
+## Execution Modes
+
+* Start Server: `yarn start`
 
 ## Updating Locales (Translations)
 
-### Prepare credentials
+### Setup of Script
 
-Translations are stored in a Google Spreadsheet. To define which sheet should be
-accessed and which credentials should be used, a `.env.local` file in the
-`scripts` folder needs to be created with the following keys:
-```
-GOOGLE_ACCOUNT_TYPE=
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_EMAIL=
-GOOGLE_PRIVATE_KEY=
-```
+1. Install Ruby (e.g. via https://rvm.io/)
+2. Install Bundler `gem install bundler`
+3. Make sure you are in the right directiory: `cd scripts`
+4. Install Dependencies `bundle`
+5. Create `scripts/.env.local` from `scripts/.env.sample` template file (and
+   ask for the correct values).
 
 ### Run the script
 
-1. `cd scripts`
-2. Make sure to have Ruby and bundler (`gem install bundler`) installed
-3. `bundle`: Loads all dependencies
-4. `ruby fetch_locales.rb`: Fetches the translations from the spreadsheet and
-   stores them in the `locales` folder of the project.
+`ruby fetch_locales.rb`: Fetches the translations from the spreadsheet and
+stores them in the `locales` folder of the project.
 
 Now the changes of the `locales/*.json` files can be commited.
 
-### Environment Variables
-
-The following variables need to be defined in the project root folder in the
-file `.env`:
-
-```
-CHARGEPRICE_API_KEY=
-GOING_ELECTRIC_API_KEY=
-LOCATION_IQ_KEY=
-MAPTILER_API_KEY=
-```
-
 ## Contribution
 
-Please contact me (niklas@plugchecker.com).
-
+Please contact me (contact@chargeprice.net).
