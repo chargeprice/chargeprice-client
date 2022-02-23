@@ -34,7 +34,7 @@ export default class StationDetailsView extends ViewBase {
           <a href="${url}" target="_blank"><i class="fa fa-location-arrow"></i> ${this.t("openInMapsLink")}</a>
         </span>
 
-        ${this.customConfig.isBeta() && ["DE","Deutschland"].includes(station.country) ? html`
+        ${["DE","Deutschland"].includes(station.country) ? html`
           <iframe class="cp-margin-top-small" style="width: 150px; height: 23px; border: none;  display: inline-block; vertical-align: bottom;" src="https://scoring-widget.prod.elvah.de/v1/scoring?proximity=${station.longitude},${station.latitude}&pid=chargeprice"></iframe>
         `:""}
 
