@@ -64,7 +64,7 @@ html, body {
 
 #sidebar{
   height: calc(100% - 43px);
-  width:35%; 
+  width:35%;
   min-width: 420px;
   max-width: 500px;
 }
@@ -128,7 +128,7 @@ html, body {
 }
 
 .hidden{
-  display: none;
+  display: none !important;
 }
 
 .w3-modal{
@@ -177,7 +177,7 @@ html, body {
 .w3-input-inline {
   display: inline-block;
   width: auto;
-} 
+}
 
 #searchResult ul li{
   cursor: pointer;
@@ -276,7 +276,7 @@ html, body {
 a.tariff-link {
   text-decoration: none;
   border-bottom: 1px dotted black;
-} 
+}
 
 i.fav-icon {
   color: orange;
@@ -354,6 +354,43 @@ i.fav-icon {
   display: none !important;
 }
 
+.auth-options {
+  height: 100%;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.auth-profile {
+	display: flex !important;
+	flex-flow: row;
+	align-items: center;
+}
+
+.auth-profile.hidden {
+	display: none !important;
+}
+
+.auth-details {
+	display: flex;
+	flex-flow: column;
+	margin: 0 16px;
+}
+
+.auth-details p {
+	margin: 0;
+}
+
+.auth-details p:nth-of-type(1) {
+	align-self: flex-end;
+}
+
+.auth-options i.fa,
+.auth-profile i.fa {
+	font-size: 2rem;
+}
+
 @media (max-width: 800px) {
   body {
     -webkit-user-select: none !important;
@@ -388,11 +425,15 @@ i.fav-icon {
   .mobile-shown {
     display: initial !important;
   }
+
+	.auth-details {
+		display: none;
+	}
 }
 
 @media (max-width: 500px) {
   #sidebar{
-    width:100%; 
+    width:100%;
     min-width: 100%;
   }
 }
