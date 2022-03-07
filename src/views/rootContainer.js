@@ -1,5 +1,8 @@
 import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
+
+import { decodeToken } from '../helper/authorization';
+
 export default class RootContainer extends ViewBase {
 
   constructor(depts){
@@ -11,13 +14,27 @@ export default class RootContainer extends ViewBase {
     return html`
       <div class="flex-container">
         <div class="flex-item-s w3-bar pc-main" id="top-bar">
-          <div class="w3-bar-item w3-large"><div id="logo-container"></div></div>
-          
-          <button @click="${()=>this.onOpenSettings()}" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/edit.svg"></button>
-          <button @click="${()=>this.onOpenInfo()}" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/info.svg"></button>
-          <div id="loadingIndicator" class="w3-bar-item w3-middle" >
-            <img class="inverted" class="w3-button " src="img/refresh-2.svg">
+          <div>
+            <div class="w3-bar-item w3-large"><div id="logo-container"></div></div>
+
+            <button @click="${()=>this.onOpenSettings()}" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/edit.svg"></button>
+            <button @click="${()=>this.onOpenInfo()}" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/info.svg"></button>
+            <div id="loadingIndicator" class="w3-bar-item w3-middle" >
+              <img class="inverted" class="w3-button " src="img/refresh-2.svg">
+            </div>
           </div>
+
+          <span id="auth-options" class="w3-bar-item w3-button w3-right auth-options">
+            <i class="fa fa-sign-in-alt" @click="${()=>this.onTriggerAuthModal()}"></i>
+          </span>
+
+					<div id="auth-profile" class="w3-bar-item w3-right auth-profile hidden">
+						<div class="auth-details">
+							<p id="auth-details-name"></p>
+							<p id="auth-details-email"></p>
+						</div>
+						<i class="fa fa-user"></i>
+					</div>
         </div>
 
         <div class="flex-item-d flex-container  w3-light-gray" style="height: auto">
@@ -46,17 +63,28 @@ export default class RootContainer extends ViewBase {
       </div>
 
       <div id="snackbar"></div>
-      
+
       <div id="messageDialog" class="w3-modal"></div>
     `;
   }
 
   render(){
     render(this.template(),document.getElementById("rootContainer"));
+
+		const token = localStorage.getItem("chrprice_access");
+
+		if (token) {
+			this.onSuccessfulLoginCallback(token);
+		}
   }
 
   inject(sidebar){
     this.sidebar=sidebar;
+  }
+
+  injectAuthorization(auth) {
+    this.auth = auth;
+		this.auth.onAuthorize = this.onSuccessfulLoginCallback;
   }
 
   onCloseSidebar(){
@@ -78,8 +106,22 @@ export default class RootContainer extends ViewBase {
   showAlert(message) {
     this.getEl("snackbar").innerText = message;
     this.show("snackbar");
-    
+
     setTimeout(()=>this.hide("snackbar"), 5000);
   }
+
+  onTriggerAuthModal() {
+    this.auth.render();
+  }
+
+	onSuccessfulLoginCallback(token) {
+		const { username, email } = decodeToken(token);
+
+		document.getElementById('auth-details-name').innerHTML = username;
+		document.getElementById('auth-details-email').innerHTML = email;
+
+		document.getElementById('auth-options').classList.toggle('hidden');
+		document.getElementById('auth-profile').classList.toggle('hidden');
+	}
 }
 

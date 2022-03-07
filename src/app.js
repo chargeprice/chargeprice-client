@@ -11,6 +11,7 @@ import LocationSearch from './component/location_search.js';
 import Dependencies from './helper/dependencies';
 import RootContainer from './views/rootContainer';
 import AppInstall from './component/app_install';
+import Authorization from './component/authorization';
 import '../assets/css/w3.css'
 import '../assets/css/w3-colors-flat.css'
 import '../assets/css/leaflet.awesome-markers.css'
@@ -37,6 +38,7 @@ class App {
     const settingsSidebar = new SettingsSidebar(this.depts);
     const infoSidebar = new InfoSidebar(this.depts);
     this.rootContainer = new RootContainer(this.depts);
+    this.authModal = new Authorization(this.depts);
     this.loadStaticContent(this.rootContainer,settingsSidebar, infoSidebar);
 
     new ThemeLoader(this.translation).setCurrentTheme();
@@ -54,6 +56,7 @@ class App {
     settingsSidebar.inject(this.sidebar);
     infoSidebar.inject(this.map);
     this.rootContainer.inject(this.sidebar);
+    this.rootContainer.injectAuthorization(this.authModal);
 
     if (!navigator.geolocation) {
       this.showFallbackLocation();
@@ -237,6 +240,10 @@ class App {
     if(isLegacyUrl) {
       window.location = "https://www.chargeprice.app";
     }
+  }
+
+  triggerAuthModal() {
+    this.authModal.render();
   }
 }
 
