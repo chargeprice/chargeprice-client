@@ -8,6 +8,18 @@ export default class Authorization extends ViewBase {
 		super(depts);
 		this.root = "messageDialog";
 		this.authService = new AuthService();
+
+		this.validation = {
+			email: new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/),
+			password: new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])[a-zA-Z0-9]{8,16}$/),
+			username: new RegExp(/^[a-zA-Z0-9]{6,}$/),
+		};
+		this.errorMessages = {
+			email: '<p class="w3-text-red">Email not valid!</p>',
+			username: '<p class="w3-text-red">Username should consists only from letters and numbers and must be at least 6 characters long!</p>',
+			serviceUnavailable: '<p class="w3-text-red">Sorry, currently service is not available. Please try again later!</p>',
+			passwordNotValid: '<p class="w3-text-red">Password must be at least 8-16 characters long and should contain at least one number, lowercase and uppercase letters only</p>',
+		}
 	}
 
 	loginTemplate() {
@@ -18,7 +30,7 @@ export default class Authorization extends ViewBase {
 						<img class="inverted" class="w3-button " src="img/close.svg">
 					</button>
 				</div>
-				<div class="w3-container">
+				<div class="w3-container auth-modal-container">
 					<div class="w3-section">
 						<div class="w3-bar">
 							<button
@@ -37,7 +49,7 @@ export default class Authorization extends ViewBase {
 							</button>
 						</div>
 
-						<div id="sign_in">
+						<form id="sign_in">
 							<div>
 								<label>Email:</label>
 								<input type="text" name="sign_in_email" class="w3-input w3-border w3-margin-bottom" />
@@ -49,13 +61,14 @@ export default class Authorization extends ViewBase {
 							<button
 								class="w3-button w3-block w3-blue w3-section w3-padding"
 								type="submit"
-								@click="${() => this.onLogin()}"
+								disabled
+								@click="${(event) => this.onLogin(event)}"
 							>
-								Login
+								<i class="fa fa-refresh fa-spin"></i>Login
 							</button>
-						</div>
+						</form>
 
-						<div id="sign_up" style="display:none">
+						<form id="sign_up" style="display:none" @submit="return false;">
 							<div>
 								<label>Email:</label>
 								<input type="text" name="sign_up_email" class="w3-input w3-border w3-margin-bottom" />
@@ -72,15 +85,16 @@ export default class Authorization extends ViewBase {
 							<button
 								class="w3-button w3-block w3-blue w3-section w3-padding"
 								type="submit"
-								@click="${() => this.onRegister()}"
+								disabled
+								@click="${(event) => this.onRegister(event)}"
 							>
-								Register
+								<i class="fa fa-refresh fa-spin"></i>Register
 							</button>
-						</div>
+						</form>
 
 						<div id="error-list"></div>
 
-						<span class="w3-right w3-padding w3-hide-small">Forgot <a @click="${() => this.onResetPasswordRequest()}">password?</a></span>
+						<span class="w3-right w3-padding w3-hide-small">Forgot <a @click="${() => this.onResetPasswordRequest()}" style="cursor: pointer;">password?</a></span>
 					</div>
 				</div>
 			</div>
@@ -95,23 +109,26 @@ export default class Authorization extends ViewBase {
 						<img class="inverted" class="w3-button " src="img/close.svg">
 					</button>
 				</div>
-				<div class="w3-container">
+				<div class="w3-container auth-modal-container">
 					<div class="w3-section">
 						<div class="w3-bar w3-margin-bottom">
 							<i class="fa fa-lock"></i>
 							<b>Trouble Logging In?</b>
 						</div>
-						<div>
+						<form id="reset_password">
 							<label>Enter your email and we'll send you a link to get back into your account.</label>
 							<input type="text" name="reset_password_email" class="w3-input w3-border w3-margin-bottom" />
 							<button
-							class="w3-button w3-block w3-blue w3-section w3-padding"
+								class="w3-button w3-block w3-blue w3-section w3-padding"
 								type="submit"
-								@click="${() => this.onPasswordReset()}"
+								disabled
+								@click="${(event) => this.onPasswordReset(event)}"
 							>
-								Send link
+								<i class="fa fa-refresh fa-spin"></i>Send link
 							</button>
-						</div>
+
+							<div id="error-list"></div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -154,15 +171,27 @@ export default class Authorization extends ViewBase {
 	render() {
 		render(this.loginTemplate(), document.getElementById(this.root));
 		this.getEl(this.root).style.display = "block";
+
+		document.getElementById('sign_in').addEventListener('change', (event) => this.validateLoginForm(event));
+		document.getElementById('sign_up').addEventListener('change', (event) => this.validateRegistrationForm(event));
+
+		document.getElementById('sign_in').addEventListener('submit', (event) => event.preventDefault());
+		document.getElementById('sign_up').addEventListener('submit', (event) => event.preventDefault());
 	}
 
 	onResetPasswordRequest() {
 		render(this.resetPasswordTemplate(), document.getElementById(this.root));
+
+		document.getElementById('reset_password').addEventListener('change', (event) => this.validateResetPasswordForm(event));
+		document.getElementById('reset_password').addEventListener('submit', (event) => event.preventDefault());
 	}
 
 	onTabChange(type) {
 		const signIn = document.getElementById("sign_in");
 		const signUp = document.getElementById("sign_up");
+
+		const errorsContainer = document.getElementById("error-list");
+		errorsContainer.innerHTML = "";
 
 		if (type === "sign_in" && signIn.style.display === "none") {
 			document.getElementById("sign_in").style.display = "block";
@@ -179,14 +208,28 @@ export default class Authorization extends ViewBase {
 		}
 	}
 
-	async onLogin() {
+	async onLogin(event) {
+		const loginBtn = event.target;
+
 		const errorsContainer = document.getElementById("error-list");
 		const formData = {
 			email: document.getElementsByName("sign_in_email")[0].value,
 			password: document.getElementsByName("sign_in_password")[0].value,
 		};
 
-		const result = await this.authService.signIn(formData);
+		// Toggle button loading state
+		loginBtn.classList.toggle('loading');
+
+		let result = null;
+
+		try {
+			result = await this.authService.signIn(formData);
+			loginBtn.classList.toggle('loading');
+		} catch (error) {
+			loginBtn.classList.toggle('loading');
+			errorsContainer.innerHTML = this.errorMessages.serviceUnavailable;
+			return;
+		}
 
 		errorsContainer.innerHTML = "";
 
@@ -209,6 +252,10 @@ export default class Authorization extends ViewBase {
 					if (error.message === "no_user_found") {
 						errorsContainer.innerHTML = `<p class="w3-text-red">User not found. Please register first.</p>`;
 					}
+
+					if (error.message === "email_unconfirmed") {
+						errorsContainer.innerHTML = `<p class="w3-text-red">Email not verified. Check your email box please, you should verify your email first!</p>`;
+					}
 				}
 			}
 
@@ -216,7 +263,8 @@ export default class Authorization extends ViewBase {
 		}
 	}
 
-	async onRegister() {
+	async onRegister(event) {
+		const registerBtn = event.target;
 		const errorsContainer = document.getElementById("error-list");
 		const formData = {
 			email: document.getElementsByName("sign_up_email")[0].value,
@@ -224,22 +272,26 @@ export default class Authorization extends ViewBase {
 			username: document.getElementsByName("sign_up_username")[0].value,
 		};
 
-		const result = await this.authService.signUp(formData);
+		// Toggle button loading state
+		registerBtn.classList.toggle('loading');
+
+		let result = null;
+
+		try {
+			result = await this.authService.signUp(formData);
+			registerBtn.classList.toggle('loading');
+		} catch (error) {
+			registerBtn.classList.toggle('loading');
+			errorsContainer.innerHTML = this.errorMessages.serviceUnavailable;;
+			return;
+		}
 
 		errorsContainer.innerHTML = "";
 
 		// TODO: Next code should be placed into global error handling
-		if (result.errors) {
+		if (result && result.errors) {
 			for (let error of result.errors) {
-				// if (error.status && error.status === 400) {
-				//     errorsContainer.innerHTML = `<p class="w3-text-red">${error.message}</p>`;
-				// }
-				// if (error.status && error.status === 401) {
-				//     errorsContainer.innerHTML = `<p class="w3-text-red">Sorry, your password was incorrect. Please check your password and try again.</p>`;
-				//     if (error.message === 'no_user_found') {
-				//         errorsContainer.innerHTML = `<p class="w3-text-red">User not found. Please register first.</p>`;
-				//     }
-				// }
+				errorsContainer.innerHTML = `<p class="w3-text-red">${error.message}</p>`;
 			}
 
 			return;
@@ -248,11 +300,24 @@ export default class Authorization extends ViewBase {
 		this.getEl(this.root).style.display = "none";
 	}
 
-	async onPasswordReset() {
+	async onPasswordReset(event) {
+		const pwdResetBtn = event.target;
+		const errorsContainer = document.getElementById("error-list");
 		const email = document.getElementsByName('reset_password_email')[0].value;
 
+		pwdResetBtn.classList.toggle('loading');
+
 		if (email) {
-			const result = await this.authService.requestPasswordChange({ email });
+			let result = null;
+
+			try {
+				result = await this.authService.requestPasswordChange({ email });
+				pwdResetBtn.classList.toggle('loading');
+			} catch (error) {
+				pwdResetBtn.classList.toggle('loading');
+				errorsContainer.innerHTML = this.errorMessages.serviceUnavailable;
+				return;
+			}
 
 			if (result == null) {
 				render(this.successfulResetPasswordTemplate(), document.getElementById(this.root));
@@ -274,5 +339,107 @@ export default class Authorization extends ViewBase {
 
 	onCloseModal() {
 		this.getEl(this.root).style.display = "none";
+	}
+
+	validateLoginForm(event) {
+		const errorsContainer = document.getElementById("error-list");
+		const form = event.target.closest('form');
+		const submitBtn = form.querySelector('button[type="submit"]')
+
+		const inputEmail = form.querySelector('input[name="sign_in_email"]');
+		const inputPassword = form.querySelector('input[name="sign_in_password"]');
+
+		const isEmailValid = this.validation.email.exec(inputEmail.value);
+		const isPasswordValid = this.validation.password.exec(inputPassword.value);
+
+		errorsContainer.innerHTML = "";
+		submitBtn.disabled = true;
+
+		if (!isEmailValid) {
+			!inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+			errorsContainer.innerHTML = this.errorMessages.email;
+			return;
+		} else {
+			inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+		}
+
+		if (!isPasswordValid) {
+			!inputPassword.classList.contains('error') && inputPassword.classList.toggle('error');
+			errorsContainer.innerHTML = this.errorMessages.passwordNotValid;
+			return;
+		} else {
+			inputPassword.classList.contains('error') && inputPassword.classList.toggle('error');
+		}
+
+		if (isEmailValid && isPasswordValid) {
+			submitBtn.disabled = false;
+		}
+	}
+	validateRegistrationForm(event) {
+		const errorsContainer = document.getElementById("error-list");
+		const form = event.target.closest('form');
+		const submitBtn = form.querySelector('button[type="submit"]')
+
+		const inputEmail = form.querySelector('input[name="sign_up_email"]');
+		const inputPassword = form.querySelector('input[name="sign_up_password"]');
+		const inputUsername = form.querySelector('input[name="sign_up_username"]');
+
+		const isEmailValid = this.validation.email.exec(inputEmail.value);
+		const isPasswordValid = this.validation.password.exec(inputPassword.value);
+		const isUsernameValid = this.validation.username.exec(inputUsername.value);
+
+		errorsContainer.innerHTML = "";
+		submitBtn.disabled = true;
+
+		if (!isEmailValid) {
+			!inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+			errorsContainer.innerHTML = this.errorMessages.email;
+			return;
+		} else {
+			inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+		}
+
+		if (!isPasswordValid) {
+			!inputPassword.classList.contains('error') && inputPassword.classList.toggle('error');
+			errorsContainer.innerHTML = this.errorMessages.passwordNotValid;
+			return;
+		} else {
+			inputPassword.classList.contains('error') && inputPassword.classList.toggle('error');
+		}
+
+		if (!isUsernameValid) {
+			!inputUsername.classList.contains('error') && inputUsername.classList.toggle('error');
+			errorsContainer.innerHTML = this.errorMessages.username;
+			return;
+		} else {
+			inputUsername.classList.contains('error') && inputUsername.classList.toggle('error');
+		}
+
+		if (isEmailValid && isPasswordValid && isUsernameValid) {
+			submitBtn.disabled = false;
+		}
+	}
+	validateResetPasswordForm(event) {
+		const errorsContainer = document.getElementById("error-list");
+		const form = event.target.closest('form');
+		const submitBtn = form.querySelector('button[type="submit"]')
+
+		const inputEmail = form.querySelector('input[name="reset_password_email"]');
+		const isEmailValid = this.validation.email.exec(inputEmail.value);
+
+		errorsContainer.innerHTML = "";
+		submitBtn.disabled = true;
+
+		if (!isEmailValid) {
+			!inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+			errorsContainer.innerHTML = this.errorMessages.email;
+			return;
+		} else {
+			inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+		}
+
+		if (isEmailValid) {
+			submitBtn.disabled = false;
+		}
 	}
 }
