@@ -19,12 +19,12 @@ export default class RootContainer extends ViewBase {
 
             <button @click="${()=>this.onOpenSettings()}" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/edit.svg"></button>
             <button @click="${()=>this.onOpenInfo()}" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/info.svg"></button>
-            <div id="loadingIndicator" class="w3-bar-item w3-middle" >
+            <div id="loadingIndicator" class="w3-bar-item w3-middle" style="padding: 8px;">
               <img class="inverted" class="w3-button " src="img/refresh-2.svg">
             </div>
           </div>
 
-          <span id="auth-options" class="w3-bar-item w3-button w3-right auth-options">
+          <span id="auth-options" class="w3-bar-item w3-button w3-right auth-options" style="display: flex; padding: 8px;">
             <i class="fa fa-sign-in-alt" @click="${()=>this.onTriggerAuthModal()}"></i>
           </span>
 

@@ -7,76 +7,64 @@ export default class AuthService {
 	}
 
 	async signIn(data) {
-		try {
-			const body = JSON.stringify({
-				data: {
-					type: "email_authentication",
-					attributes: {
-						email: data.email,
-						password: data.password,
-					},
+		const body = JSON.stringify({
+			data: {
+				type: "email_authentication",
+				attributes: {
+					email: data.email,
+					password: data.password,
 				},
-			});
+			},
+		});
 
-			return await this.sendRequest({
-				url: this.signInEndpoint,
-				options: {
-					method: "POST",
-					body,
-				},
-			});
-		} catch (error) {
-			this.handleErrors(error);
-		}
+		return await this.sendRequest({
+			url: this.signInEndpoint,
+			options: {
+				method: "POST",
+				body,
+			},
+		});
 	}
 
 	async signUp(data) {
-		try {
-			const body = JSON.stringify({
-				data: {
-					type: "user",
-					attributes: {
-						email: data.email,
-						password: data.password,
-						username: data.username,
-						language: window.navigator.language.substring(0, 2),
-					},
+		const body = JSON.stringify({
+			data: {
+				type: "user",
+				attributes: {
+					email: data.email,
+					password: data.password,
+					username: data.username,
+					language: window.navigator.language.substring(0, 2),
 				},
-			});
+			},
+		});
 
-			return await this.sendRequest({
-				url: this.signUpEndpoint,
-				options: {
-					method: "POST",
-					body,
-				},
-			});
-		} catch (error) {
-			this.handleErrors(error);
-		}
+		return await this.sendRequest({
+			url: this.signUpEndpoint,
+			options: {
+				method: "POST",
+				body,
+			},
+		});
 	}
 
 	async requestPasswordChange(data) {
-		try {
-			const body = JSON.stringify({
-				data: {
-					type: "reset_password",
-					attributes: {
-						email: data.email,
-					},
+		const body = JSON.stringify({
+			data: {
+				type: "reset_password",
+				attributes: {
+					email: data.email,
 				},
-			});
+			},
+		});
 
-			return await this.sendRequest({
-				url: this.resetPasswordEndpoint,
-				options: {
-					method: "POST",
-					body,
-				},
-			});
-		} catch (error) {
-			this.handleErrors(error);
-		}
+		return await this.sendRequest({
+			url: this.resetPasswordEndpoint,
+			options: {
+				method: "POST",
+				body,
+			},
+		});
 	}
 
 	async sendRequest(request) {
@@ -92,9 +80,5 @@ export default class AuthService {
 
 			return res.json();
 		});
-	}
-
-	handleErrors(error) {
-		// TODO: Need to proper error handling here
 	}
 }

@@ -392,7 +392,19 @@ i.fav-icon {
 
 .auth-options i.fa,
 .auth-profile i.fa {
-	font-size: 2rem;
+	font-size: 1.4rem;
+}
+
+.auth-modal-container form input.error {
+	border: 2px solid red !important;
+}
+
+.w3-button > .fa-spin {
+	margin-right: 8px;
+	display: none;
+}
+.w3-button.loading > .fa-spin {
+	display: inline-block;
 }
 
 @media (max-width: 800px) {
@@ -440,4 +452,10 @@ i.fav-icon {
     width:100%;
     min-width: 100%;
   }
+}
+
+@media (max-width: 420px) {
+	#top-bar .w3-bar-item {
+		padding: 8px !important;
+	}
 }
