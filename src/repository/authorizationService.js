@@ -51,7 +51,7 @@ export default class AuthService {
 	async requestPasswordChange(data) {
 		const body = JSON.stringify({
 			data: {
-				type: "reset_password",
+				type: "trigger_reset_password",
 				attributes: {
 					email: data.email,
 				},
