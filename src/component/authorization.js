@@ -319,6 +319,14 @@ export default class Authorization extends ViewBase {
 				return;
 			}
 
+			if (result && result.errors) {
+				for (let error of result.errors) {
+					errorsContainer.innerHTML = `<p class="w3-text-red">${error.message}</p>`;
+				}
+
+				return;
+			}
+
 			if (result == null) {
 				render(this.successfulResetPasswordTemplate(), document.getElementById(this.root));
 			}
