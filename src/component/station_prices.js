@@ -135,7 +135,7 @@ export default class StationPrices extends ViewBase{
   updateStationPrice(station,prices,options){
     const sortedPrices = prices.sort((a,b)=>this.sortPrice(a.price, b.price));
 
-    new PriceListView(this.depts,this.sidebar).render(sortedPrices,options.myTariffs,station,"prices")
+    new PriceListView(this.depts,this.sidebar).render(sortedPrices,options,station,"prices")
     new StationDetailsView(this.depts).render(station,"station-info");
     render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));

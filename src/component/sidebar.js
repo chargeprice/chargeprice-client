@@ -83,7 +83,8 @@ export default class Sidebar extends ViewBase {
       displayedCurrency: this.currency.getDisplayedCurrency(),
       startTime: this.stationPrices.getStartTime(),
       chargePoint: this.stationPrices.getCurrentChargePoint(),
-      cpoFilterChargeprice: settingsModel.cpoFilterChargeprice
+      cpoFilterChargeprice: settingsModel.cpoFilterChargeprice,
+      showPriceDetails: settingsModel.showPriceDetails
     }
   }
 

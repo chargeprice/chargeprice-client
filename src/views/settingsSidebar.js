@@ -9,6 +9,16 @@ export default class SettingsSidebar extends ViewBase {
     this.customConfig = depts.customConfig();
     this.currency = depts.currency();
     this.selectedMinPower = 0;
+
+    this.checkBoxes = [
+      "onlyFree",
+      "openNow",
+      "providerCustomerTariffs",
+      "onlyShowMyTariffs",
+      "onlyTariffsWithoutMonthlyFees",
+      "allowUnbalancedLoad",
+      "showPriceDetails"
+    ]
   }
 
   template(){
@@ -48,10 +58,14 @@ export default class SettingsSidebar extends ViewBase {
     <label class="w3-block w3-margin-top">${this.t("displayedCurrencyHeader")}</label>
     <div id="selectCurrency">${this.currencyTemplate()}</div>
 
+    <label class="w3-margin-top w3-large w3-block">${this.t("expertOptions")}</label>
+
+    <input @click="${()=>this.onOptionsChanged()}" id="showPriceDetails" class="w3-check" type="checkbox">
+    <label>${this.t("priceDetailsLabel")}</label><br>
+    <label class="w3-small">${this.t("priceDetailsDetails")}</label><br>
+
     ${this.translation.showUnbalancedLoad() ?
       html`
-      <label class="w3-margin-top w3-large w3-block">${this.t("expertOptions")}</label>
-
       <input id="allowUnbalancedLoad"  @click="${()=>this.onOptionsChanged()}" class="w3-check" type="checkbox">
       <label>${this.t("unbalancedLoadHeader")}</label><br>
       <label class="w3-small">${this.t("unbalancedLoadDetail")}</label><br>
@@ -168,13 +182,14 @@ export default class SettingsSidebar extends ViewBase {
       onlyShowMyTariffs: this.isChecked("onlyShowMyTariffs"),
       onlyTariffsWithoutMonthlyFees: this.isChecked("onlyTariffsWithoutMonthlyFees"),
       allowUnbalancedLoad: this.isChecked("allowUnbalancedLoad"),
-      cpoFilterChargeprice: this.cpoFilterChargeprice()
+      cpoFilterChargeprice: this.cpoFilterChargeprice(),
+      showPriceDetails: this.isChecked("showPriceDetails")
     }
   }
 
   loadModel(){
     this.selectedMinPower = this.settingsPrimitive.getFloat("minPower",3.7);
-    ["onlyFree","openNow","providerCustomerTariffs","onlyShowMyTariffs","onlyTariffsWithoutMonthlyFees","allowUnbalancedLoad"].forEach(
+    this.checkBoxes.forEach(
       key => this.setChecked(key,this.settingsPrimitive.getBoolean(key))
     );
   }
@@ -182,7 +197,7 @@ export default class SettingsSidebar extends ViewBase {
   saveModel(){
     const model = this.getModel();
     this.settingsPrimitive.setFloat("minPower", this.selectedMinPower);
-    ["onlyFree","openNow","providerCustomerTariffs","onlyShowMyTariffs","onlyTariffsWithoutMonthlyFees","allowUnbalancedLoad"].forEach(
+    this.checkBoxes.forEach(
       key => this.settingsPrimitive.setBoolean(key, model[key])
     );
   }

@@ -35,6 +35,8 @@
   "onlyShowMyTariffs": "Mostrar solo las estaciones compatibles con mis tarifas",
   "onlyShowMyTariffsDetail": "Solo las estaciones compatibles con mi plan o accesible sin tarifa van a aparecer",
   "manageMyTariffsLink": "Gestionar mis planes de recarga",
+  "priceDetailsLabel": "Show price details",
+  "priceDetailsDetails": "Average price / kWh, billing per Minute, kWh...",
   "ok": "Ok ",
   "poiKey": "Leyenda",
   "chargePowerTo": "Inferior a {0} kW",
@@ -151,5 +153,6 @@
   "routePlannerFeedbackText": "esta función es una beta, ¡déjanos tu opinión!",
   "routePlannerStart": "punto de partida ",
   "routePlannerDestination": "punto de llegada",
-  "routePlannerStop": "parada"
+  "routePlannerStop": "parada",
+  "stationSharingText": "Check out this charging station on Chargeprice:"
 }

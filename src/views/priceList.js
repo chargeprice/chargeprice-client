@@ -90,7 +90,16 @@ export default class PriceListView extends ViewBase {
 
     return html`
     <td class="cp-price-right">
-      <label class="w3-right ${this.isMyTariff(tariff)?"":""}">${this.isMyTariff(tariff) ? html``:"" }${this.h().dec(price.price)}</label><br>
+      <label class="w3-right ${this.isMyTariff(tariff)?"":""}">${this.isMyTariff(tariff) ? html``:"" }${this.h().dec(price.price)}</label>
+      
+      ${this.showPriceDetails ? this.priceDetailsTemplate(price) : ""}
+    </td>
+    `;
+  }
+
+  priceDetailsTemplate(price){
+    return html`
+      <br>
       ${price.price > 0 ?
         html`<label class="w3-right w3-small">${this.t("average")} ${this.h().dec(price.pricePerKWh)}</label><br>`:""
       }
@@ -105,8 +114,7 @@ export default class PriceListView extends ViewBase {
           (price.distribution.minute == undefined || price.distribution.minute == 0) && price.blockingFeeStart ? this.blockingFeeTemplate(price) : null
         ].filter(t=>t).join(" + ")}
       </label>
-    </td>
-    `;
+    `
   }
 
   noPriceAvailableTemplate(price){
@@ -145,8 +153,9 @@ export default class PriceListView extends ViewBase {
     return html`<div>${entries}</div>`
   }
 
-  render(prices, myTariffs, station, root){
-    this.myTariffs = myTariffs;
+  render(prices, options, station, root){
+    this.myTariffs = options.myTariffs;
+    this.showPriceDetails = options.showPriceDetails;
     const pricesForMyTariffs = prices.filter(p=>this.isMyTariff(p.tariff));
     const otherPrices = prices.filter(p=>!this.isMyTariff(p.tariff));
     const template = this.emptyPriceList(station,prices) ? this.template(pricesForMyTariffs, otherPrices) : "";

@@ -21,7 +21,7 @@
   "manageMyTariffsDescription": "Wählen unten alle Tarife aus, bei denen du registriert bist.",
   "errorStationsUnavailable": "Stationen konnten nicht geladen werden.",
   "errorPricesUnavailable": "Preise konnten nicht geladen werden. Bitte versuchen Sie die Seite neu zu laden.",
-  "totalPriceInfo": "Gesamtpreis exkl. monatliche Gebühren<br>\n* Errechnete Werte inkl. 10% Ladeverlust. Die Werte hängen in der Realität von Fahrzeug, Station, Wetter etc. ab.<br>\n** Abhängig von Tarif: Grundgebühr, Servicepauschale oder Mitgliedsbeitrag\n<br>\nLinks zu Tarifanbietern sind potenziell Affiliate-Links, wo Chargeprice pro Klick eine Provision erhält. Affiliate-Partner werden nicht höher gelistet. Die Reihenfolge hängt nur vom Preis ab. ",
+  "totalPriceInfo": "Gesamtpreis einer Ladung mit den angegebenen Parametern exkl. monatliche Gebühren<br>\n* Errechnete Werte inkl. 10% Ladeverlust. Die Werte hängen in der Realität von Fahrzeug, Station, Wetter etc. ab.<br>\n** Abhängig von Tarif: Grundgebühr, Servicepauschale oder Mitgliedsbeitrag\n<br>\nLinks zu Tarifanbietern sind potenziell Affiliate-Links, wo Chargeprice pro Klick eine Provision erhält. Affiliate-Partner werden nicht höher gelistet. Die Reihenfolge hängt nur vom Preis ab. ",
   "timeFormat": "{0}h {1}min",
   "chargeDuration": "Ladedauer",
   "chargeEnergy": "Ladeenergie",
@@ -35,6 +35,8 @@
   "onlyShowMyTariffs": "Nur meine Tarife anzeigen",
   "onlyShowMyTariffsDetail": "Es werden nur Stationen angezeigt wo mit meinen Tarifen geladen werden kann.",
   "manageMyTariffsLink": "Meine Tarife verwalten",
+  "priceDetailsLabel": "Preisdetails anzeigen",
+  "priceDetailsDetails": "durchschn. pro kWh, Abrechnung nach Zeit, kWh...",
   "ok": "Ok",
   "poiKey": "Legende",
   "chargePowerTo": "bis {0} kW",
@@ -151,5 +153,6 @@
   "routePlannerFeedbackText": "Diese Funktion ist noch im Testbetrieb! Sag uns was du davon hälst!",
   "routePlannerStart": "Start",
   "routePlannerDestination": "Ziel",
-  "routePlannerStop": "Ziel"
+  "routePlannerStop": "Ziel",
+  "stationSharingText": "Schau dir diese Ladestation auf Chargeprice an:"
 }
