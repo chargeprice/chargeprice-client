@@ -33,7 +33,7 @@ export default class RootContainer extends ViewBase {
 							<p id="auth-details-name"></p>
 							<p id="auth-details-email"></p>
 						</div>
-						<i class="fa fa-user"></i>
+						<i class="fa fa-user" @click="${() => this.onOpenUserProfile()}"></i>
 					</div>
         </div>
 
@@ -52,6 +52,7 @@ export default class RootContainer extends ViewBase {
               <div id="pricesContent" class="w3-row"></div>
               <div id="manageMyTariffsContent" class="w3-container w3-padding-16"></div>
               <div id="routeContent" class="w3-container w3-padding-16"></div>
+							<div id="userProfileContent" class="w3-container w3-padding-16"></div>
           </div>
 
           <div id="map" class="flex-item-d"></div>
@@ -97,6 +98,10 @@ export default class RootContainer extends ViewBase {
 
   onOpenInfo(){
     this.sidebar.open("info")
+  }
+
+	onOpenUserProfile(){
+    this.sidebar.open("userProfile")
   }
 
   toggleLoadingIndicator(isShown){

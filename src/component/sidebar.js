@@ -3,6 +3,7 @@ import MyVehicle from './my_vehicle';
 import StationPrices from './station_prices';
 import RoutePlanner from '../views/routePlanner';
 import ViewBase from './viewBase';
+import UserProfile from './userProfile';
 
 
 export default class Sidebar extends ViewBase {
@@ -21,6 +22,7 @@ export default class Sidebar extends ViewBase {
     this.myVehicle = new MyVehicle(this,this.depts);
     this.stationPrices = new StationPrices(this,this.depts);
     this.routePlanner = new RoutePlanner(this,this.depts);
+		this.userProfile = new UserProfile(this, this.depts);
     this.loaded = false;
     this.rootId = "sidebar";
 
@@ -49,10 +51,15 @@ export default class Sidebar extends ViewBase {
         contentId: "routeContent",
         onOpen: ()=>this.routePlanner.render()
       },
+			"userProfile": {
+				header: this.translation.get("authProfileSettingsHeader"),
+				contentId: "userProfileContent",
+				onOpen: () => this.userProfile.render(),
+			}
     };
 
     this.currentSidebarContentKey = null;
-    
+
     this.close();
     this.hideAllSidebarContent();
     this.registerEvents();
@@ -99,7 +106,7 @@ export default class Sidebar extends ViewBase {
   showStation(station){
     this.stationPrices.showStation(station);
 
-    this.open("prices");    
+    this.open("prices");
   }
 
   updateStationPrice(station,prices,options){
@@ -115,7 +122,7 @@ export default class Sidebar extends ViewBase {
   }
 
   open(contentKey) {
-    this.analytics.log('send', 'event', 'Sidebar', 'open', contentKey); 
+		this.analytics.log('send', 'event', 'Sidebar', 'open', contentKey);
 
     this.show(this.rootId)
 
