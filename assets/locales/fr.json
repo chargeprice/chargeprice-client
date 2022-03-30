@@ -177,5 +177,5 @@
   "authPasswordWrong": "Sorry, your password was incorrect. Please check your password and try again.",
   "authServiceNotAvailable": "Sorry, currently service is not available. Please try again later!",
   "authLoginUserNotFound": "User not found. Please register first.",
-	"authProfileSettingsHeader": "Profile settings"
+  "authProfileSettingsHeader": "Profile settings"
 }
