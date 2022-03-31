@@ -366,10 +366,15 @@ i.fav-icon {
 	display: flex !important;
 	flex-flow: row;
 	align-items: center;
+	height: 100%;
 }
 
 .auth-profile.hidden {
 	display: none !important;
+}
+
+.auth-profile i.fa.fa-user {
+	cursor: pointer;
 }
 
 .auth-details {
