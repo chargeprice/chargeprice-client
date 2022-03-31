@@ -31,7 +31,6 @@ export default class RootContainer extends ViewBase {
 					<div id="auth-profile" class="w3-bar-item w3-right auth-profile hidden">
 						<div class="auth-details">
 							<p id="auth-details-name"></p>
-							<p id="auth-details-email"></p>
 						</div>
 						<i class="fa fa-user" @click="${() => this.onOpenUserProfile()}"></i>
 					</div>
@@ -123,7 +122,6 @@ export default class RootContainer extends ViewBase {
 		const { username, email } = decodeToken(token);
 
 		document.getElementById('auth-details-name').innerHTML = username;
-		document.getElementById('auth-details-email').innerHTML = email;
 
 		document.getElementById('auth-options').classList.toggle('hidden');
 		document.getElementById('auth-profile').classList.toggle('hidden');

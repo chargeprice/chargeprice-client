@@ -15,20 +15,24 @@ export default class Authorization extends ViewBase {
 			username: new RegExp(/^[a-zA-Z0-9]{6,}$/),
 		};
 		this.errorMessages = {
-			email: '<p class="w3-text-red">Email not valid!</p>',
-			username: '<p class="w3-text-red">Username should consists only from letters and numbers and must be at least 6 characters long!</p>',
-			serviceUnavailable: '<p class="w3-text-red">Sorry, currently service is not available. Please try again later!</p>',
-			passwordNotValid: '<p class="w3-text-red">Password must be at least 8-16 characters long and should contain at least one number, lowercase and uppercase letters only</p>',
-		}
+			email: `<p class="w3-text-red">${this.t("authEmailValidationError")}</p>`,
+			username: `<p class="w3-text-red">${this.t("authUsernameValidationError")}</p>`,
+			serviceUnavailable: `<p class="w3-text-red">${this.t("authServiceNotAvailable")}</p>`,
+			passwordNotValid: `<p class="w3-text-red">${this.t("authPasswordValidationError")}</p>`,
+		};
 	}
 
 	loginTemplate() {
 		return html`
 			<div class="w3-modal-content w3-card-4 w3-animate-top">
 				<div class="w3-row w3-bar pc-secondary">
-					<button @click="${()=>this.onCloseModal()}" class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close">
-						<img class="inverted" class="w3-button " src="img/close.svg">
+					<button
+						@click="${() => this.onCloseModal()}"
+						class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close"
+					>
+						<img class="inverted" class="w3-button " src="img/close.svg" />
 					</button>
+					<div class="w3-rest w3-large popup-header">${this.t("authModalHeader")}</div>
 				</div>
 				<div class="w3-container auth-modal-container">
 					<div class="w3-section">
@@ -38,24 +42,24 @@ export default class Authorization extends ViewBase {
 								class="w3-bar-item w3-button w3-hover-none w3-border-white w3-bottombar w3-hover-border-blue w3-hover-text-blue w3-blue"
 								@click="${() => this.onTabChange("sign_in")}"
 							>
-								Sign In
+								${this.t("authLogInTabLabel")}
 							</button>
 							<button
 								id="sign_up_button"
 								class="w3-bar-item w3-button w3-hover-none w3-border-white w3-bottombar w3-hover-border-blue w3-hover-text-blue"
 								@click="${() => this.onTabChange("sign_up")}"
 							>
-								Sign Up
+								${this.t("authSignUpTabLabel")}
 							</button>
 						</div>
 
 						<form id="sign_in">
 							<div>
-								<label>Email:</label>
+								<label>${this.t("authLabelEmail")}:</label>
 								<input type="text" name="sign_in_email" class="w3-input w3-border w3-margin-bottom" />
 							</div>
 							<div>
-								<label>Password:</label>
+								<label>${this.t("authLabelPassword")}:</label>
 								<input type="password" name="sign_in_password" class="w3-input w3-border w3-margin-bottom" />
 							</div>
 							<button
@@ -64,21 +68,21 @@ export default class Authorization extends ViewBase {
 								disabled
 								@click="${(event) => this.onLogin(event)}"
 							>
-								<i class="fa fa-refresh fa-spin"></i>Login
+								<i class="fa fa-refresh fa-spin"></i>${this.t("authLogInBtnText")}
 							</button>
 						</form>
 
 						<form id="sign_up" style="display:none" @submit="return false;">
 							<div>
-								<label>Email:</label>
+								<label>${this.t("authLabelEmail")}:</label>
 								<input type="text" name="sign_up_email" class="w3-input w3-border w3-margin-bottom" />
 							</div>
 							<div>
-								<label>Password:</label>
+								<label>${this.t("authLabelPassword")}:</label>
 								<input type="password" name="sign_up_password" class="w3-input w3-border w3-margin-bottom" />
 							</div>
 							<div>
-								<label>Username:</label>
+								<label>${this.t("authLabelUsername")}:</label>
 
 								<input type="text" name="sign_up_username" class="w3-input w3-border w3-margin-bottom" />
 							</div>
@@ -88,13 +92,18 @@ export default class Authorization extends ViewBase {
 								disabled
 								@click="${(event) => this.onRegister(event)}"
 							>
-								<i class="fa fa-refresh fa-spin"></i>Register
+								<i class="fa fa-refresh fa-spin"></i>${this.t("authSignUpBtnText")}
 							</button>
 						</form>
 
 						<div id="error-list"></div>
 
-						<span class="w3-right w3-padding w3-hide-small">Forgot <a @click="${() => this.onResetPasswordRequest()}" style="cursor: pointer;">password?</a></span>
+						<span
+							class="w3-right w3-padding w3-hide-small"
+							style="cursor: pointer;"
+							@click="${() => this.onResetPasswordRequest()}"
+							>${this.t("authForgotPasswordLink")}</span
+						>
 					</div>
 				</div>
 			</div>
@@ -105,18 +114,21 @@ export default class Authorization extends ViewBase {
 		return html`
 			<div class="w3-modal-content w3-card-4 w3-animate-top">
 				<div class="w3-row w3-bar pc-secondary">
-					<button @click="${()=>this.onCloseModal()}" class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close">
-						<img class="inverted" class="w3-button " src="img/close.svg">
+					<button
+						@click="${() => this.onCloseModal()}"
+						class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close"
+					>
+						<img class="inverted" class="w3-button " src="img/close.svg" />
 					</button>
 				</div>
 				<div class="w3-container auth-modal-container">
 					<div class="w3-section">
 						<div class="w3-bar w3-margin-bottom">
 							<i class="fa fa-lock"></i>
-							<b>Trouble Logging In?</b>
+							<b>${this.t("authForgotPasswordModalHeader")}</b>
 						</div>
 						<form id="reset_password">
-							<label>Enter your email and we'll send you a link to get back into your account.</label>
+							<label>${this.t("authLabelForgotPassword")}</label>
 							<input type="text" name="reset_password_email" class="w3-input w3-border w3-margin-bottom" />
 							<button
 								class="w3-button w3-block w3-blue w3-section w3-padding"
@@ -124,7 +136,7 @@ export default class Authorization extends ViewBase {
 								disabled
 								@click="${(event) => this.onPasswordReset(event)}"
 							>
-								<i class="fa fa-refresh fa-spin"></i>Send link
+								<i class="fa fa-refresh fa-spin"></i>${this.t("authForgotPasswordBtnText")}
 							</button>
 
 							<div id="error-list"></div>
@@ -139,13 +151,15 @@ export default class Authorization extends ViewBase {
 		return html`
 			<div class="w3-modal-content w3-card-4 w3-animate-top">
 				<div class="w3-row w3-bar pc-secondary">
-					<button @click="${()=>this.onCloseModal()}" class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close">
-						<img class="inverted" class="w3-button " src="img/close.svg">
+					<button
+						@click="${() => this.onCloseModal()}"
+						class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close"
+					>
+						<img class="inverted" class="w3-button" src="img/close.svg" />
 					</button>
 				</div>
 				<div class="w3-container">
-					<div class="w3-section">
-					</div>
+					<div class="w3-section">${this.t("authSignUpSuccessfulText")}</div>
 				</div>
 			</div>
 		`;
@@ -155,13 +169,16 @@ export default class Authorization extends ViewBase {
 		return html`
 			<div class="w3-modal-content w3-card-4 w3-animate-top">
 				<div class="w3-row w3-bar pc-secondary">
-					<button @click="${()=>this.onCloseModal()}" class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close">
-						<img class="inverted" class="w3-button " src="img/close.svg">
+					<button
+						@click="${() => this.onCloseModal()}"
+						class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close"
+					>
+						<img class="inverted" class="w3-button " src="img/close.svg" />
 					</button>
 				</div>
 				<div class="w3-container">
 					<div class="w3-section">
-						<label><b>Check your email please! Link with password reset instructions was sent to your email!</b></label>
+						<label>${this.t("authForgotPasswordSuccessfulText")}</label>
 					</div>
 				</div>
 			</div>
@@ -169,64 +186,66 @@ export default class Authorization extends ViewBase {
 	}
 
 	render() {
-		render(this.loginTemplate(), document.getElementById(this.root));
+		render(this.loginTemplate(), this.getEl(this.root));
 		this.getEl(this.root).style.display = "block";
 
-		document.getElementById('sign_in').addEventListener('change', (event) => this.validateLoginForm(event));
-		document.getElementById('sign_up').addEventListener('change', (event) => this.validateRegistrationForm(event));
+		this.getEl("sign_in").addEventListener("keyup", (event) => this.validateLoginForm(event));
+		this.getEl("sign_up").addEventListener("keyup", (event) => this.validateRegistrationForm(event));
 
-		document.getElementById('sign_in').addEventListener('submit', (event) => event.preventDefault());
-		document.getElementById('sign_up').addEventListener('submit', (event) => event.preventDefault());
+		this.getEl("sign_in").addEventListener("submit", (event) => event.preventDefault());
+		this.getEl("sign_up").addEventListener("submit", (event) => event.preventDefault());
 	}
 
 	onResetPasswordRequest() {
-		render(this.resetPasswordTemplate(), document.getElementById(this.root));
+		render(this.resetPasswordTemplate(), this.getEl(this.root));
 
-		document.getElementById('reset_password').addEventListener('change', (event) => this.validateResetPasswordForm(event));
-		document.getElementById('reset_password').addEventListener('submit', (event) => event.preventDefault());
+		document
+			.getElementById("reset_password")
+			.addEventListener("keyup", (event) => this.validateResetPasswordForm(event));
+		this.getEl("reset_password").addEventListener("submit", (event) => event.preventDefault());
 	}
 
 	onTabChange(type) {
-		const signIn = document.getElementById("sign_in");
-		const signUp = document.getElementById("sign_up");
+		const signIn = this.getEl("sign_in");
+		const signUp = this.getEl("sign_up");
 
-		const errorsContainer = document.getElementById("error-list");
+		const errorsContainer = this.getEl("error-list");
 		errorsContainer.innerHTML = "";
 
 		if (type === "sign_in" && signIn.style.display === "none") {
-			document.getElementById("sign_in").style.display = "block";
-			document.getElementById("sign_up").style.display = "none";
-			document.getElementById("sign_in_button").classList.toggle("w3-blue");
-			document.getElementById("sign_up_button").classList.toggle("w3-blue");
+			this.getEl("sign_in").style.display = "block";
+			this.getEl("sign_up").style.display = "none";
+			this.getEl("sign_in_button").classList.toggle("w3-blue");
+			this.getEl("sign_up_button").classList.toggle("w3-blue");
 		}
 
 		if (type === "sign_up" && signUp.style.display === "none") {
-			document.getElementById("sign_in").style.display = "none";
-			document.getElementById("sign_up").style.display = "block";
-			document.getElementById("sign_in_button").classList.toggle("w3-blue");
-			document.getElementById("sign_up_button").classList.toggle("w3-blue");
+			this.getEl("sign_in").style.display = "none";
+			this.getEl("sign_up").style.display = "block";
+			this.getEl("sign_in_button").classList.toggle("w3-blue");
+			this.getEl("sign_up_button").classList.toggle("w3-blue");
 		}
 	}
 
 	async onLogin(event) {
 		const loginBtn = event.target;
 
-		const errorsContainer = document.getElementById("error-list");
+		const errorsContainer = this.getEl("error-list");
 		const formData = {
 			email: document.getElementsByName("sign_in_email")[0].value,
 			password: document.getElementsByName("sign_in_password")[0].value,
 		};
 
 		// Toggle button loading state
-		loginBtn.classList.toggle('loading');
+		loginBtn.classList.toggle("loading");
 
 		let result = null;
 
 		try {
 			result = await this.authService.signIn(formData);
-			loginBtn.classList.toggle('loading');
+			loginBtn.classList.toggle("loading");
 		} catch (error) {
-			loginBtn.classList.toggle('loading');
+			loginBtn.classList.toggle("loading");
 			errorsContainer.innerHTML = this.errorMessages.serviceUnavailable;
 			return;
 		}
@@ -247,14 +266,14 @@ export default class Authorization extends ViewBase {
 				}
 
 				if (error.status && error.status === 401) {
-					errorsContainer.innerHTML = `<p class="w3-text-red">Sorry, your password was incorrect. Please check your password and try again.</p>`;
+					errorsContainer.innerHTML = `<p class="w3-text-red">${this.t('authPasswordWrong')}</p>`;
 
 					if (error.message === "no_user_found") {
-						errorsContainer.innerHTML = `<p class="w3-text-red">User not found. Please register first.</p>`;
+						errorsContainer.innerHTML = `<p class="w3-text-red">${this.t('authLoginUserNotFound')}</p>`;
 					}
 
 					if (error.message === "email_unconfirmed") {
-						errorsContainer.innerHTML = `<p class="w3-text-red">Email not verified. Check your email box please, you should verify your email first!</p>`;
+						errorsContainer.innerHTML = `<p class="w3-text-red">${this.t('authEmailNotVerified')}</p>`;
 					}
 				}
 			}
@@ -265,24 +284,24 @@ export default class Authorization extends ViewBase {
 
 	async onRegister(event) {
 		const registerBtn = event.target;
-		const errorsContainer = document.getElementById("error-list");
+		const errorsContainer = this.getEl("error-list");
 		const formData = {
-			email: document.getElementsByName("sign_up_email")[0].value,
+			email: this.getEl("sign_up_email")[0].value,
 			password: document.getElementsByName("sign_up_password")[0].value,
 			username: document.getElementsByName("sign_up_username")[0].value,
 		};
 
 		// Toggle button loading state
-		registerBtn.classList.toggle('loading');
+		registerBtn.classList.toggle("loading");
 
 		let result = null;
 
 		try {
 			result = await this.authService.signUp(formData);
-			registerBtn.classList.toggle('loading');
+			registerBtn.classList.toggle("loading");
 		} catch (error) {
-			registerBtn.classList.toggle('loading');
-			errorsContainer.innerHTML = this.errorMessages.serviceUnavailable;;
+			registerBtn.classList.toggle("loading");
+			errorsContainer.innerHTML = this.errorMessages.serviceUnavailable;
 			return;
 		}
 
@@ -297,24 +316,24 @@ export default class Authorization extends ViewBase {
 			return;
 		}
 
-		this.getEl(this.root).style.display = "none";
+		render(this.successfulRegistrationTemplate(), this.getEl(this.root));
 	}
 
 	async onPasswordReset(event) {
 		const pwdResetBtn = event.target;
-		const errorsContainer = document.getElementById("error-list");
-		const email = document.getElementsByName('reset_password_email')[0].value;
+		const errorsContainer = this.getEl("error-list");
+		const email = document.getElementsByName("reset_password_email")[0].value;
 
-		pwdResetBtn.classList.toggle('loading');
+		pwdResetBtn.classList.toggle("loading");
 
 		if (email) {
 			let result = null;
 
 			try {
 				result = await this.authService.requestPasswordChange({ email });
-				pwdResetBtn.classList.toggle('loading');
+				pwdResetBtn.classList.toggle("loading");
 			} catch (error) {
-				pwdResetBtn.classList.toggle('loading');
+				pwdResetBtn.classList.toggle("loading");
 				errorsContainer.innerHTML = this.errorMessages.serviceUnavailable;
 				return;
 			}
@@ -328,10 +347,9 @@ export default class Authorization extends ViewBase {
 			}
 
 			if (result == null) {
-				render(this.successfulResetPasswordTemplate(), document.getElementById(this.root));
+				render(this.successfulResetPasswordTemplate(), this.getEl(this.root));
 			}
 		}
-
 	}
 
 	saveAuthResult(data) {
@@ -350,9 +368,9 @@ export default class Authorization extends ViewBase {
 	}
 
 	validateLoginForm(event) {
-		const errorsContainer = document.getElementById("error-list");
-		const form = event.target.closest('form');
-		const submitBtn = form.querySelector('button[type="submit"]')
+		const errorsContainer = this.getEl("error-list");
+		const form = event.target.closest("form");
+		const submitBtn = form.querySelector('button[type="submit"]');
 
 		const inputEmail = form.querySelector('input[name="sign_in_email"]');
 		const inputPassword = form.querySelector('input[name="sign_in_password"]');
@@ -364,19 +382,19 @@ export default class Authorization extends ViewBase {
 		submitBtn.disabled = true;
 
 		if (!isEmailValid) {
-			!inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+			!inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
 			errorsContainer.innerHTML = this.errorMessages.email;
 			return;
 		} else {
-			inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+			inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
 		}
 
 		if (!isPasswordValid) {
-			!inputPassword.classList.contains('error') && inputPassword.classList.toggle('error');
+			!inputPassword.classList.contains("error") && inputPassword.classList.toggle("error");
 			errorsContainer.innerHTML = this.errorMessages.passwordNotValid;
 			return;
 		} else {
-			inputPassword.classList.contains('error') && inputPassword.classList.toggle('error');
+			inputPassword.classList.contains("error") && inputPassword.classList.toggle("error");
 		}
 
 		if (isEmailValid && isPasswordValid) {
@@ -384,9 +402,9 @@ export default class Authorization extends ViewBase {
 		}
 	}
 	validateRegistrationForm(event) {
-		const errorsContainer = document.getElementById("error-list");
-		const form = event.target.closest('form');
-		const submitBtn = form.querySelector('button[type="submit"]')
+		const errorsContainer = this.getEl("error-list");
+		const form = event.target.closest("form");
+		const submitBtn = form.querySelector('button[type="submit"]');
 
 		const inputEmail = form.querySelector('input[name="sign_up_email"]');
 		const inputPassword = form.querySelector('input[name="sign_up_password"]');
@@ -400,27 +418,27 @@ export default class Authorization extends ViewBase {
 		submitBtn.disabled = true;
 
 		if (!isEmailValid) {
-			!inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+			!inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
 			errorsContainer.innerHTML = this.errorMessages.email;
 			return;
 		} else {
-			inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+			inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
 		}
 
 		if (!isPasswordValid) {
-			!inputPassword.classList.contains('error') && inputPassword.classList.toggle('error');
+			!inputPassword.classList.contains("error") && inputPassword.classList.toggle("error");
 			errorsContainer.innerHTML = this.errorMessages.passwordNotValid;
 			return;
 		} else {
-			inputPassword.classList.contains('error') && inputPassword.classList.toggle('error');
+			inputPassword.classList.contains("error") && inputPassword.classList.toggle("error");
 		}
 
 		if (!isUsernameValid) {
-			!inputUsername.classList.contains('error') && inputUsername.classList.toggle('error');
+			!inputUsername.classList.contains("error") && inputUsername.classList.toggle("error");
 			errorsContainer.innerHTML = this.errorMessages.username;
 			return;
 		} else {
-			inputUsername.classList.contains('error') && inputUsername.classList.toggle('error');
+			inputUsername.classList.contains("error") && inputUsername.classList.toggle("error");
 		}
 
 		if (isEmailValid && isPasswordValid && isUsernameValid) {
@@ -428,9 +446,9 @@ export default class Authorization extends ViewBase {
 		}
 	}
 	validateResetPasswordForm(event) {
-		const errorsContainer = document.getElementById("error-list");
-		const form = event.target.closest('form');
-		const submitBtn = form.querySelector('button[type="submit"]')
+		const errorsContainer = this.getEl("error-list");
+		const form = event.target.closest("form");
+		const submitBtn = form.querySelector('button[type="submit"]');
 
 		const inputEmail = form.querySelector('input[name="reset_password_email"]');
 		const isEmailValid = this.validation.email.exec(inputEmail.value);
@@ -439,11 +457,11 @@ export default class Authorization extends ViewBase {
 		submitBtn.disabled = true;
 
 		if (!isEmailValid) {
-			!inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+			!inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
 			errorsContainer.innerHTML = this.errorMessages.email;
 			return;
 		} else {
-			inputEmail.classList.contains('error') && inputEmail.classList.toggle('error');
+			inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
 		}
 
 		if (isEmailValid) {
