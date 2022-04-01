@@ -199,8 +199,7 @@ export default class Authorization extends ViewBase {
 	onResetPasswordRequest() {
 		render(this.resetPasswordTemplate(), this.getEl(this.root));
 
-		document
-			.getElementById("reset_password")
+		this.getEl("reset_password")
 			.addEventListener("keyup", (event) => this.validateResetPasswordForm(event));
 		this.getEl("reset_password").addEventListener("submit", (event) => event.preventDefault());
 	}
@@ -286,7 +285,7 @@ export default class Authorization extends ViewBase {
 		const registerBtn = event.target;
 		const errorsContainer = this.getEl("error-list");
 		const formData = {
-			email: this.getEl("sign_up_email")[0].value,
+			email: document.getElementsByName("sign_up_email")[0].value,
 			password: document.getElementsByName("sign_up_password")[0].value,
 			username: document.getElementsByName("sign_up_username")[0].value,
 		};
