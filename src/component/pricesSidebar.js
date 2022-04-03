@@ -1,6 +1,11 @@
 import { html, render } from 'lit-html';
 import ViewBase from './viewBase';
 export default class PricesSidebar extends ViewBase {
+  constructor(depts) {
+    super(depts);
+    this.analytics = depts.analytics();
+  }
+
   template(){
     return html`
       <div class="w3-container w3-margin-top">
@@ -18,11 +23,21 @@ export default class PricesSidebar extends ViewBase {
 
       <div id="prices"></div> 
       <div id="priceFeedback" class="w3-margin-top w3-container w3-margin-bottom"></div>
+      
+      <div @click="${()=>this.openProLink()}" class="w3-margin-top w3-container pc-main cp-clickable w3-padding" style="padding-bottom: 12px !important">
+        <i class="fa fa-plus-circle "></i> <span>${this.t("infoProHeader")}</span>
+        <span class="w3-small w3-block">${this.t("infoProSub")}</span>
+      </div>
     `;
   }
 
   render(){
     render(this.template(),document.getElementById("pricesContent"));
+  }
+
+  openProLink(){
+    this.analytics.log('send', 'event', 'PriceList','pro');
+    window.open("https://www.chargeprice.net")
   }
 }
 

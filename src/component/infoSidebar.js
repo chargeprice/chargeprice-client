@@ -24,6 +24,13 @@ export default class InfoSidebar extends ViewBase {
         action: ()=> new ModalInstallApp(this.depts).show()
       },
       {
+        id: "pro",
+        title: this.t("infoProHeader"),
+        subTitle: this.t("infoProSub"),
+        icon: "plus-circle",
+        action: ()=>window.open("https://www.chargeprice.net")
+      },
+      {
         id: "map_legend",
         title: this.t("poiKey"),
         icon: "map",
