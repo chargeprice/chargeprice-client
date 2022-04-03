@@ -1,5 +1,7 @@
 var dayjs = require('dayjs');
 import {unsafeHTML} from 'lit-html/directives/unsafe-html.js';
+import FetchValidAccessToken from '../useCase/fetchValidAccessToken';
+
 export default class ViewBase {
 
   constructor(depts) {
@@ -48,6 +50,15 @@ export default class ViewBase {
 
   toggle(id, isShown){
     isShown ? this.show(id) : this.hide(id);
+  }
+
+  async loggedIn(){
+    try {
+      await new FetchValidAccessToken(this.depts).run();
+      return true;
+		} catch (error) {
+      return false;
+    }
   }
 
   h(){

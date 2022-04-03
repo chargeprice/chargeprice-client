@@ -1,10 +1,12 @@
 import { html, render } from 'lit';
 import ViewBase from '../component/viewBase';
 import GenericList from '../modal/genericList';
+import Authorization from '../component/authorization';
 
 export default class SettingsSidebar extends ViewBase {
   constructor(depts) {
     super(depts);
+    this.depts = depts;
     this.settingsPrimitive = depts.settingsPrimitive();
     this.customConfig = depts.customConfig();
     this.currency = depts.currency();
@@ -148,7 +150,7 @@ export default class SettingsSidebar extends ViewBase {
   }
 
   onShowMyTariffs(){
-    this.sidebar.open("manageMyTariffs");
+    this.sidebar.showMyTariffs();
   }
 
   onOk(){

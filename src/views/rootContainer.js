@@ -1,13 +1,16 @@
 import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
+import Authorization from '../component/authorization';
 
-import { decodeToken } from '../helper/authorization';
+import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile';
 
 export default class RootContainer extends ViewBase {
 
   constructor(depts){
     super(depts);
     this.customConfig = depts.customConfig();
+    this.settingsRepo = depts.settingsPrimitive();
+    this.profile = null;
   }
 
   template(){
@@ -24,16 +27,7 @@ export default class RootContainer extends ViewBase {
             </div>
           </div>
 
-          <span id="auth-options" class="w3-bar-item w3-button w3-right auth-options" style="display: flex; padding: 8px;">
-            <i class="fa fa-sign-in-alt" @click="${()=>this.onTriggerAuthModal()}"></i>
-          </span>
-
-					<div id="auth-profile" class="w3-bar-item w3-right auth-profile hidden">
-						<div class="auth-details">
-							<p id="auth-details-name"></p>
-						</div>
-						<i class="fa fa-user" @click="${() => this.onOpenUserProfile()}"></i>
-					</div>
+          ${this.accountTemplate()}
         </div>
 
         <div class="flex-item-d flex-container  w3-light-gray" style="height: auto">
@@ -68,23 +62,39 @@ export default class RootContainer extends ViewBase {
     `;
   }
 
-  render(){
+  accountTemplate(){
+    if(!this.profile) return html`
+      <span @click="${()=>this.onTriggerAuthModal()}" class="w3-bar-item w3-button w3-right auth-options" style="display: flex; padding: 8px;">
+        <i class="fa fa-sign-in-alt"></i>
+      </span>
+    `;
+    return html`
+      <div class="w3-bar-item w3-right auth-profile cp-clickable" @click="${() => this.onOpenUserProfile()}">
+        <div class="auth-details">
+          <p>${this.profile.username}</p>
+        </div>
+        <i class="fa fa-user"></i>
+      </div>
+    `;
+  }
+
+  async render(){
+    await this.loadProfile();
     render(this.template(),document.getElementById("rootContainer"));
+  }
 
-		const token = localStorage.getItem("chrprice_access");
-
-		if (token) {
-			this.onSuccessfulLoginCallback(token);
-		}
+  async loadProfile(){
+    try {
+      const tokenWithProfile = await new FetchAccessTokenWithProfile(this.depts).run();
+      this.profile = tokenWithProfile.profile;
+    }
+    catch(error){
+      // Not logged in
+    }
   }
 
   inject(sidebar){
     this.sidebar=sidebar;
-  }
-
-  injectAuthorization(auth) {
-    this.auth = auth;
-		this.auth.onAuthorize = this.onSuccessfulLoginCallback;
   }
 
   onCloseSidebar(){
@@ -115,16 +125,7 @@ export default class RootContainer extends ViewBase {
   }
 
   onTriggerAuthModal() {
-    this.auth.render();
+    new Authorization(this.depts).render();
   }
-
-	onSuccessfulLoginCallback(token) {
-		const { username, email } = decodeToken(token);
-
-		document.getElementById('auth-details-name').innerHTML = username;
-
-		document.getElementById('auth-options').classList.toggle('hidden');
-		document.getElementById('auth-profile').classList.toggle('hidden');
-	}
 }
 

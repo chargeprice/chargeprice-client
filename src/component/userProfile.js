@@ -2,14 +2,15 @@ import { html, render } from "lit-html";
 
 import ViewBase from "./viewBase";
 
-import { decodeToken } from "../helper/authorization";
 import AuthService from "../repository/authorizationService";
+import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile'
 
 export default class UserProfile extends ViewBase {
 	constructor(sidebar, depts) {
 		super(depts);
 		this.sidebar = sidebar;
 		this.depts = depts;
+		this.settingsRepo = depts.settingsPrimitive();
 		this.authService = new AuthService();
 		this.messageDialogId = "messageDialog";
 		this.profile = {};
@@ -25,7 +26,7 @@ export default class UserProfile extends ViewBase {
 				<p><b>${this.t("authLabelEmail")}:</b> ${this.profile.email}</p>
 			</div>
 			<div class="w3-container w3-center">
-				<label id="reset-link" @click="${(event) => this.onSendPasswordResetLink(event)}" class="link-text">
+				<label id="reset-link" @click="${() => this.onSendPasswordResetLink()}" class="link-text">
 					${this.t("authForgotPasswordLink")}
 				</label>
 				<br />
@@ -36,20 +37,10 @@ export default class UserProfile extends ViewBase {
 		`;
 	}
 
-	getProfile() {
-		return this.profile;
-	}
-
-	getProfileInfo() {
+	async loadProfileInfo() {
 		try {
-			// TODO: Should be moved to authentication helper class
-			const token = localStorage.getItem("chrprice_access");
-			const { username, email } = decodeToken(token);
-
-			this.profile = {
-				username,
-				email,
-			};
+			const tokenWithProfile = await new FetchAccessTokenWithProfile(this.depts).run();
+			this.profile = tokenWithProfile.profile;
 		} catch (error) {
 			// TODO: Handle error here
 		}
@@ -73,12 +64,9 @@ export default class UserProfile extends ViewBase {
 		`;
 	}
 
-	async onSendPasswordResetLink(event) {
+	async onSendPasswordResetLink() {
 		try {
-			// TODO: Should be moved to authentication helper class
-			const token = localStorage.getItem("chrprice_access");
-			const { email } = decodeToken(token);
-			const result = await this.authService.requestPasswordChange({ email });
+			await this.authService.requestPasswordChange({ email: this.profile.email });
 
 			render(this.successfulRegistrationTemplate(), this.getEl(this.messageDialogId));
 			this.show(this.messageDialogId);
@@ -97,16 +85,13 @@ export default class UserProfile extends ViewBase {
 	}
 
 	onLogout() {
-		localStorage.removeItem("chrprice_access");
-		localStorage.removeItem("chrprice_refresh");
+		this.settingsRepo.authTokens().clear();
 
-		this.hide("sidebar");
-		this.getEl("auth-options").classList.toggle("hidden");
-		this.getEl("auth-profile").classList.toggle("hidden");
+		location.reload(true);
 	}
 
-	render() {
-		this.getProfileInfo();
+	async render() {
+		await this.loadProfileInfo();
 		render(this.template(), this.getEl("userProfileContent"));
 	}
 }
