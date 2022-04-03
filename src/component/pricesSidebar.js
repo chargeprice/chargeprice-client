@@ -4,6 +4,7 @@ export default class PricesSidebar extends ViewBase {
   constructor(depts) {
     super(depts);
     this.analytics = depts.analytics();
+    this.themeLoader = depts.themeLoader();
   }
 
   template(){
@@ -24,10 +25,12 @@ export default class PricesSidebar extends ViewBase {
       <div id="prices"></div> 
       <div id="priceFeedback" class="w3-margin-top w3-container w3-margin-bottom"></div>
       
-      <div @click="${()=>this.openProLink()}" class="w3-margin-top w3-container pc-main cp-clickable w3-padding" style="padding-bottom: 12px !important">
-        <i class="fa fa-plus-circle "></i> <span>${this.t("infoProHeader")}</span>
-        <span class="w3-small w3-block">${this.t("infoProSub")}</span>
-      </div>
+      ${this.themeLoader.isDefaultTheme() ? html`
+        <div @click="${()=>this.openProLink()}" class="w3-margin-top w3-container pc-main cp-clickable w3-padding" style="padding-bottom: 12px !important">
+          <i class="fa fa-plus-circle "></i> <span>${this.t("infoProHeader")}</span>
+          <span class="w3-small w3-block">${this.t("infoProSub")}</span>
+        </div>
+      `:""}
     `;
   }
 
