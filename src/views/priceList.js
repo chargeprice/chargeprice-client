@@ -1,4 +1,5 @@
 import { html, render } from 'lit-html';
+import {join} from 'lit/directives/join.js';
 import ViewBase from '../component/viewBase';
 export default class PriceListView extends ViewBase {
   constructor(depts,sidebar) {
@@ -8,38 +9,58 @@ export default class PriceListView extends ViewBase {
     this.sidebar = sidebar;
   }
 
-  template(pricesForMyTariffs, otherPrices){
+  template(){
+    let sections = [];
+    const prices = this.groupedPrices;
+
+    if(this.showAllPrices) {
+      sections = [
+        this.priceSectionTemplate(
+          ()=>html`<i class="fa fa-star fav-icon"></i> <a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("myTariffs")} <i class="fa fa-pencil"></a>`, 
+          prices.myPrices),
+        this.priceSectionTemplate(()=>prices.myPrices.length > 0 ? this.t("otherTariffs") : this.t("tariff"), 
+        prices.allOtherPrices)
+      ]
+    }
+    else {
+      sections = [
+        this.priceSectionTemplate(
+          ()=>html`<i class="fa fa-star fav-icon"></i> <a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">Top 3 prices of my tariffs <i class="fa fa-pencil"></a>`, 
+          prices.bestMyPrices),
+        this.priceSectionTemplate(()=>"Top 3 prices without monthly fee", prices.withoutMonthlyFees),
+        this.priceSectionTemplate(()=>"Top 3 prices with monthly fee", prices.withMonthlyFees),
+        this.priceSectionTemplate(()=>"Promoted Tariffs",prices.recommended)
+      ]
+    }
+
     return html`
-      ${pricesForMyTariffs.length > 0 ? 
-      html`<table class="w3-table w3-striped w3-margin-top">
-        <tr>
-          <th width="60%"><i class="fa fa-star fav-icon"></i> <a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("myTariffs")} <i class="fa fa-pencil"></a></th>
-          <th class="w3-right cp-price-right">${this.currency.getDisplayedCurrency()}</th>
-        </tr>
-        <tbody>
-          ${this.rowsTemplate(pricesForMyTariffs)}
-        </tbody>
-      </table>
-      `:""}
+      ${sections}
 
-        ${pricesForMyTariffs.length > 0 && otherPrices.length > 0 ? html`
-          <hr/>
-        `:""}
+      ${prices.morePricesCount > 0 ? html`
+      <div class="w3-margin-top w3-container">
+        <button @click="${()=>this.onToggleShowAllPrices()}" class="w3-button pc-main">
+          ${this.showAllPrices ? "Back to top prices" : `View all more prices`}
+        </button>
+      </div>`:""}
 
-      ${otherPrices.length > 0 ? 
-        html`<table class="w3-table w3-striped w3-margin-top">
-          <tr>
-            <th width="60%">${pricesForMyTariffs.length > 0 ? this.t("otherTariffs") : this.t("tariff")}</th>
-            <th class="w3-right cp-price-right">${this.currency.getDisplayedCurrency()}</th>
-          </tr>
-          <tbody>
-            ${this.rowsTemplate(otherPrices)}
-          </tbody>
-        </table>
-        `:""}
       <div class="w3-margin-top w3-small w3-container">
         ${this.ut("totalPriceInfo")}
       </div>
+    `;
+  }
+
+  priceSectionTemplate(header, prices){
+    if(prices.length==0) return "";
+
+    return html`<table class="w3-table w3-striped w3-margin-top">
+      <tr>
+        <th width="60%">${header()}</th>
+        <th class="w3-right cp-price-right">${this.currency.getDisplayedCurrency()}</th>
+      </tr>
+      <tbody>
+        ${this.rowsTemplate(prices)}
+      </tbody>
+    </table>
     `;
   }
 
@@ -155,11 +176,56 @@ export default class PriceListView extends ViewBase {
 
   render(prices, options, station, root){
     this.myTariffs = options.myTariffs;
+    this.station = station;
+    this.root = root;
     this.showPriceDetails = options.showPriceDetails;
-    const pricesForMyTariffs = prices.filter(p=>this.isMyTariff(p.tariff));
+    this.showAllPrices = false;
+    this.groupedPrices = this.groupIntoSections(prices);
+    this.rerender();
+  }
+
+  rerender(){
+    render(this.isPriceListEmpty() ? this.template() : "",this.getEl(this.root));
+  }
+
+  groupIntoSections(prices){
+    const myPrices = prices.filter(p=>this.isMyTariff(p.tariff));
     const otherPrices = prices.filter(p=>!this.isMyTariff(p.tariff));
-    const template = this.emptyPriceList(station,prices) ? this.template(pricesForMyTariffs, otherPrices) : "";
-    render(template,this.getEl(root));
+    
+    const pricePerSection = 3;
+    const withMonthlyFees = []
+    const withoutMonthlyFees = []
+    const recommended = []
+
+    otherPrices.forEach(price=>{
+      const hasMonthlyFee = price.tariff.totalMonthlyFee > 0 || price.tariff.monthlyMinSales;
+      if(withMonthlyFees.length < pricePerSection && hasMonthlyFee){
+        withMonthlyFees.push(price);
+      }
+      else if(withoutMonthlyFees.length < pricePerSection && !hasMonthlyFee){
+        withoutMonthlyFees.push(price);
+      }
+      else if(price.tariff.branding) recommended.push(price);
+    });
+
+    const bestMyPrices = myPrices.slice(0,3);
+
+    return {
+      allPrices: prices,
+      myPrices: myPrices,
+      bestMyPrices: bestMyPrices,
+      allOtherPrices: otherPrices,
+      withoutMonthlyFees: withoutMonthlyFees,
+      withMonthlyFees: withMonthlyFees,
+      recommended: recommended,
+      morePricesCount: prices.length - (bestMyPrices.length + withoutMonthlyFees.length + withMonthlyFees.length)
+    }
+  }
+
+  onToggleShowAllPrices(){
+    this.showAllPrices = !this.showAllPrices;
+    this.analytics.log('send', 'event', 'PriceList', this.showAllPrices ? "showAllPrices" : "hideAllPrices");
+    this.rerender();
   }
 
   onManageMyTariffs(){
@@ -175,8 +241,9 @@ export default class PriceListView extends ViewBase {
     this.analytics.log('send', 'event', 'TagLink', tag.url);
   }
 
-  emptyPriceList(station, prices){
-    return !station.isFreeCharging && prices.length > 0 || prices.length > 0;
+  isPriceListEmpty(){
+    const pricesAvailable = this.groupedPrices.allPrices.length > 0;
+    return !this.station.isFreeCharging && pricesAvailable || pricesAvailable;
   }
 
   isMyTariff(tariff){
