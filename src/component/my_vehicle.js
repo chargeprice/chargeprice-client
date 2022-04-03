@@ -1,6 +1,8 @@
 import StationTariffs from '../repository/station_tariffs.js';
 import VehicleSelection from '../modal/vehicleSelection';
 import { html, render } from 'lit-html';
+import UpdateUserSettings from '../useCase/updateUserSettings';
+import FetchUserSettingsOrCreateFromLocal from '../useCase/fetchUserSettingsOrCreateFromLocal.js';
 
 export default class MyVehicle {
   constructor(sidebar,depts) {
@@ -22,12 +24,8 @@ export default class MyVehicle {
 
   async initVehicles(){
     this.allVehicles = (await new StationTariffs(this.depts).getAllVehicles()).data;
-
-    let vehicleId = this.defaultVehicleId;
-
-    if(localStorage.getItem("myVehicle")){
-      vehicleId = JSON.parse(localStorage.getItem("myVehicle")).id;
-    }
+    const settings = await new FetchUserSettingsOrCreateFromLocal(this.depts).run();
+    let vehicleId = settings.vehicle.id;
 
     this.vehicleChanged(this.allVehicles.find(v => v.id == vehicleId));
   }
@@ -38,7 +36,7 @@ export default class MyVehicle {
 
   vehicleChanged(vehicle){
     this.myVehicle = vehicle;
-    localStorage.setItem("myVehicle",JSON.stringify(this.myVehicle));
+    new UpdateUserSettings(this.depts).run({vehicle: { id: vehicle.id, type: vehicle.type }})
     this.sidebar.optionsChanged();
     render(this.template(),document.getElementById("selectVehicle"));
   }

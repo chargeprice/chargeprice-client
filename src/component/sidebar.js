@@ -4,7 +4,7 @@ import StationPrices from './station_prices';
 import RoutePlanner from '../views/routePlanner';
 import ViewBase from './viewBase';
 import UserProfile from './userProfile';
-
+import Authorization from '../component/authorization';
 
 export default class Sidebar extends ViewBase {
 
@@ -18,6 +18,7 @@ export default class Sidebar extends ViewBase {
     this.customConfig = depts.customConfig();
     this.eventBus = depts.eventBus();
     this.currency = depts.currency();
+    this.themeLoader = depts.themeLoader();
     this.manageMyTariffs = new ManageMyTariffs(this,depts);
     this.myVehicle = new MyVehicle(this,this.depts);
     this.stationPrices = new StationPrices(this,this.depts);
@@ -133,6 +134,13 @@ export default class Sidebar extends ViewBase {
     this.show(content.contentId);
     this.currentSidebarContentKey = contentKey;
     if(content.onOpen) content.onOpen();
+  }
+
+  async showMyTariffs(){
+    const allow = !this.themeLoader.isDefaultTheme() || await this.loggedIn()
+
+    if(allow) this.open("manageMyTariffs");
+    else new Authorization(this.depts).render();
   }
 
   close() {

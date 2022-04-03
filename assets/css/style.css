@@ -369,10 +369,6 @@ i.fav-icon {
 	height: 100%;
 }
 
-.auth-profile.hidden {
-	display: none !important;
-}
-
 .auth-profile i.fa.fa-user {
 	cursor: pointer;
 }

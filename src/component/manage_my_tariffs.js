@@ -2,6 +2,8 @@ import { html, render } from 'lit-html';
 
 import StationTariffs from '../repository/station_tariffs.js';
 import ViewBase from './viewBase';
+import UpdateUserSettings from '../useCase/updateUserSettings';
+import FetchUserSettingsOrCreateFromLocal from '../useCase/fetchUserSettingsOrCreateFromLocal.js';
 
 export default class ManageMyTariffs extends ViewBase{
   constructor(sidebar,depts) {
@@ -11,8 +13,7 @@ export default class ManageMyTariffs extends ViewBase{
     this.analytics = depts.analytics();
     this.allTariffs = [];
     this.myTariffIds = [];
-    this.loadAllTariffs();
-    this.loadFromStorage();
+    this.initializeTariffs();
     this.sortedTariffs = [];
     this.filterText = "";
   }
@@ -89,40 +90,43 @@ export default class ManageMyTariffs extends ViewBase{
     this.render();
   }
 
-  onAdd(tariff) {
+  async onAdd(tariff) {
     if(this.myTariffIds.includes(tariff.id)) return;
     this.myTariffIds.push(tariff.id);
     this.render();
-    this.saveToStorage();
+    await this.saveToStorage();
   }
 
-  onRemove(tariff){
+  async onRemove(tariff){
     this.myTariffIds = this.myTariffIds.filter(id=>id != tariff.id);
     this.render();
-    this.saveToStorage();
+    await this.saveToStorage();
   }
 
   onBack(){
     this.sidebar.open("settings");
-    this.saveToStorage();
   }
 
-  async loadAllTariffs(){
+  async initializeTariffs(){
     this.allTariffs = (await new StationTariffs(this.depts).getAllTariffs()).data;
+    // TODO: Intitialize application sequentially.
+    const settings = await new FetchUserSettingsOrCreateFromLocal(this.depts).run();
+    this.myTariffIds = settings.tariffs.map(t=>t.id);  
     this.sidebar.optionsChanged();
   }
 
-  loadFromStorage(){
-    this.myTariffIds = JSON.parse(localStorage.getItem("myTariffIds")) || [];  
-  }
+  async saveToStorage(){
+    new UpdateUserSettings(this.depts).run({tariffs: this.getMyTariffReferences()})
 
-  saveToStorage(){
-    localStorage.setItem("myTariffIds",JSON.stringify(this.myTariffIds));
     this.analytics.log('send', 'event', 'MyTariffs', 'save',null,this.myTariffIds.length);
   }
 
   getMyTariffs(){
-    if(this.allTariffs.length==0) return this.myTariffIds.map(id=>{ return {id: id, type: "tariff" } }) ;
+    if(this.allTariffs.length==0) return this.getMyTariffReferences();
     return this.allTariffs.filter(t=>this.myTariffIds.includes(t.id));
+  }
+
+  getMyTariffReferences(){
+    return this.myTariffIds.map(id=>{ return {id: id, type: "tariff" } })
   }
 }

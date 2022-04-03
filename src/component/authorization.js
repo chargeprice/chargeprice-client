@@ -1,12 +1,13 @@
 import { html, render } from "lit-html";
 import ViewBase from "../component/viewBase";
-
+import {unsafeHTML} from 'lit-html/directives/unsafe-html.js';
 import AuthService from "../repository/authorizationService";
 
 export default class Authorization extends ViewBase {
 	constructor(depts) {
 		super(depts);
 		this.root = "messageDialog";
+		this.settingsRepo = depts.settingsPrimitive();
 		this.authService = new AuthService();
 
 		this.validation = {
@@ -60,8 +61,11 @@ export default class Authorization extends ViewBase {
 							</div>
 							<div>
 								<label>${this.t("authLabelPassword")}:</label>
-								<input type="password" name="sign_in_password" class="w3-input w3-border w3-margin-bottom" />
+								<input type="password" name="sign_in_password" class="w3-input w3-border" />
 							</div>
+							<label class="link-text" @click="${() => this.onResetPasswordRequest()}">
+									${this.t("authForgotPasswordLink")}
+							</label>
 							<button
 								class="w3-button w3-block w3-blue w3-section w3-padding"
 								type="submit"
@@ -98,12 +102,7 @@ export default class Authorization extends ViewBase {
 
 						<div id="error-list"></div>
 
-						<span
-							class="w3-right w3-padding w3-hide-small"
-							style="cursor: pointer;"
-							@click="${() => this.onResetPasswordRequest()}"
-							>${this.t("authForgotPasswordLink")}</span
-						>
+						<div>${unsafeHTML(this.t("accountBenefits"))}</div>
 					</div>
 				</div>
 			</div>
@@ -351,15 +350,17 @@ export default class Authorization extends ViewBase {
 		}
 	}
 
-	saveAuthResult(data) {
+	async saveAuthResult(data) {
 		if (data.type !== "authentication_result") return;
 
 		const { access_token, refresh_token } = data.attributes;
 
-		localStorage.setItem("chrprice_access", access_token);
-		localStorage.setItem("chrprice_refresh", refresh_token);
+		this.settingsRepo.authTokens().set({
+			accessToken: access_token,
+			refreshToken: refresh_token
+		});
 
-		this.onAuthorize(access_token);
+		location.reload(true);
 	}
 
 	onCloseModal() {

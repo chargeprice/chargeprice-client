@@ -18,13 +18,19 @@ export default class JsonApiSerializer {
       if(this.relationshipsNames.includes(key)) relationships[this.camelToSnake(key)] = this.toObjectOrArrayRelationship(this.object[key]);
     }
 
-    return {
+    const body = {
       data: {
         type: this.object.type,
         attributes: attributes,
         relationships: relationships
       }
     }
+
+    if(this.object.id){
+      body.data.id = this.object.id;
+    }
+
+    return body;
   }
 
   toObjectOrArrayRelationship(obj){

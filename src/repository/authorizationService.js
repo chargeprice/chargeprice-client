@@ -26,6 +26,25 @@ export default class AuthService {
 		});
 	}
 
+	async refreshAccessToken(refreshToken){
+		const body = JSON.stringify({
+			data: {
+				type: "refresh_token_authentication",
+				attributes: {
+					refresh_token: refreshToken
+				}
+			}
+		});
+
+		return await this.sendRequest({
+			url: this.signInEndpoint,
+			options: {
+				method: "POST",
+				body,
+			},
+		});
+	}
+
 	async signUp(data) {
 		const body = JSON.stringify({
 			data: {

@@ -1,3 +1,4 @@
+import RepositoryAuthTokens from "./authTokens";
 
 export default class RepositorySettingsPrimitive {
 
@@ -46,7 +47,15 @@ export default class RepositorySettingsPrimitive {
     return JSON.parse(value);
   }
 
+  clear(key){
+    localStorage.removeItem(key);
+  }
+
   hasKey(key) {
     return localStorage.getItem(key) != null;
   }
+
+  authTokens(){
+    return new RepositoryAuthTokens(this);
+	}
 }
