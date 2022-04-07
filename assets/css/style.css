@@ -400,21 +400,6 @@ i.fav-icon {
 	border: 2px solid red !important;
 }
 
-.profile-password-link.disabled {
-	color: rgb(106, 106, 106);
-	cursor: not-allowed;
-	pointer-events: none;
-}
-
-.profile-password-link.disabled i.fa.fa-clock {
-	display: inline-block;
-}
-
-.profile-password-link i.fa.fa-clock {
-	font-size: 1rem;
-	display: none;
-}
-
 .w3-button > .fa-spin {
 	margin-right: 8px;
 	display: none;
