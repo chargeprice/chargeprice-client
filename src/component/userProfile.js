@@ -12,8 +12,6 @@ export default class UserProfile extends ViewBase {
 		this.depts = depts;
 		this.authService = new AuthService();
 		this.messageDialogId = "messageDialog";
-		this.delayTimePasswordReset = 15; // 15 seconds to wait before password can be reset again
-		this.isPasswordResetRequested = false; // Is password reset already requested
 		this.profile = {};
 	}
 
@@ -27,8 +25,8 @@ export default class UserProfile extends ViewBase {
 				<p><b>${this.t("authLabelEmail")}:</b> ${this.profile.email}</p>
 			</div>
 			<div class="w3-container w3-center">
-				<label id="reset-link" @click="${(event) => this.onSendPasswordResetLink(event)}" class="link-text profile-password-link">
-					${this.t("authForgotPasswordLink")}&nbsp;<i id="timer" class="fa fa-clock"></i>
+				<label id="reset-link" @click="${(event) => this.onSendPasswordResetLink(event)}" class="link-text">
+					${this.t("authForgotPasswordLink")}
 				</label>
 				<br />
 				<label @click="${() => this.onShowMyTariffs()}" class="link-text">${this.t("manageMyTariffsLink")}</label>
@@ -76,7 +74,6 @@ export default class UserProfile extends ViewBase {
 	}
 
 	async onSendPasswordResetLink(event) {
-		if (this.isPasswordResetRequested) return;
 		try {
 			// TODO: Should be moved to authentication helper class
 			const token = localStorage.getItem("chrprice_access");
@@ -84,39 +81,11 @@ export default class UserProfile extends ViewBase {
 			const result = await this.authService.requestPasswordChange({ email });
 
 			render(this.successfulRegistrationTemplate(), this.getEl(this.messageDialogId));
-			this.getEl(this.messageDialogId).style.display = "block";
-
-			localStorage.setItem("reset_password_wait_time", this.delayTimePasswordReset);
-			this.startResetTimer();
+			this.show(this.messageDialogId);
 		} catch (error) {
 			console.log("ERROR!", error)
 			// TODO: Handle error here
 		}
-	}
-
-	startResetTimer() {
-		let timeleft = localStorage.getItem("reset_password_wait_time");
-		this.getEl('reset-link').classList.add('disabled');
-
-		if (!timeleft) {
-			timeleft = this.delayTimePasswordReset;
-		}
-
-		let intervalId = 0;
-		intervalId = setInterval(() => {
-			if (timeleft < 1) {
-				this.getEl('reset-link').classList.remove('disabled');
-				this.getEl('timer').innerHTML = '';
-				clearInterval(intervalId);
-				localStorage.removeItem("reset_password_wait_time");
-				return;
-			}
-
-			this.getEl('timer').innerHTML = timeleft;
-			localStorage.setItem("reset_password_wait_time", timeleft);
-
-			--timeleft;
-		}, 1000);
 	}
 
 	onShowMyTariffs() {
@@ -124,13 +93,12 @@ export default class UserProfile extends ViewBase {
 	}
 
 	onCloseModal() {
-		this.getEl(this.messageDialogId).style.display = "none";
+		this.hide(this.messageDialogId);
 	}
 
 	onLogout() {
 		localStorage.removeItem("chrprice_access");
 		localStorage.removeItem("chrprice_refresh");
-		localStorage.removeItem("reset_password_wait_time");
 
 		this.hide("sidebar");
 		this.getEl("auth-options").classList.toggle("hidden");
@@ -140,9 +108,5 @@ export default class UserProfile extends ViewBase {
 	render() {
 		this.getProfileInfo();
 		render(this.template(), this.getEl("userProfileContent"));
-
-		if (localStorage.getItem("reset_password_wait_time")) {
-			this.startResetTimer();
-		}
 	}
 }
