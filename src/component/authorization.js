@@ -12,7 +12,7 @@ export default class Authorization extends ViewBase {
 
 		this.validation = {
 			email: new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/),
-			password: new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])[a-zA-Z0-9]{8,64}$/),
+			password: new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])[a-zA-Z0-9!@#$%^&*-+_]{8,64}$/),
 			username: new RegExp(/^\w+(\s\w+)*$/),
 		};
 		this.errorMessages = {
@@ -69,7 +69,6 @@ export default class Authorization extends ViewBase {
 							<button
 								class="w3-button w3-block w3-blue w3-section w3-padding"
 								type="submit"
-								disabled
 								@click="${(event) => this.onLogin(event)}"
 							>
 								<i class="fa fa-refresh fa-spin"></i>${this.t("authLogInBtnText")}
@@ -369,37 +368,37 @@ export default class Authorization extends ViewBase {
 
 	validateLoginForm(event) {
 		const errorsContainer = this.getEl("error-list");
-		const form = event.target.closest("form");
-		const submitBtn = form.querySelector('button[type="submit"]');
+		// const form = event.target.closest("form");
+		// const submitBtn = form.querySelector('button[type="submit"]');
 
-		const inputEmail = form.querySelector('input[name="sign_in_email"]');
-		const inputPassword = form.querySelector('input[name="sign_in_password"]');
+		// const inputEmail = form.querySelector('input[name="sign_in_email"]');
+		// const inputPassword = form.querySelector('input[name="sign_in_password"]');
 
-		const isEmailValid = this.validation.email.exec(inputEmail.value);
-		const isPasswordValid = this.validation.password.exec(inputPassword.value);
+		// const isEmailValid = this.validation.email.exec(inputEmail.value);
+		// const isPasswordValid = this.validation.password.exec(inputPassword.value);
 
 		errorsContainer.innerHTML = "";
-		submitBtn.disabled = true;
+		// submitBtn.disabled = true;
 
-		if (!isEmailValid) {
-			!inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
-			errorsContainer.innerHTML = this.errorMessages.email;
-			return;
-		} else {
-			inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
-		}
+		// if (!isEmailValid) {
+		// 	!inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
+		// 	errorsContainer.innerHTML = this.errorMessages.email;
+		// 	return;
+		// } else {
+		// 	inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
+		// }
 
-		if (!isPasswordValid) {
-			!inputPassword.classList.contains("error") && inputPassword.classList.toggle("error");
-			errorsContainer.innerHTML = this.errorMessages.passwordNotValid;
-			return;
-		} else {
-			inputPassword.classList.contains("error") && inputPassword.classList.toggle("error");
-		}
+		// if (!isPasswordValid) {
+		// 	!inputPassword.classList.contains("error") && inputPassword.classList.toggle("error");
+		// 	errorsContainer.innerHTML = this.errorMessages.passwordNotValid;
+		// 	return;
+		// } else {
+		// 	inputPassword.classList.contains("error") && inputPassword.classList.toggle("error");
+		// }
 
-		if (isEmailValid && isPasswordValid) {
-			submitBtn.disabled = false;
-		}
+		// if (isEmailValid && isPasswordValid) {
+		// 	submitBtn.disabled = false;
+		// }
 	}
 	validateRegistrationForm(event) {
 		const errorsContainer = this.getEl("error-list");
@@ -451,20 +450,20 @@ export default class Authorization extends ViewBase {
 		const submitBtn = form.querySelector('button[type="submit"]');
 
 		const inputEmail = form.querySelector('input[name="reset_password_email"]');
-		const isEmailValid = this.validation.email.exec(inputEmail.value);
+		// const isEmailValid = this.validation.email.exec(inputEmail.value);
 
 		errorsContainer.innerHTML = "";
 		submitBtn.disabled = true;
 
-		if (!isEmailValid) {
-			!inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
-			errorsContainer.innerHTML = this.errorMessages.email;
-			return;
-		} else {
-			inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
-		}
+		// if (!isEmailValid) {
+		// 	!inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
+		// 	errorsContainer.innerHTML = this.errorMessages.email;
+		// 	return;
+		// } else {
+		// 	inputEmail.classList.contains("error") && inputEmail.classList.toggle("error");
+		// }
 
-		if (isEmailValid) {
+		if (inputEmail.value) {
 			submitBtn.disabled = false;
 		}
 	}
