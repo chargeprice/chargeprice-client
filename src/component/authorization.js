@@ -86,8 +86,11 @@ export default class Authorization extends ViewBase {
 							</div>
 							<div>
 								<label>${this.t("authLabelUsername")}:</label>
-
 								<input type="text" name="sign_up_username" class="w3-input w3-border w3-margin-bottom" />
+							</div>
+							<div>
+								<input @change="${(event) => this.validateRegistrationForm(event)}" type="checkbox" id="sign_up_policy_agreement" name="sign_up_policy_agreement" class="w3-margin-bottom" />
+								<label for="sign_up_policy_agreement">${unsafeHTML(this.t("authLabelPrivatePolicy"))}</label>
 							</div>
 							<button
 								class="w3-button w3-block w3-blue w3-section w3-padding"
@@ -408,10 +411,12 @@ export default class Authorization extends ViewBase {
 		const inputEmail = form.querySelector('input[name="sign_up_email"]');
 		const inputPassword = form.querySelector('input[name="sign_up_password"]');
 		const inputUsername = form.querySelector('input[name="sign_up_username"]');
+		const inputPrivacyPolicy = form.querySelector('input[name="sign_up_policy_agreement"]');
 
 		const isEmailValid = this.validation.email.exec(inputEmail.value);
 		const isPasswordValid = this.validation.password.exec(inputPassword.value);
 		const isUsernameValid = this.validation.username.exec(inputUsername.value);
+		const isPrivacyPolicyChecked = inputPrivacyPolicy.checked;
 
 		errorsContainer.innerHTML = "";
 		submitBtn.disabled = true;
@@ -440,7 +445,7 @@ export default class Authorization extends ViewBase {
 			inputUsername.classList.contains("error") && inputUsername.classList.toggle("error");
 		}
 
-		if (isEmailValid && isPasswordValid && isUsernameValid) {
+		if (isEmailValid && isPasswordValid && isUsernameValid && isPrivacyPolicyChecked) {
 			submitBtn.disabled = false;
 		}
 	}

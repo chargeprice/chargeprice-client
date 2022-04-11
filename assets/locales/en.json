@@ -179,5 +179,6 @@
   "authPasswordWrong": "Sorry, this email and password combination is not existing. Please check your email and password and try again.",
   "authServiceNotAvailable": "Sorry, currently service is not available. Please try again later!",
   "authProfileSettingsHeader": "Your Chargeprice Account",
-  "accountBenefits": "<h4>Benefits of the Chargeprice Account</h4>\n\nThe account unlocks the following features on Chargeprice:\n\n<ul>\n\t<li>Select your tariffs & subscriptions and have them displayed at the top of the price list.</li>\n\t<li>Save your selected tariffs and vehicle to your account and access it on multiple devices.</li>\n\t<li>Pre-filled email for the user feedbacks.</li>\n</ul>\n\n<i>Soon also available in our Android and iOS apps.</i>\n\n<p>This is just the start! More will follow in the future!</p>"
+  "accountBenefits": "<h4>Benefits of the Chargeprice Account</h4>\n\nThe account unlocks the following features on Chargeprice:\n\n<ul>\n\t<li>Select your tariffs & subscriptions and have them displayed at the top of the price list.</li>\n\t<li>Save your selected tariffs and vehicle to your account and access it on multiple devices.</li>\n\t<li>Pre-filled email for the user feedbacks.</li>\n</ul>\n\n<i>Soon also available in our Android and iOS apps.</i>\n\n<p>This is just the start! More will follow in the future!</p>",
+  "authLabelPrivatePolicy": "I agree to the <a href=\"https://www.chargeprice.net/privacy-policy\">Terms & Conditions and Private Policy</a>"
 }
