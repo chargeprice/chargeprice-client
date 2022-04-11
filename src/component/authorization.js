@@ -153,7 +153,7 @@ export default class Authorization extends ViewBase {
 			<div class="w3-modal-content w3-card-4 w3-animate-top">
 				<div class="w3-row w3-bar pc-secondary">
 					<button
-						@click="${() => this.onCloseModal()}"
+						@click="${() => render(this.loginTemplate(), this.getEl(this.root))}"
 						class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close"
 					>
 						<img class="inverted" class="w3-button" src="img/close.svg" />
