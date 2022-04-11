@@ -80,6 +80,23 @@ class App {
     this.deeplinkActivated = false;
     const poiId = params.get("poi_id")
     const poiSource = params.get("poi_source")
+
+		if (params.has('access_token') && params.has('refresh_token')) {
+			const settings = this.depts.settingsPrimitive();
+			const access_token = params.get('access_token');
+			const refresh_token = params.get('refresh_token');
+
+			settings.authTokens().set({
+					accessToken: access_token,
+					refreshToken: refresh_token,
+			});
+
+			params.delete('access_token');
+			params.delete('refresh_token');
+
+			location.search = params.toString();
+		}
+
     if (poiId != null && poiSource != null) {
       this.poiId = poiId;
       this.poiSource = poiSource;
