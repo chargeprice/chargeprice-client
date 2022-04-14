@@ -1,13 +1,24 @@
 import {html, render} from 'lit-html';
 import ModalBase from './base';
 import StationTariffs from '../repository/station_tariffs'
+import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile'
 
 export default class ModalFeedback extends ModalBase {
   constructor(depts){
     super(depts);
     this.analytics = depts.analytics();
     this.customConfig = depts.customConfig();
+		this.profile = null;
   }
+
+	async loadProfile() {
+		try {
+			const tokenWithProfile = await new FetchAccessTokenWithProfile(this.depts).run();
+			this.profile = tokenWithProfile.profile;
+		} catch (error) {
+			// TODO: Do we need to handle error here?
+		}
+	}
 
   generalTemplate(header,customTemplate, notesHeader,emailText){
     return html`
@@ -21,7 +32,7 @@ export default class ModalFeedback extends ModalBase {
         </p>
         <p>
           <label>${this.t("fbEmailHeader")}*</label>
-          <input id="email" value="" maxlength="100" placeholder="my.email@gmail.com" class="w3-input w3-border"/>
+          <input id="email" value="${this.profile && this.profile.email}" maxlength="100" placeholder="my.email@gmail.com" class="w3-input w3-border"/>
         </p>
         <p>
         ${emailText} <a href="mailto:contact@chargeprice.net">contact@chargeprice.net</a>
@@ -124,8 +135,10 @@ export default class ModalFeedback extends ModalBase {
   // options: 
   // - missing_price,wrong_price=cpo,poiLink,context,prices
   // - missing_station=location
-  show(type,options){
-    this.type = type;
+  async show(type,options){
+		await this.loadProfile();
+
+		this.type = type;
     this.options = options;
     let template = null;
     let header = null;

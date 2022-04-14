@@ -8,11 +8,14 @@ import LocationIQ from '../repository/locationIQ';
 import UrlModifier from '../helper/urlModifier';
 import Currency from '../component/currency'
 import EventBus from '../repository/eventBus'
+import UserSettings from '../repository/userSettings'
+import AuthService from '../repository/authorizationService'
 
 export default class Dependencies {
   constructor(){
     this.translationInstance = new Translation();
     this.customConfigInstance = null;
+    this.userSettingsInstance = null;
     this.currencyInstance = new Currency();
     this.eventBusInstance = new EventBus();
   }
@@ -53,6 +56,16 @@ export default class Dependencies {
 
   urlModifier(){
     return new UrlModifier();
+  }
+
+  userSettings(){
+    if(this.userSettingsInstance) return this.userSettingsInstance;
+    this.userSettingsInstance = new UserSettings(this);
+    return this.userSettingsInstance;
+  }
+
+  auth(){
+    return new AuthService(this);
   }
 
   currency(){

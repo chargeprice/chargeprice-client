@@ -3,7 +3,8 @@ import MyVehicle from './my_vehicle';
 import StationPrices from './station_prices';
 import RoutePlanner from '../views/routePlanner';
 import ViewBase from './viewBase';
-
+import UserProfile from './userProfile';
+import Authorization from '../component/authorization';
 
 export default class Sidebar extends ViewBase {
 
@@ -17,10 +18,12 @@ export default class Sidebar extends ViewBase {
     this.customConfig = depts.customConfig();
     this.eventBus = depts.eventBus();
     this.currency = depts.currency();
+    this.themeLoader = depts.themeLoader();
     this.manageMyTariffs = new ManageMyTariffs(this,depts);
     this.myVehicle = new MyVehicle(this,this.depts);
     this.stationPrices = new StationPrices(this,this.depts);
     this.routePlanner = new RoutePlanner(this,this.depts);
+		this.userProfile = new UserProfile(this, this.depts);
     this.loaded = false;
     this.rootId = "sidebar";
 
@@ -49,10 +52,15 @@ export default class Sidebar extends ViewBase {
         contentId: "routeContent",
         onOpen: ()=>this.routePlanner.render()
       },
+			"userProfile": {
+				header: this.translation.get("authProfileSettingsHeader"),
+				contentId: "userProfileContent",
+				onOpen: () => this.userProfile.render(),
+			}
     };
 
     this.currentSidebarContentKey = null;
-    
+
     this.close();
     this.hideAllSidebarContent();
     this.registerEvents();
@@ -99,7 +107,7 @@ export default class Sidebar extends ViewBase {
   showStation(station){
     this.stationPrices.showStation(station);
 
-    this.open("prices");    
+    this.open("prices");
   }
 
   updateStationPrice(station,prices,options){
@@ -115,7 +123,7 @@ export default class Sidebar extends ViewBase {
   }
 
   open(contentKey) {
-    this.analytics.log('send', 'event', 'Sidebar', 'open', contentKey); 
+		this.analytics.log('send', 'event', 'Sidebar', 'open', contentKey);
 
     this.show(this.rootId)
 
@@ -126,6 +134,14 @@ export default class Sidebar extends ViewBase {
     this.show(content.contentId);
     this.currentSidebarContentKey = contentKey;
     if(content.onOpen) content.onOpen();
+  }
+
+  async showMyTariffs(){
+    // TODO: Disable later
+    const allow = true; //!this.themeLoader.isDefaultTheme() || await this.loggedIn()
+
+    if(allow) this.open("manageMyTariffs");
+    else new Authorization(this.depts).render();
   }
 
   close() {

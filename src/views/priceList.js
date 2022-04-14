@@ -1,5 +1,7 @@
 import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
+import Authorization from '../component/authorization';
+
 export default class PriceListView extends ViewBase {
   constructor(depts,sidebar) {
     super(depts);
@@ -163,7 +165,7 @@ export default class PriceListView extends ViewBase {
   }
 
   onManageMyTariffs(){
-    this.sidebar.open("manageMyTariffs");
+    this.sidebar.showMyTariffs();
   }
 
   onAffiliateClicked(tariff){
