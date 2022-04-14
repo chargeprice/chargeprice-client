@@ -171,14 +171,14 @@
   "authSignUpTabLabel": "Sign Up",
   "authSignUpSuccessfulText": "Thanks for signing up! We are happy to have you on board. \nWe just sent you a email. You need to click the confirmation link in this email, before using the account.",
   "authForgotPasswordSuccessfulText": "We have just sent you an email with the instructions to reset your password.",
-  "authEmailValidationError": "Email not valid!",
+  "authEmailValidationError": "Email address not valid",
   "authPasswordValidationError": "Password must be at least 8 and max. 64 characters long and needs to contain at least one number, lowercase and uppercase letters.",
-  "authUsernameValidationError": "Username can only contain letters, numbers and spaces!",
-  "authEmailUsed": "Email already used!",
-  "authEmailNotVerified": "Your email address is not yet confirmed. We sent you an email with a confirmation link when you registered. Please also check your spam folder! \nIf you cant find the email, click on \"Forgot password?\". By resetting your password, your email will be confirmed as well.",
+  "authUsernameValidationError": "Username can only contain letters, numbers and spaces",
+  "authEmailUsed": "Email address already used",
+  "authEmailNotVerified": "Your email address is not yet confirmed. We sent you an email with a confirmation link when you registered. Please also check your spam folder. \nIf you cant find the email, click on \"Forgot password?\". By resetting your password, your email will be confirmed as well.",
   "authPasswordWrong": "Sorry, this email and password combination is not existing. Please check your email and password and try again.",
   "authServiceNotAvailable": "Sorry, currently service is not available. Please try again later!",
   "authProfileSettingsHeader": "Your Chargeprice Account",
-  "accountBenefits": "<h4>Benefits of the Chargeprice Account</h4>\n\nThe account unlocks the following features on Chargeprice:\n\n<ul>\n\t<li>Select your tariffs & subscriptions and have them displayed at the top of the price list.</li>\n\t<li>Save your selected tariffs and vehicle to your account and access it on multiple devices.</li>\n\t<li>Pre-filled email for the user feedbacks.</li>\n</ul>\n\n<i>Soon also available in our Android and iOS apps.</i>\n\n<p>This is just the start! More will follow in the future!</p>",
-  "authLabelPrivatePolicy": "I agree to the <a href=\"https://www.chargeprice.net/privacy-policy\">Terms & Conditions and Private Policy</a>"
+  "accountBenefits": "<h4>Benefits of the Chargeprice Account</h4>\n\nThe account unlocks the following features on Chargeprice:\n\n<ul>\n        <li>Select your tariffs & subscriptions and have them displayed at the top of the price list.</li>\n        <li>Save your selected tariffs and vehicle to your account and access it on multiple devices.</li>\n        <li>Pre-filled email for the user feedbacks.</li>\n</ul>\n\n<i>Soon also available in our Android and iOS apps.</i>\n\n<p>This is just the start! More will follow in the future!</p>",
+  "authLabelPrivatePolicy": "I agree to the <a href=\"https://www.chargeprice.net/terms-of-service\" target=\"_blank\">Terms & Conditions</a> and <a href=\"https://www.chargeprice.net/privacy-policy\" target=\"_blank\">Privacy Policy</a>"
 }
