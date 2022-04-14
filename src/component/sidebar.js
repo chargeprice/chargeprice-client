@@ -137,7 +137,8 @@ export default class Sidebar extends ViewBase {
   }
 
   async showMyTariffs(){
-    const allow = !this.themeLoader.isDefaultTheme() || await this.loggedIn()
+    // TODO: Disable later
+    const allow = true; //!this.themeLoader.isDefaultTheme() || await this.loggedIn()
 
     if(allow) this.open("manageMyTariffs");
     else new Authorization(this.depts).render();
