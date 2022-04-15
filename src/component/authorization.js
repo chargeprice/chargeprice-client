@@ -11,7 +11,7 @@ export default class Authorization extends ViewBase {
 		this.authService = new AuthService();
 
 		this.validation = {
-			email: new RegExp(/^[\w-+_\.]+@([\w-]+\.)+[\w-]{2,4}$/),
+			email: new RegExp(/^[\w-+_\.]+@([\w-]+\.)+[\w-]{2,}$/),
 			password: new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])[a-zA-Z0-9!@#$%^&*-+_]{8,64}$/),
 			username: new RegExp(/^\w+(\s\w+)*$/),
 		};
