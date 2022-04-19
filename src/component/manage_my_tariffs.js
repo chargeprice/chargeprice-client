@@ -18,8 +18,17 @@ export default class ManageMyTariffs extends ViewBase{
     this.filterText = "";
   }
 
+	noTariffsBannerTemplate() {
+		return html`<div class="w3-panel w3-round w3-light-grey">
+			<p>${this.t("manageMyTariffsBanner")}</p>
+			<a href="https://www.mybestchargingcard.com/" target="_blank" class="w3-btn pc-secondary w3-margin-top w3-margin-bottom">Check out now!</a>
+		</div>`
+	}
+
   template(tariffs){
     return html`
+			${!this.myTariffIds.length && this.noTariffsBannerTemplate()}
+
       <div class="w3-margin-bottom">${this.t("manageMyTariffsDescription")}</div>
 
       <input @keyup="${(e)=>this.onFilterList(e.srcElement.value)}" placeholder="${this.t("searchPlaceholder")}" class="w3-input w3-border"/>
@@ -43,7 +52,7 @@ export default class ManageMyTariffs extends ViewBase{
               }
               ${tariff.providerCustomerOnly ?
                 html`
-                  <label class="w3-small w3-block">${this.t("providerCustomerOnly")}</label> 
+                  <label class="w3-small w3-block">${this.t("providerCustomerOnly")}</label>
                 `:""}
 
               ${tariff.branding ? html`
@@ -111,7 +120,7 @@ export default class ManageMyTariffs extends ViewBase{
     this.allTariffs = (await new StationTariffs(this.depts).getAllTariffs()).data;
     // TODO: Intitialize application sequentially.
     const settings = await new FetchUserSettingsOrCreateFromLocal(this.depts).run();
-    this.myTariffIds = settings.tariffs.map(t=>t.id);  
+    this.myTariffIds = settings.tariffs.map(t=>t.id);
     this.sidebar.optionsChanged();
   }
 
