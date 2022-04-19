@@ -1,4 +1,5 @@
 import { html, render } from 'lit-html';
+import { repeat } from 'lit-html/directives/repeat.js';
 
 import StationTariffs from '../repository/station_tariffs.js';
 import ViewBase from './viewBase';
@@ -18,6 +19,10 @@ export default class ManageMyTariffs extends ViewBase{
     this.filterText = "";
   }
 
+	isTariffInMyFavorites(id) {
+		return !!this.myTariffIds.includes(id);
+	}
+
   template(tariffs){
     return html`
       <div class="w3-margin-bottom">${this.t("manageMyTariffsDescription")}</div>
@@ -26,14 +31,16 @@ export default class ManageMyTariffs extends ViewBase{
 
       <table id="charge-card-list" class="w3-table w3-striped w3-margin-top">
         <tbody>
-        ${tariffs.map(tariff=>html`
+        ${repeat(tariffs, (item) => item.id, tariff => html`
           <tr style="${tariff.branding ? `background: ${tariff.branding.background_color} !important;`:""}">
-            <td width="50">
-            ${
-              this.myTariffIds.includes(tariff.id) ?
-              html`<button @click="${()=>this.onRemove(tariff)}" class="w3-btn w3-red">-</button>` :
-              html`<button @click="${()=>this.onAdd(tariff)}" class="w3-btn w3-green">+</button>`
-            }
+            <td width="50" style="vertical-align: middle;">
+							<input
+								type="checkbox"
+								class="w3-check"
+								style="top: 0;"
+								.checked="${this.isTariffInMyFavorites(tariff.id)}"
+								@click="${() => this.isTariffInMyFavorites(tariff.id) ? this.onRemove(tariff) : this.onAdd(tariff)}"
+							/>
             </td>
             <td>
               ${tariff.name == null || tariff.name == tariff.provider ?
@@ -43,7 +50,7 @@ export default class ManageMyTariffs extends ViewBase{
               }
               ${tariff.providerCustomerOnly ?
                 html`
-                  <label class="w3-small w3-block">${this.t("providerCustomerOnly")}</label> 
+                  <label class="w3-small w3-block">${this.t("providerCustomerOnly")}</label>
                 `:""}
 
               ${tariff.branding ? html`
@@ -111,7 +118,7 @@ export default class ManageMyTariffs extends ViewBase{
     this.allTariffs = (await new StationTariffs(this.depts).getAllTariffs()).data;
     // TODO: Intitialize application sequentially.
     const settings = await new FetchUserSettingsOrCreateFromLocal(this.depts).run();
-    this.myTariffIds = settings.tariffs.map(t=>t.id);  
+    this.myTariffIds = settings.tariffs.map(t=>t.id);
     this.sidebar.optionsChanged();
   }
 
