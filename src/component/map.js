@@ -7,6 +7,17 @@ var turf = {
   helpers: require('@turf/helpers')
 }
 
+export const defaultLocations = {
+	PARIS: {
+		longitude: 2.3120158,
+		latitude: 48.858906
+	},
+	SALZBURG: {
+		longitude: 13.037706424201586,
+		latitude: 47.80292337050403
+	}
+}
+
 export default class Map {
 
   constructor(depts) {
@@ -58,7 +69,7 @@ export default class Map {
   centerLocation(coords, zoom=13) {
     this.mapReady = true;
     this.component.setView([coords.latitude, coords.longitude], zoom);
-    this.component._onResize(); 
+    this.component._onResize();
   }
 
   centerMyLocation(){
@@ -119,7 +130,7 @@ export default class Map {
     else if(currentZoom<=7) minPowerFromZoom = 150;
     else if(currentZoom<=8) minPowerFromZoom = 100;
     else if(currentZoom<=10) minPowerFromZoom = 43;
-    
+
     return minPower > minPowerFromZoom ? minPower : minPowerFromZoom;
   }
 
@@ -194,13 +205,13 @@ export default class Map {
     const markerIcon = L.icon({
         iconUrl: `img/markers/${color}${model.faultReported ? "_fault" : ""}.png`,
         shadowUrl: '/img/leaflet/markers-shadow.png',
-  
+
         iconSize:     [28, 40],
         iconAnchor:   [14, 40],
         shadowSize:   [40,24],
         shadowAnchor: [10,24]
     });
-        
+
     const marker = L.marker([model.latitude, model.longitude],{icon: markerIcon});
     marker.on('click', () => onClickCallback(model,powerType));
     marker.on('click', () => this.changeSelectedStation(model));
@@ -227,7 +238,7 @@ export default class Map {
     const turfLine = turf.helpers.lineString(invertedPoints);
     const turfOptions = {units: 'kilometers'};
     const totalDistance = turf.length(turfLine,turfOptions);
-    
+
     const delta= 50;
     let currentDistance = delta;
 
@@ -239,7 +250,7 @@ export default class Map {
     }
 
     this.component.fitBounds(routeLine.getBounds());
-    this.component._onResize(); 
+    this.component._onResize();
   }
 
   distanceMarkerIcon(km){
@@ -257,11 +268,11 @@ export default class Map {
     this.clearSelectedStationCircle();
 
     this.selectedStationCircle = L.circleMarker([model.latitude, model.longitude],{
-      id: model.id, 
-      radius: 15, 
-      color: "red", 
-      weight: 3, 
-      fillColor: "red", 
+      id: model.id,
+      radius: 15,
+      color: "red",
+      weight: 3,
+      fillColor: "red",
       fillOpacity: 0.2
     });
     this.selectedStationCircle.addTo(this.component);
