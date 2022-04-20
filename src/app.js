@@ -27,7 +27,7 @@ class App {
 
   async initialize(){
     this.depts = Dependencies.getInstance();
-    
+
     // First Load translations
     this.translation = this.depts.translation();
     await this.translation.setCurrentLocaleTranslations();
@@ -53,6 +53,7 @@ class App {
 
     settingsSidebar.inject(this.sidebar);
     infoSidebar.inject(this.map);
+		this.sidebar.injectMap(this.map);
     this.rootContainer.inject(this.sidebar);
 
     if (!navigator.geolocation) {
@@ -105,7 +106,7 @@ class App {
       this.showFallbackLocation();
       this.getCurrentLocation();
       new ShowPopUpOnStart(this.depts).run();
-      
+
       this.sidebar.showSettingsOnStart();
     }
   }
@@ -123,14 +124,14 @@ class App {
         this.map.centerLocation(pos.coords);
         this.map.watchLocation();
         this.map.setMyLocation(pos.coords);
-      }, 
+      },
       () => this.showFallbackLocation());
   }
 
   showFallbackLocation() {
     this.map.centerLocation(this.fallBackLocation,12);
   }
-  
+
   async showStationById(poiId, poiSource) {
     this.stationSelected({
       id: poiId,
@@ -167,7 +168,7 @@ class App {
       const options = this.sidebar.chargingOptions();
       this.currentStation = await (new FetchStations(this.depts)).detail(model, options);
     },this.translation.get("errorStationsUnavailable"));
-    
+
     if (updateMap) {
       this.map.centerLocation({
         latitude: this.currentStation.latitude,
@@ -202,7 +203,7 @@ class App {
       this.rootContainer.showAlert(errorMsg);
       console.error(ex);
     }
-    
+
     this.rootContainer.toggleLoadingIndicator(false);
   }
 
@@ -218,12 +219,12 @@ class App {
 
     const prices = this.currentStationTariffs.reduce((memo,tariff)=>{
       const chargePointPrice = this.findBySelectedChargePoint(tariff.chargePointPrices, selectedCP);
-      
+
       if(chargePointPrice) {
         const pricePerKWh = chargePointPrice.price / cpDurationAndEnergy.energy;
-        memo.push({ 
-          price: chargePointPrice.price, 
-          pricePerKWh: pricePerKWh, 
+        memo.push({
+          price: chargePointPrice.price,
+          pricePerKWh: pricePerKWh,
           distribution: chargePointPrice.price_distribution,
           blockingFeeStart: chargePointPrice.blocking_fee_start,
           noPriceReason: chargePointPrice.no_price_reason,

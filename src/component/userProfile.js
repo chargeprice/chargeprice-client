@@ -1,8 +1,9 @@
 import { html, render } from "lit-html";
 
-import ViewBase from "./viewBase";
+import ViewBase from './viewBase';
 
-import AuthService from "../repository/authorizationService";
+import ModalFeedback from '../modal/feedback';
+import AuthService from '../repository/authorizationService';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile'
 
 export default class UserProfile extends ViewBase {
@@ -14,6 +15,34 @@ export default class UserProfile extends ViewBase {
 		this.authService = new AuthService();
 		this.messageDialogId = "messageDialog";
 		this.profile = {};
+		this.map = null;
+
+		this.menuItems = [
+			{
+				id: "resetpassword",
+				title: this.t("authForgotPasswordLink"),
+				icon: "envelope-o",
+				action: ()=>this.onSendPasswordResetLink()
+			},
+			{
+				id: "tariffs",
+				title: this.t("manageMyTariffsLink"),
+				icon: "bars",
+				action: ()=>this.onShowMyTariffs()
+			},
+			{
+				id: "feedback",
+				title: this.t("fbGiveFeedback"),
+				icon: "comment",
+				action: ()=>this.onGiveFeedback("other_feedback")
+			},
+			{
+				id: "missing_station",
+				title: this.t("fbReportMissingStationHeader"),
+				icon: "comment",
+				action: ()=>this.onMissingStation()
+			},
+		];
 	}
 
 	template() {
@@ -25,13 +54,18 @@ export default class UserProfile extends ViewBase {
 				<p><b>${this.t("authLabelUsername")}:</b> ${this.profile.username}</p>
 				<p><b>${this.t("authLabelEmail")}:</b> ${this.profile.email}</p>
 			</div>
-			<div class="w3-container w3-center">
-				<label id="reset-link" @click="${() => this.onSendPasswordResetLink()}" class="link-text">
-					${this.t("authForgotPasswordLink")}
-				</label>
-				<br />
-				<label @click="${() => this.onShowMyTariffs()}" class="link-text">${this.t("manageMyTariffsLink")}</label>
-				<br />
+			<div class="w3-container w3-center" style="padding: 0">
+				<div class="w3-row">
+					<div class="w3-bar-block">
+						${this.menuItems.filter(entry => !entry.show || entry.show()).map(entry => html`
+							<a @click="${() =>this.executeAction(entry)}" href="#" class="w3-bar-item w3-button w3-border-bottom">
+								<i class="fa fa-${entry.icon} pc-main-text"></i> <span class="${entry.class}">${entry.title}</span>
+								${entry.subTitle ? html`<span class="w3-small w3-block w3-text-dark-gray">${entry.subTitle}</span>` : ""}
+							</a>
+						`)}
+					</div>
+				</div>
+
 				<button class="w3-btn pc-secondary w3-margin-top" @click="${() => this.onLogout()}">Logout</button>
 			</div>
 		`;
@@ -88,6 +122,22 @@ export default class UserProfile extends ViewBase {
 		this.settingsRepo.authTokens().clear();
 
 		location.reload(true);
+	}
+
+  executeAction(entry){
+    entry.action();
+  }
+
+	onGiveFeedback(type) {
+		new ModalFeedback(this.depts).show(type);
+	}
+
+	onMissingStation() {
+		alert(this.t("fbMissingStationSelectOnMap"));
+
+		this.map.registerClickOnce(event => {
+			new ModalFeedback(this.depts).show("missing_station", { location: event.location });
+		});
 	}
 
 	async render() {
