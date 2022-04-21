@@ -64,8 +64,8 @@ export default class RootContainer extends ViewBase {
 
   accountTemplate(){
     if(!this.profile) return html`
-      <span @click="${()=>this.onTriggerAuthModal()}" class="w3-bar-item w3-button w3-right auth-options" style="display: flex; padding: 8px;">
-        <i class="fa fa-sign-in-alt"></i>
+      <span @click="${()=>this.onTriggerAuthModal()}" class="w3-bar-item w3-button w3-right auth-options" style="display: flex;">
+        <i class="fa fa-user"></i>
       </span>
     `;
     return html`
