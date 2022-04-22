@@ -2,7 +2,7 @@ export default class Translation {
   constructor() {
     this.supportedLocales = ["en","de","fr","nl","es"]
     this.fallbackLocale = "en"
-    this.currentLocale = this.currentLocaleOrFallback(); 
+    this.currentLocale = this.currentLocaleOrFallback();
     this.unbalancedLoadLocales = ["de"];
   }
 
@@ -21,9 +21,9 @@ export default class Translation {
   }
 
   currentLocaleOrFallback(){
-    return this.languageFromDomain() || 
+    return this.languageFromDomain() ||
       this.languageFromQuery() ||
-      this.languageFromBrowserSetting()|| 
+      this.languageFromBrowserSetting()||
       this.fallbackLocale;
   }
 
