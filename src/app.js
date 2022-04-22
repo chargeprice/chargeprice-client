@@ -126,6 +126,7 @@ class App {
 		switch (this.translation.currentLocale) {
 			case 'fr': {
 				fallBackLocation = defaultLocations.PARIS;
+        break;
 			}
 			default: {
 				fallBackLocation = defaultLocations.SALZBURG;
