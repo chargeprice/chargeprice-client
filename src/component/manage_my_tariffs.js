@@ -20,14 +20,14 @@ export default class ManageMyTariffs extends ViewBase{
 
 	noTariffsBannerTemplate() {
 		return html`<div class="w3-panel w3-round w3-light-grey">
-			<p>${this.t("manageMyTariffsBanner")}</p>
-			<a href="https://www.mybestchargingcard.com/" target="_blank" class="w3-btn pc-secondary w3-margin-top w3-margin-bottom">Check out now!</a>
+			<p>${this.t("manageMyTariffsBannerMessage")}</p>
+			<a href="https://www.mybestchargingcard.com/" target="_blank" class="w3-btn pc-secondary w3-margin-top w3-margin-bottom">${this.t('manageMyTariffsBannerLinkText')}</a>
 		</div>`
 	}
 
   template(tariffs){
     return html`
-			${!this.myTariffIds.length && this.noTariffsBannerTemplate()}
+			${!this.myTariffIds.length ? this.noTariffsBannerTemplate() : ''}
 
       <div class="w3-margin-bottom">${this.t("manageMyTariffsDescription")}</div>
 
