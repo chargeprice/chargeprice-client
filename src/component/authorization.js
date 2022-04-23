@@ -12,7 +12,7 @@ export default class Authorization extends ViewBase {
 
 		this.validation = {
 			email: new RegExp(/^[\w-+_\.]+@([\w-]+\.)+[\w-]{2,}$/),
-			password: new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])[a-zA-Z0-9!@#$%^&*-+_]{8,64}$/),
+			password: new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,64}$/),
 			username: new RegExp(/^\w+(\s\w+)*$/),
 		};
 		this.errorMessages = {
