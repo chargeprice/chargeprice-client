@@ -1,5 +1,5 @@
 import { html, render } from 'lit-html';
-import { repeat } from 'lit-html/directives/repeat.js';
+import { repeat } from 'lit-html/directives/repeat';
 
 import StationTariffs from '../repository/station_tariffs.js';
 import ViewBase from './viewBase';
@@ -31,15 +31,16 @@ export default class ManageMyTariffs extends ViewBase{
 
       <table id="charge-card-list" class="w3-table w3-striped w3-margin-top">
         <tbody>
-        ${repeat(tariffs, (item) => item.id, tariff => html`
+        ${repeat(tariffs, item => item.id, tariff => html`
           <tr style="${tariff.branding ? `background: ${tariff.branding.background_color} !important;`:""}">
             <td width="50" style="vertical-align: middle;">
 							<input
 								type="checkbox"
 								class="w3-check"
 								style="top: 0;"
+                data-id=${tariff.id}
 								.checked="${this.isTariffInMyFavorites(tariff.id)}"
-								@click="${() => this.isTariffInMyFavorites(tariff.id) ? this.onRemove(tariff) : this.onAdd(tariff)}"
+								@click=${(e) => this.handleCheckboxClick(e)}
 							/>
             </td>
             <td>
@@ -97,17 +98,17 @@ export default class ManageMyTariffs extends ViewBase{
     this.render();
   }
 
-  async onAdd(tariff) {
-    if(this.myTariffIds.includes(tariff.id)) return;
-    this.myTariffIds.push(tariff.id);
-    this.render();
+  async onAdd(tariffId) {
+    if(this.myTariffIds.includes(tariffId)) return;
+    this.myTariffIds.push(tariffId);
     await this.saveToStorage();
+    this.render();
   }
 
-  async onRemove(tariff){
-    this.myTariffIds = this.myTariffIds.filter(id=>id != tariff.id);
-    this.render();
+  async onRemove(tariffId){
+    this.myTariffIds = this.myTariffIds.filter(id=>id != tariffId);
     await this.saveToStorage();
+    this.render();
   }
 
   onBack(){
@@ -135,5 +136,16 @@ export default class ManageMyTariffs extends ViewBase{
 
   getMyTariffReferences(){
     return this.myTariffIds.map(id=>{ return {id: id, type: "tariff" } })
+  }
+
+  async handleCheckboxClick(event) {
+    const { checked, dataset } = event.target;
+    const tariffId = dataset.id;
+
+    if (checked) {
+      await this.onAdd(tariffId);
+    } else {
+      await this.onRemove(tariffId);
+    }
   }
 }
