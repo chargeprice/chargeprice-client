@@ -45,7 +45,7 @@ export default class RootContainer extends ViewBase {
               <div id="pricesContent" class="w3-row"></div>
               <div id="manageMyTariffsContent" class="w3-container w3-padding-16"></div>
               <div id="routeContent" class="w3-container w3-padding-16"></div>
-							<div id="userProfileContent" class="w3-container w3-padding-16"></div>
+							<div id="userProfileContent" class="w3-margin-top"></div>
           </div>
 
           <div id="map" class="flex-item-d"></div>

@@ -46,6 +46,7 @@ class App {
 
     settingsSidebar.inject(this.sidebar);
     infoSidebar.inject(this.map);
+		this.sidebar.injectMap(this.map);
     this.rootContainer.inject(this.sidebar);
 
     if (!navigator.geolocation) {

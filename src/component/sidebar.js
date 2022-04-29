@@ -68,6 +68,10 @@ export default class Sidebar extends ViewBase {
     this.loaded = true;
   }
 
+	injectMap(map) {
+		this.userProfile.map = map;
+	}
+
   registerEvents(){
     this.eventBus.subscribe("sidebar.change",(payload)=>this.open(payload.sidebar));
   }
