@@ -180,5 +180,7 @@
   "authServiceNotAvailable": "Désolé, le service n'est pas disponible actuellement. Veuillez réessayer plus tard !",
   "authProfileSettingsHeader": "Votre compte Chargeprice",
   "accountBenefits": "<h4>Avantages du compte Chargeprice</h4>\n\nCe compte permet d'accéder aux fonctionnalités suivantes sur Chargeprice :\n\n<ul>\n        <li>Sélectionnez vos tarifs & abonnements et faites-les apparaître en haut de la liste des prix.</li>\n        <li>Enregistrez vos tarifs et votre véhicule sélectionnés dans votre compte sur plusieurs appareils.</li>\n        <li>E-mail pré-rempli pour les feedbacks des utilisateurs.</li>\n</ul>\n\n<i>Prochainement disponible également dans nos applications Android et iOS.</i>\n\n<p>Ce n'est que le début ! D'autres fonctionnalités suivront à l'avenir !</p>",
-  "authLabelPrivatePolicy": "J'accepte les <a href=\"https://www.chargeprice.net/terms-of-service\" target=\"_blank\">conditions générales</a> et la <a href=\"https://www.chargeprice.net/privacy-policy\" target=\"_blank\">politique de confidentialité</a>."
+  "authLabelPrivatePolicy": "J'accepte les <a href=\"https://www.chargeprice.net/terms-of-service\" target=\"_blank\">conditions générales</a> et la <a href=\"https://www.chargeprice.net/privacy-policy\" target=\"_blank\">politique de confidentialité</a>.",
+  "manageMyTariffsBannerMessage": "You didn't not subscribe to any tariffs yet and don't know which one are the best for you? Check out \"My Best Charging Card\" to find the tariffs that are best for you!",
+  "manageMyTariffsBannerLinkText": "Check out now!"
 }
