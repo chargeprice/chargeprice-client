@@ -10,12 +10,23 @@ export default class ManageMyTariffs extends ViewBase{
     super(depts);
     this.sidebar = sidebar;
     this.depts = depts;
+		this.eventBus = depts.eventBus();
     this.analytics = depts.analytics();
     this.allTariffs = [];
     this.myTariffIds = [];
     this.initializeTariffs();
     this.sortedTariffs = [];
     this.filterText = "";
+
+		this.showBanner = false;
+
+		this.eventBus.subscribe("sidebar.onContentChange",() => {
+			if (!this.myTariffIds.length) {
+				this.showBanner = true;
+			} else {
+				this.showBanner = false;
+			}
+		});
   }
 
 	noTariffsBannerTemplate() {
@@ -27,7 +38,7 @@ export default class ManageMyTariffs extends ViewBase{
 
   template(tariffs){
     return html`
-			${!this.myTariffIds.length ? this.noTariffsBannerTemplate() : ''}
+			${this.showBanner ? this.noTariffsBannerTemplate() : ''}
 
       <div class="w3-margin-bottom">${this.t("manageMyTariffsDescription")}</div>
 

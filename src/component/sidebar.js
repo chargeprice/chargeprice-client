@@ -133,6 +133,7 @@ export default class Sidebar extends ViewBase {
     this.hideOldContent();
     this.show(content.contentId);
     this.currentSidebarContentKey = contentKey;
+		this.eventBus.publish("sidebar.onContentChange", this.currentRoute);
     if(content.onOpen) content.onOpen();
   }
 
