@@ -70,7 +70,12 @@ export default class RoutePlanner extends ViewBase{
   }
 
   placeChanged(place,idx){
-    this.analytics.log('event', 'location_search_click', { button: "route_planner" });
+    this.analytics.log('event', 'location_search_click', { 
+      button: "route_planner",
+      location_name: place.name,
+      longitude: place.longitude,
+      latitude: place.latitude 
+     });
 
     this.currentRoute.waypoints[idx].place = place;
   }

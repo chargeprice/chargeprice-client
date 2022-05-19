@@ -70,7 +70,12 @@ export default class LocationSearch extends ViewBase {
 
   onPlaceChanged(place) {
     this.showResults([]);
-    this.analytics.log('event', 'location_search_click', { button: "my_location" });
+    this.analytics.log('event', 'location_search_click', { 
+      button: "my_location",
+      location_name: place.name,
+      longitude: place.longitude,
+      latitude: place.latitude 
+    });
 
     if(this.searchResultCallback) this.searchResultCallback(place);
   }

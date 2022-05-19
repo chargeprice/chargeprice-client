@@ -27,8 +27,8 @@ export default class LocationIQ{
 
       return {
         name: fullDisplayName,
-        latitude: entry.lat,
-        longitude: entry.lon
+        latitude: parseFloat(entry.lat),
+        longitude: parseFloat(entry.lon)
       }
     });
   }
