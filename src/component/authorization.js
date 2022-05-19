@@ -40,14 +40,14 @@ export default class Authorization extends ViewBase {
 						<div class="w3-bar">
 							<button
 								id="sign_in_button"
-								class="w3-bar-item w3-button w3-hover-none w3-border-white w3-bottombar w3-hover-border-blue w3-hover-text-blue w3-blue"
+								class="w3-bar-item w3-button pc-main"
 								@click="${() => this.onTabChange("sign_in")}"
 							>
 								${this.t("authLogInTabLabel")}
 							</button>
 							<button
 								id="sign_up_button"
-								class="w3-bar-item w3-button w3-hover-none w3-border-white w3-bottombar w3-hover-border-blue w3-hover-text-blue"
+								class="w3-bar-item w3-button"
 								@click="${() => this.onTabChange("sign_up")}"
 							>
 								${this.t("authSignUpTabLabel")}
@@ -67,7 +67,7 @@ export default class Authorization extends ViewBase {
 									${this.t("authForgotPasswordLink")}
 							</label>
 							<button
-								class="w3-button w3-block w3-blue w3-section w3-padding"
+								class="w3-button w3-block pc-main w3-section w3-padding"
 								type="submit"
 								@click="${(event) => this.onLogin(event)}"
 							>
@@ -93,7 +93,7 @@ export default class Authorization extends ViewBase {
 								<label for="sign_up_policy_agreement">${unsafeHTML(this.t("authLabelPrivatePolicy"))}</label>
 							</div>
 							<button
-								class="w3-button w3-block w3-blue w3-section w3-padding"
+								class="w3-button w3-block pc-main w3-section w3-padding"
 								type="submit"
 								disabled
 								@click="${(event) => this.onRegister(event)}"
@@ -132,7 +132,7 @@ export default class Authorization extends ViewBase {
 							<label>${this.t("authLabelForgotPassword")}</label>
 							<input type="text" name="reset_password_email" class="w3-input w3-border w3-margin-bottom" />
 							<button
-								class="w3-button w3-block w3-blue w3-section w3-padding"
+								class="w3-button w3-block pc-main w3-section w3-padding"
 								type="submit"
 								disabled
 								@click="${(event) => this.onPasswordReset(event)}"
@@ -215,15 +215,15 @@ export default class Authorization extends ViewBase {
 		if (type === "sign_in" && signIn.style.display === "none") {
 			this.getEl("sign_in").style.display = "block";
 			this.getEl("sign_up").style.display = "none";
-			this.getEl("sign_in_button").classList.toggle("w3-blue");
-			this.getEl("sign_up_button").classList.toggle("w3-blue");
+			this.getEl("sign_in_button").classList.toggle("pc-main");
+			this.getEl("sign_up_button").classList.toggle("pc-main");
 		}
 
 		if (type === "sign_up" && signUp.style.display === "none") {
 			this.getEl("sign_in").style.display = "none";
 			this.getEl("sign_up").style.display = "block";
-			this.getEl("sign_in_button").classList.toggle("w3-blue");
-			this.getEl("sign_up_button").classList.toggle("w3-blue");
+			this.getEl("sign_in_button").classList.toggle("pc-main");
+			this.getEl("sign_up_button").classList.toggle("pc-main");
 		}
 	}
 
