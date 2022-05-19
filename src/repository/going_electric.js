@@ -109,6 +109,7 @@ export default class GoingElectric {
       longitude: data.coordinates.lng,
       latitude: data.coordinates.lat,
       country: data.address.country,
+      network: this.valueOrFallback(data.network),
       chargePoints: data.chargepoints.map((cp,idx) => this.parseChargePoint(cp,idx,vehicle)),
       faultReported: data.fault_report
     }

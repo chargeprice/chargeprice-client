@@ -7,12 +7,12 @@ export default class ModalBase extends ViewBase {
     this.root = "messageDialog";
   }
 
-  header(text){
+  header(text,allowClose=true){
     return html`
       <div class="w3-row w3-bar pc-secondary">
-        <button @click="${()=>this.hide()}" class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close">
+        ${allowClose ? html`<button @click="${()=>this.hide()}" class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close">
           <img class="inverted" class="w3-button " src="img/close.svg">
-        </button>
+        </button>` : "" }
         <div class="w3-rest w3-large popup-header">${text}</div>
       </div>
     `;

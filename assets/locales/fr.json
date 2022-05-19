@@ -180,5 +180,9 @@
   "authServiceNotAvailable": "Désolé, le service n'est pas disponible actuellement. Veuillez réessayer plus tard !",
   "authProfileSettingsHeader": "Votre compte Chargeprice",
   "accountBenefits": "<h4>Avantages du compte Chargeprice</h4>\n\nCe compte permet d'accéder aux fonctionnalités suivantes sur Chargeprice :\n\n<ul>\n        <li>Sélectionnez vos tarifs & abonnements et faites-les apparaître en haut de la liste des prix.</li>\n        <li>Enregistrez vos tarifs et votre véhicule sélectionnés dans votre compte sur plusieurs appareils.</li>\n        <li>E-mail pré-rempli pour les feedbacks des utilisateurs.</li>\n</ul>\n\n<i>Prochainement disponible également dans nos applications Android et iOS.</i>\n\n<p>Ce n'est que le début ! D'autres fonctionnalités suivront à l'avenir !</p>",
-  "authLabelPrivatePolicy": "J'accepte les <a href=\"https://www.chargeprice.net/terms-of-service\" target=\"_blank\">conditions générales</a> et la <a href=\"https://www.chargeprice.net/privacy-policy\" target=\"_blank\">politique de confidentialité</a>."
+  "authLabelPrivatePolicy": "J'accepte les <a href=\"https://www.chargeprice.net/terms-of-service\" target=\"_blank\">conditions générales</a> et la <a href=\"https://www.chargeprice.net/privacy-policy\" target=\"_blank\">politique de confidentialité</a>.",
+  "manageMyTariffsBannerMessage": "Vous n'avez pas encore d'abonnement pour le moment? Regardez \"Ma carte de recharge\" Pour trouver le meilleur abonnement pour vous !",
+  "manageMyTariffsBannerLinkText": "Regardez maintenant !",
+  "cookieConstentHeader": "Consentement au suivi",
+  "cookieConstentText": "Nous utilisons Google Analytics pour évaluer le comportement des utilisateurs.\nCela nous permet d'améliorer en permanence les fonctions du site web.\nNous n'utilisons pas ces données pour la publicité personnalisée ou autre.\nLe consentement est volontaire et n'affecte pas la fonctionnalité générale du site web."
 }

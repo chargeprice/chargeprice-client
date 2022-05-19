@@ -6,6 +6,7 @@ export default class StationDetailsView extends ViewBase {
   constructor(depts) {
     super(depts);
     this.depts = depts;
+    this.analytics = depts.analytics();
     this.customConfig = depts.customConfig();
   }
 
@@ -31,7 +32,7 @@ export default class StationDetailsView extends ViewBase {
           </span>
         `:""}
         <span class="w3-tag w3-light-gray cp-margin-top-small">
-          <a href="${url}" target="_blank"><i class="fa fa-location-arrow"></i> ${this.t("openInMapsLink")}</a>
+          <a href="${url}" @click="${()=>this.onOpenInMaps()}" target="_blank"><i class="fa fa-location-arrow"></i> ${this.t("openInMapsLink")}</a>
         </span>
 
         ${["DE","Deutschland"].includes(station.country) ? html`
@@ -77,6 +78,10 @@ export default class StationDetailsView extends ViewBase {
     const report = station.faultReport;
     const message = `${report.description} (${dayjs(new Date(report.created*1000)).format("DD.MM.YYYY")})`;
     new GenericPopup(this.depts).show({header: this.t("faultReported"), message: message});
+  }
+
+  onOpenInMaps(){
+    this.analytics.log('event', 'open_in_maps_clicked');
   }
 
   copyTableToClipboard(elementId){

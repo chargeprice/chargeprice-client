@@ -93,8 +93,12 @@ export default class StationPrices extends ViewBase{
     this.slider.noUiSlider.on('end', ()=>{
       this.storeBatteryRange();
       const range = this.getBatteryRange();
-      const totalPercentage = range[1]-range[0]; 
-      this.analytics.log('send', 'event', 'BatteryChanged', totalPercentage,null,range[0]);
+
+      this.analytics.log('event', 'battery_changed',{
+        percentage_start: range[0],
+        percentage_end: range[1]
+      });
+
       this.batteryChangedCallback()
     });
   }
@@ -108,7 +112,7 @@ export default class StationPrices extends ViewBase{
     render(this.batteryRangeInfoTempl({from: range[0], to: range[1]}),this.getEl("batteryRangeInfo"));
   }
 
-  showStation(station,options){
+  showStation(station){
     this.sortedCP = station.chargePoints.sort((a,b)=>{
       const b1 = b.supportedByVehicle;
       const a1 = a.supportedByVehicle;
@@ -210,8 +214,8 @@ export default class StationPrices extends ViewBase{
     new StartTimeSelection(this.depts).show(this.startTimeRepo.get(), (result)=>{
       this.startTimeRepo.set(result);
       if(this.startTimeChangedCallback) this.startTimeChangedCallback();
-      const hourTime = result == null ? "now" : (result/60).toFixed(0);
-      this.analytics.log('send', 'event', 'StartTimeChanged', hourTime);
+      
+      this.analytics.log('event', 'time_of_day_changed',{new_value: result});
     })
   }
 

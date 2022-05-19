@@ -36,7 +36,7 @@ export default class ModalInstallApp extends ModalBase {
   }
 
   logClick(platform) {
-    this.analytics.log('send', 'event', 'AppInstall', platform);
+    this.analytics.log('event', 'app_install_clicked',{platform: platform});
   }
  }
 

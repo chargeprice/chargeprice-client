@@ -70,6 +70,8 @@ export default class RoutePlanner extends ViewBase{
   }
 
   placeChanged(place,idx){
+    this.analytics.log('event', 'location_search_click', { button: "route_planner" });
+
     this.currentRoute.waypoints[idx].place = place;
   }
 
@@ -84,7 +86,7 @@ export default class RoutePlanner extends ViewBase{
     
     this.settingsPrimitive.setObject("currentRoute",null);
     this.eventBus.publish("route.deleted");
-    this.analytics.log('send', 'event', 'RouteDeleted');
+    this.analytics.log('event', 'route_planner_deleted');
   }
 
   async onCalculate(){
@@ -102,7 +104,7 @@ export default class RoutePlanner extends ViewBase{
     this.eventBus.publish("route.created", this.currentRoute);
 
     this.settingsPrimitive.setObject("currentRoute",this.currentRoute);
-    this.analytics.log('send', 'event', 'RouteCalculated',waypointLocations.length);
+    this.analytics.log('event', 'route_planner_calculate', { number_of_steps: waypointLocations.length-2 });
   }
 
   defaultRoute(){

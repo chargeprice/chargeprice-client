@@ -51,7 +51,7 @@ export default class LocationSearch extends ViewBase {
   }
 
   onShowRoutePlaner(){
-    this.analytics.log('send', 'event', 'LocationSearch','route');
+    this.analytics.log('event', 'route_planner_open');
     this.eventBus.publish("sidebar.change",{ sidebar: "route" })
   }
 
@@ -70,7 +70,7 @@ export default class LocationSearch extends ViewBase {
 
   onPlaceChanged(place) {
     this.showResults([]);
-    this.analytics.log('send', 'event', 'LocationSearch','search');
+    this.analytics.log('event', 'location_search_click', { button: "my_location" });
 
     if(this.searchResultCallback) this.searchResultCallback(place);
   }
@@ -84,7 +84,7 @@ export default class LocationSearch extends ViewBase {
     }
     catch(ex){
       if(ex=="429"){
-        this.analytics.log('send', 'event', 'LocationSearch','rateLimitExceeded');
+        this.analytics.log('event', 'location_search_rate_limit_exceeded');
       } 
     }
   }
@@ -94,7 +94,7 @@ export default class LocationSearch extends ViewBase {
   }
 
   onMyLocation(){
-    this.analytics.log('send', 'event', 'LocationSearch','currentLocation');
+    this.analytics.log('event', 'go_to_my_location');
     if(this.myLocationCallback) this.myLocationCallback();
   }
 

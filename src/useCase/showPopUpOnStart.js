@@ -22,24 +22,26 @@ export default class ShowPopUpOnStart {
     // don't show any pop ups for white labels!
     if(!this.themeLoader.isDefaultTheme()) return;
 
+    if(!this.didAskForTracking()){
+      this.showWelcome();
+      return;
+    }
+
     switch(previousStartCount){
-      case 0: this.showWelcome(); break;
       case 2: this.showSocialMedia(); break;
       case 4: this.showAppInstall(); break;
       case 6: this.showDonate(); break;
     }
   }
 
-  showWelcome(){
-    if(this.didVisitBeforeWelcomeDialogExisted()) return;
-    
+  showWelcome(){   
     // consider redirect to car selection
     new ModalWelcome(this.depts).show();
   }
 
   showSocialMedia(){
     
-    this.logPopUp("socialMedia");
+    this.logPopUp("social_media");
     new ModalSocialMedia(this.depts).show();
   }
 
@@ -49,15 +51,16 @@ export default class ShowPopUpOnStart {
   }
 
   showAppInstall(){
-    this.logPopUp("appInstall");
+    this.logPopUp("app_install");
     new ModalInstallApp(this.depts).show();
   }
 
-  didVisitBeforeWelcomeDialogExisted(){
-    return !!localStorage.getItem("myVehicle");
+  logPopUp(name){
+    this.analytics.log('event', 'app_start_popup',{popup_id: name});
   }
 
-  logPopUp(name){
-    this.analytics.log('send', 'event', 'Popup', name);
+  didAskForTracking(){
+    return this.settingsPrimitive.getBoolean("askedForTracking",false);
   }
+
 }

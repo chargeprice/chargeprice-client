@@ -29,7 +29,7 @@ export default class ModalSocialMedia extends ModalBase {
   }
 
   open(source){
-    this.analytics.log('send', 'event', 'SocialMediaRedirect', source);
+    this.analytics.log('event', 'social_media_clicked',{source: source});
     window.open(this.urlForSource(source), '_blank').focus();
   }
 

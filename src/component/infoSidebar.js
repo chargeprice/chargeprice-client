@@ -143,7 +143,7 @@ export default class InfoSidebar extends ViewBase {
   }
 
   executeAction(entry){
-    this.analytics.log('send', 'event', 'Menu', entry.id);
+    this.analytics.log('event', 'info_sidebar_item_opened',{item_id: entry.id});
     entry.action();
   }
 }

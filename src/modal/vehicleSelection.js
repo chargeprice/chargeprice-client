@@ -57,8 +57,12 @@ export default class VehicleSelection extends ModalBase {
   }
 
   selectVehicle(vehicle){
-    this.analytics.log('send', 'event', 'VehicleSelected', vehicle.name);
-    this.analytics.log('send', 'event', 'VehicleBrandSelected', vehicle.brand);
+    this.analytics.log('event', 'vehicle_changed',{
+      brand: vehicle.brand,
+      model: vehicle.name,
+      vehicle_id: vehicle.id
+    });
+
     this.hide();
     if(this.callback) this.callback(vehicle);
   }

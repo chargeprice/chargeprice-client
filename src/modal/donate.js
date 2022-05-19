@@ -25,7 +25,7 @@ export default class ModalDonate extends ModalBase {
   }
 
   donate(){
-    this.analytics.log('send', 'event', 'Donation', 'popup');
+    this.analytics.log('event', 'donate_clicked',{source: "popup"});
   }
 }
 

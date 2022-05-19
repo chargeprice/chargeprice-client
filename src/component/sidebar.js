@@ -127,7 +127,7 @@ export default class Sidebar extends ViewBase {
   }
 
   open(contentKey) {
-		this.analytics.log('send', 'event', 'Sidebar', 'open', contentKey);
+    this.analytics.log('event', 'sidebar_opened',{sidebar_id: contentKey});
 
     this.show(this.rootId)
 

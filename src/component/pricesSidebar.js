@@ -39,7 +39,7 @@ export default class PricesSidebar extends ViewBase {
   }
 
   openProLink(){
-    this.analytics.log('send', 'event', 'PriceList','pro');
+    this.analytics.log('event', 'price_list_pro_clicked');
     window.open("https://www.chargeprice.net")
   }
 }

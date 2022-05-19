@@ -180,5 +180,9 @@
   "authServiceNotAvailable": "Leider ist der Dienst derzeit nicht verfügbar. Bitte versuche es später noch einmal!",
   "authProfileSettingsHeader": "Dein Chargeprice Account",
   "accountBenefits": "<h4>Vorteile des Chargeprice Accounts</h4>\n\nDer Account ermöglicht folgende Funktionen auf Chargeprice:\n\n<ul>\n        <li>Wähle deine Tarife und zeige diese in einem eigenen Bereich in der Preisliste an.</li>\n        <li>Speichere deine Tarife und dein Fahrzeug in deinem Account und nutze diese auf mehreren Endgeräten.</li>\n        <li>Vorausgefüllte E-Mail-Adresse bei allen Rückmeldungen (Falscher Preis, Fehlende Station...)</li>\n</ul>\n\n<i>Bald auch verfügbar in unseren Android und iOS Apps.</i>\n\n<p>Das ist erst der Anfang! Wir planen viele neue Features für die Zukunft!</p>",
-  "authLabelPrivatePolicy": "Ich stimme den <a href=\"https://www.chargeprice.net/terms-of-service\" target=\"_blank\">Allgemeinen Geschäftsbedingungen</a> und der <a href=\"https://www.chargeprice.net/privacy-policy\" target=\"_blank\">Datenschutzrichtlinie</a> zu."
+  "authLabelPrivatePolicy": "Ich stimme den <a href=\"https://www.chargeprice.net/terms-of-service\" target=\"_blank\">Allgemeinen Geschäftsbedingungen</a> und der <a href=\"https://www.chargeprice.net/privacy-policy\" target=\"_blank\">Datenschutzrichtlinie</a> zu.",
+  "manageMyTariffsBannerMessage": "You didn't not subscribe to any tariffs yet and don't know which one are the best for you? Check out \"My Best Charging Card\" to find the tariffs that are best for you!",
+  "manageMyTariffsBannerLinkText": "Check out now!",
+  "cookieConstentHeader": "Tracking Erlaubnis",
+  "cookieConstentText": "Wir verwenden Google Analytics zur Auswertung des Nutzerverhaltens.\nDies erlaubt uns die Funktionen der Website laufend zu verbessern.\nWir verwenden diese Daten nicht für personalisierte Werbung oder ähnliches.\nDie Zustimmung ist freiwillig und beeinflusst die generelle Funktionalität der Website nicht."
 }

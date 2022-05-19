@@ -35,7 +35,7 @@ export default class ModalFeedback extends ModalBase {
           <input id="email" value="${this.profile && this.profile.email}" maxlength="100" placeholder="my.email@gmail.com" class="w3-input w3-border"/>
         </p>
         <p>
-        ${emailText} <a href="mailto:contact@chargeprice.net">contact@chargeprice.net</a>
+        ${emailText} <a href="mailto:contact@chargeprice.net" @click="${()=>this.onClickOnContactEmail()}">contact@chargeprice.net</a>
         </p>
       </div>
       <button @click="${()=>this.submit()}" class="w3-btn pc-secondary w3-margin-bottom w3-margin-left">
@@ -172,6 +172,9 @@ export default class ModalFeedback extends ModalBase {
         emailText = this.t("fbEmailFooterSubmitInvoice");
         break;
     }
+
+    this.analytics.log('event', 'user_feedback_opened',{type: this.type});
+
     render(this.generalTemplate(header, template, notesHeader,emailText),this.getEl(this.root));
     this.getEl(this.root).style.display = 'block';
   }
@@ -221,7 +224,7 @@ export default class ModalFeedback extends ModalBase {
         break;
     }
 
-    this.analytics.log('send', 'event', 'UserReport', this.type);
+    this.analytics.log('event', 'user_feedback_sent',{type: this.type});
 
     try {
       await new StationTariffs(this.depts).postUserFeedback(feedback);
@@ -246,5 +249,8 @@ export default class ModalFeedback extends ModalBase {
     ].join(", ");
   }
 
+  onClickOnContactEmail(){
+    this.analytics.log('event', 'click_on_contact');
+  }
 }
 

@@ -93,6 +93,13 @@ export default class ManageMyTariffs extends ViewBase{
   async onAdd(tariff) {
     if(this.myTariffIds.includes(tariff.id)) return;
     this.myTariffIds.push(tariff.id);
+
+    this.analytics.log('event', 'my_subscription_added',{
+      emp_name: tariff.provider,
+      tariff_name: tariff.name,
+      total_number: this.myTariffIds.length,
+    });
+
     this.render();
     await this.saveToStorage();
   }
@@ -117,8 +124,6 @@ export default class ManageMyTariffs extends ViewBase{
 
   async saveToStorage(){
     new UpdateUserSettings(this.depts).run({tariffs: this.getMyTariffReferences()})
-
-    this.analytics.log('send', 'event', 'MyTariffs', 'save',null,this.myTariffIds.length);
   }
 
   getMyTariffs(){

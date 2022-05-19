@@ -4,6 +4,7 @@ import ModalBase from './base';
 export default class ModelPartner extends ModalBase {
   constructor(depts){
     super(depts);
+    this.analytics = depts.analytics();
   }
 
   template(){
@@ -31,7 +32,7 @@ export default class ModelPartner extends ModalBase {
   }
 
   onAffiliatePartner(name){
-    this.analytics.log('send', 'event', 'AffiliatePartner', name);
+    this.analytics.log('event', 'affiliate_partner',{partner: name});
   }
 }
 

@@ -94,7 +94,7 @@ class App {
     if (poiId != null && poiSource != null) {
       this.poiId = poiId;
       this.poiSource = poiSource;
-      this.analytics.log('send', 'event', 'PoiDeeplink', poiSource);
+      this.analytics.log('event', 'poi_deeplink_opened', { poi_source: poiSource });
     } else {
       this.showFallbackLocation();
       this.getCurrentLocation();
@@ -167,7 +167,10 @@ class App {
     if(!model.lite) {
       // If CP was opened by Deeplink, don't track the station
       // Look at PoiDeeplink instead
-      this.analytics.log('send', 'event', 'Station', powerType);
+      const maxPower = model.chargePoints.reduce((memo,cp)=>cp.power > memo ? cp.power : memo,0);
+      const country = model.country;
+      const cpoName = model.network;
+      this.analytics.log('event', 'station_opened',{max_power: maxPower, cpo: cpoName, country: country});
     }
 
     await this.withNetwork(async ()=>{

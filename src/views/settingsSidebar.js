@@ -7,6 +7,7 @@ export default class SettingsSidebar extends ViewBase {
   constructor(depts) {
     super(depts);
     this.depts = depts;
+    this.analytics = depts.analytics();
     this.settingsPrimitive = depts.settingsPrimitive();
     this.customConfig = depts.customConfig();
     this.currency = depts.currency();
@@ -28,10 +29,10 @@ export default class SettingsSidebar extends ViewBase {
     <label class="w3-block">${this.t("myVehicle")}</label>
     <div id="selectVehicle" class="w3-margin-bottom"></div>
 
-    <input @click="${()=>this.onOptionsChanged()}" id="onlyTariffsWithoutMonthlyFees" class="w3-check" type="checkbox">
+    <input @click="${()=>this.onOptionsChanged("tariff_without_subscription")}" id="onlyTariffsWithoutMonthlyFees" class="w3-check" type="checkbox">
     <label>${this.t("onlyTariffsWithoutMonthlyFees")}</label><br>
 
-    <input @click="${()=>this.onOptionsChanged()}" id="providerCustomerTariffs" class="w3-check w3-margin-top" type="checkbox">
+    <input @click="${()=>this.onOptionsChanged("customer_tariff")}" id="providerCustomerTariffs" class="w3-check w3-margin-top" type="checkbox">
     <label>${this.t("showExclusiveProviderCustomerTariffs")}</label><br>
     <label class="w3-small">${this.t("showExclusiveProviderCustomerTariffsDetail")}</label><br>
 
@@ -51,7 +52,7 @@ export default class SettingsSidebar extends ViewBase {
     <div class="w3-small">${this.t("zoomLevelDependentStation")}</div>
     <div class="w3-row w3-margin-top" id="powerSlider"></div>
 
-    <input @click="${()=>this.onOptionsChanged()}" id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
+    <input @click="${()=>this.onOptionsChanged("free_charging_changed")}" id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
     <label>${this.t("onlyFreeStations")}</label><br>
 
     <input @click="${()=>this.onOptionsChanged()}" id="openNow" class="w3-check w3-margin-top" type="checkbox">
@@ -111,6 +112,7 @@ export default class SettingsSidebar extends ViewBase {
   currencyChanged(value){
     this.currency.changeCurrency(value);
     this.sidebar.optionsChanged();
+    this.analytics.log('event', 'currency_changed',{new_value: value});
     render(this.currencyTemplate(),this.getEl("selectCurrency"));
   }
 
@@ -146,7 +148,7 @@ export default class SettingsSidebar extends ViewBase {
       render(this.powerValueTemplate(),document.getElementById("powerSliderInfo"));
     });
 
-    slider.noUiSlider.on('end', ()=>this.onOptionsChanged());
+    slider.noUiSlider.on('end', ()=>this.onOptionsChanged("connector_speed"));
   }
 
   onShowMyTariffs(){
@@ -158,8 +160,11 @@ export default class SettingsSidebar extends ViewBase {
     this.saveModel();
   }
 
-  onOptionsChanged(){
+  onOptionsChanged(trackingKey){
     this.saveModel();
+
+    if(trackingKey) this.trackChange(trackingKey);
+
     this.sidebar.optionsChanged();
   }
 
@@ -202,6 +207,24 @@ export default class SettingsSidebar extends ViewBase {
     this.checkBoxes.forEach(
       key => this.settingsPrimitive.setBoolean(key, model[key])
     );
+  }
+
+  trackChange(trackingKey){
+    const model = this.getModel();
+    switch(trackingKey){
+      case "tariff_without_subscription":
+        this.analytics.log('event', trackingKey,{new_value: model.onlyTariffsWithoutMonthlyFees});
+        break;
+      case "customer_tariff":
+        this.analytics.log('event', trackingKey,{new_value: model.providerCustomerTariffs});
+        break;
+      case "free_charging_changed":
+        this.analytics.log('event', trackingKey,{new_value: model.onlyFree});
+        break;
+      case "connector_speed":
+        this.analytics.log('event', trackingKey,{new_value: parseInt(model.minPower)});
+        break;
+    }
   }
 }
 
