@@ -16,6 +16,7 @@ export default class ManageMyTariffs extends ViewBase{
     this.initializeTariffs();
     this.sortedTariffs = [];
     this.filterText = "";
+    this.theme = depts.themeLoader().getCurrentThemeConfig();
   }
 
   template(tariffs){
@@ -27,7 +28,7 @@ export default class ManageMyTariffs extends ViewBase{
       <table id="charge-card-list" class="w3-table w3-striped w3-margin-top">
         <tbody>
         ${tariffs.map(tariff=>html`
-          <tr style="${tariff.branding ? `background: ${tariff.branding.background_color} !important;`:""}">
+          <tr style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important;`:""}">
             <td width="50">
             ${
               this.myTariffIds.includes(tariff.id) ?
@@ -39,14 +40,14 @@ export default class ManageMyTariffs extends ViewBase{
               ${tariff.name == null || tariff.name == tariff.provider ?
                 html`<span>${tariff.provider}</span><br>` :
                 html`<span>${tariff.name}</span><br>
-                    ${!tariff.branding ? html`<label class="w3-margin-top w3-small">${tariff.provider}</label>`:""}`
+                    ${!this.isHighlighted(tariff) ? html`<label class="w3-margin-top w3-small">${tariff.provider}</label>`:""}`
               }
               ${tariff.providerCustomerOnly ?
                 html`
                   <label class="w3-small w3-block">${this.t("providerCustomerOnly")}</label> 
                 `:""}
 
-              ${tariff.branding ? html`
+              ${this.isHighlighted(tariff) ? html`
                 <img class="feature-logo" src="${tariff.branding.logo_url}"/>
               `:""}
             </td>
@@ -72,8 +73,8 @@ export default class ManageMyTariffs extends ViewBase{
       const aMy = !!indexedMyTariffs[a.id];
       const bMy = !!indexedMyTariffs[b.id];
 
-      const bF = !!b.branding;
-      const aF = !!a.branding;
+      const bF = this.isHighlighted(b);
+      const aF = this.isHighlighted(a);
 
       if(aMy == bMy){
         if(bF == aF) return a.name.localeCompare(b.name);
@@ -133,5 +134,10 @@ export default class ManageMyTariffs extends ViewBase{
 
   getMyTariffReferences(){
     return this.myTariffIds.map(id=>{ return {id: id, type: "tariff" } })
+  }
+
+  isHighlighted(tariff) {
+    const highlightedIds = this.theme.highlightedTariffs;
+    return tariff.branding && (!highlightedIds || highlightedIds.includes(tariff.id));
   }
 }

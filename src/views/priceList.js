@@ -8,6 +8,8 @@ export default class PriceListView extends ViewBase {
     this.analytics = depts.analytics();
     this.currency = depts.currency();
     this.sidebar = sidebar;
+
+    this.theme = depts.themeLoader().getCurrentThemeConfig();
   }
 
   template(pricesForMyTariffs, otherPrices){
@@ -49,7 +51,7 @@ export default class PriceListView extends ViewBase {
     return prices.map(p=>{
       const tariff = p.tariff;
       return html`
-      <tr style="${tariff.branding ? `background: ${tariff.branding.background_color} !important;` : ""}" >
+      <tr style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important;` : ""}" >
         ${this.tariffOverviewTemplate(p,tariff)}
         ${this.priceTemplate(p,tariff)}
       </tr>
@@ -62,7 +64,7 @@ export default class PriceListView extends ViewBase {
       ${tariff.tariffName == null || tariff.tariffName == tariff.provider ?
         html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.provider}</span></a>` :
         html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.tariffName}</span></a><br>
-            ${!tariff.branding ? html`<label class="w3-margin-top w3-small ${this.isMyTariff(tariff)?"":""}">${tariff.provider}</label>`:""}`
+            ${!this.isHighlighted(tariff) ? html`<label class="w3-margin-top w3-small ${this.isMyTariff(tariff)?"":""}">${tariff.provider}</label>`:""}`
       }
       ${this.renderTags(price.tariff.tags, tariff)}
       ${tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0 ?
@@ -76,7 +78,7 @@ export default class PriceListView extends ViewBase {
         html`
           <label class="w3-small w3-block">${this.t("providerCustomerOnly")}</label> 
         `:""}
-      ${tariff.branding ? html`
+      ${this.isHighlighted(tariff) ? html`
         <a href="${tariff.url}" target="_blank"><img class="feature-logo" src="${tariff.branding.logo_url}"/></a>
       `:""}
       ${this.h().customConfig.isBeta() && tariff.links && tariff.links.open_app_at_station ?
@@ -191,6 +193,11 @@ export default class PriceListView extends ViewBase {
 
   isMyTariff(tariff){
     return this.myTariffs.some(t=>t.id == tariff.tariff.id); 
+  }
+
+  isHighlighted(tariff) {
+    const highlightedIds = this.theme.highlightedTariffs;
+    return tariff.branding && (!highlightedIds || highlightedIds.includes(tariff.tariff.id));
   }
 }
 
