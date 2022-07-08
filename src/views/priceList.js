@@ -51,7 +51,7 @@ export default class PriceListView extends ViewBase {
     return prices.map(p=>{
       const tariff = p.tariff;
       return html`
-      <tr style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important;` : ""}" >
+      <tr style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
         ${this.tariffOverviewTemplate(p,tariff)}
         ${this.priceTemplate(p,tariff)}
       </tr>
@@ -62,8 +62,8 @@ export default class PriceListView extends ViewBase {
     return html`
     <td class="cp-price-left">
       ${tariff.tariffName == null || tariff.tariffName == tariff.provider ?
-        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.provider}</span></a>` :
-        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.tariffName}</span></a><br>
+        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank" style="${this.isHighlighted(tariff) ? `border-bottom-color: ${tariff.branding.text_color};`:""}"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.provider}</span></a>` :
+        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank" style="${this.isHighlighted(tariff) ? `border-bottom-color: ${tariff.branding.text_color};`:""}"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.tariffName}</span></a><br>
             ${!this.isHighlighted(tariff) ? html`<label class="w3-margin-top w3-small ${this.isMyTariff(tariff)?"":""}">${tariff.provider}</label>`:""}`
       }
       ${this.renderTags(price.tariff.tags, tariff)}

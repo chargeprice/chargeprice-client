@@ -28,7 +28,7 @@ export default class ManageMyTariffs extends ViewBase{
       <table id="charge-card-list" class="w3-table w3-striped w3-margin-top">
         <tbody>
         ${tariffs.map(tariff=>html`
-          <tr style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important;`:""}">
+          <tr style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;`:""}">
             <td width="50">
             ${
               this.myTariffIds.includes(tariff.id) ?
