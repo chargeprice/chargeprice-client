@@ -81,6 +81,11 @@ export default class StationTariffs {
       query["filter[free_charging]"] = true;
     }
 
+    const myEmpIds = options.myTariffs.filter(t=>t.emp).map(t=>t.emp.id);
+    if(options.onlyShowMyTariffs && myEmpIds.length > 0){
+      query["filter[operator.supported_emps.id]"]=myEmpIds.join(",")
+    }
+
     const url = `${this.base_url}/v1/charging_stations?${this.toQuery(query)}`;
     const response = await fetch(url, {
       headers: {
