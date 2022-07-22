@@ -15,6 +15,7 @@ export default class UserProfile extends ViewBase {
 		this.authService = new AuthService();
 		this.messageDialogId = "messageDialog";
 		this.profile = {};
+		this.accessToken = null;
 		this.map = null;
 
 		this.menuItems = [
@@ -67,6 +68,10 @@ export default class UserProfile extends ViewBase {
 				</div>
 
 				<button class="w3-btn pc-secondary w3-margin-top" @click="${() => this.onLogout()}">Logout</button>
+
+				<br><br><br>
+
+				<span class="w3-link" @click="${()=>this.deleteAccount()}">${this.t("deleteAccountLabel")}</span>
 			</div>
 		`;
 	}
@@ -75,6 +80,7 @@ export default class UserProfile extends ViewBase {
 		try {
 			const tokenWithProfile = await new FetchAccessTokenWithProfile(this.depts).run();
 			this.profile = tokenWithProfile.profile;
+			this.accessToken = tokenWithProfile.accessToken;
 		} catch (error) {
 			// TODO: Handle error here
 		}
@@ -108,6 +114,16 @@ export default class UserProfile extends ViewBase {
 			console.log("ERROR!", error)
 			// TODO: Handle error here
 		}
+	}
+
+	async deleteAccount(){
+		const response = confirm(this.t("confirmDeleteAccount"))
+
+		if(!response) return;
+
+		await this.authService.deleteAccount(this.profile.userId, this.accessToken);
+
+		this.onLogout();
 	}
 
 	onShowMyTariffs() {

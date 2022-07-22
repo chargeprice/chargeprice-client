@@ -87,6 +87,18 @@ export default class AuthService {
 		});
 	}
 
+	async deleteAccount(userId, accessToken){
+		await fetch(
+			`${this.baseEndpointUrl}/v1/users/${userId}`, 
+			{
+			headers: {
+				"API-Key": this.apiKey,
+				"Authorization": `Bearer ${accessToken}`
+			},
+			method: "DELETE"
+		})
+	}
+
 	async sendRequest(request) {
 		return await fetch(request.url, {
 			headers: {

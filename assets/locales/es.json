@@ -35,8 +35,8 @@
   "onlyShowMyTariffs": "Mostrar solo las estaciones compatibles con mis tarifas",
   "onlyShowMyTariffsDetail": "Solo las estaciones compatibles con mi plan o accesible sin tarifa van a aparecer",
   "manageMyTariffsLink": "Gestionar mis planes de recarga",
-  "priceDetailsLabel": "Show more information about pricing",
-  "priceDetailsDetails": "Average price / kWh and type of billing (per Minute, kWh...)",
+  "priceDetailsLabel": "Mostrar informaciones de las tarifas",
+  "priceDetailsDetails": "Precio medio / Kwh, tipo de facturacion (Kwh, por minuto, por sesion)",
   "ok": "Ok ",
   "poiKey": "Leyenda",
   "chargePowerTo": "Inferior a {0} kW",
@@ -184,5 +184,7 @@
   "manageMyTariffsBannerMessage": "You didn't not subscribe to any tariffs yet and don't know which one are the best for you? Check out \"My Best Charging Card\" to find the tariffs that are best for you!",
   "manageMyTariffsBannerLinkText": "¡Verificalo ahora!",
   "cookieConstentHeader": "Tracking Consent",
-  "cookieConstentText": "We use Google Analytics to evaluate user behavior.\nThis allows us to continuously improve the functions of the website.\nWe do not use this data for personalized advertising or the like.\nConsent is voluntary and does not affect the general functionality of the website."
+  "cookieConstentText": "We use Google Analytics to evaluate user behavior.\nThis allows us to continuously improve the functions of the website.\nWe do not use this data for personalized advertising or the like.\nConsent is voluntary and does not affect the general functionality of the website.",
+  "deleteAccountLabel": "Delete Account",
+  "confirmDeleteAccount": "Do you really want to delete your account?"
 }

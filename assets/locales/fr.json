@@ -184,5 +184,7 @@
   "manageMyTariffsBannerMessage": "Vous n'avez pas encore d'abonnement pour le moment? Regardez \"Ma carte de recharge\" Pour trouver le meilleur abonnement pour vous !",
   "manageMyTariffsBannerLinkText": "Regardez maintenant !",
   "cookieConstentHeader": "Consentement au suivi",
-  "cookieConstentText": "Nous utilisons Google Analytics pour évaluer le comportement des utilisateurs.\nCela nous permet d'améliorer en permanence les fonctions du site web.\nNous n'utilisons pas ces données pour la publicité personnalisée ou autre.\nLe consentement est volontaire et n'affecte pas la fonctionnalité générale du site web."
+  "cookieConstentText": "Nous utilisons Google Analytics pour évaluer le comportement des utilisateurs.\nCela nous permet d'améliorer en permanence les fonctions du site web.\nNous n'utilisons pas ces données pour la publicité personnalisée ou autre.\nLe consentement est volontaire et n'affecte pas la fonctionnalité générale du site web.",
+  "deleteAccountLabel": "Delete Account",
+  "confirmDeleteAccount": "Do you really want to delete your account?"
 }
