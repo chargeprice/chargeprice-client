@@ -4,6 +4,7 @@ export default class AuthService {
 		this.signInEndpoint = this.baseEndpointUrl + "/v1/authenticate";
 		this.signUpEndpoint = this.baseEndpointUrl + "/v1/users";
 		this.resetPasswordEndpoint = this.baseEndpointUrl + "/v1/trigger_reset_password";
+		this.apiKey = process.env.CHARGEPRICE_API_KEY;
 	}
 
 	async signIn(data) {
@@ -90,6 +91,7 @@ export default class AuthService {
 		return await fetch(request.url, {
 			headers: {
 				"Content-Type": "application/json",
+				"Api-Key": this.apiKey
 			},
 			...request.options,
 		}).then((res) => {
