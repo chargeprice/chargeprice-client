@@ -335,10 +335,11 @@ i.fav-icon {
 }
 
 .feature-logo{
-  max-width: 100px;
-  max-height: 30px;
-  margin-top: 8px;
+  max-width: 90px;
+  max-height: 26px;
+  margin-top: 12px;
   border-radius: 2px;
+  margin-bottom: 8px;
 }
 
 .cp-price-right{
