@@ -19,8 +19,8 @@ export default class StationDetailsView extends ViewBase {
       <div class="cp-margin-top-small">
         ${station.faultReported ? html`<span class="w3-tag w3-link w3-red cp-margin-top-small" @click="${()=>this.onFaultReport(station)}">
           <i class="fa fa-exclamation"></i> ${this.t("faultReported")}</span>`:""}
-        ${station.isFreeParking ? html`<span class="w3-tag w3-green cp-margin-top-small">${this.t("freeParking")}</span>`:""}
-        ${station.isFreeCharging  ? html`<span class="w3-tag w3-green cp-margin-top-small">${this.t("freeCharging")}</span>`:""}
+        ${station.isFreeParking ? html`<span class="w3-tag w3-green cp-margin-top-small ${station.priceDescription ? "w3-link" : ""}" @click="${()=>this.onFreeCharging(station)}">${this.t("freeParking")}</span>`:""}
+        ${station.isFreeCharging  ? html`<span class="w3-tag w3-green cp-margin-top-small ${station.priceDescription ? "w3-link" : ""}" @click="${()=>this.onFreeCharging(station)}">${this.t("freeCharging")}</span>`:""}
         ${station.network  ? html`
           <span class="w3-tag w3-light-gray cp-margin-top-small">
             <label><i class="fa fa-sitemap"></i> ${station.network}</label>
@@ -78,6 +78,11 @@ export default class StationDetailsView extends ViewBase {
     const report = station.faultReport;
     const message = `${report.description} (${dayjs(new Date(report.created*1000)).format("DD.MM.YYYY")})`;
     new GenericPopup(this.depts).show({header: this.t("faultReported"), message: message});
+  }
+
+  onFreeCharging(station){
+    if(!station.priceDescription) return;
+    new GenericPopup(this.depts).show({header: this.t("freeCharging"), message: station.priceDescription});
   }
 
   onOpenInMaps(){
