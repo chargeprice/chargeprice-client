@@ -324,7 +324,7 @@ i.fav-icon {
   font-size: 10pt;
 }
 
-#prices{
+.no-user-select{
   user-select: none;
 }
 

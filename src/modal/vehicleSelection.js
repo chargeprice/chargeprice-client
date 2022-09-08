@@ -17,7 +17,7 @@ export default class VehicleSelection extends ModalBase {
       
       <div class="w3-row">
         <input @keyup="${(e)=>this.onFilterList(e.srcElement.value)}" placeholder="${this.t("searchPlaceholder")}" class="w3-input w3-border w3-padding"/>
-        <ul class="w3-ul">
+        <ul class="w3-ul no-user-select">
           ${filteredVehicles.map(v=>html`
             <li @click="${()=>this.selectVehicle(v)}" class="cp-clickable">
               <div><strong>${v.brand}</strong> ${v.name}</div>
@@ -49,7 +49,7 @@ export default class VehicleSelection extends ModalBase {
   }
 
   renderTemplate(){
-    const filteredVehicles = this.filterText == "" ? this.allVehicles : this.allVehicles.filter(v=>{
+    const filteredVehicles = this.filterText == "" || this.filterText.length < 2 ? [] : this.allVehicles.filter(v=>{
       return v.fullName.toLowerCase().includes(this.filterText);
     });
 
