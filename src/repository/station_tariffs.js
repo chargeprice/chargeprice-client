@@ -68,10 +68,10 @@ export default class StationTariffs {
     query["filter[longitude.lte]"] = northEast.longitude;
 
     if(options.cpoFilterChargeprice){
-      query["filter[operator.id"] = options.cpoFilterChargeprice;
+      query["filter[operator.id]"] = options.cpoFilterChargeprice;
     }
 
-    if(options.minPower) query["filter[charge_points.power.gte"] = options.minPower;
+    if(options.minPower) query["filter[charge_points.power.gte]"] = options.minPower;
 
     if(options.myVehicle){
       query["filter[charge_points.plug.in]"]= this.defaultPlugs.concat(options.myVehicle.dcChargePorts);
