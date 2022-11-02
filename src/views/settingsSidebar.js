@@ -133,7 +133,7 @@ export default class SettingsSidebar extends ViewBase {
         '66%': 75,
         '77%': 100,
         '88%': 150,
-        'max': 300,
+        'max': 250,
       },
       pips: {
         mode: 'positions',
