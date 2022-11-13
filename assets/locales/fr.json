@@ -65,6 +65,7 @@
   "hours": "heure",
   "myVehicle": "Mon véhicule",
   "batteryRangeInfo": "Recharger de {0}% à {1}%",
+  "batteryRangeInfoWithCar": "Recharger de {1}% à {2}%",
   "unbalancedLoadHeader": "Charge déséquilibrée",
   "unbalancedLoadDetail": "Autoriser la recharge à plus de 4,5kWh en courant alternatif pour les véhicules monophasés",
   "onlyTariffsWithoutMonthlyFees": "Tarifs sans abonnement seulement",
@@ -146,6 +147,12 @@
   "refreshSub": "Au cas où vous ayez l'ancienne version de Chargeprice",
   "myTariffs": "Mes abonnements",
   "otherTariffs": "Autres tarifs",
+  "bestMyTariffs": "Top {0} prices of my tariffs",
+  "bestTariffsWithoutMonthlyFee": "Top {0} prices without monthly fee",
+  "bestTariffsWithMonthlyFee": "Top {0} prices with monthly fee",
+  "promotedTariffs": "Promoted tariffs",
+  "backToPriceOverview": "Back to overview",
+  "viewAllPrices": "View all prices",
   "priceUnavailable": "Bientôt disponible",
   "routePlannerHeader": "Navigation",
   "routePlannerCalculate": "calculer",
@@ -185,6 +192,6 @@
   "manageMyTariffsBannerLinkText": "Regardez maintenant !",
   "cookieConstentHeader": "Consentement au suivi",
   "cookieConstentText": "Nous utilisons Google Analytics pour évaluer le comportement des utilisateurs.\nCela nous permet d'améliorer en permanence les fonctions du site web.\nNous n'utilisons pas ces données pour la publicité personnalisée ou autre.\nLe consentement est volontaire et n'affecte pas la fonctionnalité générale du site web.",
-  "deleteAccountLabel": "Delete Account",
-  "confirmDeleteAccount": "Do you really want to delete your account?"
+  "deleteAccountLabel": "Supprimer votre compte",
+  "confirmDeleteAccount": "Confirmez-vous la suppression de votre compte ?"
 }
