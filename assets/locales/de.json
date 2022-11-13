@@ -28,6 +28,8 @@
   "carChargesACWithUniphase": "Fahrzeug lädt Wechselstrom einphasig",
   "showExclusiveProviderCustomerTariffs": "Exklusive Energiekunden-Tarife anzeigen",
   "showExclusiveProviderCustomerTariffsDetail": "Einige Anbieter bieten für ihre Kunden (z.B. Hausshaltstrom, Gas) günstigere Tarife an.",
+  "showForeignTariffs": "Ausländische Tarife anzeigen",
+  "showForeignTariffsDetails": "Diese Tarife können nur von Personen aus einem bestimmten Land angemeldet werden.",
   "mapFilter": "Kartenfilter",
   "onlyHPC": "Nur Schnelllader (43kW+)",
   "onlyFreeStations": "Nur kostenlose Ladestationen",

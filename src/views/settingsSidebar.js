@@ -20,7 +20,8 @@ export default class SettingsSidebar extends ViewBase {
       "onlyShowMyTariffs",
       "onlyTariffsWithoutMonthlyFees",
       "allowUnbalancedLoad",
-      "showPriceDetails"
+      "showPriceDetails",
+      "foreignTariffs"
     ]
   }
 
@@ -36,7 +37,11 @@ export default class SettingsSidebar extends ViewBase {
     <label>${this.t("showExclusiveProviderCustomerTariffs")}</label><br>
     <label class="w3-small">${this.t("showExclusiveProviderCustomerTariffsDetail")}</label><br>
 
-    <input @click="${()=>this.onOptionsChanged()}" id="onlyShowMyTariffs" class="w3-check w3-margin-top" type="checkbox">
+    <input @click="${()=>this.onOptionsChanged("customer_tariff")}" id="foreignTariffs" class="w3-check w3-margin-top" type="checkbox">
+    <label>${this.t("showForeignTariffs")}</label><br>
+    <label class="w3-small">${this.t("showForeignTariffsDetails")}</label><br>
+
+    <input @click="${()=>this.onOptionsChanged("foreign_tariff")}" id="onlyShowMyTariffs" class="w3-check w3-margin-top" type="checkbox">
     <label>${this.t("onlyShowMyTariffs")}</label><br>
     <label class="w3-small">${this.t("onlyShowMyTariffsDetail")}</label><br>
     <label @click="${()=>this.onShowMyTariffs()}" class="link-text">${this.t("manageMyTariffsLink")}</label><br>
@@ -190,7 +195,8 @@ export default class SettingsSidebar extends ViewBase {
       onlyTariffsWithoutMonthlyFees: this.isChecked("onlyTariffsWithoutMonthlyFees"),
       allowUnbalancedLoad: this.isChecked("allowUnbalancedLoad"),
       cpoFilterChargeprice: this.cpoFilterChargeprice(),
-      showPriceDetails: this.isChecked("showPriceDetails")
+      showPriceDetails: this.isChecked("showPriceDetails"),
+      foreignTariffs: this.isChecked("foreignTariffs"),
     }
   }
 
@@ -224,6 +230,8 @@ export default class SettingsSidebar extends ViewBase {
       case "connector_speed":
         this.analytics.log('event', trackingKey,{new_value: parseInt(model.minPower)});
         break;
+      case "foreign_tariff":
+        this.analytics.log('event', trackingKey,{new_value: model.foreignTariffs});
     }
   }
 }

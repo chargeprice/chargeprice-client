@@ -87,6 +87,7 @@ export default class Sidebar extends ViewBase {
       carACPhases: 3,
       providerCustomerTariffs: settingsModel.providerCustomerTariffs,
       onlyShowMyTariffs: settingsModel.onlyShowMyTariffs,
+      foreignTariffs: settingsModel.foreignTariffs,
       allowUnbalancedLoad: !this.translation.showUnbalancedLoad() || settingsModel.allowUnbalancedLoad,
       onlyTariffsWithoutMonthlyFees: settingsModel.onlyTariffsWithoutMonthlyFees,
       batteryRange: this.stationPrices.getBatteryRange(),

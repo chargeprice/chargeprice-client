@@ -28,6 +28,8 @@
   "carChargesACWithUniphase": "Veicolo elettrico",
   "showExclusiveProviderCustomerTariffs": "Mostra le tariffe per i clienti dei fornitori esclusivi",
   "showExclusiveProviderCustomerTariffsDetail": "Alcuni fornitori offrono tariffe speciali per i loro clienti di energia domestica.",
+  "showForeignTariffs": "Show foreign tariffs",
+  "showForeignTariffsDetails": "Some tariffs are not supposed to be used by people from foreign countries.",
   "mapFilter": "Filtro mappa",
   "onlyHPC": "Solo caricatori rapidi (43kW+)",
   "onlyFreeStations": "Solo carica gratuita",

@@ -28,6 +28,8 @@
   "carChargesACWithUniphase": "vehiculo eléctrico",
   "showExclusiveProviderCustomerTariffs": "Mostrar los precios para los clientes de los operadores",
   "showExclusiveProviderCustomerTariffsDetail": "Algunos operadores y provedores de enegia ofrecen precios más bajos para clientes de tarifas de luz, gas, ...",
+  "showForeignTariffs": "Show foreign tariffs",
+  "showForeignTariffsDetails": "Some tariffs are not supposed to be used by people from foreign countries.",
   "mapFilter": "Filtrar los resultados",
   "onlyHPC": "Unicamente carga rápida ",
   "onlyFreeStations": "Unicamente carga gratuita ",

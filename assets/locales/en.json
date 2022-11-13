@@ -28,6 +28,8 @@
   "carChargesACWithUniphase": "EV with uniphase AC charger",
   "showExclusiveProviderCustomerTariffs": "Show exclusive provider customer tariffs",
   "showExclusiveProviderCustomerTariffsDetail": "Some providers offer special tariffs for their house-hold energy customers",
+  "showForeignTariffs": "Show foreign tariffs",
+  "showForeignTariffsDetails": "Some tariffs are not supposed to be used by people from foreign countries.",
   "mapFilter": "Map filter",
   "onlyHPC": "Fast-chargers only (43kW+)",
   "onlyFreeStations": "Free charge only",

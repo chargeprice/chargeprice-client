@@ -28,6 +28,8 @@
   "carChargesACWithUniphase": "VE recharge monophasée",
   "showExclusiveProviderCustomerTariffs": "Montrer les prix pour les clients opérateurs",
   "showExclusiveProviderCustomerTariffsDetail": "Certains opérateurs et fournisseurs d'énergie offrent des prix plus bas pour les clients des offres énergie, gas, etc. ",
+  "showForeignTariffs": "Show foreign tariffs",
+  "showForeignTariffsDetails": "Some tariffs are not supposed to be used by people from foreign countries.",
   "mapFilter": "Filtrer les résultats",
   "onlyHPC": "Recharge rapide seulement",
   "onlyFreeStations": "Recharge gratuite seulement",
