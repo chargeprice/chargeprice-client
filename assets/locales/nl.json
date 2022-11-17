@@ -28,6 +28,8 @@
   "carChargesACWithUniphase": "Auto laadt wisselstroom één fase",
   "showExclusiveProviderCustomerTariffs": "Exclusieve tarieven energieklanten",
   "showExclusiveProviderCustomerTariffsDetail": "Sommige providers bieden gunstigere tarieven aan",
+  "showForeignTariffs": "Show foreign tariffs",
+  "showForeignTariffsDetails": "Some tariffs are not supposed to be used by people from foreign countries.",
   "mapFilter": "Filter",
   "onlyHPC": "Alleen snelladen (43KW+)",
   "onlyFreeStations": "Alleen gratis laden",
