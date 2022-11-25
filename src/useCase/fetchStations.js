@@ -13,7 +13,7 @@ export default class FetchStations {
 
   async list(northEast, southWest,options){
 
-    let goingElectric = new GoingElectric().getStations(northEast, southWest,options);
+    let goingElectric = [];//new GoingElectric().getStations(northEast, southWest,options);
     let internalStations = new StationTariffs(this.depts).getStations(northEast, southWest,options);
 
     const [goingElectricResult, internalResult] = await Promise.all([goingElectric, internalStations]);

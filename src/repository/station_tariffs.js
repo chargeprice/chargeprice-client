@@ -86,7 +86,7 @@ export default class StationTariffs {
       query["filter[operator.supported_emps.id]"]=myEmpIds.join(",")
     }
 
-    const url = `${this.base_url}/v1/charging_stations?${this.toQuery(query)}`;
+    const url = `${this.base_url}/v1/charging_stations?source=v2&${this.toQuery(query)}`;
     const response = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
