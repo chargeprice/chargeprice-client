@@ -10,6 +10,7 @@ import Currency from '../component/currency'
 import EventBus from '../repository/eventBus'
 import UserSettings from '../repository/userSettings'
 import AuthService from '../repository/authorizationService'
+import Vehicle from '../repository/vehicle'
 
 export default class Dependencies {
   constructor(){
@@ -66,6 +67,10 @@ export default class Dependencies {
 
   auth(){
     return new AuthService(this);
+  }
+
+  vehicle(){
+    return new Vehicle(this);
   }
 
   currency(){

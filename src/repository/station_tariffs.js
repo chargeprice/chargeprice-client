@@ -45,20 +45,6 @@ export default class StationTariffs {
     return new JsonApiDeserializer(response).deserialize();
   }
 
-  async getAllVehicles(){
-    const url = `${this.base_url}/v1/vehicles`;
-    const response = await fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        "Api-Key": this.apiKey
-      }
-    })
-    
-    if(response.status != 200) throw "Error in request";
-
-    return await new JsonApiDeserializer(response).deserialize();
-  }
-
   async getStations(northEast, southWest,options){
 
     const query = {}
