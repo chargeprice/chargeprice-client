@@ -123,6 +123,13 @@ export default class Sidebar extends ViewBase {
   }
 
   optionsChanged(){
+    const options = this.chargingOptions();
+
+    // Ensure everything is loaded
+    if(!options.myVehicle){
+      return;
+    }
+
     if(this.optionsChangedCallback) this.optionsChangedCallback();
   }
 

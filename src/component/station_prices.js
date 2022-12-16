@@ -18,7 +18,7 @@ export default class StationPrices extends ViewBase{
     this.defaultBatteryRange = [20,80];
     this.startTimeRepo = new RepositoryStartTime();
     this.currentChargePoint = null;
-    this.sortedCP = []
+    this.chargePointsSortedByPower = []
     this.initSlider();
   }
 
@@ -47,7 +47,7 @@ export default class StationPrices extends ViewBase{
   currentChargePointTemplate(){
     const obj = this.currentChargePoint;
     if(!obj)return "";
-    return this.sortedCP.map(cp=> html`
+    return this.chargePointsSortedByPower.map(cp=> html`
       <span @click="${()=>this.onChargePointChanged(cp)}" class="cp-button ${cp == obj ? "pc-main" : "w3-light-gray"} w3-margin-top w3-margin-bottom ${cp.supportedByVehicle ? "": "w3-disabled"}">
         <label>${cp.power} kW</label><br>
         <label class="w3-small">${this.h().upper(cp.plug)}, ${cp.count}x</label>
@@ -113,14 +113,8 @@ export default class StationPrices extends ViewBase{
   }
 
   showStation(station){
-    this.sortedCP = station.chargePoints.sort((a,b)=>{
-      const b1 = b.supportedByVehicle;
-      const a1 = a.supportedByVehicle;
-
-      if(b1 == a1) return (b.power-a.power);
-      else return b1 - a1;
-    });
-    this.currentChargePoint = this.sortedCP[0];
+    this.chargePointsSortedByPower = this.sortChargePointsByPower(station.chargePoints);
+    this.currentChargePoint = this.chargePointsSortedByPower[0];
     this.renderCurrentChargePointTemplate();
     this.selectedChargePointChangedCallback();
   }
@@ -144,6 +138,16 @@ export default class StationPrices extends ViewBase{
     render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
     render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback")); 
+  }
+
+  sortChargePointsByPower(chargePoints) {
+    return chargePoints.sort((a,b)=>{
+      const b1 = b.supportedByVehicle;
+      const a1 = a.supportedByVehicle;
+
+      if(b1 == a1) return (b.power-a.power);
+      else return b1 - a1;
+    });
   }
 
   sortPrice(a,b){

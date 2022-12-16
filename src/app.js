@@ -57,7 +57,7 @@ class App {
     this.sidebar.onOptionsChanged(this.optionsChanged.bind(this));
     this.sidebar.stationPrices.onBatteryRangeChanged(()=>this.updatePrices());
     this.sidebar.stationPrices.onStartTimeChanged(()=>this.updatePrices());
-    this.sidebar.stationPrices.onSelectedChargePointChanged(this.selectedChargePointChanged.bind(this));
+    this.sidebar.stationPrices.onSelectedChargePointChanged(()=>this.selectedChargePointChanged());
     this.locationSearch.onResultSelected(coords=>{
       this.map.centerLocation(coords);
       this.map.setSearchLocation(coords);
@@ -138,15 +138,6 @@ class App {
     this.map.centerLocation(fallBackLocation,12);
   }
 
-  async showStationById(poiId, poiSource) {
-    this.stationSelected({
-      id: poiId,
-      lite: true,
-      dataAdapter: poiSource,
-      charge_points: []
-    }, ">3.7", true)
-  }
-
   async showStationsAtLocation(bounds) {
     if(!bounds) return; // Map not ready yet
 
@@ -159,11 +150,11 @@ class App {
       const stations = await (new FetchStations(this.depts)).list(bounds.northEast, bounds.southWest,options);
       this.map.clearMarkers();
       this.map.toggleClustering(stations.length);
-      stations.forEach(st => this.map.addStation(st, this.stationSelected.bind(this)));
+      stations.forEach(st => this.map.addStation(st, (model)=>this.stationSelected(model,false)));
     },this.translation.get("errorStationsUnavailable"));
   }
 
-  async stationSelected(model,powerType,updateMap) {
+  async stationSelected(model,updateMap) {
     if(!model.lite) {
       // If CP was opened by Deeplink, don't track the station
       // Look at PoiDeeplink instead
@@ -188,7 +179,6 @@ class App {
 
     await this.updatePrices();
     this.sidebar.showStation(this.currentStation);
-    this.selectedChargePointChanged();
 
     this.depts.urlModifier().modifyUrlParam({poi_id: this.currentStation.id, poi_source: this.currentStation.dataAdapter})
   }
@@ -252,7 +242,7 @@ class App {
   optionsChanged(){
     if (this.poiId !== undefined && this.poiSource !== undefined && !this.deeplinkActivated) {
       this.deeplinkActivated = true;
-      this.showStationById(this.poiId, this.poiSource);
+      this.stationSelected({id: this.poiId, lite: true, dataAdapter: this.poiSource, charge_points: [] }, true)
     }
     this.showStationsAtLocation(this.map.getBounds());
   }

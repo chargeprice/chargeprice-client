@@ -175,7 +175,6 @@ export default class Map {
   addStation(model, onClickCallback) {
 
     let color = '';
-    let powerType = null;
     let zIndex = 0;
 
     const maxPower = model.chargePoints.filter(v=>v.supportedByVehicle).reduce((max,value)=> max > value.power ? max : value.power, 0);
@@ -183,22 +182,18 @@ export default class Map {
 
     if(maxPower > 50){
       color = fastChargerCount > 1 ? "ultra_multi" : "ultra_single";
-      powerType = ">50"
       zIndex = 1000;
     }
     else if(maxPower > 22){
       color = fastChargerCount > 1 ? "fast_multi" : "fast_single";
-      powerType = ">22"
       zIndex = 900;
     }
     else if(maxPower > 3.7){
       color = "ac_single";
-      powerType = ">3.7"
       zIndex = 800;
     }
     else{
       color = "slow_single";
-      powerType = "<=3.7"
       zIndex = 700;
     }
 
@@ -213,7 +208,7 @@ export default class Map {
     });
 
     const marker = L.marker([model.latitude, model.longitude],{icon: markerIcon});
-    marker.on('click', () => onClickCallback(model,powerType));
+    marker.on('click', () => onClickCallback(model));
     marker.on('click', () => this.changeSelectedStation(model));
     marker.setZIndexOffset(zIndex);
 
