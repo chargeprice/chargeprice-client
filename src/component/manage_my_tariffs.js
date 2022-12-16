@@ -1,6 +1,5 @@
 import { html, render } from 'lit-html';
 
-import StationTariffs from '../repository/station_tariffs.js';
 import ViewBase from './viewBase';
 import UpdateUserSettings from '../useCase/updateUserSettings';
 import FetchUserSettingsOrCreateFromLocal from '../useCase/fetchUserSettingsOrCreateFromLocal.js';
@@ -11,8 +10,10 @@ export default class ManageMyTariffs extends ViewBase{
     this.sidebar = sidebar;
     this.depts = depts;
     this.analytics = depts.analytics();
+    this.repoTariff = depts.tariff();
     this.allTariffs = [];
     this.myTariffIds = [];
+    this.myTariffs = [];
     this.initializeTariffs();
     this.sortedTariffs = [];
     this.filterText = "";
@@ -58,32 +59,11 @@ export default class ManageMyTariffs extends ViewBase{
     `;
   }
 
-  render(){
-    const indexedMyTariffs = this.myTariffIds.reduce((memo,t)=>{
-      memo[t]=true;
-      return memo;
-    },{});
+  async render(){
+    await this.ensureAllTariffsLoaded();
+    const filteredTariffs = this.filterAndSortTariffs(this.filterText, this.allTariffs, this.myTariffIds)
 
-    const filteredTariffs  = this.filterText=="" ? this.allTariffs : this.allTariffs.filter(t=>{
-      return t.name.toLowerCase().includes(this.filterText) || t.provider.toLowerCase().includes(this.filterText);
-    });
-
-    const sortedTariffs = filteredTariffs.sort((a,b)=>{
-
-      const aMy = !!indexedMyTariffs[a.id];
-      const bMy = !!indexedMyTariffs[b.id];
-
-      const bF = this.isHighlighted(b);
-      const aF = this.isHighlighted(a);
-
-      if(aMy == bMy){
-        if(bF == aF) return a.name.localeCompare(b.name);
-        else return bF - aF; // Show featured providers
-      }
-      else return bMy - aMy; // Show selected first
-    });
-
-    render(this.template(sortedTariffs),this.getEl("manageMyTariffsContent"));
+    render(this.template(filteredTariffs),this.getEl("manageMyTariffsContent"));
   }
 
   onFilterList(filterText){
@@ -102,34 +82,66 @@ export default class ManageMyTariffs extends ViewBase{
     });
 
     this.render();
-    await this.saveToStorage();
+    await this.saveToStorageAndUpdateMyTariffs();
   }
 
   async onRemove(tariff){
     this.myTariffIds = this.myTariffIds.filter(id=>id != tariff.id);
     this.render();
-    await this.saveToStorage();
+    await this.saveToStorageAndUpdateMyTariffs();
   }
 
   onBack(){
     this.sidebar.open("settings");
   }
 
+  async ensureAllTariffsLoaded(){
+    if(this.allTariffs.length>0) return;
+    this.allTariffs = await this.repoTariff.where();
+  }
+
+  filterAndSortTariffs(filterText, allTariffs, myTariffIds){
+    const indexedMyTariffs = myTariffIds.reduce((memo,t)=>{
+      memo[t]=true;
+      return memo;
+    },{});
+
+    const filteredTariffs  = filterText=="" ? allTariffs : allTariffs.filter(t=>{
+      return t.name.toLowerCase().includes(filterText) || t.provider.toLowerCase().includes(filterText);
+    });
+
+    return filteredTariffs.sort((a,b)=>{
+
+      const aMy = !!indexedMyTariffs[a.id];
+      const bMy = !!indexedMyTariffs[b.id];
+
+      const bF = this.isHighlighted(b);
+      const aF = this.isHighlighted(a);
+
+      if(aMy == bMy){
+        if(bF == aF) return a.name.localeCompare(b.name);
+        else return bF - aF; // Show featured providers
+      }
+      else return bMy - aMy; // Show selected first
+    });
+  }
+
   async initializeTariffs(){
-    this.allTariffs = (await new StationTariffs(this.depts).getAllTariffs()).data;
-    // TODO: Intitialize application sequentially.
     const settings = await new FetchUserSettingsOrCreateFromLocal(this.depts).run();
     this.myTariffIds = settings.tariffs.map(t=>t.id);  
+    this.myTariffs = await this.repoTariff.where(this.myTariffIds);
+
     this.sidebar.optionsChanged();
   }
 
-  async saveToStorage(){
+  async saveToStorageAndUpdateMyTariffs(){
+    this.myTariffs = this.allTariffs.filter(t=>this.myTariffIds.includes(t.id));
     new UpdateUserSettings(this.depts).run({tariffs: this.getMyTariffReferences()})
   }
 
   getMyTariffs(){
-    if(this.allTariffs.length==0) return this.getMyTariffReferences();
-    return this.allTariffs.filter(t=>this.myTariffIds.includes(t.id));
+    if(this.myTariffs.length==0) return this.getMyTariffReferences();
+    return this.myTariffs;
   }
 
   getMyTariffReferences(){

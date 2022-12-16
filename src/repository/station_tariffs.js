@@ -31,20 +31,6 @@ export default class StationTariffs {
     return new JsonApiDeserializer(response).deserialize();
   }
 
-  async getAllTariffs(){
-    const url = `${this.base_url}/v1/tariffs?filter[direct_payment]=false`;
-    const response = await fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        "Api-Key": this.apiKey
-      }
-    })
-    
-    if(response.status != 200) throw "Error in request";
-
-    return new JsonApiDeserializer(response).deserialize();
-  }
-
   async getStations(northEast, southWest,options){
 
     const query = {}

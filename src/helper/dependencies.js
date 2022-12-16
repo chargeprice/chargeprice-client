@@ -11,6 +11,7 @@ import EventBus from '../repository/eventBus'
 import UserSettings from '../repository/userSettings'
 import AuthService from '../repository/authorizationService'
 import Vehicle from '../repository/vehicle'
+import Tariff from '../repository/tariff'
 
 export default class Dependencies {
   constructor(){
@@ -72,6 +73,11 @@ export default class Dependencies {
   vehicle(){
     return new Vehicle(this);
   }
+
+  tariff(){
+    return new Tariff(this);
+  }
+
 
   currency(){
     return this.currencyInstance;

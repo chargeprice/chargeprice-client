@@ -1,4 +1,3 @@
-import StationTariffs from '../repository/station_tariffs.js';
 import VehicleSelection from '../modal/vehicleSelection';
 import { html, render } from 'lit-html';
 import UpdateUserSettings from '../useCase/updateUserSettings';
