@@ -181,7 +181,7 @@
   "authSignUpSuccessfulText": "Thanks for signing up! We are happy to have you on board. \nWe just sent you an email. You need to click the confirmation link in this email, before using the account.",
   "authForgotPasswordSuccessfulText": "We have just sent you an email with the instructions to reset your password.",
   "authEmailValidationError": "Email address not valid",
-  "authPasswordValidationError": "Password must be at least 8 and max. 64 characters long and needs to contain at least one number, lowercase and uppercase letters.",
+  "authPasswordValidationError": "Password must be at least 8 and max. 64 characters long.",
   "authUsernameValidationError": "Username can only contain letters, numbers and spaces",
   "authEmailUsed": "Email address already used",
   "authEmailNotVerified": "Your email address is not yet confirmed. We sent you an email with a confirmation link when you registered. Please also check your spam folder. \nIf you cant find the email, click on \"Forgot password?\". By resetting your password, your email will be confirmed as well.",

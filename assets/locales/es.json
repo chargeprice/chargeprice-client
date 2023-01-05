@@ -181,7 +181,7 @@
   "authSignUpSuccessfulText": "Gracias por tu preferencia.\nAntes de comenzar, recibirás un correo electrónico con el enlace de confirmacion de cuenta.",
   "authForgotPasswordSuccessfulText": "Te hemos enviado un correo electónico con instrucciones para que puedas reiniciar tu contraseña.",
   "authEmailValidationError": "Correo electrónico no valido.",
-  "authPasswordValidationError": "La contraseña debe tener entre 8 y 64 caractreres.\nY debera estar compuesta al menos 1 digito, al menos una minúscula, al menos una mayúscula.",
+  "authPasswordValidationError": "La contraseña debe tener entre 8 y 64 caractreres.",
   "authUsernameValidationError": "El nombre de usuario deberá estar conformado por letras, digitos y espacios.",
   "authEmailUsed": "Esta dirección de correo electrónico ya está asignada. Prueba con otra.",
   "authEmailNotVerified": "Tu correo electrónico no ha sido aún verificado. Hermos enviado un correo electrónico con el link de confirmación. Asegurete de verificar en los spam.\nSi no encuentras el correo electronico de confirmación, haga click sobre \"¿Ha olvidado su contraseña?\". Reiniciar tu contraseña te ayudará a confirmar tu correo electronico.",

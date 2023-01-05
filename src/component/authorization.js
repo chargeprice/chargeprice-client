@@ -12,7 +12,7 @@ export default class Authorization extends ViewBase {
 
 		this.validation = {
 			email: new RegExp(/^[\w-+_\.]+@([\w-]+\.)+[\w-]{2,}$/),
-			password: new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,64}$/),
+			password: new RegExp(/^.{8,64}$/),
 			username: new RegExp(/^\w+(\s\w+)*$/),
 		};
 		this.errorMessages = {
@@ -77,16 +77,16 @@ export default class Authorization extends ViewBase {
 
 						<form id="sign_up" style="display:none" @submit="return false;">
 							<div>
+								<label>${this.t("authLabelUsername")}:</label>
+								<input type="text" name="sign_up_username" class="w3-input w3-border w3-margin-bottom" />
+							</div>
+							<div>
 								<label>${this.t("authLabelEmail")}:</label>
 								<input type="text" name="sign_up_email" class="w3-input w3-border w3-margin-bottom" />
 							</div>
 							<div>
 								<label>${this.t("authLabelPassword")}:</label>
 								<input type="password" name="sign_up_password" class="w3-input w3-border w3-margin-bottom" />
-							</div>
-							<div>
-								<label>${this.t("authLabelUsername")}:</label>
-								<input type="text" name="sign_up_username" class="w3-input w3-border w3-margin-bottom" />
 							</div>
 							<div>
 								<input @change="${(event) => this.validateRegistrationForm(event)}" type="checkbox" id="sign_up_policy_agreement" name="sign_up_policy_agreement" class="w3-margin-bottom" />

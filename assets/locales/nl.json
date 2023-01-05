@@ -181,7 +181,7 @@
   "authSignUpSuccessfulText": "Dankjewel ! We zijn blij je aan boord te hebben.\r\nWe hebben je zojuist een e-mail gestuurd. U moet op de bevestigingslink in deze e-mail klikken voordat u het account gebruikt.",
   "authForgotPasswordSuccessfulText": "We hebben u zojuist een e-mail gestuurd met instructies om uw wachtwoord opnieuw in te stellen.",
   "authEmailValidationError": "Het email adres is ongeldig",
-  "authPasswordValidationError": "Het wachtwoord moet tussen 8 en 64 tekens lang zijn en moet minimaal één cijfer, kleine letters en hoofdletters bevatten.",
+  "authPasswordValidationError": "Het wachtwoord moet tussen 8 en 64 tekens lang.",
   "authUsernameValidationError": "Gebruikersnaam mag alleen letters, cijfers en spaties bevatten",
   "authEmailUsed": "E-mailadres al in gebruik",
   "authEmailNotVerified": "Uw e-mailadres is nog niet bevestigd. We hebben je een e-mail gestuurd met een bevestigingslink toen je je aanmeldde. Controleer ook uw spammap.\r\nAls u de e-mail niet kunt vinden, klikt u op \"Wachtwoord vergeten?\". Door uw wachtwoord opnieuw in te stellen, wordt ook uw e-mailadres bevestigd.",

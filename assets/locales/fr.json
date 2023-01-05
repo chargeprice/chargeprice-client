@@ -181,7 +181,7 @@
   "authSignUpSuccessfulText": "Merci ! Nous sommes heureux de vous avoir à bord. \nNous venons de vous envoyer un e-mail. Vous devez cliquer sur le lien de confirmation dans cet email, avant d'utiliser le compte.",
   "authForgotPasswordSuccessfulText": "Nous venons de vous envoyer un email avec les instructions pour réinitialiser votre mot de passe.",
   "authEmailValidationError": "L'adresse e-mail n'est pas valide",
-  "authPasswordValidationError": "Le mot de passe doit comporter entre 8 et 64 caractères et doit contenir au moins un chiffre, des lettres minuscules et majuscules.",
+  "authPasswordValidationError": "Le mot de passe doit comporter entre 8 et 64 caractères.",
   "authUsernameValidationError": "Le nom d'utilisateur ne peut contenir que des lettres, des chiffres et des espaces",
   "authEmailUsed": "Adresse email déjà utilisée",
   "authEmailNotVerified": "Votre adresse email n'est pas encore confirmée. Nous vous avons envoyé un email avec un lien de confirmation lors de votre inscription. Veuillez également vérifier votre dossier spam. \nSi vous ne trouvez pas l'email, cliquez sur \"Mot de passe oublié ?\". En réinitialisant votre mot de passe, votre adresse email sera également confirmée.",
