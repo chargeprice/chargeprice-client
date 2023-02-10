@@ -10,8 +10,8 @@ export default class Vehicle{
     this.cache = null;
   }
 
-  async findAll(){
-    const url = `${this.baseUrl}/v1/vehicles`;
+  async search(query){
+    const url = `${this.baseUrl}/v2/vehicles?q=${query}`;
     const response = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export default class Vehicle{
     if(response.status != 200) throw "Error in request";
 
     return (await new JsonApiDeserializer(response).deserialize())
-      .data.map(v=>this.buildModelFromV1(v));
+      .data.map(v=>this.buildModelFromV2(v));
   }
 
   async find(id){
@@ -41,19 +41,6 @@ export default class Vehicle{
 
     if(vehicles.length > 0) return vehicles[0];
     else throw new NotFound();
-  }
-
-  buildModelFromV1(vehicle){
-    return {
-      id: vehicle.id,
-      type: vehicle.type,
-      name: vehicle.name,
-      brand: vehicle.brand,
-      dcChargePorts: vehicle.dcChargePorts,
-      usableBatterySize: vehicle.usableBatterySize,
-      acMaxPower: vehicle.acMaxPower,
-      dcMaxPower: vehicle.dcMaxPower
-    }
   }
 
   buildModelFromV2(vehicle){

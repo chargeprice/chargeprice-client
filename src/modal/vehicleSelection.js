@@ -6,11 +6,14 @@ export default class VehicleSelection extends ModalBase {
   constructor(depts){
     super(depts);
     this.depts = depts;
+    this.repoVehicle = depts.vehicle();
     this.analytics = depts.analytics();
-    this.filterText = "";
+    this.searchTerm = "";
+    this.searchResults = [];
+    this.autocompleteNonce = 0;
   }
 
-  template(filteredVehicles){
+  template(){
     return html`
     <div class="w3-modal-content" style="width: 400px">
       ${this.header(this.t("myVehicle"))}
@@ -18,7 +21,7 @@ export default class VehicleSelection extends ModalBase {
       <div class="w3-row">
         <input @keyup="${(e)=>this.onFilterList(e.srcElement.value)}" placeholder="${this.t("searchPlaceholder")}" class="w3-input w3-border w3-padding"/>
         <ul class="w3-ul no-user-select">
-          ${filteredVehicles.map(v=>html`
+          ${this.searchResults.map(v=>html`
             <li @click="${()=>this.selectVehicle(v)}" class="cp-clickable">
               <div><strong>${v.brand}</strong> ${v.name}</div>
               <div class="w3-small">
@@ -36,24 +39,14 @@ export default class VehicleSelection extends ModalBase {
     `
   }
 
-  show(allVehicles, callback){
+  show(callback){
     this.callback = callback;
-    this.allVehicles = this.prepareVehicles(allVehicles);
     this.renderTemplate();
     this.getEl(this.root).style.display = 'block';
   }
 
-  prepareVehicles(vehicles){
-    vehicles.forEach(v=>v.fullName = this.fullVehicleName(v));
-    return vehicles.sort((a,b)=>a.fullName.localeCompare(b.fullName));
-  }
-
   renderTemplate(){
-    const filteredVehicles = this.filterText == "" || this.filterText.length < 2 ? [] : this.allVehicles.filter(v=>{
-      return v.fullName.toLowerCase().includes(this.filterText);
-    });
-
-    render(this.template(filteredVehicles),this.getEl(this.root));
+    render(this.template(),this.getEl(this.root));
   }
 
   selectVehicle(vehicle){
@@ -75,9 +68,22 @@ export default class VehicleSelection extends ModalBase {
     new ModalFeedback(this.depts).show("missing_vehicle");
   }
 
-  onFilterList(filterText){
-    this.filterText=filterText.toLowerCase();
+  onFilterList(searchTerm){
+    const nonce = ++this.autocompleteNonce;
+    if(searchTerm.length >=3){
+      setTimeout(()=>this.autocompleteFinish(nonce, searchTerm),500);
+    }
+  }
+
+  async autocompleteFinish(nonce, searchTerm){
+    if(this.autocompleteNonce!=nonce) return;
+    this.searchTerm=searchTerm;
+    await this.searchVehicles();
     this.renderTemplate();
+  }
+
+  async searchVehicles(){
+    this.searchResults = await this.repoVehicle.search(this.searchTerm);
   }
 
   fullVehicleName(vehicle){

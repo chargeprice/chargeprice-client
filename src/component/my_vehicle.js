@@ -31,10 +31,7 @@ export default class MyVehicle {
   }
 
   async changeVehicle(){
-    if(this.allVehicles.length==0){
-      this.allVehicles = await this.repoVehicle.findAll();
-    }
-    new VehicleSelection(this.depts).show(this.allVehicles,(v)=>this.vehicleChanged(v));
+    new VehicleSelection(this.depts).show((v)=>this.vehicleChanged(v));
   }
 
   vehicleChanged(vehicle){
