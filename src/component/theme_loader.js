@@ -23,7 +23,7 @@ export default class ThemeLoader {
         name: `EMC ${translation.get("themeTitle")}`,
         themeColor: "#8fbf22",
         appleTouchIcon: "themes/emc/logo.png",
-        highlightedTariffs: ["a480edbe-d673-4faa-ad70-5d22273d15a0","d2a15ed1-b873-4aba-bf6d-070e16da6b45"]
+        highlightedTariffs: ["a480edbe-d673-4faa-ad70-5d22273d15a0","d2a15ed1-b873-4aba-bf6d-070e16da6b45","51052ac3-d1d5-41f4-833d-a6e6713e76b4"]
       },
       nissan: {
         titleBarHtml: `<img id=\"logo\" src=\"themes/nissan/logo.png\"/><span class=\"title\">${translation.get("themeTitle")}</span>`,
