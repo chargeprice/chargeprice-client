@@ -82,6 +82,17 @@ export default class LocationSearch extends ViewBase {
 
   async onSearchTermChanged(searchTerm) {
     if(searchTerm.length==0) return;
+
+    // check if search term is latitude and longitude via regex
+    const latLongRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/;
+    const match = searchTerm.match(latLongRegex);
+    if(match){
+      const lat = parseFloat(match[1]);
+      const lng = parseFloat(match[3]);
+      const place = { latitude: lat, longitude: lng };
+      this.onPlaceChanged(place);
+      return;
+    }
     
     try {
       const results = await this.locationSearch.getAutocomplete(searchTerm);
