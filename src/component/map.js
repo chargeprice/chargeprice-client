@@ -188,9 +188,13 @@ export default class Map {
       color = fastChargerCount > 1 ? "fast_multi" : "fast_single";
       zIndex = 900;
     }
-    else if(maxPower > 3.7){
+    else if(maxPower > 11){
       color = "ac_single";
       zIndex = 800;
+    }
+    else if(maxPower > 3.7){
+      color = "ac11_single";
+      zIndex = 750;
     }
     else{
       color = "slow_single";
