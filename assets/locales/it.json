@@ -195,5 +195,15 @@
   "cookieConstentHeader": "Tracciamento del consenso",
   "cookieConstentText": "\"We use Google Analytics to evaluate user behavior.\nThis allows us to continuously improve the functions of the website.\nWe do not use this data for personalized advertising or the like.\nConsent is voluntary and does not affect the general functionality of the website.\"",
   "deleteAccountLabel": "Delete Account",
-  "confirmDeleteAccount": "Do you really want to delete your account?"
+  "confirmDeleteAccount": "Do you really want to delete your account?",
+  "emailBodyPasswordChanged": "<p>The password of your Chargeprice account was changed successfully.</p>",
+  "emailBodyPasswordReset": "<h4>Hello {$name}!</h4>\n<p>Someone, hopefully you, has requested to reset the password for your Chargeprice account.</p>\n<p>If you did not perform this request, you can safely ignore this email. Otherwise, click the link below to complete the process.</p>\n<a href=\"{$reset_password_link}\">{$reset_password_link}</a>",
+  "emailBodyConfirmEmail": "<p>Thanks for registering! We look forward to seeing you around the site.</p>\n<p>To complete your registration, you need to confirm that you got this email. To do so, simply click the link below:</p>\n<a href=\"{$confirm_link}\">{$confirm_link}</a>",
+  "emailSubjectConfirmEmail": "Verify your email",
+  "emailSubjectPasswordReset": "Reset your password",
+  "emailSubjectPasswordChanged": "Your password got changed",
+  "thgHeader": "THG-Prämie für dein E-Auto in Österreich und Deutschland",
+  "thgInfo": "<p>\nAls E-Autofahrer in Österreich und Deutschland bekommst du jährlich durch die <a href=\"https://www.umweltbundesamt.de/themen/verkehr-laerm/kraft-betriebsstoffe/vollzug-38-bimschv-anrechnung-von-strom-fuer\" target=\"_blank\">Treibhausgasminderungsquote</a> eine Prämie. \n</p>\n<p>\nDu musst nichts weiter tun, als dich über den unten angeführten Link bei unserem Partner zu registrieren und bekommst danach die Prämie überwiesen. Dabei erhält auch Chargeprice auch kleine Kommission: Eine Win-Win-Situation!\n</p>\n<p>\nDie Prämie wird dabei von unserem Partner definiert und ist je nach Land und Auszahlungsart (fix oder flexibel) unterschiedlich.\n</p>\n<p><b>Dies ist 100% seriös und es fallen für dich keine Kosten an!</></p>",
+  "thgCTA": "Jetzt Prämie sichern!",
+  "thgHide": "Banner nicht mehr anzeigen"
 }

@@ -195,5 +195,15 @@
   "cookieConstentHeader": "Consentimiento de seguimiento",
   "cookieConstentText": "\"Utilizamos Google Analytics para evaluar el comportamiento de los usuarios.\nEsto nos permite mejorar continuamente las funciones del sitio web.\nNo utilizamos estos datos para la publicidad personalizada o de otro tipo.\nEl consentimiento es voluntario y no afecta a la funcionalidad general del sitio web\".",
   "deleteAccountLabel": "Borrar tu cuenta",
-  "confirmDeleteAccount": "¿Confirmas la supresión de tu cuenta?"
+  "confirmDeleteAccount": "¿Confirmas la supresión de tu cuenta?",
+  "emailBodyPasswordChanged": "<p>The password of your Chargeprice account was changed successfully.</p>",
+  "emailBodyPasswordReset": "<h4>Hello {$name}!</h4>\n<p>Someone, hopefully you, has requested to reset the password for your Chargeprice account.</p>\n<p>If you did not perform this request, you can safely ignore this email. Otherwise, click the link below to complete the process.</p>\n<a href=\"{$reset_password_link}\">{$reset_password_link}</a>",
+  "emailBodyConfirmEmail": "<p>Thanks for registering! We look forward to seeing you around the site.</p>\n<p>To complete your registration, you need to confirm that you got this email. To do so, simply click the link below:</p>\n<a href=\"{$confirm_link}\">{$confirm_link}</a>",
+  "emailSubjectConfirmEmail": "Verify your email",
+  "emailSubjectPasswordReset": "Reset your password",
+  "emailSubjectPasswordChanged": "Your password got changed",
+  "thgHeader": "THG-Prämie für dein E-Auto in Österreich und Deutschland",
+  "thgInfo": "<p>\nAls E-Autofahrer in Österreich und Deutschland bekommst du jährlich durch die <a href=\"https://www.umweltbundesamt.de/themen/verkehr-laerm/kraft-betriebsstoffe/vollzug-38-bimschv-anrechnung-von-strom-fuer\" target=\"_blank\">Treibhausgasminderungsquote</a> eine Prämie. \n</p>\n<p>\nDu musst nichts weiter tun, als dich über den unten angeführten Link bei unserem Partner zu registrieren und bekommst danach die Prämie überwiesen. Dabei erhält auch Chargeprice auch kleine Kommission: Eine Win-Win-Situation!\n</p>\n<p>\nDie Prämie wird dabei von unserem Partner definiert und ist je nach Land und Auszahlungsart (fix oder flexibel) unterschiedlich.\n</p>\n<p><b>Dies ist 100% seriös und es fallen für dich keine Kosten an!</></p>",
+  "thgCTA": "Jetzt Prämie sichern!",
+  "thgHide": "Banner nicht mehr anzeigen"
 }

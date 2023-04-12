@@ -4,6 +4,7 @@ import {html, render} from 'lit-html';
 import RepositoryStartTime from '../repository/settings/startTime';
 import GenericList from '../modal/genericList';
 import ModalFeedback from '../modal/feedback';
+import ModelThgInfo from '../modal/thgInfo';
 import PriceListView from '../views/priceList';
 import StationDetailsView from '../views/stationDetails';
 import noUiSlider from 'nouislider';
@@ -19,6 +20,9 @@ export default class StationPrices extends ViewBase{
     this.startTimeRepo = new RepositoryStartTime();
     this.currentChargePoint = null;
     this.chargePointsSortedByPower = []
+    this.themeLoader = depts.themeLoader();
+    this.settingsPrimitive = depts.settingsPrimitive();
+    this.thgCountries = [{ code: "AT", altCode: "Österreich"},{ code: "DE", altCode: "Deutschland"}];
     this.initSlider();
   }
 
@@ -75,6 +79,20 @@ export default class StationPrices extends ViewBase{
       return html`<label class="w3-tag w3-pale-red w3-margin-top"><i class="fa fa-exclamation"></i> ${this.t("freeStationWithPricesInfo")}</label>`;
     }
     else return "";
+  }
+
+  thgBannerTemplate(station){
+    const country = this.thgCountries.find(c => c.code == station.country || c.altCode == station.country);
+    const isHidden = this.settingsPrimitive.getBoolean("thgBannerHidden",false);
+    if(isHidden || !country || !this.themeLoader.isDefaultTheme()) return html``;
+
+    this.analytics.log('event', 'thg_banner_displayed', { country: country.code});
+
+    return html`
+      <div class="w3-row w3-margin-top">
+        <a href="#" @click="${()=>this.onThg(country.code)}"><img src="/img/partners/thg_${country.code}.png" style="width: 100%;"/></a>
+      </div>
+    `;
   }
 
   initSlider(){
@@ -138,6 +156,7 @@ export default class StationPrices extends ViewBase{
     render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
     render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback")); 
+    render(this.thgBannerTemplate(station), this.getEl("thgBanner"));
   }
 
   sortChargePointsByPower(chargePoints) {
@@ -159,6 +178,14 @@ export default class StationPrices extends ViewBase{
 
   onBatteryRangeChanged(callback){
     this.batteryChangedCallback = callback;
+  }
+
+  onThg(country){
+    this.analytics.log('event', 'thg_info_open', {
+      country: country
+    });
+
+    new ModelThgInfo(this.depts).show(country);
   }
 
   storeBatteryRange(){

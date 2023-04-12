@@ -22,6 +22,7 @@ export default class PricesSidebar extends ViewBase {
 
       <div id="priceInfo" class="w3-container"></div>
 
+      <div id="thgBanner" class="w3-container"></div>
       <div id="prices" class="no-user-select"></div> 
       <div id="priceFeedback" class="w3-margin-top w3-container w3-margin-bottom"></div>
       

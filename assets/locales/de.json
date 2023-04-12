@@ -195,5 +195,15 @@
   "cookieConstentHeader": "Tracking Erlaubnis",
   "cookieConstentText": "Wir verwenden Google Analytics zur Auswertung des Nutzerverhaltens.\nDies erlaubt uns die Funktionen der Website laufend zu verbessern.\nWir verwenden diese Daten nicht für personalisierte Werbung oder ähnliches.\nDie Zustimmung ist freiwillig und beeinflusst die generelle Funktionalität der Website nicht.",
   "deleteAccountLabel": "Account löschen",
-  "confirmDeleteAccount": "Soll der Account wirklich gelöscht werden?"
+  "confirmDeleteAccount": "Soll der Account wirklich gelöscht werden?",
+  "emailBodyPasswordChanged": "<p>Dein Chargeprice-Passwort wurde erfolgreich geändert.</p>",
+  "emailBodyPasswordReset": "<h4>Hallo {$name}!</h4>\n<p>Du hast uns angefordert dein Chargeprice-Passwort zurückzusetzen.</p>\n<p>Klicke auf folgenden Link, um ein neues Passwort festzulegen:</p>\n<a href=\"{$reset_password_link}\">{$reset_password_link}</a>",
+  "emailBodyConfirmEmail": "<p>Willkommen bei deinem Chargeprice Account!</p>\n<p>Um deine Registrierung abzuschließen, musst du deine E-Mail bestätigen. Klick dazu auf folgenden Link:</p>\n<a href=\"{$confirm_link}\">{$confirm_link}</a>",
+  "emailSubjectConfirmEmail": "Bestätige deine E-Mail",
+  "emailSubjectPasswordReset": "Passwort zurücksetzen",
+  "emailSubjectPasswordChanged": "Passwort geändert",
+  "thgHeader": "THG-Prämie für dein E-Auto in Österreich und Deutschland",
+  "thgInfo": "<p>\nAls E-Autofahrer in Österreich und Deutschland bekommst du jährlich durch die <a href=\"https://www.umweltbundesamt.de/themen/verkehr-laerm/kraft-betriebsstoffe/vollzug-38-bimschv-anrechnung-von-strom-fuer\" target=\"_blank\">Treibhausgasminderungsquote</a> eine Prämie. \n</p>\n<p>\nDu musst nichts weiter tun, als dich über den unten angeführten Link bei unserem Partner zu registrieren und bekommst danach die Prämie überwiesen. Dabei erhält auch Chargeprice auch kleine Kommission: Eine Win-Win-Situation!\n</p>\n<p>\nDie Prämie wird dabei von unserem Partner definiert und ist je nach Land und Auszahlungsart (fix oder flexibel) unterschiedlich.\n</p>\n<p><b>Dies ist 100% seriös und es fallen für dich keine Kosten an!</></p>",
+  "thgCTA": "Jetzt Prämie sichern!",
+  "thgHide": "Banner nicht mehr anzeigen"
 }
