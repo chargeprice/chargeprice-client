@@ -8,8 +8,8 @@ export default class ModelThgInfo extends ModalBase {
     this.settingsPrimitive = depts.settingsPrimitive();
 
     this.countryLinks = {
-      "AT": "https://geld-fuer-eauto.de/ref/chargeprice",
-      "DE": "https://geld-fuer-eauto.de/at/ref/chargepriceAT"
+      "DE": "https://geld-fuer-eauto.de/ref/chargeprice",
+      "AT": "https://geld-fuer-eauto.de/at/ref/chargepriceAT"
     }
   }
 
