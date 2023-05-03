@@ -11,6 +11,7 @@ export default class VehicleSelection extends ModalBase {
     this.searchTerm = "";
     this.searchResults = [];
     this.autocompleteNonce = 0;
+    this.minSearchLength = 3;
   }
 
   template(){
@@ -18,8 +19,13 @@ export default class VehicleSelection extends ModalBase {
     <div class="w3-modal-content" style="width: 400px">
       ${this.header(this.t("myVehicle"))}
       
+      <div class="w3-container w3-margin-top w3-margin-bottom">
+        <span>${this.t("myVehicleSearchLabel")}</span>
+      </div>
+
       <div class="w3-row">
-        <input @keyup="${(e)=>this.onFilterList(e.srcElement.value)}" placeholder="${this.t("searchPlaceholder")}" class="w3-input w3-border w3-padding"/>
+        <input id="searchBox" @keyup="${(e)=>this.onFilterList(e.srcElement.value)}" placeholder="${this.t("fbExample")} Tesla Model 3" class="w3-input w3-border w3-padding"/>
+        <button @click="${()=>this.onSearch()}" class="w3-btn pc-secondary w3-margin">${this.t("myVehicleSearchCTA")}</button>
         <ul class="w3-ul no-user-select">
           ${this.searchResults.map(v=>html`
             <li @click="${()=>this.selectVehicle(v)}" class="cp-clickable">
@@ -32,9 +38,11 @@ export default class VehicleSelection extends ModalBase {
         </ul>
       </div>
 
-      <button @click="${()=>this.onReportMissingVehicle()}" class="w3-btn pc-secondary w3-margin">
-        ${this.t("fbReportMissingVehicleHeader")}
-      </button>
+      ${this.searchTerm.length >= this.minSearchLength ? html`
+        <button @click="${()=>this.onReportMissingVehicle()}" class="w3-btn pc-secondary w3-margin">
+          ${this.t("fbReportMissingVehicleHeader")}
+        </button>
+      ` : ""}
     </div>
     `
   }
@@ -68,9 +76,15 @@ export default class VehicleSelection extends ModalBase {
     new ModalFeedback(this.depts).show("missing_vehicle");
   }
 
+  onSearch(){
+    const searchTerm = this.getEl("searchBox").value;
+    if(searchTerm.length >= this.minSearchLength) return;
+    alert(this.t("myVehicleMinimumLength"));
+  }
+
   onFilterList(searchTerm){
     const nonce = ++this.autocompleteNonce;
-    if(searchTerm.length >=3){
+    if(searchTerm.length >= this.minSearchLength){
       setTimeout(()=>this.autocompleteFinish(nonce, searchTerm),500);
     }
   }
