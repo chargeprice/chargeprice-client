@@ -4,10 +4,15 @@ export default class ThemeLoader {
   constructor(translation) {
     this.translation = translation;
     this.defaultTheme = "plugchecker";
-    this.themes = {
+    this.themeId = null;
+    this.theme = null;
+  }
+
+  availableThemes(){
+    return {
       [this.defaultTheme] : {
         titleBarHtml: "chargeprice",
-        title: translation.get("title"),
+        title: this.translation.get("title"),
         favicon: "img/favicon-32x32.png",
         themeColor: "#3498db",
         appleTouchIcon: "/img/logos/apple-touch-icon.png"
@@ -20,20 +25,20 @@ export default class ThemeLoader {
           </a>
         `,
         favicon: "themes/emc/logo.png",
-        name: `EMC ${translation.get("themeTitle")}`,
+        name: `EMC ${this.translation.get("themeTitle")}`,
         themeColor: "#8fbf22",
         appleTouchIcon: "themes/emc/logo.png",
         highlightedTariffs: ["a480edbe-d673-4faa-ad70-5d22273d15a0","d2a15ed1-b873-4aba-bf6d-070e16da6b45","51052ac3-d1d5-41f4-833d-a6e6713e76b4"]
       },
       nissan: {
-        titleBarHtml: `<img id=\"logo\" src=\"themes/nissan/logo.png\"/><span class=\"title\">${translation.get("themeTitle")}</span>`,
+        titleBarHtml: `<img id=\"logo\" src=\"themes/nissan/logo.png\"/><span class=\"title\">${this.translation.get("themeTitle")}</span>`,
         favicon: "themes/nissan/logo.png",
-        name: `Nissan ${translation.get("themeTitle")}`,
+        name: `Nissan ${this.translation.get("themeTitle")}`,
         themeColor: "#c3002f",
         appleTouchIcon: "/img/logos/apple-touch-icon.png"
       },
       oeamtc: {
-        titleBarHtml: `<img id=\"logo\" src=\"themes/oeamtc/logo.png\"/><span class=\"title\">${translation.get("themeTitle")}</span>`,
+        titleBarHtml: `<img id=\"logo\" src=\"themes/oeamtc/logo.png\"/><span class=\"title\">${this.translation.get("themeTitle")}</span>`,
         favicon: "themes/oeamtc/logo.png",
         name: `ÖAMTC Ladepreise`,
         themeColor: "#ffdc00",
@@ -41,23 +46,23 @@ export default class ThemeLoader {
       },
       "billig-tanken" : {
         titleBarHtml: "chargeprice",
-        title: translation.get("title"),
+        title: this.translation.get("title"),
         favicon: "img/favicon-32x32.png",
         name: `Billig Tanken Ladeäulen`,
         themeColor: "#009688",
         appleTouchIcon: "/img/logos/apple-touch-icon.png"
       },
       aprr: {
-        titleBarHtml: `<img id=\"logo\" src=\"themes/aprr/logo.png\"/><span class=\"title\">${translation.get("themeTitle")}</span>`,
+        titleBarHtml: `<img id=\"logo\" src=\"themes/aprr/logo.png\"/><span class=\"title\">${this.translation.get("themeTitle")}</span>`,
         favicon: "themes/aprr/logo.png",
-        name: translation.get("themeTitle"),
+        name: this.translation.get("themeTitle"),
         themeColor: "#ce0000",
         appleTouchIcon: "themes/aprr/logo.png"
       },
       asfinag: {
-        titleBarHtml: `<img id=\"logo\" src=\"themes/asfinag/logo.png\"/><span class=\"title\">${translation.get("themeTitle")}</span>`,
+        titleBarHtml: `<img id=\"logo\" src=\"themes/asfinag/logo.png\"/><span class=\"title\">${this.translation.get("themeTitle")}</span>`,
         favicon: "themes/asfinag/logo.png",
-        name: translation.get("themeTitle"),
+        name: this.translation.get("themeTitle"),
         themeColor: "#bc5408",
         appleTouchIcon: "themes/asfinag/logo.png"
       },
@@ -76,19 +81,36 @@ export default class ThemeLoader {
   }
 
   isDefaultTheme(){
-    return this.getValidatedTheme() == this.defaultTheme;
+    return this.themeId == this.defaultTheme;
   }
 
-  getValidatedTheme(){
+  ensureThemeSet(){
+    if(this.theme && this.themeId) return; 
+    const availableThemes = this.availableThemes();
+    this.themeId = this.getValidatedTheme(availableThemes);
+    this.theme = availableThemes[this.themeId];
+  }
+
+  getCurrentThemeConfig(){
+    this.ensureThemeSet();
+    return this.theme;
+  }
+
+  getCurrentThemeId(){
+    this.ensureThemeSet();
+    return this.themeId;
+  }
+
+  getValidatedTheme(availableThemes){
     if(window.location.hostname.includes("ladepreise.at")) return "emc";
 
     const theme = new URL(window.location.href).searchParams.get("theme");
-    return this.themes.hasOwnProperty(theme) ? theme : this.defaultTheme;
+    return availableThemes.hasOwnProperty(theme) ? theme : this.defaultTheme;
   }
 
-  setCurrentTheme(){
-    const themeId = this.getValidatedTheme();
-    const theme = this.themes[themeId];
+  initializeTheme(){
+    const themeId = this.getCurrentThemeId();
+    const theme = this.getCurrentThemeConfig();
 
     // Set CSS
     var newSS=document.createElement('link');
@@ -118,9 +140,5 @@ export default class ThemeLoader {
     else {
       document.getElementsByTagName("title")[0].innerText = `${theme.name} ${this.translation.get("poweredBy")} Chargeprice`;
     }
-  }
-
-  getCurrentThemeConfig(){
-    return this.themes[this.getValidatedTheme()];
   }
 }

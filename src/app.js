@@ -32,7 +32,7 @@ class App {
     this.rootContainer = new RootContainer(this.depts);
     await this.loadStaticContent(this.rootContainer,settingsSidebar, infoSidebar);
 
-    new ThemeLoader(this.translation).setCurrentTheme();
+    this.depts.themeLoader().initializeTheme();
 
     this.analytics = this.depts.analytics();
     this.stationTariffs = new StationTariffs(this.depts);

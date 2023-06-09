@@ -16,6 +16,7 @@ import Tariff from '../repository/tariff'
 export default class Dependencies {
   constructor(){
     this.translationInstance = new Translation();
+    this.themeLoaderInstance = new ThemeLoader(this.translationInstance);
     this.customConfigInstance = null;
     this.userSettingsInstance = null;
     this.currencyInstance = new Currency();
@@ -39,7 +40,7 @@ export default class Dependencies {
   }
 
   themeLoader(){
-    return new ThemeLoader(this.translation());
+    return this.themeLoaderInstance;
   }
 
   translation(){
