@@ -9,7 +9,7 @@ export default class ModelThgInfo extends ModalBase {
 
     this.countryLinks = {
       "DE": "https://geld-fuer-eauto.de/ref/chargeprice",
-      "AT": "https://geld-fuer-eauto.de/at/ref/chargepriceAT"
+      "AT": "https://www.awin1.com/cread.php?awinmid=34001&awinaffid=1352881&ued=https%3A%2F%2Fthg.insta-drive.com%2Fat%2F"
     }
   }
 
@@ -41,7 +41,7 @@ export default class ModelThgInfo extends ModalBase {
 
   open(){
     this.analytics.log('event', 'thg_redirect',{ country: this.country });
-    window.open(this.countryLinks[this.country], '_blank').focus();
+    window.open(this.countryLinks[this.country], '_self');
     this.hide();
   }
 
