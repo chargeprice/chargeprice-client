@@ -10,7 +10,7 @@ export default class Tariff{
   async where(ids=null){
     if(ids && ids.length==0) return [];
 
-    const url = `${this.baseUrl}/v1/tariffs${ids ? `&filter[id]=${ids.join(",")}` : ""}`;
+    const url = `${this.baseUrl}/v1/tariffs${ids ? `?filter[id]=${ids.join(",")}` : ""}`;
     const response = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
