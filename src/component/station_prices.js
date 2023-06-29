@@ -23,6 +23,31 @@ export default class StationPrices extends ViewBase{
     this.themeLoader = depts.themeLoader();
     this.settingsPrimitive = depts.settingsPrimitive();
     this.thgCountries = [{ code: "AT", altCode: "Österreich"},{ code: "DE", altCode: "Deutschland"}];
+
+    this.adBanners = [
+      {
+        bannerImageUrl: "https://drive.google.com/uc?id=1J_smo5VOPFGH0I4gejA7bdKT9f9o32wO",
+        ctaUrl: "https://kylomtr.me/ln/BgCMQ",
+        countries: ["FR"],
+        partner: "andcharge",
+        isHidden: () => false
+      },
+      {
+        bannerImageUrl: "https://drive.google.com/uc?id=1e2h6iCuHXiRD8yCE-17v_0VqsGfrlsLo",
+        customAction: ()=> this.onThg("DE"),
+        countries: ["DE","Deutschland"],
+        partner: "geldfuereauto",
+        isHidden: ()=>this.settingsPrimitive.getBoolean("thgBannerHidden",false)
+      },
+      {
+        bannerImageUrl: "https://drive.google.com/uc?id=1sApqTWyUvOEo7MhWWScBe-s8IHc-5cMG",
+        customAction: ()=> this.onThg("AT"),
+        countries: ["AT","Österreich"],
+        partner: "instadrive_thg",
+        isHidden: ()=>this.settingsPrimitive.getBoolean("thgBannerHidden",false)
+      }
+    ]
+
     this.initSlider();
   }
 
@@ -81,16 +106,17 @@ export default class StationPrices extends ViewBase{
     else return "";
   }
 
-  thgBannerTemplate(station){
-    const country = this.thgCountries.find(c => c.code == station.country || c.altCode == station.country);
-    const isHidden = this.settingsPrimitive.getBoolean("thgBannerHidden",false);
-    if(isHidden || !country || !this.themeLoader.isDefaultTheme()) return html``;
+  adBannerTemplate(station){
+    const country = station.country;
+    const currentBanner = this.adBanners.find(b => b.countries.includes(country));
+    if(currentBanner == null || currentBanner.isHidden() || !this.themeLoader.isDefaultTheme()) return html``;
 
-    this.analytics.log('event', 'thg_banner_displayed', { country: country.code});
+    this.analytics.log('event', 'ad_banner_displayed', { partner: currentBanner.partner, country: country});
+    const action = currentBanner.customAction || (()=> this.onAdBannerClicked(currentBanner, country));
 
     return html`
       <div class="w3-row w3-margin-top">
-        <a href="#" @click="${()=>this.onThg(country.code)}"><img src="/img/partners/thg_${country.code}.png" style="width: 100%;"/></a>
+        <a href="#" @click="${()=>action()}"><img src="${currentBanner.bannerImageUrl}" style="width: 100%;"/></a>
       </div>
     `;
   }
@@ -156,7 +182,7 @@ export default class StationPrices extends ViewBase{
     render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
     render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback")); 
-    render(this.thgBannerTemplate(station), this.getEl("thgBanner"));
+    render(this.adBannerTemplate(station), this.getEl("adBanner"));
   }
 
   sortChargePointsByPower(chargePoints) {
@@ -192,6 +218,12 @@ export default class StationPrices extends ViewBase{
     localStorage.setItem("batteryRange",JSON.stringify(this.getBatteryRange()));
   }
 
+  onAdBannerClicked(banner, country){
+    this.analytics.log('event', 'ad_banner_clicked', { partner: banner.partner, country: country});
+
+    window.open(banner.ctaUrl, '_blank');
+  }
+  
   getStoredOrDefaultBatteryRange(){
     if(localStorage.getItem("batteryRange")){
       return JSON.parse(localStorage.getItem("batteryRange"));
