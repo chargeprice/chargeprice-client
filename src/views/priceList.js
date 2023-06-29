@@ -106,7 +106,7 @@ export default class PriceListView extends ViewBase {
           <label class="w3-small w3-block">${this.t("providerCustomerOnly")}</label> 
         `:""}
       ${this.isHighlighted(tariff) ? html`
-        <a href="${tariff.url}" target="_blank"><img class="feature-logo" src="${tariff.branding.logo_url}"/></a>
+        <a href="${tariff.url}" target="_blank" class="w3-block"><img class="feature-logo" src="${tariff.branding.logo_url}"/></a>
       `:""}
       ${this.h().customConfig.isBeta() && tariff.links && tariff.links.open_app_at_station ?
         html`<br>
