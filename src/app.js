@@ -49,6 +49,9 @@ class App {
 		this.sidebar.injectMap(this.map);
     this.rootContainer.inject(this.sidebar);
 
+    //Make sure theme is loaded now
+    infoSidebar.render();
+
     if (!navigator.geolocation) {
       this.showFallbackLocation();
     }
