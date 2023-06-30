@@ -26,21 +26,21 @@ export default class StationPrices extends ViewBase{
 
     this.adBanners = [
       {
-        bannerImageUrl: "https://drive.google.com/uc?id=1J_smo5VOPFGH0I4gejA7bdKT9f9o32wO",
+        bannerImageUrl: "https://lh3.googleusercontent.com/drive-viewer/AFGJ81qDF4Vij_2EYKu0aAfWxM9sQHZDklcjtLlkeB1nHOh5GbE438iNcgaplVxOQiaW90rzc0fQaqoeD-WxwU7Dn9OR3BWgTA=s1600",
         ctaUrl: "https://kylomtr.me/ln/BgCMQ",
         countries: ["FR"],
         partner: "andcharge",
         isHidden: () => false
       },
       {
-        bannerImageUrl: "https://drive.google.com/uc?id=1e2h6iCuHXiRD8yCE-17v_0VqsGfrlsLo",
+        bannerImageUrl: "https://lh3.googleusercontent.com/drive-viewer/AFGJ81roEmZSCTrr-bXXObYZeZj-TB0e3sRVQfV3ncMwlx0MFi9_eOgTmxJC2BKv0X9aM0Rxn3y7Nz-1ebrO_MzRhmekIljnsQ=s1600",
         customAction: ()=> this.onThg("DE"),
         countries: ["DE","Deutschland"],
         partner: "geldfuereauto",
         isHidden: ()=>this.settingsPrimitive.getBoolean("thgBannerHidden",false)
       },
       {
-        bannerImageUrl: "https://drive.google.com/uc?id=1sApqTWyUvOEo7MhWWScBe-s8IHc-5cMG",
+        bannerImageUrl: "https://lh3.googleusercontent.com/drive-viewer/AFGJ81pGKa5Jkc6viVTFiEFIZe8bXPn2uD9r64utZGWMup5D7h6LoPqij8fhUrL478qHBoH7YLVfxmzWN1DKCOaXnfYwQ69j=s1600",
         customAction: ()=> this.onThg("AT"),
         countries: ["AT","Österreich"],
         partner: "instadrive_thg",
