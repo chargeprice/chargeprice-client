@@ -24,6 +24,8 @@ export default class GoingElectric {
     let stations = []
     let result = null;
 
+    if(this.goingElectricStationsDisabled(options)) return [];
+
     do {
       const response = await fetch(this.url, {
         method: "POST",
@@ -82,6 +84,16 @@ export default class GoingElectric {
     }
 
     return body;
+  }
+
+  goingElectricStationsDisabled(options){
+    const showOnlyMyTariffsWithTariffsDefined = options.onlyShowMyTariffs && options.myTariffs.length > 0;
+    if(!showOnlyMyTariffsWithTariffsDefined) return false;
+
+    const geCards = options.myTariffs.map(t=>t.chargeCardId).filter(id=>id);
+
+    // if you pass an empty array to the chargecards parameter, the api will return all stations, which is not what we want
+    return geCards.length == 0;
   }
 
   encodeBody(body){
