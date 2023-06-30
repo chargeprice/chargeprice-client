@@ -40,8 +40,7 @@ export default class FetchStations {
   isStationCloseToInternalStation(geStation, internalStations){
     const maxPowerGeStation = this.getMaximumPower(geStation);
     return internalStations.some(station=>
-      haversine(geStation,station,{unit: 'meter'}) < this.nearbyThreshold(maxPowerGeStation) && 
-        maxPowerGeStation <= this.getMaximumPower(station)
+      haversine(geStation,station,{unit: 'meter'}) < this.nearbyThreshold(maxPowerGeStation)
     );
   }
 
