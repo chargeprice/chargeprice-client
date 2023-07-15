@@ -22,22 +22,24 @@ export default class ManageMyTariffs extends ViewBase{
 
   template(tariffs){
     return html`
-      <div class="w3-margin-bottom">${this.t("manageMyTariffsDescription")}</div>
 
-      <input @keyup="${(e)=>this.onFilterList(e.srcElement.value)}" placeholder="${this.t("searchPlaceholder")}" class="w3-input w3-border"/>
+      <div class="w3-padding">
+        <div class="w3-margin-bottom">${this.t("manageMyTariffsDescription")}</div>
+        <input @keyup="${(e)=>this.onFilterList(e.srcElement.value)}" placeholder="${this.t("searchPlaceholder")}" class="w3-input w3-border"/>
+      </div>
 
-      <table id="charge-card-list" class="w3-table w3-striped w3-margin-top">
-        <tbody>
+
+      <div id="charge-card-list">
         ${tariffs.map(tariff=>html`
-          <tr style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;`:""}">
-            <td width="50">
+          <div class="price-flex-container price-row" style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
+            <div class="tariff-flex-left">
             ${
               this.myTariffIds.includes(tariff.id) ?
               html`<button @click="${()=>this.onRemove(tariff)}" class="w3-btn w3-red">-</button>` :
               html`<button @click="${()=>this.onAdd(tariff)}" class="w3-btn w3-green">+</button>`
             }
-            </td>
-            <td>
+            </div>
+            <div class="tariff-flex-right">
               ${tariff.name == null || tariff.name == tariff.provider ?
                 html`<span>${tariff.provider}</span><br>` :
                 html`<span>${tariff.name}</span><br>
@@ -51,11 +53,10 @@ export default class ManageMyTariffs extends ViewBase{
               ${this.isHighlighted(tariff) ? html`
                 <img class="feature-logo" src="${tariff.branding.logo_url}"/>
               `:""}
-            </td>
-          </tr>
+            </div>
+          </div>
         `)}
-        </tbody>
-      </table>
+      </div>
     `;
   }
 

@@ -62,15 +62,13 @@ export default class PriceListView extends ViewBase {
   priceSectionTemplate(header, prices){
     if(prices.length==0) return "";
 
-    return html`<table class="w3-table w3-striped w3-margin-top">
-      <tr>
-        <th width="60%">${header()}</th>
-        <th class="w3-right cp-price-right">${this.currency.getDisplayedCurrency()}</th>
-      </tr>
-      <tbody>
-        ${this.rowsTemplate(prices)}
-      </tbody>
-    </table>
+    return html`
+      <div class="price-flex-container w3-margin-top price-header header-font">
+        <div class="price-flex-left">${header()}</div>
+        <div class="price-flex-right">${this.currency.getDisplayedCurrency()}</div>
+      </div>
+
+      ${this.rowsTemplate(prices)}
     `;
   }
 
@@ -78,16 +76,16 @@ export default class PriceListView extends ViewBase {
     return prices.map(p=>{
       const tariff = p.tariff;
       return html`
-      <tr style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
-        ${this.tariffOverviewTemplate(p,tariff)}
-        ${this.priceTemplate(p,tariff)}
-      </tr>
-    `});
+        <div class="price-flex-container price-row" style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
+          ${this.tariffOverviewTemplate(p,tariff)}
+          ${this.priceTemplate(p,tariff)}
+        </div>
+      `});
   }
 
   tariffOverviewTemplate(price,tariff){
     return html`
-    <td class="cp-price-left">
+    <div class="price-flex-left">
       ${tariff.tariffName == null || tariff.tariffName == tariff.provider ?
         html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank" style="${this.isHighlighted(tariff) ? `border-bottom-color: ${tariff.branding.text_color};`:""}"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.provider}</span></a>` :
         html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank" style="${this.isHighlighted(tariff) ? `border-bottom-color: ${tariff.branding.text_color};`:""}"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.tariffName}</span></a><br>
@@ -112,7 +110,7 @@ export default class PriceListView extends ViewBase {
         html`<br>
         <a href="${tariff.links.open_app_at_station}" class="w3-button w3-small w3-blue" target="_blank"><i class="fa fa-bolt"></i> Start Charging!</a> 
         `:""}
-    </td>
+    </div>
     `;
   }
 
@@ -120,11 +118,11 @@ export default class PriceListView extends ViewBase {
     if(price.price==null) return this.noPriceAvailableTemplate(price);
 
     return html`
-    <td class="cp-price-right">
+    <div class="price-flex-right">
       <label class="w3-right ${this.isMyTariff(tariff)?"":""}">${this.isMyTariff(tariff) ? html``:"" }${this.h().dec(price.price)}</label>
       
       ${this.showPriceDetails ? this.priceDetailsTemplate(price) : ""}
-    </td>
+    </div>
     `;
   }
 
@@ -150,10 +148,10 @@ export default class PriceListView extends ViewBase {
 
   noPriceAvailableTemplate(price){
     return html`
-    <td class="cp-price-right">
+    <div class="price-flex-right">
       <label class="w3-right">${this.t("priceUnavailable")}</label>
       <label class="w3-right w3-small">${price.noPriceReason}</label>
-    </td>
+    </div>
     `;
   }
   
@@ -165,7 +163,7 @@ export default class PriceListView extends ViewBase {
     if(tags.length==0) return "";
     const colorMapping = {
       alert: "w3-deep-orange",
-      info: "pc-main",
+      info: "pc-secondary",
       star: "w3-green",
       lock: "w3-dark-gray"
     }

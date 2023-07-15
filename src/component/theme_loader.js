@@ -11,7 +11,7 @@ export default class ThemeLoader {
   availableThemes(){
     return {
       [this.defaultTheme] : {
-        titleBarHtml: "chargeprice",
+        titleBarHtml: html`<img id="logo" style="padding: 3px" src="img/logos/header-logo.svg"/>`,
         title: this.translation.get("title"),
         favicon: "img/favicon-32x32.png",
         themeColor: "#3498db",
@@ -45,7 +45,7 @@ export default class ThemeLoader {
         appleTouchIcon: "themes/oeamtc/logo.png"
       },
       "billig-tanken" : {
-        titleBarHtml: "chargeprice",
+        titleBarHtml: html`<img id="logo" style="padding: 3px" src="img/logos/header-logo.svg"/>`,
         title: this.translation.get("title"),
         favicon: "img/favicon-32x32.png",
         name: `Billig Tanken Ladeäulen`,

@@ -34,7 +34,7 @@ export default class RootContainer extends ViewBase {
           <div id="sidebar" class="w3-sidebar w3-white w3-card-4 w3-animate-left">
 
               <div class="w3-bar pc-secondary">
-                <span class="w3-bar-item w3-large"><span id="sidebarHeader"></span></span>
+                <span class="w3-bar-item w3-large"><span id="sidebarHeader" class="header-font"></span></span>
                 <button @click="${()=>this.onCloseSidebar()}" class="w3-bar-item w3-button w3-right w3-hover-dark-gray" title="close Sidebar">
                   <img class="inverted" class="w3-button " src="img/close.svg">
                 </button>
@@ -43,7 +43,7 @@ export default class RootContainer extends ViewBase {
               <div id="settingsContent" class="w3-container w3-padding-16"></div>
               <div id="infoContent" class="w3-row"></div>
               <div id="pricesContent" class="w3-row"></div>
-              <div id="manageMyTariffsContent" class="w3-container w3-padding-16"></div>
+              <div id="manageMyTariffsContent" class="w3-row"></div>
               <div id="routeContent" class="w3-container w3-padding-16"></div>
 							<div id="userProfileContent" class="w3-margin-top"></div>
           </div>
