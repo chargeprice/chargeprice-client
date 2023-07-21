@@ -26,12 +26,13 @@ export default class VehicleSelection extends ModalBase {
       <div class="w3-row">
         <input id="searchBox" @keyup="${(e)=>this.onFilterList(e.srcElement.value)}" placeholder="${this.t("fbExample")} Tesla Model 3" class="w3-input w3-border w3-padding"/>
         <button @click="${()=>this.onSearch()}" class="w3-btn pc-secondary w3-margin">${this.t("myVehicleSearchCTA")}</button>
+        ${this.searchResults.length > 0 ? html`<div class="w3-container">*${this.t("myVehicleBatteryInfo")}</div>`:""}
         <ul class="w3-ul no-user-select">
           ${this.searchResults.map(v=>html`
             <li @click="${()=>this.selectVehicle(v)}" class="cp-clickable">
               <div><strong>${v.brand}</strong> ${v.name}</div>
               <div class="w3-small">
-                <i class="fa fa-battery-full"></i> ${v.usableBatterySize} kWh | AC ${v.acMaxPower} kW ${v.dcMaxPower ? html`| DC ${v.dcMaxPower} kW` : ""}
+                <i class="fa fa-battery-full"></i> ${v.usableBatterySize} kWh* | AC ${v.acMaxPower} kW ${v.dcMaxPower ? html`| DC ${v.dcMaxPower} kW` : ""}
               </div>
             </li>
           `)}

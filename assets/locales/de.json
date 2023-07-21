@@ -71,6 +71,7 @@
   "myVehicleSearchCTA": "Suchen",
   "myVehicleSearchLabel": "Gib den Namen der Marke und des Models ein.",
   "myVehicleMinimumLength": "Bitte gib mindestens 3 Zeichen ein.",
+  "myVehicleBatteryInfo": "Nutzbare Batteriegröße",
   "batteryRangeInfo": "Laden von {0}% bis {1}%",
   "batteryRangeInfoWithCar": "Lade {0} von {1}% bis {2}%",
   "unbalancedLoadHeader": "Schieflast erlauben",

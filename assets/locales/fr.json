@@ -71,6 +71,7 @@
   "myVehicleSearchCTA": "Rechercher",
   "myVehicleSearchLabel": "Saisissez la marque et le modèle de votre véhicule.",
   "myVehicleMinimumLength": "Veuillez saisir au moins 3 caractères.",
+  "myVehicleBatteryInfo": "Capacité de la batterie",
   "batteryRangeInfo": "Recharger de {0}% à {1}%",
   "batteryRangeInfoWithCar": "Recharger de {1}% à {2}%",
   "unbalancedLoadHeader": "Charge déséquilibrée",

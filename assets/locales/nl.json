@@ -71,6 +71,7 @@
   "myVehicleSearchCTA": "Search",
   "myVehicleSearchLabel": "Enter the brand and model name of your vehicle.",
   "myVehicleMinimumLength": "Please enter at least 3 characters.",
+  "myVehicleBatteryInfo": "Usable battery capacity",
   "batteryRangeInfo": "Laden van {0}% naar {1}%",
   "batteryRangeInfoWithCar": "Laden van {1}% naar {2}%",
   "unbalancedLoadHeader": "Enable unbalanced load",

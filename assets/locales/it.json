@@ -71,6 +71,7 @@
   "myVehicleSearchCTA": "Search",
   "myVehicleSearchLabel": "Enter the brand and model name of your vehicle.",
   "myVehicleMinimumLength": "Please enter at least 3 characters.",
+  "myVehicleBatteryInfo": "Usable battery capacity",
   "batteryRangeInfo": "Carica da {0}% a {1}%",
   "batteryRangeInfoWithCar": "Carica da {1}% a {2}%",
   "unbalancedLoadHeader": "Abilitazione del carico sbilanciato",
