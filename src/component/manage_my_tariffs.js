@@ -32,13 +32,6 @@ export default class ManageMyTariffs extends ViewBase{
       <div id="charge-card-list">
         ${tariffs.map(tariff=>html`
           <div class="price-flex-container price-row" style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
-            <div class="tariff-flex-left">
-            ${
-              this.myTariffIds.includes(tariff.id) ?
-              html`<button @click="${()=>this.onRemove(tariff)}" class="w3-btn w3-red">-</button>` :
-              html`<button @click="${()=>this.onAdd(tariff)}" class="w3-btn w3-green">+</button>`
-            }
-            </div>
             <div class="tariff-flex-right">
               ${tariff.name == null || tariff.name == tariff.provider ?
                 html`<span>${tariff.provider}</span><br>` :
@@ -53,6 +46,13 @@ export default class ManageMyTariffs extends ViewBase{
               ${this.isHighlighted(tariff) ? html`
                 <img class="feature-logo" src="${tariff.branding.logo_url}"/>
               `:""}
+            </div>
+            <div class="tariff-flex-left">
+            ${
+              this.myTariffIds.includes(tariff.id) ?
+              html`<button @click="${()=>this.onRemove(tariff)}" class="w3-btn w3-red w3-small">${this.t("manageMyTariffsRemove")}</button>` :
+              html`<button @click="${()=>this.onAdd(tariff)}" class="w3-btn pc-main w3-small">${this.t("manageMyTariffsSelect")}</button>`
+            }
             </div>
           </div>
         `)}

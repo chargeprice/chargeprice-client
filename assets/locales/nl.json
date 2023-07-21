@@ -19,6 +19,8 @@
   "pricesHeader": "Prijs",
   "manageMyTariffsHeader": "Mijn tarief beheren",
   "manageMyTariffsDescription": "Selecteer alle laadtarieven bij die je geregistreerd bent",
+  "manageMyTariffsSelect": "Select",
+  "manageMyTariffsRemove": "Remove",
   "errorStationsUnavailable": "Laadpaal kon niet geladen worden",
   "errorPricesUnavailable": "Opnieuw laden",
   "totalPriceInfo": "Total price of a charging session, given the provided parameters excl. monthly fees<br>\n* Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br>\n** Depending on tariff: Base fee, service fee, membership fee\n<br>\nLinks to providers might be affiliate links, where Chargeprice gets a commission per click. Affiliate partner are not ranked higher. Tariffs are only sorted by prices.",

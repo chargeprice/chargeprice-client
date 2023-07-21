@@ -19,6 +19,8 @@
   "pricesHeader": "Precio",
   "manageMyTariffsHeader": "Gestionar mis planes de recarga",
   "manageMyTariffsDescription": "Elija los planes a los cuales usted está suscrito.",
+  "manageMyTariffsSelect": "Select",
+  "manageMyTariffsRemove": "Remove",
   "errorStationsUnavailable": "Error de visualización",
   "errorPricesUnavailable": "Error de carga de los precios. Por favor actualice la página",
   "totalPriceInfo": "precio total sin contabilizar las posibles cuotas mensuales *Las tarifas han sido calculadas teniendo en cuenta la perdida de energia teorica del 10%. Los valores reales cambian en función del modelo del auto, de la estación de carga, de las condiciones meteologicas, etc **Gasto por sesión de recarga o plan mensual",

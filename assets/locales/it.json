@@ -19,6 +19,8 @@
   "pricesHeader": "Tariffa",
   "manageMyTariffsHeader": "Gestisci le mie tariffe",
   "manageMyTariffsDescription": "Selezionate tutte le tariffe che possedete qui sotto.",
+  "manageMyTariffsSelect": "Select",
+  "manageMyTariffsRemove": "Remove",
   "errorStationsUnavailable": "Stazioni non disponibili",
   "errorPricesUnavailable": "Prezzi non disponibili. Provare a ricaricare la pagina.",
   "totalPriceInfo": "Prezzo totale di una sessione di ricarica, in base ai parametri forniti, escluse le spese mensili<b>\n*  Valori calcolati comprensivi del 10% di scarico della carica. I valori effettivi dipendono dal veicolo, dalla stazione di ricarica, dalle condizioni atmosferiche, ecc.<br>\n** A seconda della tariffa: Canone base, canone di servizio, canone associativo\n<br>\nI link ai fornitori potrebbero essere link di affiliazione, per i quali Chargeprice riceve una commissione per clic. I partner affiliati non sono classificati più in alto. Le tariffe sono ordinate solo in base ai prezzi.\n",

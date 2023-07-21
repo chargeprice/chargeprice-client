@@ -19,6 +19,8 @@
   "pricesHeader": "Preise",
   "manageMyTariffsHeader": "Meine Tarife verwalten",
   "manageMyTariffsDescription": "Wählen unten alle Tarife aus, bei denen du registriert bist.",
+  "manageMyTariffsSelect": "Auswählen",
+  "manageMyTariffsRemove": "Löschen",
   "errorStationsUnavailable": "Stationen konnten nicht geladen werden.",
   "errorPricesUnavailable": "Preise konnten nicht geladen werden. Bitte versuchen Sie die Seite neu zu laden.",
   "totalPriceInfo": "Gesamtpreis einer Ladung mit den angegebenen Parametern exkl. monatliche Gebühren<br>\n* Errechnete Werte inkl. 10% Ladeverlust. Die Werte hängen in der Realität von Fahrzeug, Station, Wetter etc. ab.<br>\n** Abhängig von Tarif: Grundgebühr, Servicepauschale oder Mitgliedsbeitrag\n<br>\nLinks zu Tarifanbietern sind potenziell Affiliate-Links, wo Chargeprice pro Klick eine Provision erhält. Affiliate-Partner werden nicht höher gelistet. Die Reihenfolge hängt nur vom Preis ab. ",
