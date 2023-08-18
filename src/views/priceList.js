@@ -17,41 +17,17 @@ export default class PriceListView extends ViewBase {
     let sections = [];
     const prices = this.groupedPrices;
 
-    if(this.showAllPrices) {
-      sections = [
-        this.priceSectionTemplate(
-          ()=>html`<i class="fa fa-star fav-icon"></i> <a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("myTariffs")} <i class="fa fa-pencil"></a>`, 
-          prices.allMyPrices),
-        this.priceSectionTemplate(
-          ()=>prices.allMyPrices.length > 0 ? this.t("otherTariffs") : this.t("tariff"), 
-          prices.allOtherPrices)
-      ]
-    }
-    else {
-      sections = [
-        this.priceSectionTemplate(
-          ()=>html`<i class="fa fa-star fav-icon"></i> <a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">
-            ${this.sf(this.t("bestMyTariffs"), this.pricesInBestGroups)} <i class="fa fa-pencil"></a>`, 
-          prices.bestMyPrices),
-        this.priceSectionTemplate(
-          ()=>this.sf(this.t("bestTariffsWithoutMonthlyFee"), this.pricesInBestGroups), 
-          prices.bestWithoutMonthlyFees),
-        this.priceSectionTemplate(
-          ()=>this.sf(this.t("bestTariffsWithMonthlyFee"), this.pricesInBestGroups), 
-          prices.bestWithMonthlyFees),
-        this.priceSectionTemplate(()=>this.t("promotedTariffs"),prices.promoted)
-      ]
-    }
+    sections = [
+      this.priceSectionTemplate(
+        ()=>html`<i class="fa fa-star fav-icon"></i> <a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("myTariffs")} <i class="fa fa-pencil"></a>`, 
+        prices.allMyPrices),
+      this.priceSectionTemplate(
+        ()=>prices.allMyPrices.length > 0 ? this.t("otherTariffs") : this.t("tariff"), 
+        prices.allOtherPrices)
+    ]
 
     return html`
       ${sections}
-
-      ${prices.morePricesCount > 0 ? html`
-      <div class="w3-margin-top w3-container">
-        <button @click="${()=>this.onToggleShowAllPrices()}" class="w3-button pc-main">
-          ${this.showAllPrices ? this.t("backToPriceOverview") : this.t("viewAllPrices")}
-        </button>
-      </div>`:""}
 
       <div class="w3-margin-top w3-small w3-container">
         ${this.ut("totalPriceInfo")}
@@ -187,7 +163,6 @@ export default class PriceListView extends ViewBase {
     this.station = station;
     this.root = root;
     this.showPriceDetails = options.showPriceDetails;
-    this.showAllPrices = false;
     this.groupedPrices = this.groupIntoSections(prices);
     this.rerender();
   }
@@ -199,12 +174,6 @@ export default class PriceListView extends ViewBase {
   groupIntoSections(prices){
     return new GroupPriceList(this.depts, 
       prices, this.myTariffs, this.theme.highlightedTariffs, this.pricesInBestGroups).run();
-  }
-
-  onToggleShowAllPrices(){
-    this.showAllPrices = !this.showAllPrices;
-    this.analytics.log('event', 'price_list_type_changed', { type: this.showAllPrices ? "all_prices" : "grouped_prices" });
-    this.rerender();
   }
 
   onManageMyTariffs(){
