@@ -8,7 +8,7 @@ export default class LocationIQ{
   }
 
   async getAutocomplete(searchTerm){
-    const url = `https://api.locationiq.com/v1/autocomplete.php?key=${this.apiKey}&q=${encodeURI(searchTerm)}&limit=5&accept-language=${this.translation.currentLocaleOrFallback()}`
+    const url = `https://api.locationiq.com/v1/search.php?key=${this.apiKey}&q=${encodeURI(searchTerm)}&limit=5&format=json&addressdetails=1&accept-language=${this.translation.currentLocaleOrFallback()}`
     const response = await fetch(url);
     if(response.status != 200) throw response.status;
 
@@ -16,12 +16,14 @@ export default class LocationIQ{
     return root.map(entry=>{
 
       const ad = entry.address;
+      const city = ad.city || ad.municipality || ad.town || ad.village;
+      const street = ad.road || ad.residential || ad.neighbourhood || ad.hamlet;
 
       const fullDisplayName = [
-        ad.name != ad.road ? ad.name : null, 
-        [ad.road, ad.house_number].filter(n=>n).join(" "), 
-        [ad.postcode, ad.city].filter(n=>n).join(" "), 
-        ad.state != ad.city ? ad.state : null, 
+        ad.name != street ? ad.name : null, 
+        [street, ad.house_number].filter(n=>n).join(" "), 
+        [ad.postcode, city].filter(n=>n).join(" "), 
+        ad.state != city ? ad.state : null, 
         ad.country
       ].filter(n=>n).join(", ");
 
