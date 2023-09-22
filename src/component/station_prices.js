@@ -121,6 +121,46 @@ export default class StationPrices extends ViewBase{
     `;
   }
 
+  upsellingTemplate(){
+    return html`
+      <div class="w3-margin-top w3-small w3-container">
+      <div class="w3-margin-top w3-small w3-container price-row w3-medium" style="font-family: 'Open Sans';">
+        <label class="w3-block w3-large w3-center" style="font-family: 'Merriweather Sans'; font-weight: 300; border-bottom: 1px solid #aaa;">
+          Maximum number of free price checks reached!
+        </label>
+        <label class="w3-block w3-padding">
+          You can check the prices of up to 8 charging stations per day for free. 
+          There are the following options to continue using Chargeprice:
+        </label>
+
+        <label class="w3-block w3-large w3-center w3-margin-top" style="font-family: 'Merriweather Sans'; font-weight: 300;"><i class="fa fa-chart-line"></i> You are a professional user</label>
+        <label class="w3-block w3-center w3-padding">Subscribe to Chargeprice.pro to access exclusive features:</label>
+        <ul>
+          <li>Unlimited number of Price Checks</li>
+          <li>Filter by CPOs</li>
+          <li>Export prices</li>
+        </ul>
+
+        <label class="w3-block w3-center">Request access now: <a href="mailto:sales@chargeprice.net">sales@chargeprice.net</a></label>
+
+        <label class="w3-block w3-large w3-center w3-margin-top" style="font-family: 'Merriweather Sans'; font-weight: 300;"><i class="fa fa-bolt"></i> You are an EV driver</label>
+        <label class="w3-block w3-center w3-padding">Download our mobile apps and continue checking prices for free:</label>
+        <div class="w3-container w3-padding">
+          <div class="w3-half">
+            <a href="#" target="_blank">
+              <img src="img/store/app-store-badge.svg" class="w3-padding" height="70px" width="100%">
+            </a>
+          </div>
+          <div class="w3-half w3-center">
+            <a href="#" target="_blank" "="">
+              <img src="img/store/play-store-badge.png" class="w3-padding w3-center" style="max-height: 70px; max-width:100%">
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   initSlider(){
     this.slider = document.getElementById('batteryRange');
 
@@ -175,14 +215,30 @@ export default class StationPrices extends ViewBase{
   }
  
   updateStationPrice(station,prices,options){
-    const sortedPrices = prices.sort((a,b)=>this.sortPrice(a.price, b.price));
-
-    new PriceListView(this.depts,this.sidebar).render(sortedPrices,options,station,"prices")
     new StationDetailsView(this.depts).render(station,"station-info");
-    render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
+
+    if(this.shouldShowUpselling()){
+      this.showUpselling();
+      return;
+    }
+
+    const sortedPrices = prices.sort((a,b)=>this.sortPrice(a.price, b.price));
+    new PriceListView(this.depts,this.sidebar).render(sortedPrices,options,station,"prices")
+    render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback")); 
     render(this.adBannerTemplate(station), this.getEl("adBanner"));
+  }
+
+  showUpselling(){
+    render(this.upsellingTemplate(), this.getEl("prices"));
+    render("", this.getEl("adBanner"));
+    render("", this.getEl("priceFeedback"));
+    render("",this.getEl("priceInfo"))
+  }
+
+  shouldShowUpselling(){
+    return true;
   }
 
   sortChargePointsByPower(chargePoints) {
