@@ -13,7 +13,7 @@
     "distDev": "yarn run dist:clean && yarn run dist:pack --mode=development && yarn run dist:copyAssets",
     "dist:clean": "rm -rf dist/ && mkdir dist",
     "dist:pack": "yarn webpack --config webpack.config.js",
-    "dist:copyAssets": "cp -RT assets dist",
+    "dist:copyAssets": "cp -R assets/* dist",
     "start": "yarn run dist && yarn run serve",
     "startDev": "yarn run distDev && yarn run serve",
     "test": "jest"
