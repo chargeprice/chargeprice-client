@@ -1,6 +1,6 @@
 export default class Translation {
   constructor() {
-    this.supportedLocales = ["en","de","fr","nl","es","dk"]
+    this.supportedLocales = ["en","de","fr","nl","es","da"]
     this.fallbackLocale = "en"
     this.currentLocale = this.currentLocaleOrFallback();
     this.unbalancedLoadLocales = ["de"];
