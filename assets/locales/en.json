@@ -42,7 +42,7 @@
   "priceDetailsLabel": "Show more information about pricing",
   "priceDetailsDetails": "Average price / kWh and type of billing (per Minute, kWh...)",
   "ok": "Ok",
-  "poiKey": "Map Legend",
+  "poiKey": "Map Key",
   "chargePowerTo": "<= {0} kW",
   "chargePowerFrom": "> {0} kW",
   "poweredBy": "powered by",
@@ -138,6 +138,7 @@
   "freeStationWithPricesInfo": "This station is marked as free charging, but it's also connected to a charging network. If you need to activate the station with a charging card or app, the prices listed below might still apply!",
   "minPowerInfo": "Stations with min. power of {0} kW",
   "minPowerInfoAny": "Minimum power not specified",
+  "filterOperators": "Search & filter operators...",
   "zoomLevelDependentStation": "We also hide stations based on the map zoom level.",
   "faultReported": "Fault reported",
   "infoApiSub": "Integrate Chargeprice into your app",
@@ -201,5 +202,13 @@
   "thgInfo": "<p>\nAls E-Autofahrer in Österreich und Deutschland bekommst du jährlich durch die <a href=\"https://www.umweltbundesamt.de/themen/verkehr-laerm/kraft-betriebsstoffe/vollzug-38-bimschv-anrechnung-von-strom-fuer\" target=\"_blank\">Treibhausgasminderungsquote</a> eine Prämie. \n</p>\n<p>\nDu musst nichts weiter tun, als dich über den unten angeführten Link bei unserem Partner zu registrieren und bekommst danach die Prämie überwiesen. Dabei erhält auch Chargeprice auch kleine Provision: Eine Win-Win-Situation!\n</p>\n<p>\nDie Prämie wird dabei von unserem Partner definiert und ist abhängig von Land und Auszahlungsart:\n<ul>\n<li>Österreich: 600€ (sofort & garantiert) oder bis zu 900€ (später & je nach Marktwert der THG-Quote)</li>\n<li>Deutschland: 255€ (sofort & garantiert) oder bis zu 385€ (später & je nach Marktwert der THG-Quote)</li>\n</ul>\n</p>\n<p><b>Dies ist 100% seriös und es fallen für dich keine Kosten an!</b></p>",
   "thgCTA": "Jetzt Prämie sichern!",
   "thgHide": "Banner nicht mehr anzeigen",
-  "ctaChargeNow": "Charge Now"
+  "ctaChargeNow": "Charge Now",
+  "priceLimitReachedHeader": "Maximum number of free price checks reached!",
+  "priceLimitReachedText": "You can check up to {0} charging stations per day for free. \nChoose an offer to continue using Chargeprice:",
+  "priceLimitEvDriverHeader": "Personal EV drivers",
+  "priceLimitEvDriverText": "Download our mobile app. It's free for personal use:",
+  "priceLimitProHeader": "Commercial usage",
+  "priceLimitProText": "Chargeprice.pro is the service for professionals with exclusive features:",
+  "priceLimitProFeatureList": "<ul>\n  <li>Unlimited number of price checks</li>\n  <li>Filter stations on the map by CPO</li>\n  <li>Export prices</li>\n  <li>A feature you need is missing? Tell us about it!</li>\n</ul>",
+  "priceLimitProCTA": "Request a quote"
 }

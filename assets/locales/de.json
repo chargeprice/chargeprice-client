@@ -138,6 +138,7 @@
   "freeStationWithPricesInfo": "Diese Ladestation ist als \"Gratis laden\" markiert, gehört aber zu einem Ladeverbund. Wenn du die Station mit einer Ladekarte oder App aktivieren musst, könnten die unten angeführten Preise gelten!",
   "minPowerInfo": "Stationen mit mind. {0} kW Leistung",
   "minPowerInfoAny": "Alle Stationen (keine Mindestleistung)",
+  "filterOperators": "Betreiber suchen & filtern...",
   "zoomLevelDependentStation": "Wir blenden auch Stationen je nach Zoom-Level der Karte aus.",
   "faultReported": "Störung gemeldet",
   "infoApiSub": "Integriere Chargeprice in deine App",
@@ -201,5 +202,13 @@
   "thgInfo": "<p>\nAls E-Autofahrer in Österreich und Deutschland bekommst du jährlich durch die <a href=\"https://www.umweltbundesamt.de/themen/verkehr-laerm/kraft-betriebsstoffe/vollzug-38-bimschv-anrechnung-von-strom-fuer\" target=\"_blank\">Treibhausgasminderungsquote</a> eine Prämie. \n</p>\n<p>\nDu musst nichts weiter tun, als dich über den unten angeführten Link bei unserem Partner zu registrieren und bekommst danach die Prämie überwiesen. Dabei erhält auch Chargeprice auch kleine Provision: Eine Win-Win-Situation!\n</p>\n<p>\nDie Prämie wird dabei von unserem Partner definiert und ist abhängig von Land und Auszahlungsart:\n<ul>\n<li>Österreich: 600€ (sofort & garantiert) oder bis zu 900€ (später & je nach Marktwert der THG-Quote)</li>\n<li>Deutschland: 255€ (sofort & garantiert) oder bis zu 385€ (später & je nach Marktwert der THG-Quote)</li>\n</ul>\n</p>\n<p><b>Dies ist 100% seriös und es fallen für dich keine Kosten an!</b></p>",
   "thgCTA": "Jetzt Prämie sichern!",
   "thgHide": "Banner nicht mehr anzeigen",
-  "ctaChargeNow": "Jetzt Laden"
+  "ctaChargeNow": "Jetzt Laden",
+  "priceLimitReachedHeader": "Limit an kostenlosen Preisabfragen erreicht!",
+  "priceLimitReachedText": "Du kannst bis zu {0} Ladestationen pro Tag kostenlos abfragen.\nWähle ein Angebot um Chargeprice weiter zu nutzen: ",
+  "priceLimitEvDriverHeader": "Private E-Autofahrer",
+  "priceLimitEvDriverText": "Lade unsere App herunter. Kostenlos bei privater Nutzung:",
+  "priceLimitProHeader": "Kommerzielle Nutzung",
+  "priceLimitProText": "Chargeprice.pro ist unser B2B-Service mit exklusiven Funktionen:",
+  "priceLimitProFeatureList": "<ul>\n  <li>Unlimitierte Preisabfragen</li>\n  <li>Stationen nach Betreibern filtern</li>\n  <li>Preise exportieren</li>\n  <li>Weitere Features auf Anfrage</li>\n</ul>",
+  "priceLimitProCTA": "Jetzt Zugriff anfragen"
 }
