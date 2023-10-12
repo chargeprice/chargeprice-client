@@ -17,6 +17,16 @@ export default class RepositorySettingsPrimitive {
     localStorage.setItem(this.appStartCount, this.getAppStartCount() + 1);
   }
 
+  setLastDeeplinkStation(id, dataAdapter){
+    localStorage.setItem("lastDeeplinkStation", JSON.stringify({id, dataAdapter}));
+  }
+
+  getLastDeeplinkStation(){
+    const value = localStorage.getItem("lastDeeplinkStation");
+    if(value == undefined) return null;
+    else return JSON.parse(value);
+  }
+
   setBoolean(key, value){
     localStorage.setItem(key, value);
   }

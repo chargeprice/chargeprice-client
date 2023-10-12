@@ -7,7 +7,7 @@ import AuthService from '../repository/authorizationService';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile'
 
 export default class UserProfile extends ViewBase {
-	constructor(sidebar, depts) {
+	constructor(sidebar, depts, userSettings) {
 		super(depts);
 		this.sidebar = sidebar;
 		this.depts = depts;
@@ -17,6 +17,7 @@ export default class UserProfile extends ViewBase {
 		this.profile = {};
 		this.accessToken = null;
 		this.map = null;
+		this.userSettings = userSettings;
 
 		this.menuItems = [
 			{
@@ -54,6 +55,7 @@ export default class UserProfile extends ViewBase {
 				</div>
 				<p><b>${this.t("authLabelUsername")}:</b> ${this.profile.username}</p>
 				<p><b>${this.t("authLabelEmail")}:</b> ${this.profile.email}</p>
+				${this.userSettings.isPro ? html`<p><b>Chargeprice.pro</b> <i class="fa fa-check-circle w3-large"></i></p>` : ""}
 			</div>
 			<div class="w3-container w3-center" style="padding: 0">
 				<div class="w3-row">

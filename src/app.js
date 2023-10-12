@@ -11,6 +11,7 @@ import LocationSearch from './component/location_search.js';
 import Dependencies from './helper/dependencies';
 import RootContainer from './views/rootContainer';
 import AppInstall from './component/app_install';
+import FetchUserSettingsOrCreateFromLocal from './useCase/fetchUserSettingsOrCreateFromLocal.js';
 import '../assets/css/w3.css'
 import '../assets/css/w3-colors-flat.css'
 import '../assets/css/leaflet.awesome-markers.css'
@@ -26,10 +27,13 @@ class App {
     await this.translation.setCurrentLocaleTranslations();
     this.translation.translateMeta();
 
+    // Load user settings to have it cached
+    const userSettings = await new FetchUserSettingsOrCreateFromLocal(this.depts).run();
+
     // Static content is needed for almost everything else
-    const settingsSidebar = new SettingsSidebar(this.depts);
+    const settingsSidebar = new SettingsSidebar(this.depts, userSettings);
     const infoSidebar = new InfoSidebar(this.depts);
-    this.rootContainer = new RootContainer(this.depts);
+    this.rootContainer = new RootContainer(this.depts, userSettings);
     await this.loadStaticContent(this.rootContainer,settingsSidebar, infoSidebar);
 
     this.depts.themeLoader().initializeTheme();
@@ -37,9 +41,10 @@ class App {
     this.analytics = this.depts.analytics();
     this.stationTariffs = new StationTariffs(this.depts);
     this.map = new Map(this.depts);
-    this.sidebar = new Sidebar(this.depts);
+    this.sidebar = new Sidebar(this.depts, userSettings);
     this.locationSearch = new LocationSearch(this.depts);
     this.locationSearch.render();
+    this.settings = this.depts.settingsPrimitive();
 
     this.currentStationTariffs = null;
     this.currentStation = null;
@@ -157,8 +162,8 @@ class App {
     },this.translation.get("errorStationsUnavailable"));
   }
 
-  async stationSelected(model,updateMap) {
-    if(!model.lite) {
+  async stationSelected(model,viaDeeplink) {
+    if(!viaDeeplink) {
       // If CP was opened by Deeplink, don't track the station
       // Look at PoiDeeplink instead
       const maxPower = model.chargePoints.reduce((memo,cp)=>cp.power > memo ? cp.power : memo,0);
@@ -172,12 +177,12 @@ class App {
       this.currentStation = await (new FetchStations(this.depts)).detail(model, options);
     },this.translation.get("errorStationsUnavailable"));
 
-    if (updateMap) {
+    if (viaDeeplink) {
       this.map.centerLocation({
         latitude: this.currentStation.latitude,
         longitude: this.currentStation.longitude
       });
-      this.map.changeSelectedStation(this.currentStation)
+      this.map.changeSelectedStation(this.currentStation);
     }
 
     await this.updatePrices();
@@ -245,6 +250,7 @@ class App {
   optionsChanged(){
     if (this.poiId !== undefined && this.poiSource !== undefined && !this.deeplinkActivated) {
       this.deeplinkActivated = true;
+      this.settings.setLastDeeplinkStation(this.poiId, this.poiSource);
       this.stationSelected({id: this.poiId, lite: true, dataAdapter: this.poiSource, charge_points: [] }, true)
     }
     this.showStationsAtLocation(this.map.getBounds());

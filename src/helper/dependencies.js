@@ -12,6 +12,7 @@ import UserSettings from '../repository/userSettings'
 import AuthService from '../repository/authorizationService'
 import Vehicle from '../repository/vehicle'
 import Tariff from '../repository/tariff'
+import Company from '../repository/company'
 
 export default class Dependencies {
   constructor(){
@@ -79,6 +80,9 @@ export default class Dependencies {
     return new Tariff(this);
   }
 
+  company(){
+    return new Company(this);
+  }
 
   currency(){
     return this.currencyInstance;

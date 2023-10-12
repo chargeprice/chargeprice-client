@@ -1,10 +1,10 @@
 import { html, render } from 'lit';
 import ViewBase from '../component/viewBase';
 import GenericList from '../modal/genericList';
-import Authorization from '../component/authorization';
+import CompanySearchBox from '../component/companySearchBox';
 
 export default class SettingsSidebar extends ViewBase {
-  constructor(depts) {
+  constructor(depts, userSettings) {
     super(depts);
     this.depts = depts;
     this.analytics = depts.analytics();
@@ -12,6 +12,8 @@ export default class SettingsSidebar extends ViewBase {
     this.customConfig = depts.customConfig();
     this.currency = depts.currency();
     this.selectedMinPower = 0;
+    this.userSettings = userSettings;
+    this.filteredCpos = [];
 
     this.checkBoxes = [
       "onlyFree",
@@ -43,10 +45,7 @@ export default class SettingsSidebar extends ViewBase {
 
     <label class="w3-margin-top w3-margin-bottom w3-large w3-block">${this.t("mapFilter")}</label>
 
-    ${this.customConfig.isInternalMode() ? html`
-      <label>Filter CPO (Chargeprice ID)</label><br>
-      <input id="cpoFilterChargeprice" @change="${()=>this.onOptionsChanged()}" class="w3-input w3-border w3-margin-bottom"></input>
-      ` : ""}
+    <div id="cpoFilter" class="w3-margin-bottom"></div>
 
     <div id="powerSliderInfo" ></div>
     <div class="w3-small">${this.t("zoomLevelDependentStation")}</div>
@@ -59,7 +58,7 @@ export default class SettingsSidebar extends ViewBase {
     <label>${this.t("onlyOpenNow")}</label><br>
 
     <label class="w3-block w3-margin-top">${this.t("displayedCurrencyHeader")}</label>
-    <div id="selectCurrency">${this.currencyTemplate()}</div>
+    <div id="selectCurrency"></div>
 
     <label class="w3-margin-top w3-large w3-block">${this.t("expertOptions")}</label>
 
@@ -87,10 +86,29 @@ export default class SettingsSidebar extends ViewBase {
     `;
   }
 
+  cpoFilterTemplate(){
+    if(!this.customConfig.isInternalMode() && !this.userSettings.isPro) return "";
+    return html`
+      <div>      
+      <company-search-box placeholder="${this.t("filterOperators")}" @company-changed="${(res)=>this.onCompanyChanged(res.detail)}"></company-search-box>
+      <div class="w3-margin-top">
+        ${this.filteredCpos.map(cpo=>html`
+          <span class="w3-tag w3-round w3-light-grey">
+            ${cpo.name}
+            <i class="fas fa-times w3-margin-left" @click="${()=>this.onRemoveCpo(cpo)}"></i>
+          </span>
+        `)}
+      </div>
+      </div>
+    `;
+  }
+
   render(){
     render(this.template(),this.getEl("settingsContent"));
     this.loadModel();
     this.initSlider();
+    this.rerenderCpoFilter();
+    this.rerenderCurrency();
   }
 
   powerValueTemplate(){
@@ -113,7 +131,7 @@ export default class SettingsSidebar extends ViewBase {
     this.currency.changeCurrency(value);
     this.sidebar.optionsChanged();
     this.analytics.log('event', 'currency_changed',{new_value: value});
-    render(this.currencyTemplate(),this.getEl("selectCurrency"));
+    this.rerenderCurrency();
   }
 
   initSlider(){
@@ -173,11 +191,28 @@ export default class SettingsSidebar extends ViewBase {
     this.sidebar.settingsView = this;
   }
 
-  cpoFilterChargeprice(){
-    const cpoFilterElement = this.getEl("cpoFilterChargeprice");
-    if(!cpoFilterElement || cpoFilterElement.length==0) return null;
+  onCompanyChanged(company){
+    const alreadyInList = this.filteredCpos.some(c=>c.id == company.id);
+    if(alreadyInList) return;
+    this.filteredCpos.push(company);
 
-    return cpoFilterElement.value;
+    this.rerenderCpoFilter();
+    this.sidebar.optionsChanged();
+  }
+
+  onRemoveCpo(cpo){
+    this.filteredCpos = this.filteredCpos.filter(c=>c.id != cpo.id);
+
+    this.rerenderCpoFilter();
+    this.sidebar.optionsChanged();
+  }
+
+  rerenderCpoFilter(){
+    render(this.cpoFilterTemplate(),this.getEl("cpoFilter"));
+  }
+
+  rerenderCurrency(){
+    render(this.currencyTemplate(),this.getEl("selectCurrency"));
   }
 
   getModel(){
@@ -189,8 +224,9 @@ export default class SettingsSidebar extends ViewBase {
       onlyShowMyTariffs: this.isChecked("onlyShowMyTariffs"),
       onlyTariffsWithoutMonthlyFees: this.isChecked("onlyTariffsWithoutMonthlyFees"),
       allowUnbalancedLoad: this.isChecked("allowUnbalancedLoad"),
-      cpoFilterChargeprice: this.cpoFilterChargeprice(),
-      showPriceDetails: this.isChecked("showPriceDetails")
+      cpoFilterChargeprice: this.filteredCpos.map(c=>c.id),
+      showPriceDetails: this.isChecked("showPriceDetails"),
+      isPro: this.userSettings.isPro,
     }
   }
 

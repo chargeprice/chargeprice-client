@@ -87,6 +87,8 @@ export default class GoingElectric {
   }
 
   goingElectricStationsDisabled(options){
+    if(options.cpoFilterChargeprice.length > 0) return true;
+
     const showOnlyMyTariffsWithTariffsDefined = options.onlyShowMyTariffs && options.myTariffs.length > 0;
     if(!showOnlyMyTariffsWithTariffsDefined) return false;
 

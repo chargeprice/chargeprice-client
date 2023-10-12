@@ -1,7 +1,6 @@
 
 import ModalSocialMedia from '../modal/socialMedia';
 import ModalInstallApp from '../modal/installApp';
-import ModalDonate from '../modal/donate';
 import ModalWelcome from '../modal/welcome';
 
 export default class ShowPopUpOnStart {
@@ -30,7 +29,6 @@ export default class ShowPopUpOnStart {
     switch(previousStartCount){
       case 2: this.showSocialMedia(); break;
       case 4: this.showAppInstall(); break;
-      case 6: this.showDonate(); break;
     }
   }
 
@@ -43,11 +41,6 @@ export default class ShowPopUpOnStart {
     
     this.logPopUp("social_media");
     new ModalSocialMedia(this.depts).show();
-  }
-
-  showDonate(){
-    this.logPopUp("donate");
-    new ModalDonate(this.depts).show();
   }
 
   showAppInstall(){

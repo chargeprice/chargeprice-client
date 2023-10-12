@@ -10,6 +10,12 @@ export default class FetchUserSettingsOrCreateFromLocal {
   }
 
   async run(){
+    const settings = await this.loadSettings();
+    settings.isPro = settings.meta.products.includes("web_pro");
+    return settings;
+  }
+
+  async loadSettings(){
     try {
       return await this.userSettingsRepo.show();
     }
@@ -25,14 +31,16 @@ export default class FetchUserSettingsOrCreateFromLocal {
     }
   }
 
-
   buildUserSettingsFromLocal(){
     return {
-      id: uuidv4(),
-      type: "user_settings",
-      version: 1,
-      vehicle: this.loadLocalVehicle(),
-      tariffs: this.loadLocalTariffs()
+      data: {
+        id: uuidv4(),
+        type: "user_settings",
+        version: 1,
+        vehicle: this.loadLocalVehicle(),
+        tariffs: this.loadLocalTariffs()
+      },
+      meta: { products: [] }
     }
   }
 

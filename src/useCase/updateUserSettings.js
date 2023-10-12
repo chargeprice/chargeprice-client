@@ -10,8 +10,8 @@ export default class UpdateUserSettings {
   }
 
   async run(changedAttributes){
-    const currentModel = await new FetchUserSettingsOrCreateFromLocal(this.depts).run();
-    
+    const currentModel = (await new FetchUserSettingsOrCreateFromLocal(this.depts).run()).data;
+        
     const model = this.duplicateModel(currentModel);
 
     let dirty = false;

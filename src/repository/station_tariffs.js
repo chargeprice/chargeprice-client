@@ -39,8 +39,8 @@ export default class StationTariffs {
     query["filter[longitude.gte]"] = southWest.longitude;
     query["filter[longitude.lte]"] = northEast.longitude;
 
-    if(options.cpoFilterChargeprice){
-      query["filter[operator.id]"] = options.cpoFilterChargeprice;
+    if(options.cpoFilterChargeprice.length > 0){
+      query["filter[operator.id]"] = options.cpoFilterChargeprice.join(",");
     }
 
     if(options.minPower) query["filter[charge_points.power.gte]"] = options.minPower;

@@ -7,6 +7,7 @@ import ModalFeedback from '../modal/feedback';
 import ModelThgInfo from '../modal/thgInfo';
 import PriceListView from '../views/priceList';
 import StationDetailsView from '../views/stationDetails';
+import PriceLimitation from './priceLimitation';
 import noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 
@@ -106,10 +107,10 @@ export default class StationPrices extends ViewBase{
     else return "";
   }
 
-  adBannerTemplate(station){
+  adBannerTemplate(station,options){
     const country = station.country;
     const currentBanner = this.adBanners.find(b => b.countries.includes(country));
-    if(currentBanner == null || currentBanner.isHidden() || !this.themeLoader.isDefaultTheme()) return html``;
+    if(currentBanner == null || currentBanner.isHidden() || !this.themeLoader.isDefaultTheme() || options.isPro) return html``;
 
     this.analytics.log('event', 'ad_banner_displayed', { partner: currentBanner.partner, country: country});
     const action = currentBanner.customAction || (()=> this.onAdBannerClicked(currentBanner, country));
@@ -117,46 +118,6 @@ export default class StationPrices extends ViewBase{
     return html`
       <div class="w3-row w3-margin-top">
         <a href="#" @click="${()=>action()}"><img src="${currentBanner.bannerImageUrl}" style="width: 100%;"/></a>
-      </div>
-    `;
-  }
-
-  upsellingTemplate(){
-    return html`
-      <div class="w3-margin-top w3-small w3-container">
-      <div class="w3-margin-top w3-small w3-container price-row w3-medium" style="font-family: 'Open Sans';">
-        <label class="w3-block w3-large w3-center" style="font-family: 'Merriweather Sans'; font-weight: 300; border-bottom: 1px solid #aaa;">
-          Maximum number of free price checks reached!
-        </label>
-        <label class="w3-block w3-padding">
-          You can check the prices of up to 8 charging stations per day for free. 
-          There are the following options to continue using Chargeprice:
-        </label>
-
-        <label class="w3-block w3-large w3-center w3-margin-top" style="font-family: 'Merriweather Sans'; font-weight: 300;"><i class="fa fa-chart-line"></i> You are a professional user</label>
-        <label class="w3-block w3-center w3-padding">Subscribe to Chargeprice.pro to access exclusive features:</label>
-        <ul>
-          <li>Unlimited number of Price Checks</li>
-          <li>Filter by CPOs</li>
-          <li>Export prices</li>
-        </ul>
-
-        <label class="w3-block w3-center">Request access now: <a href="mailto:sales@chargeprice.net">sales@chargeprice.net</a></label>
-
-        <label class="w3-block w3-large w3-center w3-margin-top" style="font-family: 'Merriweather Sans'; font-weight: 300;"><i class="fa fa-bolt"></i> You are an EV driver</label>
-        <label class="w3-block w3-center w3-padding">Download our mobile apps and continue checking prices for free:</label>
-        <div class="w3-container w3-padding">
-          <div class="w3-half">
-            <a href="#" target="_blank">
-              <img src="img/store/app-store-badge.svg" class="w3-padding" height="70px" width="100%">
-            </a>
-          </div>
-          <div class="w3-half w3-center">
-            <a href="#" target="_blank" "="">
-              <img src="img/store/play-store-badge.png" class="w3-padding w3-center" style="max-height: 70px; max-width:100%">
-            </a>
-          </div>
-        </div>
       </div>
     `;
   }
@@ -218,8 +179,10 @@ export default class StationPrices extends ViewBase{
     new StationDetailsView(this.depts).render(station,"station-info");
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
 
-    if(this.shouldShowUpselling()){
-      this.showUpselling();
+    const priceLimitation = new PriceLimitation(this.depts);
+
+    if(priceLimitation.isDisplayed(station, options.isPro)){
+      this.showUpselling(priceLimitation);
       return;
     }
 
@@ -227,18 +190,14 @@ export default class StationPrices extends ViewBase{
     new PriceListView(this.depts,this.sidebar).render(sortedPrices,options,station,"prices")
     render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback")); 
-    render(this.adBannerTemplate(station), this.getEl("adBanner"));
+    render(this.adBannerTemplate(station, options), this.getEl("adBanner"));
   }
 
-  showUpselling(){
-    render(this.upsellingTemplate(), this.getEl("prices"));
+  showUpselling(priceLimitation){
+    priceLimitation.render("prices");
     render("", this.getEl("adBanner"));
     render("", this.getEl("priceFeedback"));
     render("",this.getEl("priceInfo"))
-  }
-
-  shouldShowUpselling(){
-    return true;
   }
 
   sortChargePointsByPower(chargePoints) {

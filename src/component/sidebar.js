@@ -8,7 +8,7 @@ import Authorization from '../component/authorization';
 
 export default class Sidebar extends ViewBase {
 
-  constructor(depts) {
+  constructor(depts, userSettings) {
     super(depts);
     this.depts = depts;
     this.translation= depts.translation();
@@ -19,11 +19,11 @@ export default class Sidebar extends ViewBase {
     this.eventBus = depts.eventBus();
     this.currency = depts.currency();
     this.themeLoader = depts.themeLoader();
-    this.manageMyTariffs = new ManageMyTariffs(this,depts);
-    this.myVehicle = new MyVehicle(this,this.depts);
+    this.manageMyTariffs = new ManageMyTariffs(this,depts, userSettings);
+    this.myVehicle = new MyVehicle(this,this.depts, userSettings);
     this.stationPrices = new StationPrices(this,this.depts);
     this.routePlanner = new RoutePlanner(this,this.depts);
-		this.userProfile = new UserProfile(this, this.depts);
+		this.userProfile = new UserProfile(this, this.depts, userSettings);
     this.loaded = false;
     this.rootId = "sidebar";
 
@@ -96,7 +96,8 @@ export default class Sidebar extends ViewBase {
       startTime: this.stationPrices.getStartTime(),
       chargePoint: this.stationPrices.getCurrentChargePoint(),
       cpoFilterChargeprice: settingsModel.cpoFilterChargeprice,
-      showPriceDetails: settingsModel.showPriceDetails
+      showPriceDetails: settingsModel.showPriceDetails,
+      isPro: settingsModel.isPro,
     }
   }
 

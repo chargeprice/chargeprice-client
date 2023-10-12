@@ -6,25 +6,24 @@ import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile'
 
 export default class RootContainer extends ViewBase {
 
-  constructor(depts){
+  constructor(depts, userSettings){
     super(depts);
     this.customConfig = depts.customConfig();
     this.settingsRepo = depts.settingsPrimitive();
     this.profile = null;
+    this.userSettings = userSettings;
   }
 
   template(){
     return html`
       <div class="flex-container">
         <div class="flex-item-s w3-bar pc-main" id="top-bar">
-          <div>
-            <div class="w3-bar-item w3-large"><div id="logo-container"></div></div>
+          <div class="w3-bar-item w3-large"><div id="logo-container"></div></div>
 
-            <button @click="${()=>this.onOpenSettings()}" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/edit.svg"></button>
-            <button @click="${()=>this.onOpenInfo()}" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/info.svg"></button>
-            <div id="loadingIndicator" class="w3-bar-item w3-middle" style="padding: 8px;">
-              <img class="inverted" class="w3-button " src="img/refresh-2.svg">
-            </div>
+          <button @click="${()=>this.onOpenSettings()}" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/edit.svg"></button>
+          <button @click="${()=>this.onOpenInfo()}" class="w3-button w3-hover-dark-gray w3-bar-item"><img class="inverted" src="img/info.svg"></button>
+          <div id="loadingIndicator" class="w3-bar-item w3-middle" style="padding: 8px;">
+            <img class="inverted" class="w3-button " src="img/refresh-2.svg">
           </div>
 
           ${this.accountTemplate()}
@@ -71,7 +70,7 @@ export default class RootContainer extends ViewBase {
     return html`
       <div class="w3-bar-item w3-right auth-profile cp-clickable" @click="${() => this.onOpenUserProfile()}">
         <div class="auth-details">
-          <p>${this.profile.username}</p>
+          <p>${this.profile.username} ${this.userSettings.isPro ? "| PRO" : ""}</p>
         </div>
         <i class="fa fa-user"></i>
       </div>

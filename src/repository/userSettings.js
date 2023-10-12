@@ -51,7 +51,7 @@ export default class UserSettings{
     
     await this.handleErrors(response);
 
-    return (await new JsonApiDeserializer(response).deserialize()).data;
+    return (await new JsonApiDeserializer(response).deserialize());
   }
 
   async handleErrors(response){

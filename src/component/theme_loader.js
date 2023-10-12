@@ -75,12 +75,13 @@ export default class ThemeLoader {
         favicon: "themes/instadrive/favicon.png",
         name: "Instadrive Ladepreise",
         themeColor: "#16bae7",
-        appleTouchIcon: "themes/asfinag/logo.png"
+        appleTouchIcon: "themes/instadrive/favicon.png"
       },
     }
   }
 
   isDefaultTheme(){
+    this.ensureThemeSet();
     return this.themeId == this.defaultTheme;
   }
 

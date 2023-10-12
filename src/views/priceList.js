@@ -1,6 +1,9 @@
 import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
 import GroupPriceList from '../useCase/groupPriceList';
+import FileUtils from '../helper/fileUtils';
+import PriceCsvSerializer from '../helper/priceCsvSerializer';
+var dayjs = require('dayjs');
 
 export default class PriceListView extends ViewBase {
   constructor(depts,sidebar) {
@@ -27,6 +30,12 @@ export default class PriceListView extends ViewBase {
     ]
 
     return html`
+      ${this.options.isPro ? html`
+        <div class="w3-container w3-padding">
+          <label @click="${()=>this.onDownloadPrices()}" class="link-text"><i class="fas fa-download"></i> Download Price List</li>
+        </div>
+      `:""}
+
       ${sections}
 
       <div class="w3-margin-top w3-small w3-container">
@@ -162,7 +171,9 @@ export default class PriceListView extends ViewBase {
     this.myTariffs = options.myTariffs;
     this.station = station;
     this.root = root;
+    this.rawPrices = prices;
     this.showPriceDetails = options.showPriceDetails;
+    this.options = options;
     this.groupedPrices = this.groupIntoSections(prices);
     this.rerender();
   }
@@ -209,6 +220,12 @@ export default class PriceListView extends ViewBase {
   isHighlighted(tariff) {
     const highlightedIds = this.theme.highlightedTariffs;
     return tariff.branding && (!highlightedIds || highlightedIds.includes(tariff.tariff.id));
+  }
+
+  onDownloadPrices(){
+    const csv =  new PriceCsvSerializer(this.rawPrices, this.station, this.options).serialize();
+    const dateString = dayjs(new Date()).format("YYYY-MM-DD-HH-mm")
+    new FileUtils().saveFileAsync(()=>csv, `price-export-${dateString}.csv`, "text/csv");
   }
 }
 

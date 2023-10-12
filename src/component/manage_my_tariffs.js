@@ -2,10 +2,9 @@ import { html, render } from 'lit-html';
 
 import ViewBase from './viewBase';
 import UpdateUserSettings from '../useCase/updateUserSettings';
-import FetchUserSettingsOrCreateFromLocal from '../useCase/fetchUserSettingsOrCreateFromLocal.js';
 
 export default class ManageMyTariffs extends ViewBase{
-  constructor(sidebar,depts) {
+  constructor(sidebar,depts, userSettings) {
     super(depts);
     this.sidebar = sidebar;
     this.depts = depts;
@@ -14,7 +13,7 @@ export default class ManageMyTariffs extends ViewBase{
     this.allTariffs = [];
     this.myTariffIds = [];
     this.myTariffs = [];
-    this.initializeTariffs();
+    this.initializeTariffs(userSettings);
     this.sortedTariffs = [];
     this.filterText = "";
     this.theme = depts.themeLoader().getCurrentThemeConfig();
@@ -127,9 +126,8 @@ export default class ManageMyTariffs extends ViewBase{
     });
   }
 
-  async initializeTariffs(){
-    const settings = await new FetchUserSettingsOrCreateFromLocal(this.depts).run();
-    this.myTariffIds = settings.tariffs.map(t=>t.id);  
+  async initializeTariffs(userSettings){
+    this.myTariffIds = userSettings.data.tariffs.map(t=>t.id);  
     this.myTariffs = await this.repoTariff.where(this.myTariffIds);
 
     this.sidebar.optionsChanged();
