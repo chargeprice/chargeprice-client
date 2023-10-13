@@ -59,11 +59,13 @@ export default class PriceLimitation extends ViewBase {
         ${this.ut("priceLimitProFeatureList")}
 
         <center>
-          <button @click="${()=>this.onGoToPro()}" class="w3-btn pc-secondary w3-margin-bottom">
+          <button @click="${()=>this.onGoToPro()}" class="w3-btn pc-secondary">
             ${this.t("priceLimitProCTA")}
           </button>
         </center>
-        
+        <label class="w3-block w3-center w3-padding w3-margin-bottom">
+          ${this.t("priceLimitProEmailInfo")} <a href="mailto:sales@chargeprice.net">sales@chargeprice.net</a>
+        </label>
       </div>
     `;
   }
