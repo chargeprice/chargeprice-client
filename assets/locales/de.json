@@ -210,5 +210,6 @@
   "priceLimitProHeader": "Kommerzielle Nutzung",
   "priceLimitProText": "Chargeprice.pro ist unser B2B-Service mit exklusiven Funktionen:",
   "priceLimitProFeatureList": "<ul>\n  <li>Unlimitierte Preisabfragen</li>\n  <li>Stationen nach Betreibern filtern</li>\n  <li>Preise exportieren</li>\n  <li>Weitere Features auf Anfrage</li>\n</ul>",
-  "priceLimitProCTA": "Jetzt Zugriff anfragen"
+  "priceLimitProCTA": "Jetzt Zugriff anfragen",
+  "priceLimitProEmailInfo": "Kontakt für weitere Fragen:"
 }

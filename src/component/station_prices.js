@@ -40,7 +40,7 @@ export default class StationPrices extends ViewBase{
         isHidden: ()=>this.settingsPrimitive.getBoolean("thgBannerHidden",false)
       },
       {
-        bannerImageUrl: "/img/partners/thg_AT.png",
+        bannerImageUrl: "/img/partners/thg_AT.jpg",
         customAction: ()=> this.onThg("AT"),
         countries: ["AT","Österreich"],
         partner: "instadrive_thg",
