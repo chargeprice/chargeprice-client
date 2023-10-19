@@ -16,10 +16,10 @@ import Tariff from '../repository/tariff'
 export default class Dependencies {
   constructor(){
     this.translationInstance = new Translation();
-    this.themeLoaderInstance = new ThemeLoader(this.translationInstance);
+    this.themeLoaderInstance = new ThemeLoader(this);
     this.customConfigInstance = null;
     this.userSettingsInstance = null;
-    this.currencyInstance = new Currency();
+    this.currencyInstance = new Currency(this);
     this.eventBusInstance = new EventBus();
   }
 
