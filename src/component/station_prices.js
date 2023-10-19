@@ -2,12 +2,10 @@ import ViewBase from './viewBase';
 import StartTimeSelection from '../modal/startTimeSelection';
 import {html, render} from 'lit-html';
 import RepositoryStartTime from '../repository/settings/startTime';
-import GenericList from '../modal/genericList';
 import ModalFeedback from '../modal/feedback';
 import ModelThgInfo from '../modal/thgInfo';
 import PriceListView from '../views/priceList';
 import StationDetailsView from '../views/stationDetails';
-import PriceLimitation from './priceLimitation';
 import noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 
@@ -179,25 +177,11 @@ export default class StationPrices extends ViewBase{
     new StationDetailsView(this.depts).render(station,"station-info");
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
 
-    const priceLimitation = new PriceLimitation(this.depts);
-
-    if(priceLimitation.isDisplayed(station, options.isPro)){
-      this.showUpselling(priceLimitation);
-      return;
-    }
-
     const sortedPrices = prices.sort((a,b)=>this.sortPrice(a.price, b.price));
-    new PriceListView(this.depts,this.sidebar).render(sortedPrices,options,station,"prices")
+    new PriceListView(this.depts,this.sidebar).render(sortedPrices, options, station, "prices")
     render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback")); 
     render(this.adBannerTemplate(station, options), this.getEl("adBanner"));
-  }
-
-  showUpselling(priceLimitation){
-    priceLimitation.render("prices");
-    render("", this.getEl("adBanner"));
-    render("", this.getEl("priceFeedback"));
-    render("",this.getEl("priceInfo"))
   }
 
   sortChargePointsByPower(chargePoints) {

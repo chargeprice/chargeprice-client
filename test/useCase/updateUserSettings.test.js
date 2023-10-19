@@ -21,15 +21,21 @@ const changedTariffs = { id: "987", type: "tariff" }
 
 test('no conflict',async () => {
   const oldSettings = {
-    vehicle: oldVehicle,
-    tariffs: tariffs,
-    version: 1,
+    data: {
+      vehicle: oldVehicle,
+      tariffs: tariffs,
+      version: 1,
+    },
+    meta: { products: [] }
   }
   
   const newSettings = {
-    vehicle: newVehicle,
-    tariffs: tariffs,
-    version: 2
+    data: {
+      vehicle: newVehicle,
+      tariffs: tariffs,
+      version: 2
+    },
+    meta: { products: [] }
   }
 
   const deptsMocks = buildDepsMocks(
@@ -38,14 +44,17 @@ test('no conflict',async () => {
   );
 
   const subject = await new Subject(deptsMocks).run({ vehicle: newVehicle}); 
-  expect(subject).toEqual(newSettings);
+  expect(subject).toEqual(newSettings.data);
 });
 
 function buildSettings(vehicle, tariffs, version){
   return {
-    vehicle: vehicle,
-    tariffs: tariffs,
-    version: version,
+    data: {
+      vehicle: vehicle,
+      tariffs: tariffs,
+      version: version,
+    },
+    meta: { products: [] }
   }
 }
 
@@ -63,14 +72,17 @@ test('with conflict',async () => {
   );
 
   const subject = await new Subject(deptsMocks).run({ vehicle: newVehicle}); 
-  expect(subject).toEqual(expectedSettings);
+  expect(subject).toEqual(expectedSettings.data);
 });
 
 test('no change',async () => {
   const oldSettings = {
-    vehicle: oldVehicle,
-    tariffs: tariffs,
-    version: 1,
+    data: {
+      vehicle: oldVehicle,
+      tariffs: tariffs,
+      version: 1
+    },
+    meta: { products: [] }
   }
 
   const deptsMocks = buildDepsMocks(
@@ -79,5 +91,5 @@ test('no change',async () => {
   );
 
   const subject = await new Subject(deptsMocks).run({ vehicle: oldVehicle}); 
-  expect(subject).toEqual(oldSettings);
+  expect(subject).toEqual(oldSettings.data);
 });
