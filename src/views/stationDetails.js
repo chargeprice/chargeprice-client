@@ -28,7 +28,7 @@ export default class StationDetailsView extends ViewBase {
         ${station.isFreeCharging  ? html`<span class="w3-tag w3-green cp-margin-top-small ${station.priceDescription ? "w3-link" : ""}" @click="${()=>this.onFreeCharging(station)}">${this.t("freeCharging")}</span>`:""}
         ${station.parkingDescription  ? html`
         <span class="w3-tag w3-light-gray cp-margin-top-small w3-link" @click="${()=>this.onParkingFees(station)}">
-          <i class="fa fa-coins"></i> ${this.t("parkingFees")}
+          <i class="fa fa-parking"></i> ${this.t("parkingFees")}
         </span>
         `:""}
 
