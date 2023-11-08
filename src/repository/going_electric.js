@@ -142,6 +142,7 @@ export default class GoingElectric {
       isFreeParking:     data.cost.freeparking,
       priceDescription:  this.valueOrFallback(data.cost.description_long),
       country:           data.address.country,
+      parkingDescription: null,
       chargeCardIds:     this.valueOrFallback(data.chargecards, []).map(cc => String(cc.id)),
       chargePoints:      data.chargepoints.map((cp,idx) => this.parseChargePoint(cp,idx,vehicle)),
       goingElectricUrl:  "https:" + data.url,

@@ -81,6 +81,7 @@ export default class ViewBase {
         return dayjs(new Date().setHours(hours,minutes)).format("HH:mm");
       },
       upper: val => val.toUpperCase(),
+      multiLine: val => val.replace(/\n/g, "<br/>"),
       customConfig: this.customConfig
     }
   }
