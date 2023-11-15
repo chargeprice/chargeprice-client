@@ -188,6 +188,7 @@ export default class StationTariffs {
       id: String(idx), 
       power: hash.power,
       plug:  hash.plug,
+      availableCount: hash.available_count,
       count: hash.count,
       supportedByVehicle: this.supportedCharger(vehicle, hash)
     }

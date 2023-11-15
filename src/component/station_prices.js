@@ -78,9 +78,19 @@ export default class StationPrices extends ViewBase{
     return this.chargePointsSortedByPower.map(cp=> html`
       <span @click="${()=>this.onChargePointChanged(cp)}" class="cp-button ${cp == obj ? "pc-main" : "w3-light-gray"} w3-margin-top w3-margin-bottom ${cp.supportedByVehicle ? "": "w3-disabled"}">
         <label>${cp.power} kW</label><br>
-        <label class="w3-small">${this.h().upper(cp.plug)}, ${cp.count}x</label>
+        <label class="w3-small">${this.h().upper(cp.plug)} ${this.availabilityTextTemplate(cp) }</label>
+        
       </span>
     `);
+  }
+
+  availabilityTextTemplate(chargePoint){
+    if(chargePoint.availableCount == null) return `${chargePoint.count}x`;
+
+    const countText = `${chargePoint.availableCount}\/${chargePoint.count}`;
+    const color = chargePoint.availableCount == 0 ? "w3-red" : "w3-green";
+    
+    return html`<span class="w3-tag ${color}">${countText}</span>`;
   }
 
   feedbackTemplate(context){
