@@ -137,6 +137,10 @@ class App {
 				fallBackLocation = defaultLocations.PARIS;
         break;
 			}
+      case 'da': {
+				fallBackLocation = defaultLocations.COPENHAGEN;
+        break;
+			}
 			default: {
 				fallBackLocation = defaultLocations.SALZBURG;
 				break;
