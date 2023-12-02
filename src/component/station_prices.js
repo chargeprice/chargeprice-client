@@ -34,7 +34,7 @@ export default class StationPrices extends ViewBase{
       {
         bannerImageUrl: "/img/partners/thg_DE.png",
         customAction: ()=> this.onThg("DE"),
-        countries: ["DE","Deutschland"],
+        countries: [],
         partner: "geldfuereauto",
         isHidden: ()=>this.settingsPrimitive.getBoolean("thgBannerHidden",false)
       },
