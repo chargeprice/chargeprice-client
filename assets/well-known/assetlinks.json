@@ -1,12 +1,14 @@
 [
-  {
-    "relation": [
-      "delegate_permission/common.handle_all_urls"
-    ],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "fr.chargeprice.app",
-      "sha256_cert_fingerprints": []
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "fr.chargeprice.app",
+            "sha256_cert_fingerprints": [
+                "F8:4E:07:1F:BC:DC:9C:E7:51:90:51:6B:3F:2A:5B:F3:6B:63:89:66:B9:18:89:B7:B5:42:50:BF:34:54:36:DE"
+            ]
+        }
     }
-  }
 ]
