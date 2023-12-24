@@ -15,11 +15,7 @@ export const defaultLocations = {
 	SALZBURG: {
 		longitude: 13.037706424201586,
 		latitude: 47.80292337050403
-	},
-  COPENHAGEN: {
-    longitude: 12.568359375,
-    latitude: 55.676098
-  }
+	}
 }
 
 export default class Map {

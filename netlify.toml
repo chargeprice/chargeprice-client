@@ -28,18 +28,12 @@
 
 [[redirects]]
   from = "/apple-app-site-association"
-  to = "/well-known/apple-app-site-association.json"
+  to = "/.well-known/apple-app-site-association.json"
   status = 200
   force = true
 
 [[redirects]]
   from = "/.well-known/apple-app-site-association"
-  to = "/well-known/apple-app-site-association.json"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/.well-known/assetlinks.json"
-  to = "/well-known/assetlinks.json"
+  to = "/.well-known/apple-app-site-association.json"
   status = 200
   force = true

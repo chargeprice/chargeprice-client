@@ -1,21 +1,10 @@
 export default class Currency {
-  constructor(depts) {
+  constructor() {
     this.currencies = ["EUR","CHF","CZK","DKK","GBP","HUF","ISK","PLN","SEK","NOK","HRK"].sort();
-    this.defaultCurrencyPerLanguage = {
-      "da": "DKK"
-    }
     this.defaultCurrency = "EUR";
-
-    this.translation = depts.translation();
     this.settingsKey = "displayedCurrency"
-    this.selectedCurrency = this.getDetaultCurrency();
+    this.selectedCurrency = this.defaultCurrency;
     this.initCurrencies();
-  }
-
-  getDetaultCurrency(){
-    const language = this.translation.currentLocaleOrFallback();
-
-    return this.defaultCurrencyPerLanguage[language] || this.defaultCurrency;
   }
 
   initCurrencies(){

@@ -1,8 +1,8 @@
 import { html, render } from 'lit-html';
 
 export default class ThemeLoader {
-  constructor(depts) {
-    this.translation = depts.translation();
+  constructor(translation) {
+    this.translation = translation;
     this.defaultTheme = "plugchecker";
     this.themeId = null;
     this.theme = null;

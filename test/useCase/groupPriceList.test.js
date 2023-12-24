@@ -10,7 +10,11 @@ test('empty price list',async () => {
     allPrices: [],
     allMyPrices: [],
     allOtherPrices: [],
+    bestMyPrices: [],
+    bestWithoutMonthlyFees: [],
+    bestWithMonthlyFees: [],
     promoted: [],
+    morePricesCount: 0
   };
 
   const subject = await new Subject({},prices, myTariffs, allowedPromotedTariffIds).run(); 
@@ -46,6 +50,7 @@ test('without prices in every group',async () => {
   ];
   const myTariffs = [{id: "1"}];
   const allowedPromotedTariffIds = ["6"];
+  const pricesPerGroup = 3;
   const expectedResult = {
     allPrices: prices,
     allMyPrices: [myPrice],
@@ -54,9 +59,13 @@ test('without prices in every group',async () => {
       priceWithoutMonthlyFee2, priceWithoutMonthlyFee3, 
       allowedPromotedTariff, notAllowedPromotedTariff 
     ],
-    promoted: [allowedPromotedTariff]
+    bestMyPrices: [myPrice],
+    bestWithoutMonthlyFees: [priceWithoutMonthlyFee1,priceWithoutMonthlyFee2,priceWithoutMonthlyFee3],
+    bestWithMonthlyFees: [priceWithMonthlyFee],
+    promoted: [allowedPromotedTariff],
+    morePricesCount: 1
   };
 
-  const subject = await new Subject({},prices, myTariffs, allowedPromotedTariffIds).run(); 
+  const subject = await new Subject({},prices, myTariffs, allowedPromotedTariffIds, pricesPerGroup).run(); 
   expect(subject).toEqual(expectedResult);
 });

@@ -17,10 +17,10 @@ import Company from '../repository/company'
 export default class Dependencies {
   constructor(){
     this.translationInstance = new Translation();
-    this.themeLoaderInstance = new ThemeLoader(this);
+    this.themeLoaderInstance = new ThemeLoader(this.translationInstance);
     this.customConfigInstance = null;
     this.userSettingsInstance = null;
-    this.currencyInstance = new Currency(this);
+    this.currencyInstance = new Currency();
     this.eventBusInstance = new EventBus();
   }
 
