@@ -172,7 +172,7 @@ export default class Map {
     this.markers.addTo(this.component);
   }
 
-  addStation(model, onClickCallback) {
+  addStation(model, indexedPricePreviews, onClickCallback) {
 
     let color = '';
     let zIndex = 0;
@@ -197,17 +197,9 @@ export default class Map {
       zIndex = 700;
     }
 
-    const markerIcon = L.icon({
-        iconUrl: `img/markers/${color}${model.faultReported ? "_fault" : ""}.png`,
-        shadowUrl: '/img/leaflet/markers-shadow.png',
-
-        iconSize:     [28, 40],
-        iconAnchor:   [14, 40],
-        shadowSize:   [40,24],
-        shadowAnchor: [10,24]
-    });
-
-    const marker = L.marker([model.latitude, model.longitude],{icon: markerIcon});
+    const pricePreview = indexedPricePreviews[model.id];
+    const icon = pricePreview ? this.buildPricePin(color, pricePreview) : this.buildNoPricePin(model, color); 
+    const marker = L.marker([model.latitude, model.longitude],{icon: icon})
     marker.on('click', () => onClickCallback(model));
     marker.on('click', () => this.changeSelectedStation(model));
     marker.setZIndexOffset(zIndex);
@@ -219,6 +211,37 @@ export default class Map {
     }
 
     this.markers.addLayer(marker);
+  }
+
+  buildNoPricePin(model, color){
+    return L.icon({
+      iconUrl: `img/markers/${color}${model.faultReported ? "_fault" : ""}.png`,
+      shadowUrl: '/img/leaflet/markers-shadow.png',
+
+      iconSize:     [28, 40],
+      iconAnchor:   [14, 40],
+      shadowSize:   [40,24],
+      shadowAnchor: [10,24]
+    });
+  }
+
+  buildPricePin(color, pricePreview){
+    const price = (pricePreview.price).toFixed(1);
+    const html = `<div class="cp-map-price-marker">
+      <div class="cp-map-price-marker-price">${price}</div>
+      ${pricePreview.best ? `<div class="cp-map-price-marker-best"><i class="fa fa-star"></i></div>` : ""}
+      <img class="cp-map-price-marker-pin" src="img/markers/prices/${color}.png" />
+    </div>`;
+  
+    const width = 50;
+    const height = 40;
+
+    return L.divIcon({
+        className: "cp-map-price-marker",
+        html: html,
+        iconSize: [width, height], 
+        iconAnchor:   [width/2, height]
+    });
   }
 
   showRoute(routingResult){

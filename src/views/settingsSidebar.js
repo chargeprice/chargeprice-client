@@ -18,6 +18,7 @@ export default class SettingsSidebar extends ViewBase {
     this.checkBoxes = [
       "onlyFree",
       "openNow",
+      "pricesOnTheMap",
       "providerCustomerTariffs",
       "onlyShowMyTariffs",
       "onlyTariffsWithoutMonthlyFees",
@@ -50,6 +51,10 @@ export default class SettingsSidebar extends ViewBase {
     <div id="powerSliderInfo" ></div>
     <div class="w3-small">${this.t("zoomLevelDependentStation")}</div>
     <div class="w3-row w3-margin-top" id="powerSlider"></div>
+
+    <input @click="${()=>this.onOptionsChanged()}" id="pricesOnTheMap" class="w3-check w3-margin-top" type="checkbox">
+    <label>Prices on the map</label><br>
+    <label class="w3-small">Display the cheapest price of your tariffs directly on the map.</label><br>
 
     <input @click="${()=>this.onOptionsChanged("free_charging_changed")}" id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
     <label>${this.t("onlyFreeStations")}</label><br>
@@ -220,6 +225,7 @@ export default class SettingsSidebar extends ViewBase {
       minPower: this.selectedMinPower,
       onlyFree: this.isChecked("onlyFree"),
       openNow: this.isChecked("openNow"),
+      pricesOnTheMap: this.isChecked("pricesOnTheMap"),
       providerCustomerTariffs: this.isChecked("providerCustomerTariffs"),
       onlyShowMyTariffs: this.isChecked("onlyShowMyTariffs"),
       onlyTariffsWithoutMonthlyFees: this.isChecked("onlyTariffsWithoutMonthlyFees"),

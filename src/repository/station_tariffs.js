@@ -13,9 +13,9 @@ export default class StationTariffs {
   }
 
   async getTariffsOfStation(station,options){
-
+    
     const url = `${this.base_url}/v1/charge_prices`;
-    const body = this.buildJsonApiRequestBody(station,options);
+    const body = this.buildPriceJsonApiRequestBody(station,options);
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -29,6 +29,23 @@ export default class StationTariffs {
     if(response.status != 200) throw "Error in request";
 
     return new JsonApiDeserializer(response).deserialize();
+  }
+
+  async getPricePreviewForStations(stations,options){
+    const url = `${this.base_url}/v1/charge_prices/bulk`;
+    const body = this.buildPricePreviewJsonApiRequestBody(stations,options);
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Api-Key": this.apiKey
+      },
+      body: JSON.stringify(body),
+    })
+    
+    if(response.status != 200) throw "Error in request";
+
+    return (await new JsonApiDeserializer(response).deserialize()).data;
   }
 
   async getStations(northEast, southWest,options){
@@ -102,7 +119,7 @@ export default class StationTariffs {
     if(response.status != 204) throw "Error in request";
   }
 
-  buildJsonApiRequestBody(station,options){
+  buildPriceJsonApiRequestBody(station,options){
     const jsonOptions = {
       currency: options.displayedCurrency,
       allow_unbalanced_load: options.allowUnbalancedLoad,
@@ -179,6 +196,21 @@ export default class StationTariffs {
       chargePoints:      data.chargePoints.map((cp,idx) => this.parseChargePoint(cp,idx, vehicle)),
       faultReported:     false
     }
+  }
+
+  buildPricePreviewJsonApiRequestBody(stations,options){
+    const body = {
+      type: "bulk_price_preview_request",
+      battery_range: options.batteryRange,
+      start_time: options.startTime,
+      currency: options.displayedCurrency,
+      allow_unbalanced_load: options.allowUnbalancedLoad,
+      vehicle: options.myVehicle,
+      tariffs: options.myTariffs,
+      charging_stations: stations.map(s=>{ return {id: s.id, type: "charging_station"} })
+    }
+
+    return new JsonApiSerializer(body,["vehicle","tariffs","charging_stations"]).serialize();
   }
 
   parseChargePoint(hash,idx, vehicle){

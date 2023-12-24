@@ -9,16 +9,26 @@ export default class FetchStations {
     this.depts=depts;
     this.deduplicateThreshold = 50;
     this.deduplicateThresholdFast = 120;
+    this.pricePreviewStationLimit = 50;
+
+    this.stationTariffsRepo = new StationTariffs(this.depts);
   }
 
   async list(northEast, southWest,options){
 
     let goingElectric = new GoingElectric().getStations(northEast, southWest,options);
-    let internalStations = new StationTariffs(this.depts).getStations(northEast, southWest,options);
+    let internalStations = this.stationTariffsRepo.getStations(northEast, southWest,options);
 
     const [goingElectricResult, internalResult] = await Promise.all([goingElectric, internalStations]);
 
-    return this.deduplicate(goingElectricResult, internalResult);
+    const deduplicatedStations = this.deduplicate(goingElectricResult, internalResult);
+    const mapCenter = this.mapCenter(northEast, southWest);
+    const indexedPricePreviews = await this.fetchIndexedPricePreviewForStations(deduplicatedStations,options, mapCenter);
+
+    return {
+      stations: deduplicatedStations,
+      indexedPricePreviews: indexedPricePreviews
+    };
   }
 
   deduplicate(goingElectricResult, internalResult){
@@ -30,6 +40,27 @@ export default class FetchStations {
     );
 
     return internalStations.concat(enabledGoingElectricStations);
+  }
+
+  async fetchIndexedPricePreviewForStations(stations,options, mapCenter){
+    if(!options.pricesOnTheMap || options.myVehicle == null || options.myTariffs == null || options.myTariffs.length == 0 || stations.length==0) return {};
+    const closestStationsToCenter = this.closestChargepriceStationsToCenter(stations, mapCenter);
+    const pricePreviews = await this.stationTariffsRepo.getPricePreviewForStations(closestStationsToCenter,options);
+    const cheapestPrice = pricePreviews.reduce((memo,pricePreview)=>pricePreview.price < memo ? pricePreview.price : memo,Number.MAX_SAFE_INTEGER);
+    return pricePreviews.reduce((memo,pricePreview)=>{
+      pricePreview.best = pricePreview.price <= cheapestPrice * 1.05;
+      memo[pricePreview.chargingStation.id] = pricePreview;
+      return memo;
+    },{});
+  }
+
+  mapCenter(northEast, southWest){
+    return  {latitude: (northEast.latitude + southWest.latitude)/2, longitude: (northEast.longitude + southWest.longitude)/2};
+  }
+
+  closestChargepriceStationsToCenter(stations,center){
+    const chargepriceStations = stations.filter(st=>st.dataAdapter=="chargeprice");
+    return chargepriceStations.sort((a,b)=>haversine(center,a)-haversine(center,b)).slice(0,this.pricePreviewStationLimit);
   }
 
   hideGoingElectricStation(geStation, internalStations, disabledGoingElectricCountries){

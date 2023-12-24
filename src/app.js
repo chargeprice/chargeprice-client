@@ -155,10 +155,11 @@ class App {
     this.map.rerender();
 
     await this.withNetwork(async ()=>{
-      const stations = await (new FetchStations(this.depts)).list(bounds.northEast, bounds.southWest,options);
+      const result = await (new FetchStations(this.depts)).list(bounds.northEast, bounds.southWest,options);
+      const stations = result.stations;
       this.map.clearMarkers();
       this.map.toggleClustering(stations.length);
-      stations.forEach(st => this.map.addStation(st, (model)=>this.stationSelected(model,false)));
+      stations.forEach(st => this.map.addStation(st, result.indexedPricePreviews, (model)=>this.stationSelected(model,false)));
     },this.translation.get("errorStationsUnavailable"));
   }
 

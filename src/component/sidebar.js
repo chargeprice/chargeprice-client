@@ -84,6 +84,7 @@ export default class Sidebar extends ViewBase {
       minPower: settingsModel.minPower,
       onlyFree: settingsModel.onlyFree,
       openNow: settingsModel.openNow,
+      pricesOnTheMap: settingsModel.pricesOnTheMap,
       carACPhases: 3,
       providerCustomerTariffs: settingsModel.providerCustomerTariffs,
       onlyShowMyTariffs: settingsModel.onlyShowMyTariffs,

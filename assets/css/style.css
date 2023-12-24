@@ -307,6 +307,44 @@ i.fav-icon {
   font-size: 15px;
 }
 
+.cp-map-price-marker {
+  line-height: 39px;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: 'Open Sans';
+}
+
+.cp-map-price-marker-price {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+img.cp-map-price-marker-pin {
+  width: 100%;
+}
+
+.cp-map-price-marker-best {
+  position: absolute;
+  line-height: normal;
+  color: #746100;
+  font-size: 10px;
+  background: gold;
+  border-radius: 20px;
+  padding: 3px;
+  top: -2px;
+  left: -1px;
+  border: 1px solid #746100;
+  animation: blink-animation 1.5s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
 .distance-icon {
   width: 50px !important;
   margin-left: -25px !important;
