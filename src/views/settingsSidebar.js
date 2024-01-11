@@ -52,9 +52,11 @@ export default class SettingsSidebar extends ViewBase {
     <div class="w3-small">${this.t("zoomLevelDependentStation")}</div>
     <div class="w3-row w3-margin-top" id="powerSlider"></div>
 
+    ${this.userSettings.isPro ? html`
     <input @click="${()=>this.onOptionsChanged()}" id="pricesOnTheMap" class="w3-check w3-margin-top" type="checkbox">
-    <label>Prices on the map</label><br>
-    <label class="w3-small">Display the cheapest price of your tariffs directly on the map.</label><br>
+    <label>${this.t("pricePerStationTitle")}</label><br>
+    <label class="w3-small">${this.t("pricePerStationInfo")}</label><br>
+    `:""}
 
     <input @click="${()=>this.onOptionsChanged("free_charging_changed")}" id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
     <label>${this.t("onlyFreeStations")}</label><br>

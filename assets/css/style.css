@@ -308,7 +308,6 @@ i.fav-icon {
 }
 
 .cp-map-price-marker {
-  line-height: 39px;
   color: white;
   font-weight: bold;
   font-size: 14px;
@@ -319,6 +318,16 @@ i.fav-icon {
   position: absolute;
   width: 100%;
   text-align: center;
+  top: 7px;
+  left: -2px;
+}
+
+.cp-map-price-marker-price span {
+  color: white;
+  padding: 2px 4px;
+  font-size: 12px;
+  border-radius: 5px;
+  box-shadow: 0 1px 1px #00000057;
 }
 
 img.cp-map-price-marker-pin {
@@ -333,10 +342,24 @@ img.cp-map-price-marker-pin {
   background: gold;
   border-radius: 20px;
   padding: 3px;
-  top: -2px;
-  left: -1px;
+  top: -7px;
+  left: -7px;
   border: 1px solid #746100;
   animation: blink-animation 1.5s steps(5, start) infinite;
+}
+
+.cp-map-count-marker {
+  position: absolute;
+  font-size: 10px;
+  top: 23px;
+  right: -3px;
+}
+
+.cp-map-count-marker span {
+  border-radius: 10px;
+  padding: 0px 5px;
+  color: black;
+  box-shadow: 0px 1px 2px #333;
 }
 
 @keyframes blink-animation {

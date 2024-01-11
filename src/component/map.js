@@ -175,30 +175,47 @@ export default class Map {
   addStation(model, indexedPricePreviews, onClickCallback) {
 
     let color = '';
+    let priceBadgeColorCode = '';
     let zIndex = 0;
+    let countBadge = null;
 
     const maxPower = model.chargePoints.filter(v=>v.supportedByVehicle).reduce((max,value)=> max > value.power ? max : value.power, 0);
     const fastChargerCount = model.chargePoints.reduce((sum,value)=> value.supportedByVehicle && value.power >= 50 ? sum + value.count : sum,0);
 
     if(maxPower > 50){
-      color = fastChargerCount > 1 ? "ultra_multi" : "ultra_single";
+      color = "ultra_single";
+      countBadge = fastChargerCount > 1 ? fastChargerCount : null;
+      priceBadgeColorCode = "#7a2526";
       zIndex = 1000;
     }
     else if(maxPower > 22){
-      color = fastChargerCount > 1 ? "fast_multi" : "fast_single";
+      color = "fast_single";
+      countBadge = fastChargerCount > 1 ? fastChargerCount : null;
+      priceBadgeColorCode = "#dc862a"
       zIndex = 900;
     }
     else if(maxPower > 3.7){
       color = "ac_single";
+      priceBadgeColorCode = "#2c83be"
       zIndex = 800;
     }
     else{
       color = "slow_single";
+      priceBadgeColorCode = "#424141"
       zIndex = 700;
     }
 
     const pricePreview = indexedPricePreviews[model.id];
-    const icon = pricePreview ? this.buildPricePin(color, pricePreview) : this.buildNoPricePin(model, color); 
+
+    if(pricePreview){
+      zIndex += 50; // Make sure POIs with prices are above the others of the same color
+    }
+
+    if(pricePreview && pricePreview.best){
+      zIndex = 1100;
+    }
+
+    const icon = this.buildStationPin(color, pricePreview, priceBadgeColorCode, countBadge);
     const marker = L.marker([model.latitude, model.longitude],{icon: icon})
     marker.on('click', () => onClickCallback(model));
     marker.on('click', () => this.changeSelectedStation(model));
@@ -213,35 +230,36 @@ export default class Map {
     this.markers.addLayer(marker);
   }
 
-  buildNoPricePin(model, color){
-    return L.icon({
-      iconUrl: `img/markers/${color}${model.faultReported ? "_fault" : ""}.png`,
-      shadowUrl: '/img/leaflet/markers-shadow.png',
+  buildStationPin(color, pricePreview, priceBadgeColorCode, countBadge){
+    let price = this.getDisplayedPrice(pricePreview);
 
-      iconSize:     [28, 40],
-      iconAnchor:   [14, 40],
-      shadowSize:   [40,24],
-      shadowAnchor: [10,24]
-    });
-  }
-
-  buildPricePin(color, pricePreview){
-    const price = (pricePreview.price).toFixed(1);
     const html = `<div class="cp-map-price-marker">
-      <div class="cp-map-price-marker-price">${price}</div>
-      ${pricePreview.best ? `<div class="cp-map-price-marker-best"><i class="fa fa-star"></i></div>` : ""}
-      <img class="cp-map-price-marker-pin" src="img/markers/prices/${color}.png" />
+      ${price ? `<div class="cp-map-price-marker-price"><span style="background: ${priceBadgeColorCode}">${price}</span></div>` : ""}
+      ${pricePreview && pricePreview.best ? `<div class="cp-map-price-marker-best"><i class="fa fa-star"></i></div>` : ""}
+      ${countBadge ? `<div class="cp-map-count-marker"><span style="background: white">${countBadge}</span></div>` : ""}
+      <img class="cp-map-price-marker-pin" src="img/markers/${color}.png" />
     </div>`;
-  
-    const width = 50;
-    const height = 40;
 
     return L.divIcon({
         className: "cp-map-price-marker",
         html: html,
-        iconSize: [width, height], 
-        iconAnchor:   [width/2, height]
+        iconSize:     [28, 40],
+        iconAnchor:   [14, 40]
     });
+  }
+
+  getDisplayedPrice(pricePreview){
+    if(pricePreview == null) return null;
+    const priceValue = pricePreview.price
+    if(priceValue >= 100){
+      return priceValue.toFixed(0);
+    }
+    else if(priceValue >= 10){
+      return priceValue.toFixed(1);
+    }
+    else{
+      return priceValue.toFixed(2);
+    }
   }
 
   showRoute(routingResult){
