@@ -86,7 +86,7 @@
   "startTimeSelectionNow": "Maintenant",
   "startTimeSelectionCustomTime": "sélectionner l'heure",
   "cancel": "Annuler",
-  "popupWelcomeHeader": "Bienvenue sur Chargeprice",
+  "popupWelcomeHeader": "Bienvenue sur {0}",
   "popupWelcomeText1": "Les véhicules électriques arrivent, mais comment se recharger ?\nChargeprice est là pour vous guider à travers les différentes cartes de recharge et vous aider à trouver la meilleure offre pour vous.",
   "popupWelcomeText2": "Les opérateurs facturent en Kwh, en minute, en session, etc. Plus de besoin de faire des calculs compliqués avant chaque trajet, Chargeprice le fait pour vous et vous montre le coût estimé pour chaque recharge. ",
   "popupWelcomeCTA": "C'est parti !",

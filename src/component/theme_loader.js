@@ -12,6 +12,7 @@ export default class ThemeLoader {
     return {
       [this.defaultTheme] : {
         titleBarHtml: html`<img id="logo" style="padding: 3px" src="img/logos/header-logo.svg"/>`,
+        name: "Chargeprice",
         title: this.translation.get("title"),
         favicon: "img/favicon-32x32.png",
         themeColor: "#3498db",

@@ -86,7 +86,7 @@
   "startTimeSelectionNow": "Nu",
   "startTimeSelectionCustomTime": "Vælg tid på dagen",
   "cancel": "Afbestill",
-  "popupWelcomeHeader": "Velkommen til Chargeprice!",
+  "popupWelcomeHeader": "Velkommen til {0}!",
   "popupWelcomeText1": "Elektriske køretøjer er seje, og opladning er også!\nVi guider dig gennem de forskellige ladebrikker og apps og fortæller dig, hvilken der fungerer bedst for dig!",
   "popupWelcomeText2": "Ingen grund til at tænke på kWh, minut- og sessionbaserede priser eller hvor lang tid gebyret ville tage.\nVi laver beregningen og viser dig de anslåede omkostninger ved din opladningssession.",
   "popupWelcomeCTA": "Lad os komme igang!",

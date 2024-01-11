@@ -86,7 +86,7 @@
   "startTimeSelectionNow": "Adesso",
   "startTimeSelectionCustomTime": "Selezionare l'ora del giorno",
   "cancel": "Annullare",
-  "popupWelcomeHeader": "Benvenuto a Chargeprice!",
+  "popupWelcomeHeader": "Benvenuto a {0}!",
   "popupWelcomeText1": "I veicoli elettrici sono belli e anche la ricarica lo è!\nVi guidiamo attraverso le diverse schede e app di ricarica e vi diciamo quale funziona meglio per voi!\".",
   "popupWelcomeText2": "Non c'è bisogno di pensare ai prezzi basati su kWh, minuti e sessioni o alla durata della ricarica. \nNoi facciamo i conti e vi mostriamo i costi stimati della vostra sessione di ricarica.",
   "popupWelcomeCTA": "Andiamo!",

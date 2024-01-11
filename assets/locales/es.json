@@ -86,7 +86,7 @@
   "startTimeSelectionNow": "Ahora",
   "startTimeSelectionCustomTime": "Seleccionar la hora",
   "cancel": "Cancelar",
-  "popupWelcomeHeader": "Bienvenido a Chargeprice",
+  "popupWelcomeHeader": "Bienvenido a {0}",
   "popupWelcomeText1": "¡Por fin, llegaron los coches electricos! ¿Pero, en donde puede usted recargarlos? Chargeprice lo guiará a travez de la mapa con los diferentes puntos de recarga y tarjetas disponibles y asi encontrar los mejores precios.",
   "popupWelcomeText2": "Los operadores facturan por kWh, por minuto, por sesión, .. Ya no es necesario planificar y calcular antes de cada trayecto. Ahora, Chargeprice lo hace por usted y le analiza el precio estimado por cada recarga. ",
   "popupWelcomeCTA": "¡Vamonos!",

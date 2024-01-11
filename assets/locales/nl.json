@@ -86,7 +86,7 @@
   "startTimeSelectionNow": "Nu",
   "startTimeSelectionCustomTime": "Selecteer dag en tijdstip",
   "cancel": "Annuleren",
-  "popupWelcomeHeader": "Welkom bij Chargeprice!",
+  "popupWelcomeHeader": "Welkom bij {0}!",
   "popupWelcomeText1": "Elektrische auto's zijn tof! Wij helpen je een overzicht te krijgen in het oerwoud van laadpasjes en laadtarieven. Dankzij Chargeprice betaal je nooit meer teveel!",
   "popupWelcomeText2": "Wij rekenen op een simpele manier je laadkosten uit zodat vergelijken een peuleschil wordt!",
   "popupWelcomeCTA": "Laten we beginnen!",

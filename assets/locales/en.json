@@ -86,7 +86,7 @@
   "startTimeSelectionNow": "Now",
   "startTimeSelectionCustomTime": "Select time of day",
   "cancel": "Cancel",
-  "popupWelcomeHeader": "Welcome to Chargeprice!",
+  "popupWelcomeHeader": "Welcome to {0}!",
   "popupWelcomeText1": "Electric Vehicles are cool and charging is too!\nWe guide you through the different charging cards and apps and tell you which one works best for you!",
   "popupWelcomeText2": "No need to think of kWh, minute and session based prices or how long the charge would take. \nWe do the math and show you the estimated costs of your charging session.",
   "popupWelcomeCTA": "Let's get started!",

@@ -86,7 +86,7 @@
   "startTimeSelectionNow": "Jetzt",
   "startTimeSelectionCustomTime": "Uhrzeit wählen",
   "cancel": "Abbrechen",
-  "popupWelcomeHeader": "Willkommen bei Chargeprice!",
+  "popupWelcomeHeader": "Willkommen bei {0}!",
   "popupWelcomeText1": "E-Autos sind cool und das Laden genauso!\nWir helfen dir die optimale Ladekarte für deine Anforderungen zu finden!",
   "popupWelcomeText2": "Du brauchst dir keine Gedanken zu machen ob ein Tarif Zeit oder kWh basiert ist, oder wie lange es dauert bis dein Auto vollgeladen ist. Wir berechnen ganz einfach deine Ladekosten und Ladedauer!",
   "popupWelcomeCTA": "Los geht's!",

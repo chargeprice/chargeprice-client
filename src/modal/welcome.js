@@ -5,13 +5,16 @@ export default class ModalWelcome extends ModalBase {
   constructor(depts){
     super(depts);
     this.analytics = depts.analytics();
+    this.themeLoader = depts.themeLoader();
     this.settings = depts.settingsPrimitive();
   }
 
   template(){
+    const themeName = this.themeLoader.getCurrentThemeConfig().name;
+
     return html`
     <div class="w3-modal-content">
-      ${this.header(this.t("popupWelcomeHeader"), false)}
+      ${this.header(this.sf(this.t("popupWelcomeHeader"), themeName), false)}
       <div class="w3-container w3-padding">
         <p>${this.t("popupWelcomeText1")}</p>
         <p>${this.t("popupWelcomeText2")}</p>
