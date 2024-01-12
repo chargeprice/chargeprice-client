@@ -323,17 +323,6 @@ i.fav-icon {
   font-size: 12px;
 }
 
-.cp-map-poi-marker .no-price {
-  position: absolute;
-  top: 7px;
-  left: 8px;
-  width: 8px;
-}
-
-.cp-map-poi-marker .no-price img {
-  width: 100%;
-}
-
 .cp-map-poi-marker .pin {
   width: 100%;
 }

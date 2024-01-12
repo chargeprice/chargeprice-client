@@ -231,10 +231,9 @@ export default class Map {
 
     const html = `<div class="cp-map-poi-marker">
       ${price ? `<div class="price">${price}</div>` : ""}
-      ${!price ? `<div class="no-price"><img src="img/markers/bolt.svg" /></div>` : ""}
       ${isBest ? `<div class="best-price-badge"><i class="fa fa-star"></i></div>` : ""}
       ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
-      <img class="pin" src="img/markers/${color}${price ? "_price" : ""}.svg" />
+      <img class="pin" src="img/markers/${color}${price ? "_price" : ""}.svg?v=1" />
     </div>`;
 
     const width = (price ? this.priceIconWidth : this.iconWidth );
