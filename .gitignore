@@ -3,3 +3,4 @@
 /scripts/.env.local
 /scripts/Gemfile.lock
 .env
+**/.DS_Store
