@@ -230,7 +230,7 @@ export default class Map {
     const isBest = pricePreview && pricePreview.best;
 
     const html = `<div class="cp-map-poi-marker">
-      ${price ? `<div class="price"><span>${price}</span></div>` : ""}
+      ${price ? `<div class="price">${price}</div>` : ""}
       ${!price ? `<div class="no-price"><img src="img/markers/bolt.svg" /></div>` : ""}
       ${isBest ? `<div class="best-price-badge"><i class="fa fa-star"></i></div>` : ""}
       ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
