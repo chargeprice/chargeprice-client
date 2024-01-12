@@ -12,21 +12,14 @@ export default class ModelMapKey extends ModalBase {
       ${this.header(this.t("poiKey"))}
       <div class="w3-container w3-padding">
         <span>
-          <img src="img/markers/fast_multi.png" class="key-marker">
-          <img src="img/markers/ultra_multi.png" class="key-marker">
+          <img src="img/markers/multiple_fast.png" class="key-marker">
           ${this.t("fastChargerMultiInfo")}
         </span>
-        <p>
-          <span>
-            <img src="img/markers/fast_single_fault.png" class="key-marker">
-            ${this.t("faultReported")}
-          </span>
-        </p>
         <p>
           <div class="key-marker my-location-icon"></div> ${this.t("myLocationPin")}
         </p>
         <p>
-          <img src="img/markers/search_single.png" class="key-marker"> ${this.t("searchResultPin")}
+          <img src="img/markers/search.svg" class="key-marker"> ${this.t("searchResultPin")}
         </p>
       </div>
     </div>

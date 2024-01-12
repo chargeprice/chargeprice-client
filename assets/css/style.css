@@ -307,34 +307,39 @@ i.fav-icon {
   font-size: 15px;
 }
 
-.cp-map-price-marker {
+.cp-map-poi-marker {
   color: white;
   font-weight: bold;
   font-size: 14px;
   font-family: 'Open Sans';
 }
 
-.cp-map-price-marker-price {
+.cp-map-poi-marker .price {
   position: absolute;
   width: 100%;
   text-align: center;
-  top: 7px;
-  left: -2px;
-}
-
-.cp-map-price-marker-price span {
+  top: 3px;
+  left: -1px;
   color: white;
-  padding: 2px 4px;
   font-size: 12px;
-  border-radius: 5px;
-  box-shadow: 0 1px 1px #00000057;
 }
 
-img.cp-map-price-marker-pin {
+.cp-map-poi-marker .no-price {
+  position: absolute;
+  top: 7px;
+  left: 8px;
+  width: 8px;
+}
+
+.cp-map-poi-marker .no-price img {
   width: 100%;
 }
 
-.cp-map-price-marker-best {
+.cp-map-poi-marker .pin {
+  width: 100%;
+}
+
+.cp-map-poi-marker .best-price-badge {
   position: absolute;
   line-height: normal;
   color: #746100;
@@ -342,30 +347,21 @@ img.cp-map-price-marker-pin {
   background: gold;
   border-radius: 20px;
   padding: 3px;
-  top: -7px;
-  left: -7px;
+  top: -9px;
+  left: -9px;
   border: 1px solid #746100;
-  animation: blink-animation 1.5s steps(5, start) infinite;
 }
 
-.cp-map-count-marker {
+.cp-map-poi-marker .count-badge {
   position: absolute;
   font-size: 10px;
-  top: 23px;
-  right: -3px;
-}
-
-.cp-map-count-marker span {
+  top: 16px;
+  right: -6px;
   border-radius: 10px;
-  padding: 0px 5px;
+  padding: 0px 4px;
   color: black;
+  background: white;
   box-shadow: 0px 1px 2px #333;
-}
-
-@keyframes blink-animation {
-  to {
-    visibility: hidden;
-  }
 }
 
 .distance-icon {

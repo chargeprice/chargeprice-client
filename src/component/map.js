@@ -34,6 +34,10 @@ export default class Map {
     this.mapReady = false;
     this.initializeLayer();
     this.registerEvents();
+
+    this.iconWidth = 24;
+    this.priceIconWidth = 30;
+    this.iconHeight = 30;
   }
 
   initializeLayer() {
@@ -106,13 +110,9 @@ export default class Map {
 
   buildLocationMarker(coords, icon){
     const markerIcon = L.icon({
-      iconUrl: `img/markers/search_single.png`,
-      shadowUrl: '/img/leaflet/markers-shadow.png',
-
-      iconSize:     [28, 40],
-      iconAnchor:   [14, 40],
-      shadowSize:   [40,24],
-      shadowAnchor: [10,24]
+      iconUrl: `img/markers/search.svg`,
+      iconSize:     [this.iconWidth, this.iconHeight],
+      iconAnchor:   [this.iconWidth/2, this.iconHeight],
     });
 
     const marker = L.marker([coords.latitude, coords.longitude],{icon: markerIcon});
@@ -175,7 +175,6 @@ export default class Map {
   addStation(model, indexedPricePreviews, onClickCallback) {
 
     let color = '';
-    let priceBadgeColorCode = '';
     let zIndex = 0;
     let countBadge = null;
 
@@ -183,25 +182,21 @@ export default class Map {
     const fastChargerCount = model.chargePoints.reduce((sum,value)=> value.supportedByVehicle && value.power >= 50 ? sum + value.count : sum,0);
 
     if(maxPower > 50){
-      color = "ultra_single";
+      color = "ultra";
       countBadge = fastChargerCount > 1 ? fastChargerCount : null;
-      priceBadgeColorCode = "#7a2526";
       zIndex = 1000;
     }
     else if(maxPower > 22){
-      color = "fast_single";
+      color = "fast";
       countBadge = fastChargerCount > 1 ? fastChargerCount : null;
-      priceBadgeColorCode = "#dc862a"
       zIndex = 900;
     }
     else if(maxPower > 3.7){
-      color = "ac_single";
-      priceBadgeColorCode = "#2c83be"
+      color = "ac";
       zIndex = 800;
     }
     else{
-      color = "slow_single";
-      priceBadgeColorCode = "#424141"
+      color = "slow";
       zIndex = 700;
     }
 
@@ -215,7 +210,7 @@ export default class Map {
       zIndex = 1100;
     }
 
-    const icon = this.buildStationPin(color, pricePreview, priceBadgeColorCode, countBadge);
+    const icon = this.buildStationPin(color, pricePreview, countBadge);
     const marker = L.marker([model.latitude, model.longitude],{icon: icon})
     marker.on('click', () => onClickCallback(model));
     marker.on('click', () => this.changeSelectedStation(model));
@@ -230,21 +225,25 @@ export default class Map {
     this.markers.addLayer(marker);
   }
 
-  buildStationPin(color, pricePreview, priceBadgeColorCode, countBadge){
-    let price = this.getDisplayedPrice(pricePreview);
+  buildStationPin(color, pricePreview, countBadge){
+    const price = this.getDisplayedPrice(pricePreview);
+    const isBest = pricePreview && pricePreview.best;
 
-    const html = `<div class="cp-map-price-marker">
-      ${price ? `<div class="cp-map-price-marker-price"><span style="background: ${priceBadgeColorCode}">${price}</span></div>` : ""}
-      ${pricePreview && pricePreview.best ? `<div class="cp-map-price-marker-best"><i class="fa fa-star"></i></div>` : ""}
-      ${countBadge ? `<div class="cp-map-count-marker"><span style="background: white">${countBadge}</span></div>` : ""}
-      <img class="cp-map-price-marker-pin" src="img/markers/${color}.png" />
+    const html = `<div class="cp-map-poi-marker">
+      ${price ? `<div class="price"><span>${price}</span></div>` : ""}
+      ${!price ? `<div class="no-price"><img src="img/markers/bolt.svg" /></div>` : ""}
+      ${isBest ? `<div class="best-price-badge"><i class="fa fa-star"></i></div>` : ""}
+      ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
+      <img class="pin" src="img/markers/${color}${price ? "_price" : ""}.svg" />
     </div>`;
 
+    const width = (price ? this.priceIconWidth : this.iconWidth );
+
     return L.divIcon({
-        className: "cp-map-price-marker",
+        className: "cp-map-poi-marker",
         html: html,
-        iconSize:     [28, 40],
-        iconAnchor:   [14, 40]
+        iconSize:     [width, this.iconHeight],
+        iconAnchor:   [width/2, this.iconHeight],
     });
   }
 
@@ -305,7 +304,7 @@ export default class Map {
 
     this.selectedStationCircle = L.circleMarker([model.latitude, model.longitude],{
       id: model.id,
-      radius: 15,
+      radius: 10,
       color: "red",
       weight: 3,
       fillColor: "red",
