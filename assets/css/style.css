@@ -343,10 +343,10 @@ i.fav-icon {
 .cp-map-poi-marker .count-badge {
   position: absolute;
   font-size: 10px;
-  top: 16px;
+  top: -9px;
   right: -6px;
   border-radius: 10px;
-  padding: 0px 4px;
+  padding: 0px 5px;
   color: black;
   background: white;
   box-shadow: 0px 1px 2px #333;

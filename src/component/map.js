@@ -36,8 +36,9 @@ export default class Map {
     this.registerEvents();
 
     this.iconWidth = 24;
-    this.priceIconWidth = 30;
     this.iconHeight = 30;
+    this.priceIconWidth = 32;
+    this.priceIconHeight = 24;
   }
 
   initializeLayer() {
@@ -233,16 +234,17 @@ export default class Map {
       ${price ? `<div class="price">${price}</div>` : ""}
       ${isBest ? `<div class="best-price-badge"><i class="fa fa-star"></i></div>` : ""}
       ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
-      <img class="pin" src="img/markers/${color}${price ? "_price" : ""}.svg?v=1" />
+      <img class="pin" src="img/markers/${color}${price ? "_price" : ""}.svg?t=44" />
     </div>`;
 
     const width = (price ? this.priceIconWidth : this.iconWidth );
+    const height = (price ? this.priceIconHeight : this.iconHeight );
 
     return L.divIcon({
         className: "cp-map-poi-marker",
         html: html,
-        iconSize:     [width, this.iconHeight],
-        iconAnchor:   [width/2, this.iconHeight],
+        iconSize:     [width, height],
+        iconAnchor:   [width/2, height],
     });
   }
 
