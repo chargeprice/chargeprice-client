@@ -323,6 +323,10 @@ i.fav-icon {
   font-size: 12px;
 }
 
+.cp-map-poi-marker .price.promoted {
+  font-size: 13px;
+}
+
 .cp-map-poi-marker .pin {
   width: 100%;
 }
@@ -350,6 +354,19 @@ i.fav-icon {
   color: black;
   background: white;
   border: 1px solid black;
+}
+
+.cp-map-poi-promotion {
+  background: #ffffff;
+  font-size: 13px;
+  color: black;
+  display: block;
+  width: max-content;
+  position: absolute;
+  left: 110%;
+  top: 25%;
+  padding: 1px;
+  border-radius: 4px;
 }
 
 .distance-icon {
