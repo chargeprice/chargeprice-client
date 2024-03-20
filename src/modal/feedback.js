@@ -75,11 +75,11 @@ export default class ModalFeedback extends ModalBase {
   missingVehicleTemplate(){
     return html`
       <p>
-        <label>${this.t("fbBrandHeader")}</label>
+        <label>${this.t("fbBrandHeader")}*</label>
         <input id="brand" value="" maxlength="100" placeholder="${this.t("fbExample")} Tesla" class="w3-input w3-border"/>
       </p>
       <p>
-        <label>${this.t("fbModelHeader")}</label>
+        <label>${this.t("fbModelHeader")}*</label>
         <input id="model" value="" maxlength="100" placeholder="${this.t("fbExample")} Model 3 LR+" class="w3-input w3-border"/>
       </p>
     `
@@ -188,11 +188,6 @@ export default class ModalFeedback extends ModalBase {
       language: this.translation.currentLocaleOrFallback()
     }
 
-    if(feedback.email == "" || feedback.email.indexOf("@") == -1) {
-      alert(this.t("fbEmailHeader"));
-      return;
-    }
-
     switch(this.type){
       case "other_feedback":
         break;
@@ -224,6 +219,8 @@ export default class ModalFeedback extends ModalBase {
         break;
     }
 
+    if(!this.checkMandatoryFields(feedback)) return;
+
     this.analytics.log('event', 'user_feedback_sent',{type: this.type});
 
     try {
@@ -233,6 +230,20 @@ export default class ModalFeedback extends ModalBase {
     catch(ex){
       alert("An error occured");
     }
+  }
+
+  checkMandatoryFields(feedback){
+    if(feedback.email == "" || feedback.email.indexOf("@") == -1) {
+      alert(this.t("fbEmailHeader"));
+      return false;
+    }
+
+    if (this.type === "missing_vehicle" && (feedback.brand === "" || feedback.model === "")) {
+      alert("Please enter the brand and model.");
+      return false;
+    }
+
+    return true;
   }
 
   staticMapWithMarkerLink(){
