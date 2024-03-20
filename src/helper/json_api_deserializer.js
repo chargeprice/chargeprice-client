@@ -33,6 +33,7 @@ export default class JsonApiDeserializer {
     }
 
     attr["links"] = obj.links
+    attr["meta"] = obj.meta
 
     return attr;
   }
