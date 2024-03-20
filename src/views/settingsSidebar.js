@@ -52,11 +52,12 @@ export default class SettingsSidebar extends ViewBase {
     <div class="w3-small">${this.t("zoomLevelDependentStation")}</div>
     <div class="w3-row w3-margin-top" id="powerSlider"></div>
 
-    ${this.userSettings.isPro ? html`
     <input @click="${()=>this.onOptionsChanged()}" id="pricesOnTheMap" class="w3-check w3-margin-top" type="checkbox">
     <label>${this.t("pricePerStationTitle")}</label><br>
     <label class="w3-small">${this.t("pricePerStationInfo")}</label><br>
-    `:""}
+    <span class="w3-tag w3-small cp-margin-top-right-small w3-green">
+    <i class="fa fa-star"></i> ${this.t("freeProFeature")}
+    </span><br>
 
     <input @click="${()=>this.onOptionsChanged("free_charging_changed")}" id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
     <label>${this.t("onlyFreeStations")}</label><br>
