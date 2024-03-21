@@ -4,7 +4,6 @@ import {html, render} from 'lit-html';
 import RepositoryStartTime from '../repository/settings/startTime';
 import GenericList from '../modal/genericList';
 import ModalFeedback from '../modal/feedback';
-import ModelThgInfo from '../modal/thgInfo';
 import PriceListView from '../views/priceList';
 import StationDetailsView from '../views/stationDetails';
 import PriceLimitation from './priceLimitation';
@@ -23,7 +22,6 @@ export default class StationPrices extends ViewBase{
     this.chargePointsSortedByPower = []
     this.themeLoader = depts.themeLoader();
     this.settingsPrimitive = depts.settingsPrimitive();
-    this.thgCountries = [{ code: "AT", altCode: "Österreich"},{ code: "DE", altCode: "Deutschland"}];
 
     this.adBanners = [
       {
@@ -32,20 +30,6 @@ export default class StationPrices extends ViewBase{
         countries: ["FR"],
         partner: "andcharge",
         isHidden: () => false
-      },
-      {
-        bannerImageUrl: "/img/partners/thg_DE.png",
-        customAction: ()=> this.onThg("DE"),
-        countries: ["DE","Deutschland"],
-        partner: "geldfuereauto",
-        isHidden: ()=>this.settingsPrimitive.getBoolean("thgBannerHidden",false)
-      },
-      {
-        bannerImageUrl: "/img/partners/thg_AT.png",
-        customAction: ()=> this.onThg("AT"),
-        countries: ["AT","Österreich"],
-        partner: "instadrive_thg",
-        isHidden: ()=>this.settingsPrimitive.getBoolean("thgBannerHidden",false)
       }
     ]
 
@@ -219,14 +203,6 @@ export default class StationPrices extends ViewBase{
 
   onBatteryRangeChanged(callback){
     this.batteryChangedCallback = callback;
-  }
-
-  onThg(country){
-    this.analytics.log('event', 'thg_info_open', {
-      country: country
-    });
-
-    new ModelThgInfo(this.depts).show(country);
   }
 
   storeBatteryRange(){
