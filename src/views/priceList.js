@@ -3,6 +3,7 @@ import ViewBase from '../component/viewBase';
 import GroupPriceList from '../useCase/groupPriceList';
 import FileUtils from '../helper/fileUtils';
 import PriceCsvSerializer from '../helper/priceCsvSerializer';
+import PriceLimitation from '../component/priceLimitation';
 var dayjs = require('dayjs');
 
 export default class PriceListView extends ViewBase {
@@ -11,36 +12,46 @@ export default class PriceListView extends ViewBase {
     this.analytics = depts.analytics();
     this.currency = depts.currency();
     this.sidebar = sidebar;
-    this.pricesInBestGroups = 3;
 
     this.theme = depts.themeLoader().getCurrentThemeConfig();
+    this.priceLimitation = new PriceLimitation(this.depts);
   }
 
   template(){
     let sections = [];
     const prices = this.groupedPrices;
+    const limitActive = this.priceLimitation.isDisplayed(this.station, this.options.isPro);
 
-    sections = [
-      this.priceSectionTemplate(
-        ()=>html`<i class="fa fa-star fav-icon"></i> <a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("myTariffs")} <i class="fa fa-pencil"></a>`, 
-        prices.allMyPrices),
-      this.priceSectionTemplate(
-        ()=>prices.allMyPrices.length > 0 ? this.t("otherTariffs") : this.t("tariff"), 
-        prices.allOtherPrices)
-    ]
+    if(limitActive){
+      sections = [ { header: ()=>this.t("tariff"), prices: prices.promoted } ]
+    }
+    else {
+      sections = [
+        { header: ()=>html`<i class="fa fa-star fav-icon"></i> <a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("myTariffs")} <i class="fa fa-pencil"></a>`, 
+          prices: prices.allMyPrices },
+        { header: ()=>prices.allMyPrices.length > 0 ? this.t("otherTariffs") : this.t("tariff"),
+          prices: prices.allOtherPrices }
+      ]
+    }
+
+    const hasPrices = sections.some(s=>s.prices.length > 0);
 
     return html`
-      ${this.options.isPro ? html`
+      ${hasPrices && this.options.isPro ? html`
         <div class="w3-container w3-padding">
           <label @click="${()=>this.onDownloadPrices()}" class="link-text"><i class="fas fa-download"></i> Download Price List</li>
         </div>
       `:""}
 
-      ${sections}
+      ${sections.map(s=>this.priceSectionTemplate(s.header,s.prices))}
 
-      <div class="w3-margin-top w3-small w3-container">
-        ${this.ut("totalPriceInfo")}
-      </div>
+      ${limitActive ? this.priceLimitation.template() : ""}
+
+      ${hasPrices ? html`
+        <div class="w3-margin-top w3-small w3-container">
+          ${this.ut("totalPriceInfo")}
+        </div>
+      `:""}
     `;
   }
 
@@ -167,7 +178,7 @@ export default class PriceListView extends ViewBase {
     return html`<div>${entries}</div>`
   }
 
-  render(prices, options, station, root){
+  render(prices, options, station, root ){
     this.myTariffs = options.myTariffs;
     this.station = station;
     this.root = root;

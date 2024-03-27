@@ -95,7 +95,8 @@ export default class StationTariffs {
     const response = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        "Api-Key": this.apiKey
+        "Api-Key": this.apiKey,
+        "Accept-Language": this.translation.currentLocaleOrFallback(),
       }
     })
     
@@ -181,20 +182,21 @@ export default class StationTariffs {
     const vehicle = options.myVehicle;
 
     return {
-      dataAdapter:       "chargeprice",
-      id:                data.id,
-      name:              data.name,
-      network:           (data.operator || {}).name,
-      networkId:         (data.operator || {}).id,
-      address:           data.address,
-      longitude:         data.longitude,
-      latitude:          data.latitude,
-      isFreeCharging:    data.freeCharging,
-      isFreeParking:     data.freeParking,
-      priceDescription:  "",
-      country:           data.country,
-      chargePoints:      data.chargePoints.map((cp,idx) => this.parseChargePoint(cp,idx, vehicle)),
-      faultReported:     false
+      dataAdapter:        "chargeprice",
+      id:                 data.id,
+      name:               data.name,
+      network:            (data.operator || {}).name,
+      networkId:          (data.operator || {}).id,
+      address:            data.address,
+      longitude:          data.longitude,
+      latitude:           data.latitude,
+      isFreeCharging:     data.freeCharging,
+      isFreeParking:      data.freeParking,
+      priceDescription:   "",
+      country:            data.country,
+      parkingDescription: data.parkingDescription,
+      chargePoints:       data.chargePoints.map((cp,idx) => this.parseChargePoint(cp,idx, vehicle)),
+      faultReported:      false
     }
   }
 
@@ -218,6 +220,7 @@ export default class StationTariffs {
       id: String(idx), 
       power: hash.power,
       plug:  hash.plug,
+      availableCount: hash.available_count,
       count: hash.count,
       supportedByVehicle: this.supportedCharger(vehicle, hash)
     }

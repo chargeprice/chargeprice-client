@@ -137,6 +137,10 @@ class App {
 				fallBackLocation = defaultLocations.PARIS;
         break;
 			}
+      case 'da': {
+				fallBackLocation = defaultLocations.COPENHAGEN;
+        break;
+			}
 			default: {
 				fallBackLocation = defaultLocations.SALZBURG;
 				break;
@@ -252,7 +256,7 @@ class App {
     if (this.poiId !== undefined && this.poiSource !== undefined && !this.deeplinkActivated) {
       this.deeplinkActivated = true;
       this.settings.setLastDeeplinkStation(this.poiId, this.poiSource);
-      this.stationSelected({id: this.poiId, lite: true, dataAdapter: this.poiSource, charge_points: [] }, true)
+      this.stationSelected({id: this.poiId, dataAdapter: this.poiSource, charge_points: [] }, true)
     }
     this.showStationsAtLocation(this.map.getBounds());
   }

@@ -17,15 +17,21 @@ export default class StationDetailsView extends ViewBase {
       <label>${station.address}</label><br>    
       
       <div class="cp-margin-top-small">
-        ${station.faultReported ? html`<span class="w3-tag w3-link w3-red cp-margin-top-small" @click="${()=>this.onFaultReport(station)}">
-          <i class="fa fa-exclamation"></i> ${this.t("faultReported")}</span>`:""}
-        ${station.isFreeParking ? html`<span class="w3-tag w3-green cp-margin-top-small ${station.priceDescription ? "w3-link" : ""}" @click="${()=>this.onFreeCharging(station)}">${this.t("freeParking")}</span>`:""}
-        ${station.isFreeCharging  ? html`<span class="w3-tag w3-green cp-margin-top-small ${station.priceDescription ? "w3-link" : ""}" @click="${()=>this.onFreeCharging(station)}">${this.t("freeCharging")}</span>`:""}
         ${station.network  ? html`
           <span class="w3-tag w3-light-gray cp-margin-top-small">
             <label><i class="fa fa-sitemap"></i> ${station.network}</label>
           </span>
         `:""}
+        ${station.faultReported ? html`<span class="w3-tag w3-link w3-red cp-margin-top-small" @click="${()=>this.onFaultReport(station)}">
+          <i class="fa fa-exclamation"></i> ${this.t("faultReported")}</span>`:""}
+        ${station.isFreeParking ? html`<span class="w3-tag w3-green cp-margin-top-small ${station.priceDescription ? "w3-link" : ""}" @click="${()=>this.onFreeCharging(station)}">${this.t("freeParking")}</span>`:""}
+        ${station.isFreeCharging  ? html`<span class="w3-tag w3-green cp-margin-top-small ${station.priceDescription ? "w3-link" : ""}" @click="${()=>this.onFreeCharging(station)}">${this.t("freeCharging")}</span>`:""}
+        ${station.parkingDescription  ? html`
+        <span class="w3-tag w3-light-gray cp-margin-top-small w3-link" @click="${()=>this.onParkingFees(station)}">
+          <i class="fa fa-parking"></i> ${this.t("parkingFees")}
+        </span>
+        `:""}
+
         ${station.goingElectricUrl ? html`
           <span class="w3-tag w3-light-gray cp-margin-top-small">
             <a href="${station.goingElectricUrl}" target="_blank"><i class="fa fa-external-link"></i> ${this.t("goingElectricLink")}</a>
@@ -74,6 +80,10 @@ export default class StationDetailsView extends ViewBase {
     const report = station.faultReport;
     const message = `${report.description} (${dayjs(new Date(report.created*1000)).format("DD.MM.YYYY")})`;
     new GenericPopup(this.depts).show({header: this.t("faultReported"), message: message});
+  }
+
+  onParkingFees(station){
+    new GenericPopup(this.depts).show({header: this.t("parkingFees"), message: this.h().multiLine(station.parkingDescription)});
   }
 
   onFreeCharging(station){

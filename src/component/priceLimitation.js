@@ -99,7 +99,7 @@ export default class PriceLimitation extends ViewBase {
     if(counter.date != this.todayString){
       // Reset counter
       counter.date = this.todayString;
-      counter.stations = [];
+      counter.stations = [stationGlobalID];
     }
     else if(!counter.stations.includes(stationGlobalID)){
       // Allow to check the same station multiple times
@@ -119,10 +119,6 @@ export default class PriceLimitation extends ViewBase {
   isDeepLinkOpened(station){
     const deeplinkStation = this.settings.getLastDeeplinkStation(this.poiId, this.poiSource);
     return deeplinkStation && deeplinkStation.id == station.id && deeplinkStation.dataAdapter == station.dataAdapter;
-  }
-
-  render(elementId){
-    render(this.template(),document.getElementById(elementId));
   }
 
   onDownloadApp(appLink,platform){

@@ -18,8 +18,11 @@ const vehicle = { id: "123", type: "car" }
 const tariffs = [{ id: "456", type: "tariff" }]
 
 const settings = {
-  vehicle: vehicle,
-  tariffs: tariffs
+  data: {
+    vehicle: vehicle,
+    tariffs: tariffs
+  },
+  meta: { products: [] }
 }
 
 const store = { myTariffIds: ["456"], myVehicle: vehicle }
@@ -28,8 +31,8 @@ test('logged in & existing',async () => {
   const deptsMocks = buildDepsMocks(()=> settings);
 
   const subject = await new Subject(deptsMocks).run(); 
-  expect(subject.vehicle).toEqual(vehicle);
-  expect(subject.tariffs).toEqual(tariffs);
+  expect(subject.data.vehicle).toEqual(vehicle);
+  expect(subject.data.tariffs).toEqual(tariffs);
 });
 
 test('logged in & not existing',async () => {
@@ -40,8 +43,8 @@ test('logged in & not existing',async () => {
   );
 
   const subject = await new Subject(deptsMocks).run(); 
-  expect(subject.vehicle).toEqual(vehicle);
-  expect(subject.tariffs).toEqual(tariffs);
+  expect(subject.data.vehicle).toEqual(vehicle);
+  expect(subject.data.tariffs).toEqual(tariffs);
 });
 
 test('not logged in',async () => {
@@ -52,6 +55,6 @@ test('not logged in',async () => {
   );
 
   const subject = await new Subject(deptsMocks).run(); 
-  expect(subject.vehicle).toEqual(vehicle);
-  expect(subject.tariffs).toEqual(tariffs);
+  expect(subject.data.vehicle).toEqual(vehicle);
+  expect(subject.data.tariffs).toEqual(tariffs);
 }); 

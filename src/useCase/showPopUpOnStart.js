@@ -18,13 +18,13 @@ export default class ShowPopUpOnStart {
     const previousStartCount = this.settingsPrimitive.getAppStartCount();
     this.settingsPrimitive.incrementAppStartCount();
 
-    // don't show any pop ups for white labels!
-    if(!this.themeLoader.isDefaultTheme()) return;
-
     if(!this.didAskForTracking()){
       this.showWelcome();
       return;
     }
+
+    // don't show any pop ups for white labels!
+    if(!this.themeLoader.isDefaultTheme()) return;
 
     switch(previousStartCount){
       case 2: this.showSocialMedia(); break;

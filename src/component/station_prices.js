@@ -2,11 +2,9 @@ import ViewBase from './viewBase';
 import StartTimeSelection from '../modal/startTimeSelection';
 import {html, render} from 'lit-html';
 import RepositoryStartTime from '../repository/settings/startTime';
-import GenericList from '../modal/genericList';
 import ModalFeedback from '../modal/feedback';
 import PriceListView from '../views/priceList';
 import StationDetailsView from '../views/stationDetails';
-import PriceLimitation from './priceLimitation';
 import noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 
@@ -64,9 +62,19 @@ export default class StationPrices extends ViewBase{
     return this.chargePointsSortedByPower.map(cp=> html`
       <span @click="${()=>this.onChargePointChanged(cp)}" class="cp-button ${cp == obj ? "pc-main" : "w3-light-gray"} w3-margin-top w3-margin-bottom ${cp.supportedByVehicle ? "": "w3-disabled"}">
         <label>${cp.power} kW</label><br>
-        <label class="w3-small">${this.h().upper(cp.plug)}, ${cp.count}x</label>
+        <label class="w3-small">${this.h().upper(cp.plug)} ${this.availabilityTextTemplate(cp) }</label>
+        
       </span>
     `);
+  }
+
+  availabilityTextTemplate(chargePoint){
+    if(chargePoint.availableCount == null) return `${chargePoint.count}x`;
+
+    const countText = `${chargePoint.availableCount}\/${chargePoint.count}`;
+    const color = chargePoint.availableCount == 0 ? "w3-red" : "w3-green";
+    
+    return html`<span class="w3-tag ${color}">${countText}</span>`;
   }
 
   feedbackTemplate(context){
@@ -163,25 +171,11 @@ export default class StationPrices extends ViewBase{
     new StationDetailsView(this.depts).render(station,"station-info");
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
 
-    const priceLimitation = new PriceLimitation(this.depts);
-
-    if(priceLimitation.isDisplayed(station, options.isPro)){
-      this.showUpselling(priceLimitation);
-      return;
-    }
-
     const sortedPrices = prices.sort((a,b)=>this.sortPrice(a.price, b.price));
-    new PriceListView(this.depts,this.sidebar).render(sortedPrices,options,station,"prices")
+    new PriceListView(this.depts,this.sidebar).render(sortedPrices, options, station, "prices")
     render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback")); 
     render(this.adBannerTemplate(station, options), this.getEl("adBanner"));
-  }
-
-  showUpselling(priceLimitation){
-    priceLimitation.render("prices");
-    render("", this.getEl("adBanner"));
-    render("", this.getEl("priceFeedback"));
-    render("",this.getEl("priceInfo"))
   }
 
   sortChargePointsByPower(chargePoints) {
