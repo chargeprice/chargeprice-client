@@ -125,7 +125,7 @@ export default class GoingElectric {
       network: this.valueOrFallback(data.network),
       chargePoints: data.chargepoints.map((cp,idx) => this.parseChargePoint(cp,idx,vehicle)),
       faultReported: data.fault_report,
-      promoted: false
+      branding: null
     }
   }
 
@@ -149,7 +149,7 @@ export default class GoingElectric {
       goingElectricUrl:  "https:" + data.url,
       faultReported:     !!data.fault_report,
       faultReport:       data.fault_report,
-      promoted:          false
+      branding:          null
     }
   }
   

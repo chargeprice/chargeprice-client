@@ -323,8 +323,16 @@ i.fav-icon {
   font-size: 12px;
 }
 
-.cp-map-poi-marker .price.promoted {
-  font-size: 13px;
+.cp-map-poi-marker .promotion {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+}
+
+.cp-map-poi-marker .promotion img {
+  width: 100%;
 }
 
 .cp-map-poi-marker .pin {

@@ -215,7 +215,7 @@ export default class Map {
       zIndex = 1100;
     }
 
-    if(model.promoted){
+    if(model.branding){
       zIndex = 2000;
     }
 
@@ -239,20 +239,19 @@ export default class Map {
     const isBest = pricePreview && pricePreview.best;
 
     let html = `<div class="cp-map-poi-marker">
-      ${price ? `<div class="price ${model.promoted? "promoted":""}">${price}</div>` : ""}
+      ${price ? `<div class="price ${model.branding? "promoted":""}">${price}</div>` : ""}
+      ${!price && model.branding ? `<div class="promotion"><img src="${model.branding.map_pin_icon_url}"/></div>` : ""}
       ${isBest ? `<div class="best-price-badge"><i class="fa fa-star"></i></div>` : ""}
       ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
-      <img class="pin" src="img/markers/${color}${price ? "_price" : ""}.svg?t=44" />
+      <img class="pin" src="img/markers/${color}${price || model.branding ? "_price" : ""}.svg?t=44" />
     </div>`;
 
-    let width = (price ? this.priceIconWidth : this.iconWidth );
-    let height = (price ? this.priceIconHeight : this.iconHeight );
+    let width = (price || model.branding ? this.priceIconWidth : this.iconWidth );
+    let height = (price || model.branding ? this.priceIconHeight : this.iconHeight );
 
-    if(model.promoted) {
+    if(model.branding) {
       width*=1.2;
       height*=1.2;
-
-      html += `<div class="cp-map-poi-promotion">${model.network}</div>`;
     }
 
     return L.divIcon({
