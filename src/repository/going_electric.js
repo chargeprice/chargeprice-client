@@ -124,7 +124,8 @@ export default class GoingElectric {
       country: data.address.country,
       network: this.valueOrFallback(data.network),
       chargePoints: data.chargepoints.map((cp,idx) => this.parseChargePoint(cp,idx,vehicle)),
-      faultReported: data.fault_report
+      faultReported: data.fault_report,
+      branding: null
     }
   }
 
@@ -147,7 +148,8 @@ export default class GoingElectric {
       chargePoints:      data.chargepoints.map((cp,idx) => this.parseChargePoint(cp,idx,vehicle)),
       goingElectricUrl:  "https:" + data.url,
       faultReported:     !!data.fault_report,
-      faultReport:       data.fault_report
+      faultReport:       data.fault_report,
+      branding:          null
     }
   }
   

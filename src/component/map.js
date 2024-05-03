@@ -215,7 +215,11 @@ export default class Map {
       zIndex = 1100;
     }
 
-    const icon = this.buildStationPin(color, pricePreview, countBadge);
+    if(model.branding){
+      zIndex = 2000;
+    }
+
+    const icon = this.buildStationPin(color, pricePreview, countBadge, model);
     const marker = L.marker([model.latitude, model.longitude],{icon: icon})
     marker.on('click', () => onClickCallback(model));
     marker.on('click', () => this.changeSelectedStation(model));
@@ -230,19 +234,25 @@ export default class Map {
     this.markers.addLayer(marker);
   }
 
-  buildStationPin(color, pricePreview, countBadge){
+  buildStationPin(color, pricePreview, countBadge, model){
     const price = this.getDisplayedPrice(pricePreview);
     const isBest = pricePreview && pricePreview.best;
 
-    const html = `<div class="cp-map-poi-marker">
-      ${price ? `<div class="price">${price}</div>` : ""}
+    let html = `<div class="cp-map-poi-marker">
+      ${price ? `<div class="price ${model.branding? "promoted":""}">${price}</div>` : ""}
+      ${!price && model.branding ? `<div class="promotion"><img src="${model.branding.map_pin_icon_url}"/></div>` : ""}
       ${isBest ? `<div class="best-price-badge"><i class="fa fa-star"></i></div>` : ""}
       ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
-      <img class="pin" src="img/markers/${color}${price ? "_price" : ""}.svg?t=44" />
+      <img class="pin" src="img/markers/${color}${price || model.branding ? "_price" : ""}.svg?t=44" />
     </div>`;
 
-    const width = (price ? this.priceIconWidth : this.iconWidth );
-    const height = (price ? this.priceIconHeight : this.iconHeight );
+    let width = (price || model.branding ? this.priceIconWidth : this.iconWidth );
+    let height = (price || model.branding ? this.priceIconHeight : this.iconHeight );
+
+    if(model.branding) {
+      width*=1.2;
+      height*=1.2;
+    }
 
     return L.divIcon({
         className: "cp-map-poi-marker",
