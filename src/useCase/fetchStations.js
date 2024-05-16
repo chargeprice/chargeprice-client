@@ -88,7 +88,7 @@ export default class FetchStations {
       case "going_electric":
         return await (new GoingElectric()).getStationDetails(model.id, options);
       case "chargeprice":
-        return await (new StationTariffs(this.depts)).getStationDetails(model.id, options);
+        return model.lite ? (await (new StationTariffs(this.depts)).getStationDetails(model.id, options)) : model ;
     }
   }
 }

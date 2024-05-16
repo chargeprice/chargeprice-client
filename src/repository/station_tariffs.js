@@ -91,7 +91,7 @@ export default class StationTariffs {
   }
 
   async getStationDetails(id,options){
-    const url = `${this.base_url}/v1/charging_stations/${id}`;
+    const url = `${this.base_url}/v1/charging_stations/${id}?${options.availability ? "availability=true" : ""}`;
     const response = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
@@ -196,7 +196,8 @@ export default class StationTariffs {
       country:           data.country,
       chargePoints:      data.chargePoints.map((cp,idx) => this.parseChargePoint(cp,idx, vehicle)),
       faultReported:     false,
-      branding:          data.meta.branding
+      branding:          data.meta.branding,
+      parkingDescription: data.parkingDescription,
     }
   }
 

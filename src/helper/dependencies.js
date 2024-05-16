@@ -13,6 +13,7 @@ import AuthService from '../repository/authorizationService'
 import Vehicle from '../repository/vehicle'
 import Tariff from '../repository/tariff'
 import Company from '../repository/company'
+import StationTariffs from '../repository/station_tariffs'
 
 export default class Dependencies {
   constructor(){
@@ -82,6 +83,10 @@ export default class Dependencies {
 
   company(){
     return new Company(this);
+  }
+
+  chargingStation(){
+    return new StationTariffs(this);
   }
 
   currency(){

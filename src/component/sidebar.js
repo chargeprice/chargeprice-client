@@ -111,7 +111,7 @@ export default class Sidebar extends ViewBase {
   }
 
   showStation(station){
-    this.stationPrices.showStation(station);
+    this.stationPrices.showStation(station, this.chargingOptions());
 
     this.open("prices");
   }

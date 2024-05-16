@@ -20,6 +20,7 @@ export default class StationPrices extends ViewBase{
     this.chargePointsSortedByPower = []
     this.themeLoader = depts.themeLoader();
     this.settingsPrimitive = depts.settingsPrimitive();
+    this.chargingStationRepo = depts.chargingStation();
 
     this.adBanners = [
       {
@@ -149,11 +150,21 @@ export default class StationPrices extends ViewBase{
     render(this.batteryRangeInfoTempl({from: range[0], to: range[1]}),this.getEl("batteryRangeInfo"));
   }
 
-  showStation(station){
+  showStation(station, options, loadAvailability=true){
     this.chargePointsSortedByPower = this.sortChargePointsByPower(station.chargePoints);
     this.currentChargePoint = this.chargePointsSortedByPower[0];
     this.renderCurrentChargePointTemplate();
     this.selectedChargePointChangedCallback();
+    this.renderStationDetails(station);
+
+    if(loadAvailability) this.loadStationWithAvailability(station, options);
+  }
+
+  loadStationWithAvailability(station,options){
+    if(station.dataAdapter != "chargeprice") return;
+    this.chargingStationRepo.getStationDetails(station.id,{ availability: options.isPro }).then(data=>{
+      this.showStation(data, options, false);
+    });
   }
 
   renderCurrentChargePointTemplate(){
@@ -168,7 +179,6 @@ export default class StationPrices extends ViewBase{
   }
  
   updateStationPrice(station,prices,options){
-    new StationDetailsView(this.depts).render(station,"station-info");
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
 
     const sortedPrices = prices.sort((a,b)=>this.sortPrice(a.price, b.price));
@@ -176,6 +186,10 @@ export default class StationPrices extends ViewBase{
     render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback")); 
     render(this.adBannerTemplate(station, options), this.getEl("adBanner"));
+  }
+
+  renderStationDetails(station){
+    new StationDetailsView(this.depts).render(station,"station-info");
   }
 
   sortChargePointsByPower(chargePoints) {
