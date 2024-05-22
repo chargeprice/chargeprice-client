@@ -62,20 +62,20 @@ export default class StationPrices extends ViewBase{
     if(!obj)return "";
     return this.chargePointsSortedByPower.map(cp=> html`
       <span @click="${()=>this.onChargePointChanged(cp)}" class="cp-button ${cp == obj ? "pc-main" : "w3-light-gray"} w3-margin-top w3-margin-bottom ${cp.supportedByVehicle ? "": "w3-disabled"}">
-        <label>${cp.power} kW</label><br>
-        <label class="w3-small">${this.h().upper(cp.plug)} ${this.availabilityTextTemplate(cp) }</label>
+        <label>${cp.power} kW</label> <label class="w3-small">${this.h().upper(cp.plug)}</label><br>
+        <label class="w3-small">${this.availabilityCountTemplate(cp) }</label>
         
       </span>
     `);
   }
 
-  availabilityTextTemplate(chargePoint){
+  availabilityCountTemplate(chargePoint){
     if(chargePoint.availableCount == null) return `${chargePoint.count}x`;
 
     const countText = `${chargePoint.availableCount}\/${chargePoint.count}`;
     const color = chargePoint.availableCount == 0 ? "w3-red" : "w3-green";
     
-    return html`<span class="w3-tag ${color}">${countText}</span>`;
+    return html`<span class="w3-tag ${color}">${countText} ${this.t("liveStatusAvailable")}</span>`;
   }
 
   feedbackTemplate(context){
@@ -162,7 +162,7 @@ export default class StationPrices extends ViewBase{
 
   loadStationWithAvailability(station,options){
     if(station.dataAdapter != "chargeprice") return;
-    this.chargingStationRepo.getStationDetails(station.id,{ availability: options.isPro }).then(data=>{
+    this.chargingStationRepo.getStationDetails(station.id,{ availability: options.isPro, myVehicle: options.myVehicle }).then(data=>{
       this.showStation(data, options, false);
     });
   }

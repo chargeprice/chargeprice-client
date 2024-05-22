@@ -215,5 +215,6 @@
   "priceLimitProEmailInfo": "Contact for further questions:",
   "pricePerStationTitle": "Prices on the map",
   "pricePerStationInfo": "Display the cheapest price of your tariffs directly on the map. Limited to the 50 POIs closest to the map center.",
-  "freeProFeature": "Pro-Feature, Free until 15.04.2024"
+  "freeProFeature": "Pro-Feature, Free until 15.04.2024",
+  "liveStatusAvailable": "available"
 }
