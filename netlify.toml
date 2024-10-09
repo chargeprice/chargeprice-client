@@ -26,6 +26,11 @@
   Content-Type = "application/json"
   X-Content-Type-Options = "nosniff"
 
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors 'self' https://www.emcaustria.at https://insta-drive.com/;"
+
 [[redirects]]
   from = "/apple-app-site-association"
   to = "/well-known/apple-app-site-association.json"
