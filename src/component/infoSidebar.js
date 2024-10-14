@@ -7,7 +7,6 @@ import ModalInstallApp from '../modal/installApp';
 import ModalDonate from '../modal/donate';
 import ModalPartner from '../modal/partner';
 import ModalDisclaimer from '../modal/disclaimer';
-import ModalDataSources from '../modal/dataSources';
 
 export default class InfoSidebar extends ViewBase {
   constructor(depts) {
@@ -65,7 +64,7 @@ export default class InfoSidebar extends ViewBase {
         title: this.t("dataSourceHeader"),
         subTitle: this.t("infoApiSub"),
         icon: "connectdevelop",
-        action: ()=> new ModalDataSources(this.depts).show()
+        action: ()=>window.open("https://github.com/chargeprice/chargeprice-api-docs")
       },
       {
         id: "partner",

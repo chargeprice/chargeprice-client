@@ -50,7 +50,7 @@
   "aboutHeader": "Über uns & Impressum",
   "feedbackHeader": "Feedback",
   "disclaimerHeader": "Haftungsausschluss",
-  "dataSourceHeader": "API & Datenherkunft",
+  "dataSourceHeader": "API",
   "dataSourceContentGoingElectric": "Ladestationen (Koordinaten, Anschlüsse): Verschiedene regionale Datenquellen und <a href='http://www.goingelectric.de' target='_blank'>GoingElectric API</a>",
   "dataSourceContentOther": "Ladepreise: Von den Ladekartenanbieter gesammelt.",
   "disclaimerContent": "Der Betreiber der Website haftet nicht für die Richtigkeit, noch gibt es eine Garantie für die angezeigten Daten. Diese Preise dienen lediglich als Richtwert.",

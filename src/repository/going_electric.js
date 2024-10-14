@@ -20,6 +20,7 @@ export default class GoingElectric {
   }
 
   async getStations(northEast, southWest,options) {
+    return []; // disable for now
     const body = this.buildStationsBody(northEast, southWest,options);
     let stations = []
     let result = null;
@@ -149,7 +150,8 @@ export default class GoingElectric {
       goingElectricUrl:  "https:" + data.url,
       faultReported:     !!data.fault_report,
       faultReport:       data.fault_report,
-      branding:          null
+      branding:          null,
+      gePhotoIds:         data.photos.map(p=>p.id),
     }
   }
   

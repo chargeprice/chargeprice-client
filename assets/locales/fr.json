@@ -50,7 +50,7 @@
   "aboutHeader": "Mentions légales",
   "feedbackHeader": "Commentaires",
   "disclaimerHeader": "Avertissements",
-  "dataSourceHeader": "API & Sources de données",
+  "dataSourceHeader": "API",
   "dataSourceContentGoingElectric": "Stations de recharge (coordonnées, prises) : <a href='http://www.goingelectric.de' target='_blank'>GoingElectric API</a>",
   "dataSourceContentOther": "Autres opérateurs de mobilité : directement auprès des opérateurs",
   "disclaimerContent": "Chargeprice ne garantie pas l'exactitude des données affichées. ",

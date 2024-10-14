@@ -50,7 +50,7 @@
   "aboutHeader": "About",
   "feedbackHeader": "Feedback",
   "disclaimerHeader": "Disclaimer",
-  "dataSourceHeader": "API & Data sources",
+  "dataSourceHeader": "API",
   "dataSourceContentGoingElectric": "Charging stations (Coordinates, plugs): Multiple regional sources and <a href='http://www.goingelectric.de' target='_blank'>GoingElectric API</a>",
   "dataSourceContentOther": "Charging prices: Collected from providers.",
   "disclaimerContent": "The provider of the website is not liable nor is there any guarantee for the correctness of the displayed data. The prices should only be used for benchmarking.",
