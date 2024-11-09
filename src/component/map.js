@@ -9,6 +9,7 @@ var turf = {
 
 import MapPinsV1 from './mapPins/v1.js';
 import MapPinsV2 from './mapPins/v2.js';
+import MapPinsV3 from './mapPins/v3.js';
 
 export const defaultLocations = {
 	PARIS: {
@@ -46,6 +47,7 @@ export default class Map {
     this.iconHeight = 30;
     this.priceIconWidth = 32;
     this.priceIconHeight = 24;
+    this.pinClass = this.getPinClass(new URLSearchParams(window.location.search).get('pin') || "1")
   }
 
   initializeLayer() {
@@ -241,7 +243,7 @@ export default class Map {
     const price = this.getDisplayedPrice(pricePreview);
     const isBest = pricePreview && pricePreview.best;
 
-    const pinConfig = new MapPinsV2().buildHtml(model, countBadge, isBest, cheapestPrice, color, price);
+    const pinConfig = this.pinClass.buildHtml(model, countBadge, isBest, cheapestPrice, color, price);
 
     return L.divIcon({
         className: "cp-map-poi-marker",
@@ -249,6 +251,14 @@ export default class Map {
         iconSize:     [pinConfig.width, pinConfig.height],
         iconAnchor:   [pinConfig.width/2, pinConfig.height],
     });
+  }
+
+  getPinClass(version){
+    switch(version){
+      case "1": return new MapPinsV1();
+      case "2": return new MapPinsV2();
+      case "3": return new MapPinsV3();
+    }
   }
 
   getDisplayedPrice(pricePreview){

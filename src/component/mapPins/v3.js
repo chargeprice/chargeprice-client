@@ -3,26 +3,27 @@ export default class MapPinsV2 {
   constructor(){
     this.priceIconWidth = 32;
     this.priceIconHeight = 24;
-    this.acColor = "#3498dc";
-    this.dcColor = "#226ba1";
-    this.hpcColor = "#0f3854";
+    this.acColor = "#fff";
+    this.dcColor = "#9a9a9a";
+    this.hpcColor = "#3e3e3e";
   }
 
   buildHtml(model, countBadge, isBest, cheapestPrice, color, price){
 
     const highestPower = this.highestPower(model);
-    const mainValue = price ? (price / 42.0).toFixed(2) : highestPower;
-    const unit = price ? "EUR" : "kW";
+    const mainValue = price ? (price / 42.0).toFixed(2) : "";
+    const unit = price ? "EUR" : "";
     const pinFile = price ? this.pinForPrice(price, cheapestPrice) : this.pinForPower(highestPower);
+    const boltFile = price ? (highestPower <= 22 ? "bolt_black" : "bolt_white") : 0;
 
-    let html = `<div class="cp-map-poi-marker cp-map-poi-marker-v2">
+    let html = `<div class="cp-map-poi-marker cp-map-poi-marker-v2 cp-map-poi-marker-v3">
       <div class="price">
         <span class="value">${mainValue}</span>
         <span class="unit w3-block">${unit}</span>
       </div>
-      ${price ? `<div class="power-badge" style="background: ${this.colorForPower(highestPower)};">${highestPower} <span style="font-size: 0.8em">kW</span></div>` : ""}
+      ${price ? `<div class="power-badge" style="background: ${this.colorForPower(highestPower)};"><img class="pin" src="img/markers/V3/${boltFile}.svg?t=3" /></div>` : ""}
       ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
-      <img class="pin" src="img/markers/V2/${pinFile}.svg?t=1" />
+      <img class="pin" src="img/markers/V3/${pinFile}.svg?t=3" />
     </div>`;
 
     return {

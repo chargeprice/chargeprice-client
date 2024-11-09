@@ -592,17 +592,17 @@ i.fav-icon {
 
 /* V5 Pins */
 
-.cp-map-poi-marker-v5 .price .unit {
+.cp-map-poi-marker-v2 .price .unit {
   font-size: 6px;
   line-height: 5px;
 }
 
-.cp-map-poi-marker-v5 .price .value {
+.cp-map-poi-marker-v2 .price .value {
   font-size: 10px;
   line-height: 11px;
 }
 
-.cp-map-poi-marker-v5 .power-badge {
+.cp-map-poi-marker-v2 .power-badge {
   position: absolute;
   font-size: 8px;
   top: -15px;
@@ -613,7 +613,25 @@ i.fav-icon {
   text-align: center;
 }
 
-.cp-map-poi-marker-v5 .count-badge {
+.cp-map-poi-marker-v3 .power-badge {
+  position: absolute;
+  font-size: 8px;
+  top: -8px;
+  border-radius: 20px;
+  color: white;
+  border: 1px solid black;
+  width: 14px;
+  height: 14px;
+  text-align: center;
+  left: -6px;
+}
+
+.cp-map-poi-marker-v3 .power-badge .pin {
+  height: 65%;
+  margin-top: 2px;
+}
+
+.cp-map-poi-marker-v2 .count-badge {
   font-size: 8px;
   top: -7px;
   right: -8px;
