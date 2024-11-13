@@ -15,7 +15,7 @@ export default class MapPinsV2 {
     const unit = price ? "EUR" : "";
     const pinFile = price ? this.pinForPrice(price, cheapestPrice) : this.pinForPower(highestPower);
     const boltFile = price ? (highestPower <= 22 ? "bolt_black" : "bolt_white") : 0;
-    const mainTextColor = price ? "#fff" : this.textColorForPower(highestPower);
+    const mainTextColor = price ? "#000" : this.textColorForPower(highestPower);
 
     let html = `<div class="cp-map-poi-marker cp-map-poi-marker-v2 cp-map-poi-marker-v3">
       <div class="price" style="color: ${mainTextColor};">
