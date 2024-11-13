@@ -3,9 +3,9 @@ export default class MapPinsV2 {
   constructor(){
     this.priceIconWidth = 32;
     this.priceIconHeight = 24;
-    this.acColor = "#fff";
-    this.dcColor = "#9a9a9a";
-    this.hpcColor = "#3e3e3e";
+    this.acColor = "#79befaff";
+    this.dcColor = "#4d91cdff";
+    this.hpcColor = "#14558eff";
   }
 
   buildHtml(model, countBadge, isBest, cheapestPrice, color, price){
@@ -15,15 +15,16 @@ export default class MapPinsV2 {
     const unit = price ? "EUR" : "";
     const pinFile = price ? this.pinForPrice(price, cheapestPrice) : this.pinForPower(highestPower);
     const boltFile = price ? (highestPower <= 22 ? "bolt_black" : "bolt_white") : 0;
+    const mainTextColor = price ? "#fff" : this.textColorForPower(highestPower);
 
     let html = `<div class="cp-map-poi-marker cp-map-poi-marker-v2 cp-map-poi-marker-v3">
-      <div class="price">
+      <div class="price" style="color: ${mainTextColor};">
         <span class="value">${mainValue}</span>
         <span class="unit w3-block">${unit}</span>
       </div>
       ${price ? `<div class="power-badge" style="background: ${this.colorForPower(highestPower)};"><img class="pin" src="img/markers/V3/${boltFile}.svg?t=3" /></div>` : ""}
       ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
-      <img class="pin" src="img/markers/V3/${pinFile}.svg?t=3" />
+      <img class="pin" src="img/markers/V3/${pinFile}.svg?t=5" />
     </div>`;
 
     return {
@@ -41,6 +42,12 @@ export default class MapPinsV2 {
     if(power <= 22) return this.acColor;
     if(power < 150) return this.dcColor;
     return this.hpcColor;
+  }
+
+  textColorForPower(power){
+    if(power <= 22) return "#000";
+    if(power < 150) return "#fff";
+    return "#fff";
   }
 
   pinForPower(power){

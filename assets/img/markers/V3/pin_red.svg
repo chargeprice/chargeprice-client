@@ -25,10 +25,10 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="0.52"
      inkscape:cx="368.26923"
-     inkscape:cy="218.26923"
+     inkscape:cy="217.30769"
      inkscape:window-width="1920"
-     inkscape:window-height="942"
-     inkscape:window-x="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg1" />
@@ -78,6 +78,6 @@
   </metadata>
   <path
      id="rect1"
-     style="fill:#d3212c;fill-opacity:1;stroke:#9a1820;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+     style="fill:#eb7881;fill-opacity:1;stroke:#222222;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
      d="M 2.0749999,0.67500001 C -0.91659718,0.67500001 -3.325,3.0834028 -3.325,6.0749999 V 20.111484 c 0,2.991597 2.40840282,5.4 5.3999999,5.4 h 3.5298633 c 4.9384198,4.188606 10.3081638,6.912685 10.3081638,6.912685 0,0 5.365543,-2.725504 10.302363,-6.912685 h 3.410069 c 2.991597,0 5.399999,-2.408403 5.399999,-5.4 V 6.0749999 c 0,-2.9915971 -2.408402,-5.39999989 -5.399999,-5.39999989 z" />
 </svg>
