@@ -23,7 +23,7 @@ export default class MapPinsV2 {
       </div>
       ${price ? `<div class="power-badge" style="background: ${this.colorForPower(highestPower)}; color: ${this.textColorForPower(highestPower)};">${highestPower} <span style="font-size: 0.8em">kW</span></div>` : ""}
       ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
-      <img class="pin" src="img/markers/V4/${pinFile}.svg?t=4" />
+      <img class="pin" src="img/markers/V4/${pinFile}.svg?t=6" />
     </div>`;
 
     return {
