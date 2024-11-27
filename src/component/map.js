@@ -11,6 +11,7 @@ import MapPinsV1 from './mapPins/v1.js';
 import MapPinsV2 from './mapPins/v2.js';
 import MapPinsV3 from './mapPins/v3.js';
 import MapPinsV4 from './mapPins/v4.js';
+import MapPinsV5 from './mapPins/v5.js';
 
 export const defaultLocations = {
 	PARIS: {
@@ -260,6 +261,7 @@ export default class Map {
       case "2": return new MapPinsV2();
       case "3": return new MapPinsV3();
       case "4": return new MapPinsV4();
+      case "5": return new MapPinsV5();
     }
   }
 
