@@ -309,9 +309,8 @@ i.fav-icon {
 
 .cp-map-poi-marker {
   color: white;
-  font-weight: bold;
   font-size: 14px;
-  font-family: 'Open Sans';
+  font-family: 'Lato';
 }
 
 .cp-map-poi-marker .price {
@@ -593,23 +592,23 @@ i.fav-icon {
 /* V5 Pins */
 
 .cp-map-poi-marker-v2 .price .unit {
-  font-size: 6px;
-  line-height: 5px;
+  font-size: 7px;
+  line-height: 6px;
 }
 
 .cp-map-poi-marker-v2 .price .value {
-  font-size: 10px;
-  line-height: 11px;
+  font-size: 13px;
+  line-height: 15px;
 }
 
 .cp-map-poi-marker-v2 .power-badge {
   position: absolute;
-  font-size: 8px;
-  top: -15px;
+  font-size: 10px;
+  top: -17px;
   border-radius: 4px;
   color: white;
-  border: 1px solid black;
-  width: 32px;
+  border: 1px solid #5050503d;
+  width: 40px;
   text-align: center;
 }
 

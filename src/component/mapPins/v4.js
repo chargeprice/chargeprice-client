@@ -1,11 +1,16 @@
 export default class MapPinsV2 {
   
   constructor(){
-    this.priceIconWidth = 32;
-    this.priceIconHeight = 24;
-    this.acColor = "#c2e3fd";
-    this.dcColor = "#64b6f5";
-    this.hpcColor = "#3777b4";
+    this.priceIconWidth = 40;
+    this.priceIconHeight = 30;
+    this.acColor = "#ffffff";
+    this.dcColor = "#ffffff";
+    this.hpcColor = "#ffffff";
+
+    // green: 51c571ff
+    // orange: ff9d6dff
+    // red: eb7881ff
+
   }
 
   buildHtml(model, countBadge, isBest, cheapestPrice, color, price){
@@ -21,15 +26,15 @@ export default class MapPinsV2 {
         <span class="value">${mainValue}</span>
         <span class="unit w3-block">${unit}</span>
       </div>
-      ${price ? `<div class="power-badge" style="background: ${this.colorForPower(highestPower)}; color: ${this.textColorForPower(highestPower)};">${highestPower} <span style="font-size: 0.8em">kW</span></div>` : ""}
+      ${price ? `<div class="power-badge" style="background: white; color: #000;">${highestPower}<span style="font-size: 0.8em"> kW</span></div>` : ""}
       ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
       <img class="pin" src="img/markers/V4/${pinFile}.svg?t=6" />
     </div>`;
 
     return {
       html: html,
-      width: 32,
-      height: 24
+      width: this.priceIconWidth,
+      height: this.priceIconHeight
     }
   }
 
@@ -41,6 +46,12 @@ export default class MapPinsV2 {
     if(power <= 22) return this.acColor;
     if(power < 150) return this.dcColor;
     return this.hpcColor;
+  }
+
+  colorForPrice(price, cheapestPrice){
+    if(price <= cheapestPrice * 1.1) return "#51c571ff";
+    if(price <= cheapestPrice * 1.25) return "#ff9d6dff";
+    return "#eb7881ff";
   }
 
   textColorForPower(power){
