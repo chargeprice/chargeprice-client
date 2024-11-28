@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="652.22223"
+   height="834.74664"
+   viewBox="-4 0 29.35 37.563599"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="slow.svg"
+   inkscape:version="1.3 (0e150ed, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.7425"
+     inkscape:cx="326.59933"
+     inkscape:cy="413.46801"
+     inkscape:window-width="1392"
+     inkscape:window-height="1027"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+  <title
+     id="title1">map-marker</title>
+  <desc
+     id="desc1">Created with Sketch.</desc>
+  <defs
+     id="defs1" />
+  <g
+     id="Vivid.JS"
+     stroke="none"
+     stroke-width="1"
+     fill="none"
+     fill-rule="evenodd"
+     style="fill:#565656;fill-opacity:1;stroke:#2d2d2d;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1"
+     transform="translate(-3.325,0.67500001)">
+    <g
+       id="Vivid-Icons"
+       transform="translate(-125,-643)"
+       style="fill:#565656;fill-opacity:1;stroke:#2d2d2d;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
+      <g
+         id="Icons"
+         transform="translate(37,169)"
+         style="fill:#565656;fill-opacity:1;stroke:#2d2d2d;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
+        <g
+           id="map-marker"
+           transform="translate(78,468)"
+           style="fill:#565656;fill-opacity:1;stroke:#2d2d2d;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
+          <g
+             transform="translate(10,6)"
+             id="g1"
+             style="fill:#565656;fill-opacity:1;stroke:#2d2d2d;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
+            <path
+               d="M 14,0 C 21.732,0 28,5.641 28,12.6 28,23.963 14,36 14,36 14,36 0,24.064 0,12.6 0,5.641 6.268,0 14,0 Z"
+               id="Shape"
+               fill="#FF6E6E"
+               style="fill:#565656;fill-opacity:1;stroke:#2d2d2d;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>map-marker</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     d="m 5.258303,17.733207 h 4.838641 l -2.5520684,6.936814 c -0.3340083,0.882065 0.5823306,1.353096 1.1646981,0.633705 L 16.48563,15.575108 c 0.14561,-0.179849 0.222672,-0.351145 0.222672,-0.548095 0,-0.325457 -0.248359,-0.582367 -0.608017,-0.582367 H 11.253056 L 13.813711,7.5078315 C 14.139096,6.6257668 13.231344,6.1547356 12.648977,6.8826764 L 4.8729207,16.602782 c -0.1456104,0.188397 -0.2312223,0.359658 -0.2312223,0.548094 0,0.33397 0.2569096,0.582331 0.6166046,0.582331 z"
+     id="path1"
+     style="fill:#ffffff;fill-opacity:1;stroke-width:0.642856" />
+</svg>
