@@ -6,6 +6,7 @@ var turf = {
   length: require('@turf/length').default,
   helpers: require('@turf/helpers')
 }
+import MapPinsV5 from './mapPins/v5.js';
 
 export const defaultLocations = {
 	PARIS: {
@@ -43,6 +44,7 @@ export default class Map {
     this.iconHeight = 30;
     this.priceIconWidth = 32;
     this.priceIconHeight = 24;
+    this.pinClass = new MapPinsV5();
   }
 
   initializeLayer() {
@@ -177,53 +179,19 @@ export default class Map {
     this.markers.addTo(this.component);
   }
 
-  addStation(model, indexedPricePreviews, onClickCallback) {
-
-    let color = '';
-    let zIndex = 0;
-    let countBadge = null;
-
-    const maxPower = model.chargePoints.filter(v=>v.supportedByVehicle).reduce((max,value)=> max > value.power ? max : value.power, 0);
-    const fastChargerCount = model.chargePoints.reduce((sum,value)=> value.supportedByVehicle && value.power >= 50 ? sum + value.count : sum,0);
-
-    if(maxPower > 50){
-      color = "ultra";
-      countBadge = fastChargerCount > 1 ? fastChargerCount : null;
-      zIndex = 1000;
-    }
-    else if(maxPower > 22){
-      color = "fast";
-      countBadge = fastChargerCount > 1 ? fastChargerCount : null;
-      zIndex = 900;
-    }
-    else if(maxPower > 3.7){
-      color = "ac";
-      zIndex = 800;
-    }
-    else{
-      color = "slow";
-      zIndex = 700;
-    }
-
+  addStation(model, indexedPricePreviews, cheapestPrice, onClickCallback) {
     const pricePreview = indexedPricePreviews[model.id];
-
-    if(pricePreview){
-      zIndex += 50; // Make sure POIs with prices are above the others of the same color
-    }
-
-    if(pricePreview && pricePreview.best){
-      zIndex = 1100;
-    }
-
-    if(model.branding){
-      zIndex = 2000;
-    }
-
-    const icon = this.buildStationPin(color, pricePreview, countBadge, model);
+    const pinConfig = this.pinClass.buildHtml(model, cheapestPrice, pricePreview);
+    const icon = L.divIcon({
+      className: "cp-map-poi-marker",
+      html: pinConfig.html,
+      iconSize:     [pinConfig.width, pinConfig.height],
+      iconAnchor:   [pinConfig.width/2, pinConfig.height],
+  });
     const marker = L.marker([model.latitude, model.longitude],{icon: icon})
     marker.on('click', () => onClickCallback(model));
     marker.on('click', () => this.changeSelectedStation(model));
-    marker.setZIndexOffset(zIndex);
+    marker.setZIndexOffset(pinConfig.zIndex);
 
     // If shown before at this location, show it again
     // If not shown, station highlighted before is not shown anymore
@@ -232,48 +200,6 @@ export default class Map {
     }
 
     this.markers.addLayer(marker);
-  }
-
-  buildStationPin(color, pricePreview, countBadge, model){
-    const price = this.getDisplayedPrice(pricePreview);
-    const isBest = pricePreview && pricePreview.best;
-
-    let html = `<div class="cp-map-poi-marker">
-      ${price ? `<div class="price ${model.branding? "promoted":""}">${price}</div>` : ""}
-      ${!price && model.branding ? `<div class="promotion"><img src="${model.branding.map_pin_icon_url}"/></div>` : ""}
-      ${isBest ? `<div class="best-price-badge"><i class="fa fa-star"></i></div>` : ""}
-      ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
-      <img class="pin" src="img/markers/${color}${price || model.branding ? "_price" : ""}.svg?t=44" />
-    </div>`;
-
-    let width = (price || model.branding ? this.priceIconWidth : this.iconWidth );
-    let height = (price || model.branding ? this.priceIconHeight : this.iconHeight );
-
-    if(model.branding) {
-      width*=1.2;
-      height*=1.2;
-    }
-
-    return L.divIcon({
-        className: "cp-map-poi-marker",
-        html: html,
-        iconSize:     [width, height],
-        iconAnchor:   [width/2, height],
-    });
-  }
-
-  getDisplayedPrice(pricePreview){
-    if(pricePreview == null) return null;
-    const priceValue = pricePreview.price
-    if(priceValue >= 100){
-      return priceValue.toFixed(0);
-    }
-    else if(priceValue >= 10){
-      return priceValue.toFixed(1);
-    }
-    else{
-      return priceValue.toFixed(2);
-    }
   }
 
   showRoute(routingResult){

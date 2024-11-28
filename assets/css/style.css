@@ -309,9 +309,8 @@ i.fav-icon {
 
 .cp-map-poi-marker {
   color: white;
-  font-weight: bold;
   font-size: 14px;
-  font-family: 'Open Sans';
+  font-family: 'Lato';
 }
 
 .cp-map-poi-marker .price {
@@ -320,7 +319,16 @@ i.fav-icon {
   text-align: center;
   top: 3px;
   color: white;
-  font-size: 12px;
+}
+
+.cp-map-poi-marker .price .unit {
+  font-size: 7px;
+  line-height: 6px;
+}
+
+.cp-map-poi-marker .price .value {
+  font-size: 13px;
+  line-height: 15px;
 }
 
 .cp-map-poi-marker .promotion {
@@ -354,14 +362,25 @@ i.fav-icon {
 
 .cp-map-poi-marker .count-badge {
   position: absolute;
-  font-size: 10px;
-  top: -9px;
-  right: -6px;
+  font-size: 8px;
+  top: -7px;
+  right: -8px;
   border-radius: 10px;
-  padding: 0px 5px;
+  padding: 0px 4px;
   color: black;
   background: white;
   border: 1px solid black;
+}
+
+.cp-map-poi-marker .power-badge {
+  position: absolute;
+  font-size: 10px;
+  top: -17px;
+  border-radius: 4px;
+  color: white;
+  border: 1px solid #5050503d;
+  width: 40px;
+  text-align: center;
 }
 
 .cp-map-poi-promotion {

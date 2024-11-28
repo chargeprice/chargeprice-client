@@ -163,7 +163,7 @@ class App {
       const stations = result.stations;
       this.map.clearMarkers();
       this.map.toggleClustering(stations.length);
-      stations.forEach(st => this.map.addStation(st, result.indexedPricePreviews, (model)=>this.stationSelected(model,false)));
+      stations.forEach(st => this.map.addStation(st, result.indexedPricePreviews, result.cheapestPrice, (model)=>this.stationSelected(model,false)));
     },this.translation.get("errorStationsUnavailable"));
   }
 

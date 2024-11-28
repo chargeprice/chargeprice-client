@@ -27,7 +27,8 @@ export default class FetchStations {
 
     return {
       stations: deduplicatedStations,
-      indexedPricePreviews: indexedPricePreviews
+      indexedPricePreviews: indexedPricePreviews.prices || {},
+      cheapestPrice: indexedPricePreviews.cheapestPrice,
     };
   }
 
@@ -47,11 +48,16 @@ export default class FetchStations {
     const closestStationsToCenter = this.closestChargepriceStationsToCenter(stations, mapCenter);
     const pricePreviews = await this.stationTariffsRepo.getPricePreviewForStations(closestStationsToCenter,options);
     const cheapestPrice = pricePreviews.reduce((memo,pricePreview)=>pricePreview.price < memo ? pricePreview.price : memo,Number.MAX_SAFE_INTEGER);
-    return pricePreviews.reduce((memo,pricePreview)=>{
+    const prices = pricePreviews.reduce((memo,pricePreview)=>{
       pricePreview.best = pricePreview.price <= cheapestPrice * 1.05;
       memo[pricePreview.chargingStation.id] = pricePreview;
       return memo;
     },{});
+
+    return {
+      prices: prices,
+      cheapestPrice: cheapestPrice
+    }
   }
 
   mapCenter(northEast, southWest){
