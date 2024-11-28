@@ -324,10 +324,10 @@ i.fav-icon {
 
 .cp-map-poi-marker .promotion {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 75%;
+  width: 60%;
 }
 
 .cp-map-poi-marker .promotion img {

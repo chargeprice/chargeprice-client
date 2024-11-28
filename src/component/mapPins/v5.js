@@ -18,23 +18,31 @@ export default class MapPinsV2 {
     const highestPower = this.highestPower(model);
     const mainValue = price ? (price / 42.0).toFixed(2) : highestPower;
     const unit = price ? "EUR" : "kW";
-    const pinFile = price ? this.pinForPrice(price, cheapestPrice) : this.pinForPower(highestPower);
+    const pinFile = model.branding? "pin_gold" : (price ? this.pinForPrice(price, cheapestPrice) : this.pinForPower(highestPower));
     const mainTextColor = price ? "#fff" : this.textColorForPower(highestPower);
 
     let html = `<div class="cp-map-poi-marker cp-map-poi-marker-v2">
-      <div class="price" style="color: ${mainTextColor};">
-        <span class="value">${mainValue}</span>
-        <span class="unit w3-block">${unit}</span>
-      </div>
-      ${price ? `<div class="power-badge" style="background: ${this.colorForPower(highestPower)}; color: ${this.textColorForPower(highestPower)};">${highestPower}<span style="font-size: 0.8em"> kW</span></div>` : ""}
+      ${!price && model.branding ? 
+        `<div class="promotion"><img src="${model.branding.map_pin_icon_url}"/></div>` :
+        `<div class="price" style="color: ${mainTextColor};">
+          <span class="value">${mainValue}</span>
+          <span class="unit w3-block">${unit}</span>
+        </div>`
+        }
+      ${price || model.branding ? 
+        `<div class="power-badge" style="background: ${this.colorForPower(highestPower)}; color: ${this.textColorForPower(highestPower)}; ${model.branding ? "width: 48px;" : "" }">
+          ${highestPower}<span style="font-size: 0.8em"> kW</span>
+        </div>` : ""}
       ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
-      <img class="pin" src="img/markers/V5/${pinFile}.svg?t=2" />
+      <img class="pin" src="img/markers/V5/${pinFile}.svg?t=43" />
     </div>`;
+
+    const sizeFactor = model.branding ? 1.2 : 1;
 
     return {
       html: html,
-      width: this.priceIconWidth,
-      height: this.priceIconHeight
+      width: this.priceIconWidth * sizeFactor,
+      height: this.priceIconHeight * sizeFactor
     }
   }
 
