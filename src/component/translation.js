@@ -1,12 +1,13 @@
 export default class Translation {
   constructor() {
     this.supportedLocales = [
-      { code: "en", name: "English" },
-      { code: "de", name: "Deutsch" },
-      { code: "fr", name: "Français" },
-      { code: "nl", name: "Nederlands" },
-      { code: "es", name: "Español" },
-      { code: "da", name: "Dansk" }
+      { code: "en", name: "English", flag: "gb" },
+      { code: "de", name: "Deutsch", flag: "de" },
+      { code: "fr", name: "Français", flag: "fr"},
+      { code: "nl", name: "Nederlands", flag: "nl" },
+      { code: "it", name: "Italiano", flag: "it" },
+      { code: "es", name: "Español", flag: "es" },
+      { code: "da", name: "Dansk", flag: "dk" }
     ];
     this.fallbackLocale = "en"
     this.currentLocale = this.currentLocaleOrFallback();
@@ -34,8 +35,8 @@ export default class Translation {
       this.fallbackLocale;
   }
 
-  currentLocaleName(){
-    return this.supportedLocales.find(l=>l.code==this.currentLocale).name;
+  currentLocaleConfig(){
+    return this.supportedLocales.find(l=>l.code==this.currentLocale);
   }
 
   async setCurrentLocaleTranslations(){

@@ -1,6 +1,8 @@
 import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
 import Authorization from '../component/authorization';
+import GenericList from '../modal/genericList';
+
 
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile';
 
@@ -10,6 +12,8 @@ export default class RootContainer extends ViewBase {
     super(depts);
     this.customConfig = depts.customConfig();
     this.settingsRepo = depts.settingsPrimitive();
+    this.translation = depts.translation();
+    this.themeLoader = depts.themeLoader();
     this.profile = null;
     this.userSettings = userSettings;
   }
@@ -25,7 +29,12 @@ export default class RootContainer extends ViewBase {
           <div id="loadingIndicator" class="w3-bar-item w3-middle" style="padding: 8px;">
             <img class="inverted" class="w3-button " src="img/refresh-2.svg">
           </div>
-
+          
+          ${this.themeLoader.isDefaultTheme() ? html`
+          <button @click="${()=>this.onChangeLanguage()}" class="w3-button w3-hover-dark-gray w3-bar-item w3-right" style="height: 100%; text-transform: uppercase;">
+            ${this.translation.currentLocaleConfig().code}
+          </button>
+          ` : ""}
           ${this.accountTemplate()}
         </div>
 
@@ -113,7 +122,18 @@ export default class RootContainer extends ViewBase {
   }
 
   toggleLoadingIndicator(isShown){
+    if(this.customConfig.isMobileOrTablet()) isShown = false; // No loading indicator on mobile
     this.toggle("loadingIndicator", isShown);
+  }
+
+  onChangeLanguage(){
+    new GenericList(this.depts).show(
+      {
+        items: this.translation.getSupportedLocales(),
+        header: this.translation.get("displayedLanguageHeader"), 
+        convert: i => i.name,
+        narrow: true
+      },(l)=>window.location = `https://${l.code}.chargeprice.app`);
   }
 
   showAlert(message) {
