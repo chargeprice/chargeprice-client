@@ -1,6 +1,13 @@
 export default class Translation {
   constructor() {
-    this.supportedLocales = ["en","de","fr","nl","es","da"]
+    this.supportedLocales = [
+      { code: "en", name: "English" },
+      { code: "de", name: "Deutsch" },
+      { code: "fr", name: "Français" },
+      { code: "nl", name: "Nederlands" },
+      { code: "es", name: "Español" },
+      { code: "da", name: "Dansk" }
+    ];
     this.fallbackLocale = "en"
     this.currentLocale = this.currentLocaleOrFallback();
     this.unbalancedLoadLocales = ["de"];
@@ -27,6 +34,10 @@ export default class Translation {
       this.fallbackLocale;
   }
 
+  currentLocaleName(){
+    return this.supportedLocales.find(l=>l.code==this.currentLocale).name;
+  }
+
   async setCurrentLocaleTranslations(){
     const url = `/locales/${this.currentLocale}.json`;
     const response = await fetch(url);
@@ -48,7 +59,11 @@ export default class Translation {
   }
 
   isValidLanguage(lang){
-    return this.supportedLocales.includes(lang);
+    return this.supportedLocales.find(l=>l.code==lang);
+  }
+
+  getSupportedLocales(){
+    return this.supportedLocales;
   }
 
   get(key){

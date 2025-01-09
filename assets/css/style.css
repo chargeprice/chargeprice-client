@@ -161,10 +161,6 @@ html, body {
   margin: 8px !important;
 }
 
-#selectCurrency {
-  width: 25% !important;
-}
-
 .leaflet-top {
   top: 65px !important;
 }

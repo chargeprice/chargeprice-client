@@ -70,8 +70,7 @@ export default class SettingsSidebar extends ViewBase {
     <input @click="${()=>this.onOptionsChanged()}" id="openNow" class="w3-check w3-margin-top" type="checkbox">
     <label>${this.t("onlyOpenNow")}</label><br>
 
-    <label class="w3-block w3-margin-top">${this.t("displayedCurrencyHeader")}</label>
-    <div id="selectCurrency"></div>
+    <div id="selectLangAndCurrency"></div>
 
     <label class="w3-margin-top w3-large w3-block">${this.t("expertOptions")}</label>
 
@@ -91,11 +90,21 @@ export default class SettingsSidebar extends ViewBase {
     `;
   }
 
-  currencyTemplate(){
+  langAndcurrencyTemplate(){
     return html`
-      <span @click="${()=>this.onChangeCurrency()}" class="w3-button w3-light-gray">
-        ${this.currency.getDisplayedCurrency()}
+    <label class="w3-block w3-margin-top">
+    ${this.t( this.themeLoader.isDefaultTheme() ? "displayedLanguageAndCurrencyHeader" : "displayedCurrencyHeader")}
+    </label>
+
+
+    ${this.themeLoader.isDefaultTheme() ? html`
+      <span @click="${()=>this.onChangeLanguage()}" class="w3-button w3-light-gray w3-margin-right">
+        ${this.translation.currentLocaleName()}
       </span>
+    `:""}
+    <span @click="${()=>this.onChangeCurrency()}" class="w3-button w3-light-gray">
+      ${this.currency.getDisplayedCurrency()}
+    </span>
     `;
   }
 
@@ -121,7 +130,7 @@ export default class SettingsSidebar extends ViewBase {
     this.loadModel();
     this.initSlider();
     this.rerenderCpoFilter();
-    this.rerenderCurrency();
+    this.rerenderLangAndCurrency();
   }
 
   freePriceOnTheMapActive(){
@@ -144,11 +153,21 @@ export default class SettingsSidebar extends ViewBase {
       },(c)=>this.currencyChanged(c));
   }
 
+  onChangeLanguage(){
+    new GenericList(this.depts).show(
+      {
+        items: this.translation.getSupportedLocales(),
+        header: this.translation.get("displayedLanguageHeader"), 
+        convert: i => i.name,
+        narrow: true
+      },(l)=>window.location = `https://${l.code}.chargeprice.app`);
+  }
+
   currencyChanged(value){
     this.currency.changeCurrency(value);
     this.sidebar.optionsChanged();
     this.analytics.log('event', 'currency_changed',{new_value: value});
-    this.rerenderCurrency();
+    this.rerenderLangAndCurrency();
   }
 
   initSlider(){
@@ -228,8 +247,8 @@ export default class SettingsSidebar extends ViewBase {
     render(this.cpoFilterTemplate(),this.getEl("cpoFilter"));
   }
 
-  rerenderCurrency(){
-    render(this.currencyTemplate(),this.getEl("selectCurrency"));
+  rerenderLangAndCurrency(){
+    render(this.langAndcurrencyTemplate(),this.getEl("selectLangAndCurrency"));
   }
 
   getModel(){
