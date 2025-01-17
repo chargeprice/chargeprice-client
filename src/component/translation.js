@@ -5,8 +5,6 @@ export default class Translation {
       { code: "de", name: "Deutsch", flag: "de" },
       { code: "fr", name: "Français", flag: "fr"},
       { code: "nl", name: "Nederlands", flag: "nl" },
-      { code: "it", name: "Italiano", flag: "it" },
-      { code: "es", name: "Español", flag: "es" },
       { code: "da", name: "Dansk", flag: "dk" },
       { code: "ca", name: "Català", flag: "es-ct" }
     ];
