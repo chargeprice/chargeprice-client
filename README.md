@@ -2,7 +2,7 @@
 
 Web client for Chargeprice: www.chargeprice.app
 
-## Setup of Project
+## Setup of Project (native)
 
 1. Install NodeJS (>=10.x)
 2. Install Yarn
@@ -10,9 +10,17 @@ Web client for Chargeprice: www.chargeprice.app
    values)
 4. Check if everything works by starting the server: `yarn start`
 
-## Execution Modes
+### Execution Modes
 
 * Start Server: `yarn start`
+
+
+## Setup of Project (Docker)
+
+1. Create `.env` from `.env.sample` template file (and ask for the correct
+   values)
+2. Build the Docker image: `docker build -t chargeprice-client .`
+3. Run the Docker container: `docker run -p 9000:9000 chargeprice-client`
 
 ## Updating Locales (Translations)
 
