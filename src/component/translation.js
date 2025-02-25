@@ -20,6 +20,8 @@ export default class Translation {
 
     this.setMeta("ogTitle", this.get("metaTitle"));
     this.setMeta("ogDescription", this.get("metaDescription"));
+
+    document.documentElement.setAttribute("lang", this.currentLocale);
   }
 
   setMeta(id, value){
