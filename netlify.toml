@@ -29,7 +29,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "frame-ancestors 'self' https://www.emcaustria.at https://insta-drive.com/;"
+    Content-Security-Policy = "frame-ancestors 'self' https://www.emcaustria.at https://insta-drive.com/ https://chargeprice.pro/ https://www.chargeprice.pro/ https://chargeprice.net/ https://www.chargeprice.net/;"
 
 [[redirects]]
   from = "/apple-app-site-association"
