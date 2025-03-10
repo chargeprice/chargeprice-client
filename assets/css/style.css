@@ -291,7 +291,7 @@ i.fav-icon {
 .cp-map-cluster-marker {
   width: 40px;
   height: 40px;
-  background: #2980b9;
+  background: #007AFF;
   color: white;
   text-align: center;
   left: -20px;
@@ -299,7 +299,7 @@ i.fav-icon {
   position: absolute;
   border-radius: 20px;
   padding: 10px;
-  font-family: 'Quicksand';
+  font-family: 'Lato';
   font-size: 15px;
 }
 

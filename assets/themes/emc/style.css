@@ -12,6 +12,10 @@
   background-color: #74a00f !important;
 }
 
+.cp-map-cluster-marker {
+  background: #74a00f;
+}
+
 #top-bar .title {
   margin: 0px 0px 0px 10px;
   display: inline-block;
