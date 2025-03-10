@@ -118,14 +118,6 @@ export default class InfoSidebar extends ViewBase {
           </a>
         `)}
 
-        <div class="w3-container">
-          <i class="fa fa-language pc-main-text"></i>
-          <select id="language" class="w3-select w3-border w3-margin-top">
-            ${this.depts.translation().getSupportedLocales().map(lang=>html`
-              <option value="${lang.code}" ?selected="${lang.code==this.depts.translation().currentLocaleOrFallback()}">${lang.name}</option>
-            `)}
-        </div>
-
       </div>
     `;
   }
