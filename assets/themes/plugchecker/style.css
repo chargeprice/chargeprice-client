@@ -1,15 +1,15 @@
 .pc-main{
   color: #fff !important;
-  background-color: #3498db !important;
+  background-color: #007AFF !important;
 }
 
 .pc-main-text {
-  color: #3498db;
+  color: #007AFF;
 }
 
 .pc-secondary{
   color: #fff !important;
-  background-color: #2980b9 !important;
+  background-color: #007AFF !important;
 }
 
 #logo {
@@ -18,5 +18,5 @@
 }
 
 .noUi-connect {
-  background: #3498db !important;
+  background: #007AFF !important;
 }

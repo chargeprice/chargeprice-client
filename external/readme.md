@@ -1,1 +1,0 @@
-https://map-marker-generator.firebaseapp.com/

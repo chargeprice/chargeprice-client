@@ -207,7 +207,7 @@ export default class Map {
 
     const points = routingResult.route.points.map(ll=>[ll.latitude,ll.longitude]);
 
-    const routeLine = L.polyline(points, { color: "#3498db", weight: 5, distanceMarkers: true });
+    const routeLine = L.polyline(points, { color: "#007AFF", weight: 5, distanceMarkers: true });
     routeLine.addTo(this.routing);
 
     const invertedPoints = points.map(coord=>coord.reverse());

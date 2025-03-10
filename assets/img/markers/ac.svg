@@ -45,29 +45,29 @@
      stroke-width="1"
      fill="none"
      fill-rule="evenodd"
-     style="fill:#3498db;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1"
+     style="fill:#007AFF;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1"
      transform="translate(-3.325,0.67500001)">
     <g
        id="Vivid-Icons"
        transform="translate(-125,-643)"
-       style="fill:#3498db;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
+       style="fill:#007AFF;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
       <g
          id="Icons"
          transform="translate(37,169)"
-         style="fill:#3498db;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
+         style="fill:#007AFF;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
         <g
            id="map-marker"
            transform="translate(78,468)"
-           style="fill:#3498db;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
+           style="fill:#007AFF;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
           <g
              transform="translate(10,6)"
              id="g1"
-             style="fill:#3498db;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
+             style="fill:#007AFF;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1">
             <path
                d="M 14,0 C 21.732,0 28,5.641 28,12.6 28,23.963 14,36 14,36 14,36 0,24.064 0,12.6 0,5.641 6.268,0 14,0 Z"
                id="Shape"
                fill="#FF6E6E"
-               style="fill:#3498db;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1" />
+               style="fill:#007AFF;fill-opacity:1;stroke:#0b5485;stroke-width:1.35;stroke-dasharray:none;stroke-opacity:1" />
           </g>
         </g>
       </g>

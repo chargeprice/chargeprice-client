@@ -15,7 +15,7 @@ export default class ThemeLoader {
         name: "Chargeprice",
         title: this.translation.get("title"),
         favicon: "img/favicon-32x32.png",
-        themeColor: "#3498db",
+        themeColor: "#007AFF",
         appleTouchIcon: "/img/logos/apple-touch-icon.png"
       },
       emc: {
