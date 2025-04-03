@@ -16,8 +16,8 @@ export default class LocationIQ{
     return root.map(entry=>{
 
       const ad = entry.address;
-      const city = ad.city || ad.municipality || ad.town || ad.village;
-      const street = ad.road || ad.residential || ad.neighbourhood || ad.hamlet;
+      const city = ad.city || ad.town || ad.village || ad.municipality;
+      const street = ad.road || ad.residential || ad.neighbourhood || ad.hamlet || ad.suburb;
 
       const fullDisplayName = [
         ad.name != street ? ad.name : null, 
