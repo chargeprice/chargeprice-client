@@ -12,6 +12,8 @@ import Dependencies from './helper/dependencies';
 import RootContainer from './views/rootContainer';
 import AppInstall from './component/app_install';
 import FetchUserSettingsOrCreateFromLocal from './useCase/fetchUserSettingsOrCreateFromLocal.js';
+import ModalInstallApp from './modal/installApp.js';
+
 import '../assets/css/w3.css'
 import '../assets/css/w3-colors-flat.css'
 import '../assets/css/leaflet.awesome-markers.css'
@@ -109,6 +111,10 @@ class App {
       new ShowPopUpOnStart(this.depts).run();
 
       this.sidebar.showSettingsOnStart();
+    }
+
+    if(params.has("deeplink_target")){
+      new ModalInstallApp(this.depts).show();
     }
   }
 
