@@ -33,7 +33,7 @@ export default class MapPinsV2 {
 
     let html = `<div class="cp-map-poi-marker cp-map-poi-marker-v2">
       ${!price && model.branding ? 
-        `<div class="promotion"><img src="${model.branding.map_pin_icon_url}"/></div>` :
+        `<div class="promotion" style="background-image: url('${model.branding.map_pin_icon_url}')"></div>` :
         `<div class="price" style="color: ${mainTextColor}; ${model.branding ? "top: 6px;" :""}">
           <span class="value">${mainValue}</span>
           <span class="unit w3-block">${unit}</span>

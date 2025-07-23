@@ -332,7 +332,11 @@ i.fav-icon {
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60%;
+  width: 38px;
+  height: 25px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .cp-map-poi-marker .promotion img {
