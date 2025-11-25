@@ -198,6 +198,7 @@ export default class StationTariffs {
       faultReported:     false,
       branding:          data.meta.branding,
       parkingDescription: data.parkingDescription,
+      sourceLabel:      data.sourceLabel,
     }
   }
 

@@ -37,9 +37,9 @@ export default class StationDetailsView extends ViewBase {
             <a href="${station.goingElectricUrl}" target="_blank"><i class="fa fa-external-link"></i> ${this.t("goingElectricLink")}</a>
           </span>
         `:""}
-        <span class="w3-tag w3-light-gray cp-margin-top-small">
-          <a href="${url}" @click="${()=>this.onOpenInMaps()}" target="_blank"><i class="fa fa-location-arrow"></i> ${this.t("openInMapsLink")}</a>
-        </span>
+        ${station.sourceLabel ? html`<span class="w3-text-gray w3-block w3-tiny">
+          ${this.t("poiDataSourceTitle")} ${station.sourceLabel}
+        </span>` : ""}
 
         ${this.customConfig.isInternalMode() ? this.internalTemplate(station) : ""}
       </div>
