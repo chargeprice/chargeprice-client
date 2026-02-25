@@ -58,6 +58,7 @@ export default class MapPinsV2 {
   }
 
   highestPower(model){
+    if(model.power) return model.power;
     return model.chargePoints.reduce((memo,cp)=>cp.power > memo ? cp.power : memo,0);
   }
 
@@ -121,6 +122,7 @@ export default class MapPinsV2 {
   }
 
   fastChargerCount(model){
+    if(model.charge_point_count) return model.charge_point_count;
     return model.chargePoints.reduce((sum,value)=> value.supportedByVehicle && value.power >= 50 ? sum + value.count : sum,0);
   }
 }

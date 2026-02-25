@@ -166,6 +166,8 @@
   "routePlannerAddStop": "añadir parada ",
   "routePlannerClearRoute": "Borrar ruta",
   "routePlannerDistance": "distancia ",
+  "routePlannerTotalDuration": "Total duration",
+  "routePlannerChargeStops": "Charge stops",
   "routePlannerFeedbackText": "esta función es una beta, ¡déjanos tu opinión!",
   "routePlannerStart": "punto de partida ",
   "routePlannerDestination": "punto de llegada",

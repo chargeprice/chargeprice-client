@@ -166,6 +166,8 @@
   "routePlannerAddStop": "stop toevoegen",
   "routePlannerClearRoute": "Route verwijderen",
   "routePlannerDistance": "afstand",
+  "routePlannerTotalDuration": "Total duration",
+  "routePlannerChargeStops": "Charge stops",
   "routePlannerFeedbackText": "deze functie is een bètaversie, geef ons uw feedback!",
   "routePlannerStart": "startpunt",
   "routePlannerDestination": "bestemming",

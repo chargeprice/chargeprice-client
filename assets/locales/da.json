@@ -166,6 +166,8 @@
   "routePlannerAddStop": "Tilføj stop",
   "routePlannerClearRoute": "Ryd rute",
   "routePlannerDistance": "Afstand",
+  "routePlannerTotalDuration": "Total duration",
+  "routePlannerChargeStops": "Charge stops",
   "routePlannerFeedbackText": "Denne funktion er i beta-tilstand! Giv feedback nu!",
   "routePlannerStart": "Startsted",
   "routePlannerDestination": "Destination",

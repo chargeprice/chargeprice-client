@@ -30,6 +30,7 @@ export default class Map {
     this.eventBus = depts.eventBus();
     this.component = L.map('map');
     this.markers = L.layerGroup([]);
+    this.routingMode = false;
     this.routing = L.layerGroup([]);
     this.routing.addTo(this.component);
     this.markers.addTo(this.component);
@@ -205,7 +206,7 @@ export default class Map {
   showRoute(routingResult){
     this.deleteRoute();
 
-    const points = routingResult.route.points.map(ll=>[ll.latitude,ll.longitude]);
+    const points = routingResult.route.geometry_segments[0].decodedPolyline.map(ll=>[ll.latitude,ll.longitude]);
 
     const routeLine = L.polyline(points, { color: "#007AFF", weight: 5, distanceMarkers: true });
     routeLine.addTo(this.routing);
@@ -215,15 +216,27 @@ export default class Map {
     const turfOptions = {units: 'kilometers'};
     const totalDistance = turf.length(turfLine,turfOptions);
 
-    const delta= 50;
-    let currentDistance = delta;
+    // Disabled for now
+    // const delta= 50;
+    // let currentDistance = delta;
 
-    while(currentDistance < totalDistance){
-      var along = turf.along(turfLine, currentDistance, turfOptions);
-      const coord = along.geometry.coordinates.reverse();
-      L.marker(coord, { icon: this.distanceMarkerIcon(currentDistance) }).addTo(this.routing);
-      currentDistance += delta;
-    }
+    // while(currentDistance < totalDistance){
+    //   var along = turf.along(turfLine, currentDistance, turfOptions);
+    //   const coord = along.geometry.coordinates.reverse();
+    //   L.marker(coord, { icon: this.distanceMarkerIcon(currentDistance) }).addTo(this.routing);
+    //   currentDistance += delta;
+    // }
+
+    this.routingMode = true;
+    this.clearMarkers();
+
+    routingResult.route.steps.forEach(step => {
+      if(step.type != "charge_stop") return;
+
+      step.id = step.station_id; // For compatibility with existing station model
+
+      this.addStation(step, {}, 0, (model)=>{}); 
+    });
 
     this.component.fitBounds(routeLine.getBounds());
     this.component._onResize();
@@ -255,6 +268,8 @@ export default class Map {
   }
 
   onBoundsChanged(callback) {
+    // Don't trigger onBoundsChanged, as it would load stations, which we don't want in routing mode. We will trigger it again when route is deleted and map is back in normal mode
+    if(this.routingMode) return;
     this.component.on("moveend", (res) => callback(this.getBounds()));
   }
 

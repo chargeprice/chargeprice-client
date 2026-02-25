@@ -166,6 +166,8 @@
   "routePlannerAddStop": "Add Stop",
   "routePlannerClearRoute": "Clear Route",
   "routePlannerDistance": "Distance",
+  "routePlannerTotalDuration": "Total duration",
+  "routePlannerChargeStops": "Charge stops",
   "routePlannerFeedbackText": "This feature is in BETA mode! Give Feedback now!",
   "routePlannerStart": "Starting point",
   "routePlannerDestination": "Destination",

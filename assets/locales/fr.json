@@ -166,6 +166,8 @@
   "routePlannerAddStop": "ajouter arrêt ",
   "routePlannerClearRoute": "Effacer l'itinéraire",
   "routePlannerDistance": "distance ",
+  "routePlannerTotalDuration": "Total duration",
+  "routePlannerChargeStops": "Charge stops",
   "routePlannerFeedbackText": "cette fonctionnalité est une beta, donnez-nous votre retour!",
   "routePlannerStart": "point de départ ",
   "routePlannerDestination": "destination",

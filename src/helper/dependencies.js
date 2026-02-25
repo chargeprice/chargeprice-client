@@ -14,6 +14,7 @@ import Vehicle from '../repository/vehicle'
 import Tariff from '../repository/tariff'
 import Company from '../repository/company'
 import StationTariffs from '../repository/station_tariffs'
+import Trips from '../repository/trips'
 
 export default class Dependencies {
   constructor(){
@@ -95,6 +96,10 @@ export default class Dependencies {
 
   eventBus(){
     return this.eventBusInstance;
+  }
+
+  trips(){
+    return new Trips(this);
   }
 }
 

@@ -14,6 +14,7 @@ export default class RoutePlanner extends ViewBase{
     this.eventBus = depts.eventBus();
     this.analytics = this.depts.analytics();
     this.currentRoute = this.defaultRoute();
+    this.repoTrips = depts.trips();
     this.initializeCurrentRoute();
   }
 
@@ -37,11 +38,44 @@ export default class RoutePlanner extends ViewBase{
     `;
   }
 
+  stopTemplate(stop){
+    return html`
+      <div class="w3-margin-top w3-padding price-row ">
+        <i class="fa-solid ${stop.stop_type == "destination" ? "fa-flag-checkered" : "fa-location-dot"}"></i> <b>${stop.name}</b><br>
+        <i class="fa-solid fa-battery-three-quarters"></i> ${stop.state_of_charge*100}%
+      </div>
+    `;
+  }
+
+  chargeStopTemplate(stop){
+    return html`
+      <div class="w3-margin-top w3-padding price-row ">
+        <i class="fa-solid fa-charging-station"></i></i> <b>${stop.station_name}</b><br>
+        ${stop.charge_point_count}x ${stop.power} kW · ${stop.operator_name}<br>
+        <i class="fa-solid fa-battery-three-quarters"></i> ${stop.state_of_charge_start*100}% <i class="fa-solid fa-arrow-right"></i> ${stop.state_of_charge_end*100}% · 
+        <i class="fa-solid fa-clock"></i> ${this.h().time(stop.duration)} ·
+        <i class="fa-solid fa-wallet"></i> ${stop.price} ${stop.currency}
+      </div>
+    `;
+  }
+
   resultTemplate(){
     if(this.currentRoute.route == null) return "";
 
     return html`
-        <div class="w3-margin-top">${this.t("routePlannerDistance")}: ${this.h().dec(this.currentRoute.route.distance/1000)} km</div>
+        <div class="w3-margin-top w3-margin-bottom w3-padding price-row ">
+          <b>${this.h().time(this.currentRoute.route.total_duration)} · ${this.h().dec(this.currentRoute.route.total_distance/1000)} km</b><br>
+          <i class="fa-solid fa-road"></i> ${this.h().time(this.currentRoute.route.total_driving_duration)}<br>
+          <i class="fa-solid fa-charging-station"></i> ${this.currentRoute.route.charge_stop_count.length} ${this.t("routePlannerChargeStops")}
+          (${this.h().time(this.currentRoute.route.total_charging_duration)})<br>
+          <i class="fa-solid fa-wallet"></i> XX EUR
+        </div>
+
+        <hr>
+
+        <div>${this.currentRoute.route.steps.map(step => 
+          step.type == "charge_stop" ? this.chargeStopTemplate(step) : this.stopTemplate(step)
+        )}</div>
 
         <button @click="${()=>this.onClearRoute()}" class="w3-btn w3-red w3-margin-top w3-small">${this.t("routePlannerClearRoute")}</button>
     `;
@@ -102,7 +136,11 @@ export default class RoutePlanner extends ViewBase{
     }
 
     const waypointLocations = this.currentRoute.waypoints.map(wp=>wp.place);
-    this.currentRoute.route = await this.locationSearch.getDirections(waypointLocations);; 
+    const vehicleId = this.sidebar.chargingOptions().myVehicle.id;
+    const tariffIds = this.sidebar.chargingOptions().myTariffs.map(t=>t.id);
+    const trip = await this.repoTrips.create(waypointLocations, vehicleId, tariffIds);
+
+    this.currentRoute.route = trip.routes.find(r => trip.selectedRouteId == r.id);
 
     this.render();
 
