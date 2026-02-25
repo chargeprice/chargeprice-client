@@ -66,7 +66,7 @@ export default class RoutePlanner extends ViewBase{
         <div class="w3-margin-top w3-margin-bottom w3-padding price-row ">
           <b>${this.h().time(this.currentRoute.route.total_duration)} · ${this.h().dec(this.currentRoute.route.total_distance/1000)} km</b><br>
           <i class="fa-solid fa-road"></i> ${this.h().time(this.currentRoute.route.total_driving_duration)}<br>
-          <i class="fa-solid fa-charging-station"></i> ${this.currentRoute.route.charge_stop_count.length} ${this.t("routePlannerChargeStops")}
+          <i class="fa-solid fa-charging-station"></i> ${this.currentRoute.route.charge_stop_count} ${this.t("routePlannerChargeStops")}
           (${this.h().time(this.currentRoute.route.total_charging_duration)})<br>
           <i class="fa-solid fa-wallet"></i> XX EUR
         </div>

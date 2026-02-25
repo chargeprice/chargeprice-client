@@ -250,6 +250,7 @@ export default class Map {
   }
 
   deleteRoute(){
+    this.routingMode = false;
     this.routing.clearLayers();
   }
 
