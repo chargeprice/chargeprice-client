@@ -31,7 +31,7 @@ export default class MapPinsV2 {
     const pinFile = model.branding? "pin_gold" : (price ? this.pinForPrice(pricePreview.price, cheapestPrice) : this.pinForPower(highestPower));
     const mainTextColor = price ? "#fff" : this.textColorForPower(highestPower);
 
-    let html = `<div class="cp-map-poi-marker cp-map-poi-marker-v2">
+    let html = `<div class="cp-map-poi-marker cp-map-poi-marker-v2 ${model.candidate ? "cp-map-poi-candidate" : ""}">
       ${!price && model.branding ? 
         `<div class="promotion" style="background-image: url('${model.branding.map_pin_icon_url}')"></div>` :
         `<div class="price" style="color: ${mainTextColor}; ${model.branding ? "top: 6px;" :""}">
@@ -92,6 +92,12 @@ export default class MapPinsV2 {
   }
 
   zIndex(model, maxPower, pricePreview, cheapestPrice){
+    const extra = model.candidate ? 0 : 8;
+
+    return this.zIndexPowerPricePromotion(model, maxPower, pricePreview, cheapestPrice) + extra;
+  }
+
+  zIndexPowerPricePromotion(model, maxPower, pricePreview, cheapestPrice){
     if(model.branding) return 7;
 
     if(pricePreview){

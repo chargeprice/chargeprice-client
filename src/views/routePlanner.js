@@ -59,6 +59,14 @@ export default class RoutePlanner extends ViewBase{
     `;
   }
 
+  routeLegTemplate(segment){
+    return html`
+      <div class="w3-margin-top w3-padding w3-center">
+        ${this.h().time(segment.duration)} · ${this.h().dec(segment.distance/1000)} km<br>
+      </div>
+    `;
+  }
+
   resultTemplate(){
     if(this.currentRoute.route == null) return "";
 
@@ -74,7 +82,8 @@ export default class RoutePlanner extends ViewBase{
         <hr>
 
         <div>${this.currentRoute.route.steps.map(step => 
-          step.type == "charge_stop" ? this.chargeStopTemplate(step) : this.stopTemplate(step)
+          step.type == "charge_stop" ? this.chargeStopTemplate(step) : 
+            (step.type == "route_leg" ? this.routeLegTemplate(step) : this.stopTemplate(step))
         )}</div>
 
         <button @click="${()=>this.onClearRoute()}" class="w3-btn w3-red w3-margin-top w3-small">${this.t("routePlannerClearRoute")}</button>

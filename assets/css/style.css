@@ -309,6 +309,10 @@ i.fav-icon {
   font-family: 'Lato';
 }
 
+.cp-map-poi-candidate{
+  opacity: 0.6;
+}
+
 .cp-map-poi-marker .price {
   position: absolute;
   width: 100%;

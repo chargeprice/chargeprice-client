@@ -12,7 +12,6 @@ export default class Trips{
   async create(stops, vehicleId, tariffIds){
     const body = {
       data: {
-        id:            uuidv4(),
         type:          "trip",
         attributes:    {
             stops: stops

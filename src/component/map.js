@@ -230,12 +230,11 @@ export default class Map {
     this.routingMode = true;
     this.clearMarkers();
 
-    routingResult.route.steps.forEach(step => {
-      if(step.type != "charge_stop") return;
-
-      step.id = step.station_id; // For compatibility with existing station model
-
-      this.addStation(step, {}, 0, (model)=>{}); 
+    const chargeStopIds = routingResult.route.steps.filter(step => step.type == "charge_stop").map(step => step.station_id);
+    routingResult.route.stations_on_route.forEach(station => {
+      // Display them transparent
+      station.candidate = !chargeStopIds.includes(station.id);
+      this.addStation(station, {}, null, ()=>{}); // TODO: Handle click
     });
 
     this.component.fitBounds(routeLine.getBounds());
