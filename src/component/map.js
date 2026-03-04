@@ -31,7 +31,7 @@ export default class Map {
     this.component = L.map('map');
     this.markers = L.layerGroup([]);
     this.routingMode = false;
-    this.routing = L.layerGroup([]);
+    this.routing = L.featureGroup([]);
     this.routing.addTo(this.component);
     this.markers.addTo(this.component);
     this.selectedStationCircle = null;
@@ -46,6 +46,14 @@ export default class Map {
     this.priceIconWidth = 32;
     this.priceIconHeight = 24;
     this.pinClass = new MapPinsV5();
+
+    this.batteryLevelLineColors = {
+      normal: "#007AFF",
+      warning: "#FFE100",
+      low: "#E17A04",
+      critical: "#FF0000",
+      empty: "#F132FF"
+    }
   }
 
   initializeLayer() {
@@ -206,26 +214,14 @@ export default class Map {
   showRoute(routingResult){
     this.deleteRoute();
 
-    const points = routingResult.route.geometry_segments[0].decodedPolyline.map(ll=>[ll.latitude,ll.longitude]);
-
-    const routeLine = L.polyline(points, { color: "#007AFF", weight: 5, distanceMarkers: true });
-    routeLine.addTo(this.routing);
-
-    const invertedPoints = points.map(coord=>coord.reverse());
-    const turfLine = turf.helpers.lineString(invertedPoints);
-    const turfOptions = {units: 'kilometers'};
-    const totalDistance = turf.length(turfLine,turfOptions);
-
-    // Disabled for now
-    // const delta= 50;
-    // let currentDistance = delta;
-
-    // while(currentDistance < totalDistance){
-    //   var along = turf.along(turfLine, currentDistance, turfOptions);
-    //   const coord = along.geometry.coordinates.reverse();
-    //   L.marker(coord, { icon: this.distanceMarkerIcon(currentDistance) }).addTo(this.routing);
-    //   currentDistance += delta;
-    // }
+    routingResult.route.geometry_segments.forEach(segment => {
+      const points = segment.decodedPolyline.map(ll=>[ll.latitude,ll.longitude]);
+      const color = this.batteryLevelLineColors[segment.state_of_charge_category || segment.battery_level];
+      const thickLine = L.polyline(points, { color: "#000000", weight: 7 });
+      const thinLine = L.polyline(points, { color: color, weight: 5 });
+      thickLine.addTo(this.routing);
+      thinLine.addTo(this.routing);
+    });
 
     this.routingMode = true;
     this.clearMarkers();
@@ -237,7 +233,7 @@ export default class Map {
       this.addStation(station, {}, null, ()=>{}); // TODO: Handle click
     });
 
-    this.component.fitBounds(routeLine.getBounds());
+    this.component.fitBounds(this.routing.getBounds());
     this.component._onResize();
   }
 
