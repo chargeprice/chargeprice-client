@@ -227,7 +227,7 @@ export default class Map {
     this.clearMarkers();
 
     const chargeStopIds = routingResult.route.steps.filter(step => step.type == "charge_stop").map(step => step.station_id);
-    routingResult.route.stations_on_route.forEach(station => {
+    (routingResult.route.stations_on_route || []).forEach(station => {
       // Display them transparent
       station.candidate = !chargeStopIds.includes(station.id);
       this.addStation(station, {}, null, ()=>{}); // TODO: Handle click
