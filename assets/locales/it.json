@@ -172,6 +172,8 @@
   "routePlannerStart": "Punto di partenza",
   "routePlannerDestination": "Destinazione",
   "routePlannerStop": "Stop",
+  "routeExcludeTollRoad": "Exclude toll roads",
+  "routeExcludeMotorway": "Exclude motorways",
   "stationSharingText": "Date un'occhiata a questa stazione di ricarica su Chargeprice:",
   "authModalHeader": "Conto corrente di addebito",
   "authLabelEmail": "Email",

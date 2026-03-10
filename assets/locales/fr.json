@@ -172,6 +172,8 @@
   "routePlannerStart": "point de départ ",
   "routePlannerDestination": "destination",
   "routePlannerStop": "arrêt ",
+  "routeExcludeTollRoad": "Exclude toll roads",
+  "routeExcludeMotorway": "Exclude motorways",
   "stationSharingText": "Voir cette station sur Chargeprice :",
   "authModalHeader": "Compte Chargeprice",
   "authLabelEmail": "Email",

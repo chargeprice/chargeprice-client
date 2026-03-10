@@ -9,7 +9,7 @@ export default class Trips{
     this.apiKey = process.env.CHARGEPRICE_API_KEY;
   }
 
-  async create(stops, vehicleId, tariffIds){
+  async create(stops, vehicleId, tariffIds, exclude){
     const body = {
       data: {
         type:          "trip",
@@ -25,6 +25,10 @@ export default class Trips{
           }
         }
       }
+    }
+
+    if(exclude && exclude.length > 0){
+      body.data.attributes.exclude = exclude;
     }
     
     const url = `${this.baseUrl}/v1/trips`;

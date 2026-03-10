@@ -172,6 +172,8 @@
   "routePlannerStart": "Start",
   "routePlannerDestination": "Ziel",
   "routePlannerStop": "Ziel",
+  "routeExcludeTollRoad": "Mautstraßen vermeiden",
+  "routeExcludeMotorway": "Autobahnen vermeiden",
   "stationSharingText": "Schau dir diese Ladestation auf Chargeprice an:",
   "authModalHeader": "Chargeprice Account",
   "authLabelEmail": "E-Mail",

@@ -29,6 +29,14 @@ export default class RoutePlanner extends ViewBase{
         `
       )}
 
+      <div class="w3-margin-top">
+        <input type="checkbox" class="w3-check" @change="${(e)=>this.currentRoute.excludeMotorway = e.target.checked}" ?checked="${this.currentRoute.excludeMotorway}">
+        <span>${this.t("routeExcludeMotorway")}</span>
+      </div>
+      <div class="w3-margin-top">
+        <input type="checkbox" class="w3-check" @change="${(e)=>this.currentRoute.excludeTollRoad = e.target.checked}" ?checked="${this.currentRoute.excludeTollRoad}">
+        <span>${this.t("routeExcludeTollRoad")}</span>
+      </div>
       <button @click="${()=>this.onCalculate()}" class="w3-btn pc-secondary w3-margin-top">${this.t("routePlannerCalculate")}</button>
       <button @click="${()=>this.onAddStop()}" class="w3-btn pc-secondary w3-margin-top">${this.t("routePlannerAddStop")}</button>
       
@@ -147,7 +155,10 @@ export default class RoutePlanner extends ViewBase{
     const waypointLocations = this.currentRoute.waypoints.map(wp=>wp.place);
     const vehicleId = this.sidebar.chargingOptions().myVehicle.id;
     const tariffIds = this.sidebar.chargingOptions().myTariffs.map(t=>t.id);
-    const trip = await this.repoTrips.create(waypointLocations, vehicleId, tariffIds);
+    const exclude = [];
+    if(this.currentRoute.excludeMotorway) exclude.push("motorway");
+    if(this.currentRoute.excludeTollRoad) exclude.push("toll");
+    const trip = await this.repoTrips.create(waypointLocations, vehicleId, tariffIds, exclude);
 
     this.currentRoute.route = trip.routes.find(r => trip.selectedRouteId == r.id);
 
@@ -161,7 +172,9 @@ export default class RoutePlanner extends ViewBase{
 
   defaultRoute(){
     return {
-      waypoints: [{placeholder: this.t("routePlannerStart")},{placeholder: this.t("routePlannerDestination")}]
+      waypoints: [{placeholder: this.t("routePlannerStart")},{placeholder: this.t("routePlannerDestination")}],
+      excludeMotorway: false,
+      excludeTollRoad: false,
     }
   }
 

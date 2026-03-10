@@ -172,6 +172,8 @@
   "routePlannerStart": "Startsted",
   "routePlannerDestination": "Destination",
   "routePlannerStop": "Stop",
+  "routeExcludeTollRoad": "Exclude toll roads",
+  "routeExcludeMotorway": "Exclude motorways",
   "stationSharingText": "Tjek denne opladningsstation på Chargeprice:",
   "authModalHeader": "Chargeprice-konto",
   "authLabelEmail": "Email",

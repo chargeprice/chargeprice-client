@@ -172,6 +172,8 @@
   "routePlannerStart": "startpunt",
   "routePlannerDestination": "bestemming",
   "routePlannerStop": "stop",
+  "routeExcludeTollRoad": "Exclude toll roads",
+  "routeExcludeMotorway": "Exclude motorways",
   "stationSharingText": "Bekijk dit station op Chargeprice:",
   "authModalHeader": "Chargeprice rekening",
   "authLabelEmail": "E-mail",
