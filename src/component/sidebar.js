@@ -50,7 +50,7 @@ export default class Sidebar extends ViewBase {
       "route": {
         header: this.translation.get("routePlannerHeader"),
         contentId: "routeContent",
-        onOpen: ()=>this.routePlanner.render()
+        onOpen: ()=>this.routePlanner.show()
       },
 			"userProfile": {
 				header: this.translation.get("authProfileSettingsHeader"),

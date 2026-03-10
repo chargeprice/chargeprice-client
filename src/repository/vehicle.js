@@ -54,7 +54,8 @@ export default class Vehicle{
       dcChargePorts: vehicle.dcPorts,
       usableBatterySize: vehicle.usableBatterySize,
       acMaxPower: vehicle.acMaxPower,
-      dcMaxPower: vehicle.dcMaxPower
+      dcMaxPower: vehicle.dcMaxPower,
+      energyConsumption: vehicle.energyConsumption.average_consumption
     }
   }
 

@@ -13,7 +13,7 @@ export default class RoutePlanner extends ViewBase{
     this.settingsPrimitive = depts.settingsPrimitive();
     this.eventBus = depts.eventBus();
     this.analytics = this.depts.analytics();
-    this.currentRoute = this.defaultRoute();
+    this.currentRoute = null;
     this.repoTrips = depts.trips();
     this.initializeCurrentRoute();
   }
@@ -37,6 +37,22 @@ export default class RoutePlanner extends ViewBase{
         <input type="checkbox" class="w3-check" @change="${(e)=>this.currentRoute.excludeTollRoad = e.target.checked}" ?checked="${this.currentRoute.excludeTollRoad}">
         <span>${this.t("routeExcludeTollRoad")}</span>
       </div>
+
+      <div class="w3-margin-top">
+        <label>${this.t("routeConsumption")}</label>
+        <input type="number" step="0.1" min="0" class="w3-input" @change="${(e)=>this.currentRoute.vehicleConsumption = parseFloat(e.target.value)}" .value="${this.currentRoute.vehicleConsumption}">
+      </div>
+
+      <div class="w3-margin-top">
+        <label>${this.t("routeStartSoC")}</label>
+        <input type="number" step="5" min="50" max="100" class="w3-input" @change="${(e)=>this.currentRoute.startSoc = parseFloat(e.target.value)}" .value="${this.currentRoute.startSoc}">
+      </div>
+
+      <div class="w3-margin-top">
+        <label>${this.t("routeDestinationSoC")}</label>
+        <input type="number" step="5" min="5" max="100" class="w3-input" @change="${(e)=>this.currentRoute.destinationSoc = parseFloat(e.target.value)}" .value="${this.currentRoute.destinationSoc}">
+      </div>
+
       <button @click="${()=>this.onCalculate()}" class="w3-btn pc-secondary w3-margin-top">${this.t("routePlannerCalculate")}</button>
       <button @click="${()=>this.onAddStop()}" class="w3-btn pc-secondary w3-margin-top">${this.t("routePlannerAddStop")}</button>
       
@@ -105,6 +121,13 @@ export default class RoutePlanner extends ViewBase{
     `;
   }
 
+  show(){
+    if(this.currentRoute == null){
+      this.currentRoute = this.defaultRoute();
+    }
+    this.render();
+  }
+
   render(){
     render(this.template(),this.getEl("routeContent"));
   }
@@ -158,7 +181,9 @@ export default class RoutePlanner extends ViewBase{
     const exclude = [];
     if(this.currentRoute.excludeMotorway) exclude.push("motorway");
     if(this.currentRoute.excludeTollRoad) exclude.push("toll");
-    const trip = await this.repoTrips.create(waypointLocations, vehicleId, tariffIds, exclude);
+    const trip = await this.repoTrips.create(waypointLocations, vehicleId, tariffIds, exclude,
+      this.currentRoute.vehicleConsumption, this.currentRoute.startSoc, this.currentRoute.destinationSoc
+    );
 
     this.currentRoute.route = trip.routes.find(r => trip.selectedRouteId == r.id);
 
@@ -171,10 +196,14 @@ export default class RoutePlanner extends ViewBase{
   }
 
   defaultRoute(){
+    const vehicle = this.sidebar.chargingOptions().myVehicle;
     return {
       waypoints: [{placeholder: this.t("routePlannerStart")},{placeholder: this.t("routePlannerDestination")}],
       excludeMotorway: false,
       excludeTollRoad: false,
+      vehicleConsumption: vehicle.energyConsumption || 18,
+      startSoc: 80,
+      destinationSoc: 20,
     }
   }
 

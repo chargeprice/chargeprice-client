@@ -9,7 +9,7 @@ export default class Trips{
     this.apiKey = process.env.CHARGEPRICE_API_KEY;
   }
 
-  async create(stops, vehicleId, tariffIds, exclude){
+  async create(stops, vehicleId, tariffIds, exclude, vehicleConsumption, startSoc, destinationSoc){
     const body = {
       data: {
         type:          "trip",
@@ -29,6 +29,16 @@ export default class Trips{
 
     if(exclude && exclude.length > 0){
       body.data.attributes.exclude = exclude;
+    }
+
+    if(vehicleConsumption){
+      body.data.attributes.vehicle_consumption = vehicleConsumption;
+    }
+    if(startSoc){
+      body.data.attributes.state_of_charge_start = startSoc / 100.0;
+    }
+    if(destinationSoc){
+      body.data.attributes.state_of_charge_destination = destinationSoc / 100.0;
     }
     
     const url = `${this.baseUrl}/v1/trips`;
