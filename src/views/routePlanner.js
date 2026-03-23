@@ -66,7 +66,7 @@ export default class RoutePlanner extends ViewBase{
     return html`
       <div class="w3-margin-top w3-padding price-row ">
         <i class="fa-solid ${stop.stop_type == "destination" ? "fa-flag-checkered" : "fa-location-dot"}"></i> <b>${stop.name}</b><br>
-        <i class="fa-solid fa-battery-three-quarters"></i> ${stop.state_of_charge*100}%
+        <i class="fa-solid fa-battery-three-quarters"></i> ${(stop.state_of_charge*100).toFixed(0)}%
       </div>
     `;
   }
@@ -76,9 +76,9 @@ export default class RoutePlanner extends ViewBase{
       <div class="w3-margin-top w3-padding price-row ">
         <i class="fa-solid fa-charging-station"></i></i> <b>${stop.station_name}</b><br>
         ${stop.charge_point_count}x ${stop.power} kW · ${stop.operator_name}<br>
-        <i class="fa-solid fa-battery-three-quarters"></i> ${stop.state_of_charge_start*100}% <i class="fa-solid fa-arrow-right"></i> ${stop.state_of_charge_end*100}% · 
+        <i class="fa-solid fa-battery-three-quarters"></i> ${(stop.state_of_charge_start*100).toFixed(0)}% <i class="fa-solid fa-arrow-right"></i> ${(stop.state_of_charge_end*100).toFixed(0)}% · 
         <i class="fa-solid fa-clock"></i> ${this.h().time(stop.duration)} ·
-        <i class="fa-solid fa-wallet"></i> ${stop.price} ${stop.currency}
+        <i class="fa-solid fa-wallet"></i> ${stop.cost} ${stop.currency}
       </div>
     `;
   }
@@ -94,18 +94,20 @@ export default class RoutePlanner extends ViewBase{
   resultTemplate(){
     if(this.currentRoute.route == null) return "";
 
+    const route = this.currentRoute.route;
+
     return html`
         <div class="w3-margin-top w3-margin-bottom w3-padding price-row ">
-          <b>${this.h().time(this.currentRoute.route.total_duration)} · ${this.h().dec(this.currentRoute.route.total_distance/1000)} km</b><br>
-          <i class="fa-solid fa-road"></i> ${this.h().time(this.currentRoute.route.total_driving_duration)}<br>
-          <i class="fa-solid fa-charging-station"></i> ${this.currentRoute.route.charge_stop_count} ${this.t("routePlannerChargeStops")}
-          (${this.h().time(this.currentRoute.route.total_charging_duration)})<br>
-          <i class="fa-solid fa-wallet"></i> XX EUR
+          <b>${this.h().time(route.total_duration)} · ${this.h().dec(route.total_distance/1000)} km</b><br>
+          <i class="fa-solid fa-road"></i> ${this.h().time(route.total_driving_duration)}<br>
+          <i class="fa-solid fa-charging-station"></i> ${route.charge_stop_count} ${this.t("routePlannerChargeStops")}
+          (${this.h().time(route.total_charging_duration)})<br>
+          <i class="fa-solid fa-wallet"></i> ${route.total_charging_cost} ${route.currency}
         </div>
 
         <hr>
 
-        <div>${this.currentRoute.route.steps.map(step => 
+        <div>${route.steps.map(step => 
           step.type == "charge_stop" ? this.chargeStopTemplate(step) : 
             (step.type == "route_leg" ? this.routeLegTemplate(step) : this.stopTemplate(step))
         )}</div>
