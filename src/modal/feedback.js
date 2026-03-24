@@ -9,6 +9,7 @@ export default class ModalFeedback extends ModalBase {
     this.analytics = depts.analytics();
     this.customConfig = depts.customConfig();
 		this.profile = null;
+    this.defaultText = "";
   }
 
 	async loadProfile() {
@@ -28,7 +29,7 @@ export default class ModalFeedback extends ModalBase {
         ${customTemplate}
         <p>
           ${ notesHeader ? html`<label>${this.t("fbNotesHeader")}</label>` : "" }
-          <textarea id="notes" value="" maxlength="1000" placeholder="${this.t("fbNotesPlaceholder")}" class="w3-input w3-border"></textarea>
+          <textarea id="notes" value="" maxlength="1000" placeholder="${this.t("fbNotesPlaceholder")}" class="w3-input w3-border">${this.defaultText}</textarea>
         </p>
         <p>
           <label>${this.t("fbEmailHeader")}*</label>
@@ -140,6 +141,7 @@ export default class ModalFeedback extends ModalBase {
 
 		this.type = type;
     this.options = options;
+    this.defaultText = (options || {}).defaultText || "";
     let template = null;
     let header = null;
     let notesHeader = false;

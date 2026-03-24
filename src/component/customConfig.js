@@ -46,4 +46,8 @@ export default class CustomConfig {
     return new URL(window.location.href).searchParams.get(name);
   }
 
+  paywallEnabled(){
+    return process.env.PAYWALL_ENABLED === "true" || this.searchParam("paywall") === "true";
+  }
+
 }

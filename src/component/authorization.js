@@ -103,8 +103,6 @@ export default class Authorization extends ViewBase {
 						</form>
 
 						<div id="error-list"></div>
-
-						<div>${unsafeHTML(this.t("accountBenefits"))}</div>
 					</div>
 				</div>
 			</div>

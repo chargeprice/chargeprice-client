@@ -17,7 +17,7 @@ export default class ModalInstallApp extends ModalBase {
       <div class="w3-container w3-padding">
         <div>
           <a href="${this.appStoreLink}" target="_blank" @click="${()=>this.logClick("ios")}">
-            <img src="img/store/app-store-badge.svg" width="240" class="w3-padding"/>
+            <img src="img/store/app-store-badge.png" width="240" class="w3-padding"/>
           </a>
         </div>
         <div>

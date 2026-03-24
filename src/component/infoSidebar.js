@@ -4,7 +4,6 @@ import ModalFeedback from '../modal/feedback';
 import ModalMapKey from '../modal/mapKey';
 import ModalSocialMedia from '../modal/socialMedia';
 import ModalInstallApp from '../modal/installApp';
-import ModalDonate from '../modal/donate';
 import ModalPartner from '../modal/partner';
 import ModalDisclaimer from '../modal/disclaimer';
 
@@ -42,14 +41,6 @@ export default class InfoSidebar extends ViewBase {
         icon: "refresh",
         show: ()=> this.customConfig.isMobileOrTablet(),
         action: ()=> location.reload(true)
-      },
-      {
-        id: "donate",
-        title: this.t("infoDonateHeader"),
-        subTitle: this.t("infoDonateSub"),
-        icon: "eur",
-        show: ()=> this.themeLoader.isDefaultTheme(),
-        action: ()=> new ModalDonate(this.depts).show()
       },
       {
         id: "social_media",

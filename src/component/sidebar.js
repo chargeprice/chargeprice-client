@@ -5,6 +5,8 @@ import RoutePlanner from '../views/routePlanner';
 import ViewBase from './viewBase';
 import UserProfile from './userProfile';
 import Authorization from '../component/authorization';
+import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile.js';
+import ModalPaywall from '../modal/paywall.js';
 
 export default class Sidebar extends ViewBase {
 
@@ -24,8 +26,10 @@ export default class Sidebar extends ViewBase {
     this.stationPrices = new StationPrices(this,this.depts);
     this.routePlanner = new RoutePlanner(this,this.depts);
 		this.userProfile = new UserProfile(this, this.depts, userSettings);
+    this.userSettings = userSettings;
     this.loaded = false;
     this.rootId = "sidebar";
+    this.payloadSidebars = ["prices","route","manageMyTariffs", "settings"];
 
     this.sidebarContent = {
       "settings": {
@@ -135,7 +139,9 @@ export default class Sidebar extends ViewBase {
     if(this.optionsChangedCallback) this.optionsChangedCallback();
   }
 
-  open(contentKey) {
+  async open(contentKey) {
+    if(await this.showPaywallIfNeeded(contentKey)) return;
+    
     this.analytics.log('event', 'sidebar_opened',{sidebar_id: contentKey});
 
     this.show(this.rootId)
@@ -176,5 +182,36 @@ export default class Sidebar extends ViewBase {
       const content = this.sidebarContent[key];
       this.hide(content.contentId);
     }
+  }
+
+  async showPaywallIfNeeded(contentKey){
+    // Only show paywall for certain sidebars
+    if(this.payloadSidebars.indexOf(contentKey) == -1) return false; 
+
+    // No paywall for white labels
+    if(!this.themeLoader.isDefaultTheme() || this.userSettings.isPro || !this.customConfig.paywallEnabled()) return false; 
+
+    const loggedIn = await this.isLoggedIn();
+    if (loggedIn) {
+      this.open("userProfile");
+    } else {
+      new ModalPaywall(this.depts, 'intro').show();
+    }
+
+    return true;
+  }
+
+  async isLoggedIn(){
+    if(this.loggedInProfile) return true;
+
+    try {
+      const tokenWithProfile = await new FetchAccessTokenWithProfile(this.depts).run();
+      this.loggedInProfile = tokenWithProfile.profile;
+    }
+    catch(error){
+      // Not logged in
+    }
+
+    return !!this.loggedInProfile;
   }
 }
