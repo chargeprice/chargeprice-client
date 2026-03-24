@@ -15,6 +15,7 @@ export default class UserProfile extends ViewBase {
 		this.authService = new AuthService();
 		this.messageDialogId = "messageDialog";
 		this.themeLoader = depts.themeLoader();
+		this.customConfig = depts.customConfig();
 		this.profile = {};
 		this.accessToken = null;
 		this.map = null;
@@ -84,7 +85,7 @@ export default class UserProfile extends ViewBase {
 	}
 
 	accountNotActivatedTemplate() {
-		if(!this.themeLoader.isDefaultTheme()) return "";
+		if(!this.themeLoader.isDefaultTheme() || !this.customConfig.paywallEnabled()) return "";
 
 		return html`
 		<div class="w3-panel w3-pale-blue w3-leftbar w3-border-blue w3-margin-top" style="border-radius:6px;">
