@@ -256,5 +256,16 @@
   "paywallLoggedInPrivateText": "Um als Privatnutzer auf die Web-App zuzugreifen, benötigst du eine aktive Premium-Mitgliedschaft. Abonniere Premium einfach in unserer mobilen App und beantrage anschließend hier den Zugang.",
   "paywallLoggedInRequestAccess": "Zugang als Privatnutzer beantragen",
   "paywallWebPaidCardHeader": "Ihr E-Auto-Begleiter ist umgezogen",
-  "paywallWebPaidCardText": "Wir haben unsere mobile App zum unverzichtbaren Begleiter für private E-Auto-Fahrer weiterentwickelt. Die Web-Plattform ist ab sofort für professionelle Nutzer gedacht. Laden Sie die App herunter und erleben Sie den vollen Funktionsumfang."
+  "paywallWebPaidCardText": "Wir haben unsere mobile App zum unverzichtbaren Begleiter für private E-Auto-Fahrer weiterentwickelt. Die Web-Plattform ist ab sofort für professionelle Nutzer gedacht. Laden Sie die App herunter und erleben Sie den vollen Funktionsumfang.",
+  "activateProductsBtn": "Produkte aktivieren",
+  "activateProductsHeader": "Produkte aktivieren",
+  "activateProductsSource": "Bitte wählen Sie die Aktivierungsquelle aus.",
+  "activateProductsSubmit": "Aktivieren",
+  "activateProductsSuccessful": "Die folgenden Produkte wurden erfolgreich aktiviert:",
+  "activateProductsWebPro": "Zugang zur Webanwendung",
+  "activateProductsMobilePremium": "Premium-Funktionen in der mobilen App",
+  "activateProductsReload": "Seite neu laden",
+  "activateProductsErrorNotFound": "Die eingegebenen Daten sind ungültig.",
+  "activateProductsErrorAlreadyUsed": "Die eingegebenen Daten werden bereits verwendet.",
+  "activateProductsErrorGeneric": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
 }

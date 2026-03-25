@@ -256,5 +256,16 @@
   "paywallLoggedInPrivateText": "Pour accéder à la plateforme web en tant qu'utilisateur privé, vous devez disposer d'un abonnement Premium actif. Abonnez-vous à Premium via notre application mobile et demandez ensuite l'accès ici.",
   "paywallLoggedInRequestAccess": "Demander l'accès",
   "paywallWebPaidCardHeader": "Votre compagnon EV a déménagé",
-  "paywallWebPaidCardText": "Nous avons fait de notre application mobile l'outil incontournable pour les conducteurs EV particuliers. La plateforme web est désormais dédiée aux utilisateurs professionnels. Téléchargez l'application pour profiter de toute l'expérience."
+  "paywallWebPaidCardText": "Nous avons fait de notre application mobile l'outil incontournable pour les conducteurs EV particuliers. La plateforme web est désormais dédiée aux utilisateurs professionnels. Téléchargez l'application pour profiter de toute l'expérience.",
+  "activateProductsBtn": "Produits d'activation",
+  "activateProductsHeader": "Produits d'activation",
+  "activateProductsSource": "Veuillez sélectionner la source d'activation",
+  "activateProductsSubmit": "Activer",
+  "activateProductsSuccessful": "Les produits suivants ont été activés avec succès :",
+  "activateProductsWebPro": "application Web",
+  "activateProductsMobilePremium": "Premium dans l'application mobile",
+  "activateProductsReload": "Recharger la page",
+  "activateProductsErrorNotFound": "Les données saisies sont invalides.",
+  "activateProductsErrorAlreadyUsed": "Les données saisies sont déjà utilisées.",
+  "activateProductsErrorGeneric": "Une erreur s'est produite. Veuillez réessayer."
 }

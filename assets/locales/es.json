@@ -256,5 +256,16 @@
   "paywallLoggedInPrivateText": "To access the web platform as a private user, you'll need an active Premium membership. Simply subscribe via our mobile app and then request access here.",
   "paywallLoggedInRequestAccess": "Request access as private user",
   "paywallWebPaidCardHeader": "Your EV companion has moved",
-  "paywallWebPaidCardText": "We've upgraded our mobile app into the go-to tool for private EV drivers. The web platform is now dedicated to professional users. Download the app for the full experience."
+  "paywallWebPaidCardText": "We've upgraded our mobile app into the go-to tool for private EV drivers. The web platform is now dedicated to professional users. Download the app for the full experience.",
+  "activateProductsBtn": "Activate products",
+  "activateProductsHeader": "Activate products",
+  "activateProductsSource": "Please select activation source",
+  "activateProductsSubmit": "Activate",
+  "activateProductsSuccessful": "The following products were successfully activated:",
+  "activateProductsWebPro": "Access to webapp",
+  "activateProductsMobilePremium": "Premium features in mobile app",
+  "activateProductsReload": "Reload page",
+  "activateProductsErrorNotFound": "Entered data is invalid.",
+  "activateProductsErrorAlreadyUsed": "Entered data is already used.",
+  "activateProductsErrorGeneric": "An error occurred. Please try again."
 }

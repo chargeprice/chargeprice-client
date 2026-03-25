@@ -3,6 +3,7 @@ import { html, render } from "lit-html";
 import ViewBase from './viewBase';
 
 import ModalFeedback from '../modal/feedback';
+import ModalActivateProducts from '../modal/activateProducts';
 import AuthService from '../repository/authorizationService';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile'
 
@@ -35,6 +36,12 @@ export default class UserProfile extends ViewBase {
 				title: this.t("manageMyTariffsLink"),
 				icon: "bars",
 				action: ()=>this.onShowMyTariffs()
+			},
+			{
+				id: "activate_products",
+				title: this.t("activateProductsBtn"),
+				icon: "basket-shopping",
+				action: ()=>this.onActivateProducts()
 			},
 			{
 				id: "feedback",
@@ -178,6 +185,10 @@ export default class UserProfile extends ViewBase {
 
 	executeAction(entry){
 		entry.action();
+	}
+
+	onActivateProducts() {
+		new ModalActivateProducts(this.depts).show();
 	}
 
 	onGiveFeedback(type) {
