@@ -54,7 +54,7 @@ export default class Authorization extends ViewBase {
 							</button>
 						</div>
 
-						<form id="sign_in" @submit="return false;">
+						<form id="sign_in" method="post" @submit="return false;">
 							<div>
 								<label>${this.t("authLabelEmail")}:</label>
 								<input type="text" name="sign_in_email" class="w3-input w3-border w3-margin-bottom" />
@@ -75,7 +75,7 @@ export default class Authorization extends ViewBase {
 							</button>
 						</form>
 
-						<form id="sign_up" style="display:none" @submit="return false;">
+						<form id="sign_up" method="post" style="display:none" @submit="return false;">
 							<div>
 								<label>${this.t("authLabelUsername")}:</label>
 								<input type="text" name="sign_up_username" class="w3-input w3-border w3-margin-bottom" />
