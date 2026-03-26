@@ -66,8 +66,10 @@ export default class UserProfile extends ViewBase {
 				</div>
 				<p><b>${this.t("authLabelUsername")}:</b> ${this.profile.username}</p>
 				<p><b>${this.t("authLabelEmail")}:</b> ${this.profile.email}</p>
-				${this.userSettings.isPro ? html`<p><b>Chargeprice.pro</b> <i class="fa fa-check-circle w3-large"></i></p>` : 
-					this.accountNotActivatedTemplate()}
+				${this.userSettings.isPro ? html`<p><b>${this.t("activateProductsWebPro")}</b> <i class="fa fa-check-circle w3-large"></i></p>` : ""}
+				${this.userSettings.isMobilePremium ? html`<p><b>${this.t("activateProductsMobilePremium")}</b> <i class="fa fa-check-circle w3-large"></i></p>` : ""}
+				${!this.userSettings.isPro ? this.accountNotActivatedTemplate() : ""}
+				${this.themeLoader.getCurrentThemeId() === 'emc' ? this.emcAppPromoTemplate() : ''}
 
 			</div>
 			<div class="w3-container w3-center" style="padding: 0">
@@ -91,7 +93,34 @@ export default class UserProfile extends ViewBase {
 		`;
 	}
 
+	emcAppPromoTemplate() {
+		return html`
+		<div class="w3-panel w3-pale-blue w3-leftbar w3-border-blue w3-margin-top" style="border-radius:6px;">
+			<p><strong>Ladepreise.at als App am Smartphone</strong></p>
+			<p>Noch mehr Features gefällig? Als EMC Mitglied kannst du auch die Chargeprice App nutzen. Lade die App herunter, melde dich mit deinem Konto an und profitiere von allen Premium-Features.</p>
+			<div class="w3-margin-bottom">
+				<a href="${this.iosLink}" target="_blank" style="text-decoration:none;">
+					<img src="img/store/app-store-badge.png" alt="Download on the App Store" style="max-width:150px;height:auto;">
+				</a>
+				<a href="${this.playLink}" target="_blank" style="text-decoration:none;">
+					<img src="img/store/play-store-badge.png" alt="Get it on Google Play" style="max-width:150px;height:auto;">
+				</a>
+			</div>
+		</div>
+		`;
+	}
+
+	accountNotActivatedEmcTemplate() {
+		return html`
+		<div class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-margin-top" style="border-radius:6px;">
+			<p><strong>Um Ladepreise.at zu nutzen, musst du deine EMC Mitgliedschaft bestätigen.</strong></p>
+			<p>Klicke dafür unten auf "Produkte aktivieren". Dann wählst du "EMC Austria Mitgliedschaft" und gibst deine Mitgliedsnummer und die Kartennummer ein. Beides findest du auf deiner EMC Mitgliedskarte.</p>
+		</div>
+		`;
+	}
+
 	accountNotActivatedTemplate() {
+		if(this.themeLoader.getCurrentThemeId() === 'emc' && this.customConfig.paywallEnabled()) return this.accountNotActivatedEmcTemplate();
 		if(!this.themeLoader.isDefaultTheme() || !this.customConfig.paywallEnabled()) return "";
 
 		return html`

@@ -1,6 +1,7 @@
 
 import ModalWelcome from '../modal/welcome';
 import ModalPaywall from '../modal/paywall';
+import ModalPaywallEmc from '../modal/paywall_emc';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile';
 
 
@@ -18,8 +19,16 @@ export default class ShowPopUpOnStart {
   async run(){
     this.settingsPrimitive.incrementAppStartCount();
 
+    // EMC theme has its own paywall
+    if(this.themeLoader.getCurrentThemeId() === 'emc' && this.customConfig.paywallEnabled()){
+      if(!(await this.isLoggedIn())){
+        new ModalPaywallEmc(this.depts).show();
+      }
+      return;
+    }
+
     // don't show any paywall for white labels!
-    if(!this.themeLoader.isDefaultTheme() || !this.customConfig.paywallEnabled()) 
+    if(!this.themeLoader.isDefaultTheme() || !this.customConfig.paywallEnabled())
     {
       if(!this.didAskForTracking()){
         this.showWelcome();

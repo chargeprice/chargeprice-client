@@ -7,6 +7,7 @@ import UserProfile from './userProfile';
 import Authorization from '../component/authorization';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile.js';
 import ModalPaywall from '../modal/paywall.js';
+import ModalPaywallEmc from '../modal/paywall_emc.js';
 
 export default class Sidebar extends ViewBase {
 
@@ -188,12 +189,16 @@ export default class Sidebar extends ViewBase {
     // Only show paywall for certain sidebars
     if(this.payloadSidebars.indexOf(contentKey) == -1) return false; 
 
-    // No paywall for white labels
-    if(!this.themeLoader.isDefaultTheme() || this.userSettings.isPro || !this.customConfig.paywallEnabled()) return false; 
+    const isEmc = this.themeLoader.getCurrentThemeId() === 'emc';
+
+    // No paywall for white labels (except EMC)
+    if((!this.themeLoader.isDefaultTheme() && !isEmc) || this.userSettings.isPro || !this.customConfig.paywallEnabled()) return false;
 
     const loggedIn = await this.isLoggedIn();
     if (loggedIn) {
       this.open("userProfile");
+    } else if (isEmc) {
+      new ModalPaywallEmc(this.depts).show();
     } else {
       new ModalPaywall(this.depts, 'intro').show();
     }

@@ -12,6 +12,7 @@ export default class FetchUserSettingsOrCreateFromLocal {
   async run(){
     const settings = await this.loadSettings();
     settings.isPro = settings.meta.products.includes("web_pro");
+    settings.isMobilePremium = settings.meta.products.includes("mobile_premium");
     return settings;
   }
 
