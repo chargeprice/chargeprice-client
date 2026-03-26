@@ -13,7 +13,7 @@ export default class UserProfile extends ViewBase {
 		this.sidebar = sidebar;
 		this.depts = depts;
 		this.settingsRepo = depts.settingsPrimitive();
-		this.authService = new AuthService();
+		this.authService = depts.auth();
 		this.messageDialogId = "messageDialog";
 		this.themeLoader = depts.themeLoader();
 		this.customConfig = depts.customConfig();

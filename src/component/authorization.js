@@ -8,7 +8,7 @@ export default class Authorization extends ViewBase {
 		super(depts);
 		this.root = "messageDialog";
 		this.settingsRepo = depts.settingsPrimitive();
-		this.authService = new AuthService();
+		this.authService = depts.auth();
 
 		this.validation = {
 			email: new RegExp(/^[\w-+_\.]+@([\w-]+\.)+[\w-]{2,}$/),

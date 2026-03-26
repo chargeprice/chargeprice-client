@@ -1,5 +1,6 @@
 export default class AuthService {
-	constructor() {
+	constructor(depts) {
+		this.themeLoader = depts.themeLoader();
 		this.baseEndpointUrl = process.env.CHARGEPRICE_AUTH_SERVICE;
 		this.signInEndpoint = this.baseEndpointUrl + "/v1/authenticate";
 		this.signUpEndpoint = this.baseEndpointUrl + "/v1/users";
@@ -47,15 +48,21 @@ export default class AuthService {
 	}
 
 	async signUp(data) {
+		const attributes = {
+			email: data.email,
+			password: data.password,
+			username: data.username,
+			language: window.navigator.language.substring(0, 2),
+		};
+
+		if (this.themeLoader.getCurrentThemeId() === "emc") {
+			attributes.whitelabel = "emc_ladepreise";
+		}
+
 		const body = JSON.stringify({
 			data: {
 				type: "user",
-				attributes: {
-					email: data.email,
-					password: data.password,
-					username: data.username,
-					language: window.navigator.language.substring(0, 2),
-				},
+				attributes,
 			},
 		});
 
