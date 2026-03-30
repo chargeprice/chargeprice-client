@@ -254,6 +254,7 @@
   "paywallDotNetApps": "https://www.chargeprice.net/en/applications/",
   "paywallLoggedInPrivateText": "To access the web platform as a private user, you'll need an active Premium membership. <br>1) Download the mobile app<br>2) Login to your user account<br>3) Subscribe to Premium<br>4) Request access here",
   "paywallLoggedInRequestAccess": "Request access as private user",
+  "paywallLoggedInRequestAccessNoMobilePremium": "You need an active Premium membership on the mobile app to request access.",
   "paywallWebPaidCardHeader": "Your EV companion has moved",
   "paywallWebPaidCardText": "We've upgraded our mobile app into the go-to tool for private EV drivers. The web platform is now dedicated to professional users. Download the app for the full experience.",
   "activateProductsBtn": "Activate products",

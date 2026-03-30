@@ -254,6 +254,7 @@
   "paywallDotNetApps": "https://www.chargeprice.net/de/mobile-apps/",
   "paywallLoggedInPrivateText": "Um als Privatnutzer auf die Web-App zuzugreifen, benötigst du eine aktive Premium-Mitgliedschaft. <br>1) Lade die App für Android oder iOS herunter<br>2) Melde dich mit deinem Nutzeraccount an<br>3) Schließe eine Premium-Mitgliedschaft in der App ab<br>4) Beantrage hier auf der Website den Zugang",
   "paywallLoggedInRequestAccess": "Zugang als Privatnutzer beantragen",
+  "paywallLoggedInRequestAccessNoMobilePremium": "Du benötigst eine aktive Premium-Mitgliedschaft in der App, um den Zugang zu beantragen.",
   "paywallWebPaidCardHeader": "Ihr E-Auto-Begleiter ist umgezogen",
   "paywallWebPaidCardText": "Wir haben unsere mobile App zum unverzichtbaren Begleiter für private E-Auto-Fahrer weiterentwickelt. Die Web-Plattform ist ab sofort für professionelle Nutzer gedacht. Laden Sie die App herunter und erleben Sie den vollen Funktionsumfang.",
   "activateProductsBtn": "Produkte aktivieren",
