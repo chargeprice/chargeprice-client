@@ -16,14 +16,14 @@ export default class ModalWelcome extends ModalBase {
     <div class="w3-modal-content">
       ${this.header(this.sf(this.t("popupWelcomeHeader"), themeName), false)}
       <div class="w3-container w3-padding">
-        <p>${this.t("popupWelcomeText1")}</p>
-        <p>${this.t("popupWelcomeText2")}</p>
+        <p>${this.ut("popupWelcomeText1")}</p>
+        <p>${this.ut("popupWelcomeText2")}</p>
 
         <hr>
 
         <input id="allowTracking" class="w3-check" type="checkbox" checked>
         <label>${this.t("cookieConstentHeader")}</label>
-        <p class="w3-small">${this.t("cookieConstentText")}</p>
+        <p class="w3-small">${this.ut("cookieConstentText")}</p>
       </div>
 
       <button @click="${()=>this.onContinueAndSetTracking()}" class="w3-btn pc-secondary w3-margin-bottom w3-margin-left">

@@ -271,7 +271,7 @@ export default class Authorization extends ViewBase {
 					}
 
 					if (error.message === "email_unconfirmed") {
-						errorsContainer.innerHTML = `<p class="w3-text-red">${this.t('authEmailNotVerified')}</p>`;
+						errorsContainer.innerHTML = `<p class="w3-text-red">${this.ut('authEmailNotVerified')}</p>`;
 					}
 				}
 			}

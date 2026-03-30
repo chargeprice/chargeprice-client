@@ -51,7 +51,7 @@ export default class ModalPaywall extends ModalBase {
       <div class="w3-container w3-padding">
         <input id="allowTracking" class="w3-check" type="checkbox" checked>
         <label>${this.t("cookieConstentHeader")}</label>
-        <p class="w3-small">${this.t("cookieConstentText")}</p>
+        <p class="w3-small">${this.ut("cookieConstentText")}</p>
       </div>` : ''}
       ${this.languageChooser()}
     </div>
@@ -93,7 +93,7 @@ export default class ModalPaywall extends ModalBase {
             
             <p class="w3-margin-top"><strong>${this.t("paywallPrivatePcHeader")}</strong></p>
             <p>
-              ${this.t("paywallPrivatePcText")}
+              ${this.ut("paywallPrivatePcText")}
             </p>
           </div>
           <div style="width:38%;max-width:200px;margin-top: 50px; flex-shrink:0;">

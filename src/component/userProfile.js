@@ -142,7 +142,7 @@ export default class UserProfile extends ViewBase {
 			<p><strong>${this.t("paywallLoggedInNotActivated")}</strong></p>
 			<p>${this.t("paywallLoggedInProText")}</p>
 			<button @click="${()=>this.onRequestQuote()}" class="w3-btn w3-light-grey w3-small w3-margin-bottom">${this.t("paywallRequestQuoteCta")}</button>
-			<p>${this.t("paywallLoggedInPrivateText")}</p>
+			<p>${this.ut("paywallLoggedInPrivateText")}</p>
 			<button @click="${()=>this.onRequestWebAppAccess()}" class="w3-btn w3-light-grey w3-small w3-margin-bottom">${this.t("paywallLoggedInRequestAccess")}</button>
 		</div>
 		`;

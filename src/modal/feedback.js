@@ -51,14 +51,6 @@ export default class ModalFeedback extends ModalBase {
 
   missingStationTemplate(){
     return html`
-    ${ this.translation.currentLocale == "de" ? html`
-      <p>
-        <strong class="w3-large">
-          ${this.ut("fbLocationGEInfo")}
-        </strong>
-      </p>
-      `:""
-      }
       <p>
         <img src="${this.staticMapWithMarkerLink()}" style="max-width: 100%;"/>
       </p>

@@ -18,7 +18,7 @@ def fetch_locales
   response.values.drop(1).each do |row|
     locales.each do |lang,values|
       locale = row[langs_with_index[lang]]
-      values[row.first] = (!locale || locale.empty?) ? row[langs_with_index[FALLBACK_LANGUAGE]] : locale
+      values[row.first] = ((!locale || locale.empty?) ? row[langs_with_index[FALLBACK_LANGUAGE]] : locale).gsub("\n", "<br>")
     end
   end
   locales
