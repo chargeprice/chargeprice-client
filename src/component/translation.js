@@ -4,8 +4,9 @@ export default class Translation {
       { code: "en", name: "English", flag: "gb" },
       { code: "de", name: "Deutsch", flag: "de" },
       { code: "fr", name: "Français", flag: "fr"},
-      { code: "nl", name: "Nederlands", flag: "nl" },
-      { code: "da", name: "Dansk", flag: "dk" }
+      // Deactivated for now
+      // { code: "nl", name: "Nederlands", flag: "nl" },
+      // { code: "da", name: "Dansk", flag: "dk" }
     ];
     this.fallbackLocale = "en"
     this.currentLocale = this.currentLocaleOrFallback();

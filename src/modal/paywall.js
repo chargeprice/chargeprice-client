@@ -53,6 +53,7 @@ export default class ModalPaywall extends ModalBase {
         <label>${this.t("cookieConstentHeader")}</label>
         <p class="w3-small">${this.t("cookieConstentText")}</p>
       </div>` : ''}
+      ${this.languageChooser()}
     </div>
     `;
   }
@@ -104,6 +105,7 @@ export default class ModalPaywall extends ModalBase {
       <div class="w3-container w3-padding">
         <button @click="${()=>this.setStep('intro')}" class="w3-btn w3-small w3-light-grey">&#8592; ${this.t("back")}</button>
       </div>
+      ${this.languageChooser()}
     </div>
     `;
   }
@@ -140,8 +142,24 @@ export default class ModalPaywall extends ModalBase {
       <div class="w3-container w3-padding">
         <button @click="${()=>this.setStep('intro')}" class="w3-btn w3-small w3-light-grey">&#8592; ${this.t("back")}</button>
       </div>
+      ${this.languageChooser()}
     </div>
     `;
+  }
+
+  languageChooser(){
+    const locales = this.translation.getSupportedLocales();
+    const current = this.translation.currentLocale;
+    const url = new URL(window.location.href);
+    return html`
+    <div class="w3-container w3-padding w3-center" style="border-top:1px solid #e0e0e0;margin-top:4px;">
+      ${locales.map(l => {
+        url.searchParams.set("lang", l.code);
+        return html`<a href="${url.toString()}" title="${l.name}" style="margin:0 4px;text-decoration:none;opacity:${l.code === current ? '1' : '0.4'};">
+          <span class="fi fi-${l.flag}" style="font-size:1.4em;"></span>
+        </a>`;
+      })}
+    </div>`;
   }
 
   setStep(step){

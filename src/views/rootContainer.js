@@ -31,8 +31,8 @@ export default class RootContainer extends ViewBase {
           </div>
           
           ${this.themeLoader.isDefaultTheme() ? html`
-          <button @click="${()=>this.onChangeLanguage()}" class="w3-button w3-hover-dark-gray w3-bar-item w3-right" style="height: 100%; text-transform: uppercase;">
-            ${this.translation.currentLocaleConfig().code}
+          <button @click="${()=>this.onChangeLanguage()}" class="w3-button w3-hover-dark-gray w3-bar-item w3-right" style="height: 100%;">
+            <span class="fi fi-${this.translation.currentLocaleConfig().flag}" style="font-size:1.2em;"></span>
           </button>
           ` : ""}
           ${this.accountTemplate()}
