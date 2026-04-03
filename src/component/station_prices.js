@@ -103,7 +103,7 @@ export default class StationPrices extends ViewBase{
   adBannerTemplate(station,options){
     const country = station.country;
     const currentBanner = this.adBanners.find(b => b.countries.includes(country));
-    if(currentBanner == null || currentBanner.isHidden() || !this.themeLoader.isDefaultTheme() || options.isPro) return html``;
+    if(currentBanner == null || currentBanner.isHidden() || !this.themeLoader.isDefaultTheme() || options.isPro || options.isMobilePremium) return html``;
 
     this.analytics.log('event', 'ad_banner_displayed', { partner: currentBanner.partner, country: country});
     const action = currentBanner.customAction || (()=> this.onAdBannerClicked(currentBanner, country));
@@ -162,7 +162,7 @@ export default class StationPrices extends ViewBase{
 
   loadStationWithAvailability(station,options){
     if(station.dataAdapter != "chargeprice") return;
-    this.chargingStationRepo.getStationDetails(station.id,{ availability: options.isPro, myVehicle: options.myVehicle }).then(data=>{
+    this.chargingStationRepo.getStationDetails(station.id,{ availability: (options.isPro || options.isMobilePremium), myVehicle: options.myVehicle }).then(data=>{
       this.showStation(data, options, false);
     });
   }

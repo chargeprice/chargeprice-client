@@ -68,7 +68,7 @@ export default class UserProfile extends ViewBase {
 				<p><b>${this.t("authLabelEmail")}:</b> ${this.profile.email}</p>
 				${this.userSettings.isPro ? html`<p><b>${this.t("activateProductsWebPro")}</b> <i class="fa fa-check-circle w3-large"></i></p>` : ""}
 				${this.userSettings.isMobilePremium ? html`<p><b>${this.t("activateProductsMobilePremium")}</b> <i class="fa fa-check-circle w3-large"></i></p>` : ""}
-				${!this.userSettings.isPro ? this.accountNotActivatedTemplate() : ""}
+				${!(this.userSettings.isPro || this.userSettings.isMobilePremium) ? this.accountNotActivatedTemplate() : ""}
 				${this.themeLoader.getCurrentThemeId() === 'emc' ? this.emcAppPromoTemplate() : ''}
 
 			</div>

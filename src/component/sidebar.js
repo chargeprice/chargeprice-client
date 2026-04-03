@@ -104,6 +104,7 @@ export default class Sidebar extends ViewBase {
       cpoFilterChargeprice: settingsModel.cpoFilterChargeprice,
       showPriceDetails: settingsModel.showPriceDetails,
       isPro: settingsModel.isPro,
+      isMobilePremium: settingsModel.isMobilePremium,
     }
   }
 
@@ -192,7 +193,7 @@ export default class Sidebar extends ViewBase {
     const isEmc = this.themeLoader.getCurrentThemeId() === 'emc';
 
     // No paywall for white labels (except EMC)
-    if((!this.themeLoader.isDefaultTheme() && !isEmc) || this.userSettings.isPro || !this.customConfig.paywallEnabled()) return false;
+    if((!this.themeLoader.isDefaultTheme() && !isEmc) || (this.userSettings.isPro || this.userSettings.isMobilePremium) || !this.customConfig.paywallEnabled()) return false;
 
     const loggedIn = await this.isLoggedIn();
     if (loggedIn) {

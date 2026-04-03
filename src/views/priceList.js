@@ -20,7 +20,7 @@ export default class PriceListView extends ViewBase {
   template(){
     let sections = [];
     const prices = this.groupedPrices;
-    const limitActive = this.priceLimitation.isDisplayed(this.station, this.options.isPro);
+    const limitActive = this.priceLimitation.isDisplayed(this.station, this.options.isPro || this.options.isMobilePremium);
 
     if(limitActive){
       sections = [ { header: ()=>this.t("tariff"), prices: prices.promoted } ]
