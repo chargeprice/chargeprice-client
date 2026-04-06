@@ -29,7 +29,7 @@ export default class ModalPaywall extends ModalBase {
         <p class="pc-main-text header-font" style="font-size:1.4em;font-weight:600;margin-bottom:4px;">${this.t("paywallProAppHeader")}</p>
         <p class="pc-main-text">${this.t("paywallProAppSubheader")}</p>
 
-        <p class="w3-center"><strong>${this.t("paywallUserTypeQuestion")}</strong></p>
+        <p class="w3-center"><strong>${this.ut("paywallUserTypeQuestion")}</strong></p>
         <div class="w3-row w3-margin-top">
           <div class="w3-half w3-padding-small w3-center">
             <button @click="${()=>this.setStep('private')}" class="w3-btn pc-secondary w3-block">

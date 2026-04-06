@@ -158,7 +158,7 @@ export default class Authorization extends ViewBase {
 					</button>
 				</div>
 				<div class="w3-container">
-					<div class="w3-section">${this.t("authSignUpSuccessfulText")}</div>
+					<div class="w3-section">${this.ut("authSignUpSuccessfulText")}</div>
 				</div>
 			</div>
 		`;
