@@ -3,7 +3,8 @@ import ModalBase from './base';
 import UserProducts from '../repository/userProducts';
 
 const SOURCES = [
-  { value: "emc_membership", label: "EMC Austria Mitgliedschaft", products: ["mobile_premium", "web_pro"] }
+  { value: "emc_membership", label: "EMC Austria Mitgliedschaft", products: ["mobile_premium"] },
+  { value: "carbonify_thg", label: "Carbonify", products: ["mobile_premium"] }
 ];
 
 export default class ModalActivateProducts extends ModalBase {
@@ -41,6 +42,24 @@ export default class ModalActivateProducts extends ModalBase {
             <p>
               <label>Kartennummer (Rückseite, 16-stellig)</label>
               <input id="activateProductsCardNumber" type="text" class="w3-input w3-border" />
+            </p>
+          ` : ""}
+          ${this.selectedSource === "carbonify_thg" ? html`
+            <p>
+              <label>E-Mail des Carbonify-Accounts</label>
+              <input id="activateProductsCarbonifyEmail" type="email" class="w3-input w3-border" />
+            </p>
+            <p>
+              <label>Land</label>
+              <select id="activateProductsCarbonifyCountry" class="w3-select w3-border">
+                <option value="AT">Österreich</option>
+              </select>
+            </p>
+            <p>
+              <label>Quotenjahr</label>
+              <select id="activateProductsCarbonifyQuotaYear" class="w3-select w3-border">
+                <option value="2026">2026</option>
+              </select>
             </p>
           ` : ""}
           ${this.error ? html`<p class="w3-text-red">${this.error}</p>` : ""}
@@ -83,19 +102,21 @@ export default class ModalActivateProducts extends ModalBase {
   }
 
   async onSubmit() {
-    const sourceType = this.selectedSource;
-    const memberNumber = this.selectedSource === "emc_membership" ? this.getEl("activateProductsMemberNumber").value : null;
-    const cardNumber = this.selectedSource === "emc_membership" ? this.getEl("activateProductsCardNumber").value : null;
+      const sourceData = { type: this.selectedSource };
+    if (this.selectedSource === "emc_membership") {
+      sourceData.member_number =  this.getEl("activateProductsMemberNumber").value;
+      sourceData.card_number = this.getEl("activateProductsCardNumber").value;
+    } else if (this.selectedSource === "carbonify_thg") {
+      sourceData.email = this.getEl("activateProductsCarbonifyEmail").value;
+      sourceData.country = this.getEl("activateProductsCarbonifyCountry").value;
+      sourceData.quota_year = parseInt(this.getEl("activateProductsCarbonifyQuotaYear").value);
+    }
 
     this.error = null;
 
     try {
-      await this.userProducts.activate({
-        type: sourceType,
-        member_number: memberNumber,
-        card_number: cardNumber
-      });
-      const source = SOURCES.find(s => s.value === sourceType);
+      await this.userProducts.activate(sourceData);
+      const source = SOURCES.find(s => s.value === this.selectedSource);
       this.activatedProducts = source ? source.products : [];
       this.success = true;
       this.rerender();
