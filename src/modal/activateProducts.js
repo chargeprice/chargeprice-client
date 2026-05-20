@@ -40,7 +40,7 @@ export default class ModalActivateProducts extends ModalBase {
               <input id="activateProductsMemberNumber" type="text" class="w3-input w3-border" />
             </p>
             <p>
-              <label>Kartennummer (Rückseite, 16-stellig)</label>
+              <label>Kartennummer (Rückseite, 15- oder 16-stellig)</label>
               <input id="activateProductsCardNumber" type="text" class="w3-input w3-border" />
             </p>
           ` : ""}
