@@ -122,7 +122,11 @@ export default class ModalActivateProducts extends ModalBase {
       this.rerender();
     } catch (err) {
       if (err.code === "PRODUCT_SOURCE_NOT_FOUND") {
-        this.error = this.t("activateProductsErrorNotFound");
+        if (this.selectedSource === "emc_membership") {
+          this.error = "Mitglieds-Nummer oder Kartennummer nicht erkannt. Bitte kontaktiere info@emcaustria.at";
+        } else {
+          this.error = this.t("activateProductsErrorNotFound");
+        }
       } else if (err.code === "PRODUCT_SOURCE_ALREADY_USED") {
         this.error = this.t("activateProductsErrorAlreadyUsed");
       } else {
