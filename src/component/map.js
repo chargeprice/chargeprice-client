@@ -124,8 +124,16 @@ export default class Map {
     return marker;
   }
 
+  effectiveZoom(){
+    // Mobile screens cover a smaller geographic area at a given zoom level than
+    // desktop screens, so they get fewer stations to begin with - ease the
+    // zoom-based restrictions earlier to compensate.
+    const mobileZoomBonus = 2;
+    return this.component.getZoom() + (this.customConfig.isMobileOrTablet() ? mobileZoomBonus : 0);
+  }
+
   minPowerOfStations(minPower){
-    const currentZoom = this.component.getZoom();
+    const currentZoom = this.effectiveZoom();
     let minPowerFromZoom = 0;
 
     if(currentZoom<=9) minPowerFromZoom = 150;
@@ -135,7 +143,7 @@ export default class Map {
   }
 
   showStationsAsDots(){
-    return this.component.getZoom() <= 11;
+    return this.effectiveZoom() <= 11;
   }
 
   getBounds() {
