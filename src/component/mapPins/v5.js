@@ -1,8 +1,8 @@
 export default class MapPinsV2 {
   
   constructor(){
-    this.priceIconWidth = 40;
-    this.priceIconHeight = 30;
+    this.priceIconWidth = 33;
+    this.priceIconHeight = 25;
     this.acColor = "#c2e3fd";
     this.dcColor = "#0497ff";
     this.hpcColor = "#006cb8";
@@ -34,13 +34,13 @@ export default class MapPinsV2 {
     let html = `<div class="cp-map-poi-marker cp-map-poi-marker-v2">
       ${!price && model.branding ? 
         `<div class="promotion" style="background-image: url('${model.branding.map_pin_icon_url}')"></div>` :
-        `<div class="price" style="color: ${mainTextColor}; ${model.branding ? "top: 6px;" :""}">
+        `<div class="price" style="color: ${mainTextColor}; ${model.branding ? "top: 5px;" :""}">
           <span class="value">${mainValue}</span>
           <span class="unit w3-block">${unit}</span>
         </div>`
         }
       ${price || model.branding ? 
-        `<div class="power-badge" style="background: ${this.colorForPower(highestPower)}; color: ${this.textColorForPower(highestPower)}; ${model.branding ? "width: 48px;" : "" }">
+        `<div class="power-badge" style="background: ${this.colorForPower(highestPower)}; color: ${this.textColorForPower(highestPower)}; ${model.branding ? "width: 40px;" : "" }">
           ${highestPower}<span style="font-size: 0.8em"> kW</span>
         </div>` : ""}
       ${countBadge ? `<div class="count-badge">${countBadge}</div>` : ""}
@@ -54,6 +54,20 @@ export default class MapPinsV2 {
       width: this.priceIconWidth * sizeFactor,
       height: this.priceIconHeight * sizeFactor,
       zIndex: this.baseZIndex + this.zIndex(model, highestPower, pricePreview, cheapestPrice)*100
+    }
+  }
+
+  buildDotHtml(model){
+    const highestPower = this.highestPower(model);
+    const size = 12;
+
+    const html = `<div class="cp-map-dot-marker-dot" style="background: ${this.colorForPower(highestPower)};"></div>`;
+
+    return {
+      html: html,
+      width: size,
+      height: size,
+      zIndex: this.baseZIndex + this.zIndex(model, highestPower, null, null)*100
     }
   }
 

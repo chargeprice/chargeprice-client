@@ -288,24 +288,17 @@ i.fav-icon {
   white-space: nowrap;
 }
 
-.cp-map-cluster-marker {
-  width: 40px;
-  height: 40px;
-  background: #007AFF;
-  color: white;
-  text-align: center;
-  left: -20px;
-  top: -20px;
-  position: absolute;
-  border-radius: 20px;
-  padding: 10px;
-  font-family: 'Lato';
-  font-size: 15px;
+.cp-map-dot-marker-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid white;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
 }
 
 .cp-map-poi-marker {
   color: white;
-  font-size: 14px;
+  font-size: 11px;
   font-family: 'Lato';
 }
 
@@ -318,13 +311,13 @@ i.fav-icon {
 }
 
 .cp-map-poi-marker .price .unit {
-  font-size: 7px;
-  line-height: 6px;
+  font-size: 6px;
+  line-height: 5px;
 }
 
 .cp-map-poi-marker .price .value {
-  font-size: 13px;
-  line-height: 15px;
+  font-size: 11px;
+  line-height: 12px;
 }
 
 .cp-map-poi-marker .promotion {
@@ -332,8 +325,8 @@ i.fav-icon {
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 38px;
-  height: 25px;
+  width: 31px;
+  height: 21px;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -351,22 +344,22 @@ i.fav-icon {
   position: absolute;
   line-height: normal;
   color: #746100;
-  font-size: 10px;
+  font-size: 8px;
   background: gold;
-  border-radius: 20px;
+  border-radius: 17px;
   padding: 3px;
-  top: -9px;
-  left: -9px;
+  top: -7px;
+  left: -7px;
   border: 1px solid #746100;
 }
 
 .cp-map-poi-marker .count-badge {
   position: absolute;
-  font-size: 8px;
-  top: -7px;
-  right: -8px;
-  border-radius: 10px;
-  padding: 0px 4px;
+  font-size: 7px;
+  top: -6px;
+  right: -6px;
+  border-radius: 9px;
+  padding: 0px 3px;
   color: black;
   background: white;
   border: 1px solid black;
@@ -374,12 +367,12 @@ i.fav-icon {
 
 .cp-map-poi-marker .power-badge {
   position: absolute;
-  font-size: 10px;
-  top: -17px;
-  border-radius: 4px;
+  font-size: 8px;
+  top: -14px;
+  border-radius: 3px;
   color: white;
   border: 1px solid #5050503d;
-  width: 40px;
+  width: 33px;
   text-align: center;
 }
 

@@ -1,6 +1,5 @@
 var L = require('leaflet');
 require('leaflet.awesome-markers');
-require('leaflet.markercluster');
 var turf = {
   along: require('@turf/along').default,
   length: require('@turf/length').default,
@@ -111,10 +110,6 @@ export default class Map {
     return marker;
   }
 
-  buildClusterMarker(cluster){
-    return L.divIcon({ html: '<div class="cp-map-cluster-marker">' + cluster.getChildCount() + '</div>' });
-  }
-
   buildLocationMarker(coords, icon){
     const markerIcon = L.icon({
       iconUrl: `img/markers/search.svg`,
@@ -133,12 +128,14 @@ export default class Map {
     const currentZoom = this.component.getZoom();
     let minPowerFromZoom = 0;
 
-    if(currentZoom<=6) minPowerFromZoom = 300;
-    else if(currentZoom<=7) minPowerFromZoom = 150;
-    else if(currentZoom<=8) minPowerFromZoom = 100;
-    else if(currentZoom<=10) minPowerFromZoom = 43;
+    if(currentZoom<=9) minPowerFromZoom = 150;
+    else if(currentZoom<=11) minPowerFromZoom = 50;
 
     return minPower > minPowerFromZoom ? minPower : minPowerFromZoom;
+  }
+
+  showStationsAsDots(){
+    return this.component.getZoom() <= 11;
   }
 
   getBounds() {
@@ -167,26 +164,23 @@ export default class Map {
     }
   }
 
-  toggleClustering(stationCount){
+  resetMarkers(){
     this.component.removeLayer(this.markers);
-    if(stationCount >=250){
-      this.markers = L.markerClusterGroup({ iconCreateFunction: this.buildClusterMarker});
-    }
-    else {
-      this.markers = L.layerGroup([]);
-    }
-
+    this.markers = L.layerGroup([]);
     this.markers.addTo(this.component);
   }
 
   addStation(model, indexedPricePreviews, cheapestPrice, onClickCallback) {
     const pricePreview = indexedPricePreviews[model.id];
-    const pinConfig = this.pinClass.buildHtml(model, cheapestPrice, pricePreview);
+    const showAsDot = this.showStationsAsDots();
+    const pinConfig = showAsDot ?
+      this.pinClass.buildDotHtml(model) :
+      this.pinClass.buildHtml(model, cheapestPrice, pricePreview);
     const icon = L.divIcon({
-      className: "cp-map-poi-marker",
+      className: showAsDot ? "cp-map-dot-marker" : "cp-map-poi-marker",
       html: pinConfig.html,
       iconSize:     [pinConfig.width, pinConfig.height],
-      iconAnchor:   [pinConfig.width/2, pinConfig.height],
+      iconAnchor:   showAsDot ? [pinConfig.width/2, pinConfig.height/2] : [pinConfig.width/2, pinConfig.height],
   });
     const marker = L.marker([model.latitude, model.longitude],{icon: icon})
     marker.on('click', () => onClickCallback(model));

@@ -17,7 +17,6 @@ import ModalInstallApp from './modal/installApp.js';
 import '../assets/css/w3.css'
 import '../assets/css/w3-colors-flat.css'
 import '../assets/css/leaflet.awesome-markers.css'
-import '../assets/css/MarkerCluster.css'
 import '../assets/css/style.css'
 
 class App {
@@ -168,7 +167,7 @@ class App {
       const result = await (new FetchStations(this.depts)).list(bounds.northEast, bounds.southWest,options);
       const stations = result.stations;
       this.map.clearMarkers();
-      this.map.toggleClustering(stations.length);
+      this.map.resetMarkers();
       stations.forEach(st => this.map.addStation(st, result.indexedPricePreviews, result.cheapestPrice, (model)=>this.stationSelected(model,false)));
     },this.translation.get("errorStationsUnavailable"));
   }

@@ -50,11 +50,12 @@ export default class StationTariffs {
 
   async getStations(northEast, southWest,options){
 
+    const { latitude, longitude, radius } = this.radiusFromBounds(northEast, southWest);
+
     const query = {}
-    query["filter[latitude.gte]"] = southWest.latitude;
-    query["filter[latitude.lte]"] = northEast.latitude;
-    query["filter[longitude.gte]"] = southWest.longitude;
-    query["filter[longitude.lte]"] = northEast.longitude;
+    query["filter[latitude]"] = latitude;
+    query["filter[longitude]"] = longitude;
+    query["filter[radius]"] = radius;
 
     if(options.cpoFilterChargeprice.length > 0){
       query["filter[operator.id]"] = options.cpoFilterChargeprice.join(",");
@@ -88,6 +89,27 @@ export default class StationTariffs {
     const apiResponse = await (new JsonApiDeserializer(response)).deserialize();
     const stations = apiResponse.data.map(station=>this.toStationDetailModel(station, options));
     return { stations: stations, meta: apiResponse.meta };
+  }
+
+  radiusFromBounds(northEast, southWest){
+    const latitude = (northEast.latitude + southWest.latitude) / 2;
+    const longitude = (northEast.longitude + southWest.longitude) / 2;
+    const radius = this.haversineDistanceMeters(latitude, longitude, northEast.latitude, northEast.longitude);
+
+    return { latitude, longitude, radius };
+  }
+
+  haversineDistanceMeters(lat1, lon1, lat2, lon2){
+    const earthRadiusMeters = 6371000;
+    const toRad = deg => deg * Math.PI / 180;
+
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+
+    const a = Math.sin(dLat/2) ** 2 +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2) ** 2;
+
+    return 2 * earthRadiusMeters * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
   async getStationDetails(id,options){
