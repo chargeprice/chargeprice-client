@@ -8,7 +8,7 @@
     ]
   },
   "scripts": {
-    "serve": "http-server dist/ -p 9000",
+    "serve": "http-server dist/ -p 9000 -P \"http://127.0.0.1:9000?\"",
     "dist": "yarn run dist:clean && yarn run dist:pack --mode=production && yarn run dist:copyAssets",
     "distDev": "yarn run dist:clean && yarn run dist:pack --mode=development && yarn run dist:copyAssets",
     "dist:clean": "rm -rf dist/ && mkdir dist",
@@ -34,6 +34,7 @@
     "lit": "^2.0.0-rc.2",
     "mapbox-gl": "^1.0.0",
     "mapbox-gl-leaflet": "^0.0.6",
+    "navigo": "^8.11.1",
     "nouislider": "^15.5.0",
     "uuid": "^8.3.2"
   },

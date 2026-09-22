@@ -15,6 +15,7 @@ import Tariff from '../repository/tariff'
 import Company from '../repository/company'
 import StationTariffs from '../repository/station_tariffs'
 import Stripe from '../repository/stripe'
+import Router from '../helper/router'
 
 export default class Dependencies {
   constructor(){
@@ -24,6 +25,7 @@ export default class Dependencies {
     this.userSettingsInstance = null;
     this.currencyInstance = new Currency(this);
     this.eventBusInstance = new EventBus();
+    this.routerInstance = new Router();
   }
 
   static getInstance(){
@@ -100,6 +102,10 @@ export default class Dependencies {
 
   eventBus(){
     return this.eventBusInstance;
+  }
+
+  router(){
+    return this.routerInstance;
   }
 }
 

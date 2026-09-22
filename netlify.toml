@@ -48,3 +48,8 @@
   to = "/well-known/assetlinks.json"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

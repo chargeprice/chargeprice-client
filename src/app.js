@@ -10,6 +10,7 @@ import SettingsSidebar from './views/settingsSidebar.js';
 import LocationSearch from './component/location_search.js';
 import Dependencies from './helper/dependencies';
 import RootContainer from './views/rootContainer';
+import LandingPage from './views/landing';
 import AppInstall from './component/app_install';
 import FetchUserSettingsOrCreateFromLocal from './useCase/fetchUserSettingsOrCreateFromLocal.js';
 import ModalInstallApp from './modal/installApp.js';
@@ -29,7 +30,44 @@ class App {
     this.translation.translateMeta();
 
     // Load user settings to have it cached
-    const userSettings = await new FetchUserSettingsOrCreateFromLocal(this.depts).run();
+    this.userSettings = await new FetchUserSettingsOrCreateFromLocal(this.depts).run();
+
+    this.redirectLegacyUrls();
+    new AppInstall().registerServiceWorker();
+
+    this.depts.router()
+      .on({
+        "/map": () => this.initializeMapApp(this.userSettings),
+        "/welcome": () => this.showLandingPage()
+      })
+      .notFound(() => this.navigateToDefaultRoute());
+
+    if(window.location.pathname === "/"){
+      this.navigateToDefaultRoute();
+    } else {
+      this.depts.router().resolve();
+    }
+  }
+
+  navigateToDefaultRoute(){
+    const params = new URL(window.location.href).searchParams;
+    const hasDeepLink = (params.has('poi_id') && params.has('poi_source'))
+      || (params.has('access_token') && params.has('refresh_token'))
+      || params.has('deeplink_target');
+    const isDefaultTheme = this.depts.themeLoader().isDefaultTheme();
+    const askedForTracking = this.depts.settingsPrimitive().getBoolean("askedForTracking", false);
+    const goStraightToMap = hasDeepLink || !isDefaultTheme || askedForTracking;
+
+    this.depts.router().navigate(goStraightToMap ? "/map" : "/welcome");
+  }
+
+  showLandingPage(){
+    new LandingPage(this.depts).render();
+  }
+
+  async initializeMapApp(userSettings){
+    document.documentElement.classList.remove("landing-page");
+    document.body.classList.remove("landing-page");
 
     // Static content is needed for almost everything else
     const settingsSidebar = new SettingsSidebar(this.depts, userSettings);
@@ -75,9 +113,6 @@ class App {
       this.map.centerMyLocation();
       this.getCurrentLocation();
     });
-
-    this.redirectLegacyUrls();
-    new AppInstall().registerServiceWorker();
 
     var params = new URL(window.location.href).searchParams;
     this.deeplinkActivated = false;
