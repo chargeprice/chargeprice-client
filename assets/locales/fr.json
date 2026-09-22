@@ -267,5 +267,21 @@
   "activateProductsReload": "Actualiser la page",
   "activateProductsErrorNotFound": "Les données saisies sont invalides.",
   "activateProductsErrorAlreadyUsed": "Les données saisies sont déjà utilisées.",
-  "activateProductsErrorGeneric": "Une erreur s'est produite. Veuillez réessayer."
+  "activateProductsErrorGeneric": "Une erreur s'est produite. Veuillez réessayer.",
+  "stripeCheckoutBtn": "Acheter Premium",
+  "stripeCheckoutHeader": "Acheter Premium",
+  "stripeCheckoutTagline": "Débloquez Chargeprice Premium",
+  "stripeCheckoutSubtext": "Accédez pleinement aux tarifs de recharge, aux stations et aux fonctionnalités premium.",
+  "stripeCheckoutFeature1": "Accès illimité à tous les tarifs de recharge",
+  "stripeCheckoutFeature2": "Accès à l'application web",
+  "stripeCheckoutFeature3": "Soutenez le développement continu de Chargeprice",
+  "stripeCheckoutMonthly": "Mensuel",
+  "stripeCheckoutYearly": "Annuel",
+  "stripeCheckoutPerMonth": "/ mois",
+  "stripeCheckoutYearlyEquivalent": "≈ {0} / mois",
+  "stripeCheckoutSavings": "Économisez {0}%",
+  "stripeCheckoutContinue": "Continuer vers le paiement",
+  "stripeCheckoutError": "Une erreur s'est produite lors du démarrage du paiement. Veuillez réessayer.",
+  "manageSubscriptionBtn": "Gérer l'abonnement",
+  "manageSubscriptionError": "Une erreur s'est produite lors de l'ouverture de la gestion de l'abonnement. Veuillez réessayer."
 }

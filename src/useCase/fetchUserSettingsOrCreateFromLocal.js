@@ -13,6 +13,7 @@ export default class FetchUserSettingsOrCreateFromLocal {
     const settings = await this.loadSettings();
     settings.isPro = settings.meta.products.includes("web_pro");
     settings.isMobilePremium = settings.meta.products.includes("mobile_premium");
+    settings.isStripeManaged = (settings.meta.product_sources || []).includes("stripe");
     return settings;
   }
 
@@ -41,7 +42,7 @@ export default class FetchUserSettingsOrCreateFromLocal {
         vehicle: this.loadLocalVehicle(),
         tariffs: this.loadLocalTariffs()
       },
-      meta: { products: [] }
+      meta: { products: [], product_sources: [] }
     }
   }
 

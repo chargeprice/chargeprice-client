@@ -14,6 +14,7 @@ import Vehicle from '../repository/vehicle'
 import Tariff from '../repository/tariff'
 import Company from '../repository/company'
 import StationTariffs from '../repository/station_tariffs'
+import Stripe from '../repository/stripe'
 
 export default class Dependencies {
   constructor(){
@@ -87,6 +88,10 @@ export default class Dependencies {
 
   chargingStation(){
     return new StationTariffs(this);
+  }
+
+  stripe(){
+    return new Stripe(this);
   }
 
   currency(){

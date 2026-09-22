@@ -4,6 +4,7 @@ import ViewBase from './viewBase';
 
 import ModalFeedback from '../modal/feedback';
 import ModalActivateProducts from '../modal/activateProducts';
+import ModalStripeCheckout from '../modal/stripeCheckout';
 import AuthService from '../repository/authorizationService';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile'
 
@@ -17,6 +18,7 @@ export default class UserProfile extends ViewBase {
 		this.messageDialogId = "messageDialog";
 		this.themeLoader = depts.themeLoader();
 		this.customConfig = depts.customConfig();
+		this.stripe = depts.stripe();
 		this.profile = {};
 		this.accessToken = null;
 		this.map = null;
@@ -42,6 +44,21 @@ export default class UserProfile extends ViewBase {
 				title: this.t("activateProductsBtn"),
 				icon: "basket-shopping",
 				action: ()=>this.onActivateProducts()
+			},
+			{
+				id: "stripe_checkout",
+				title: this.t("stripeCheckoutBtn"),
+				icon: "credit-card",
+				// gated behind ?stripe=true while the feature is being rolled out
+				show: ()=>!(this.userSettings.isPro || this.userSettings.isMobilePremium),
+				action: ()=>this.onStripeCheckout()
+			},
+			{
+				id: "manage_subscription",
+				title: this.t("manageSubscriptionBtn"),
+				icon: "credit-card",
+				show: ()=>this.userSettings.isStripeManaged,
+				action: ()=>this.onManageSubscription()
 			},
 			{
 				id: "feedback",
@@ -219,6 +236,19 @@ export default class UserProfile extends ViewBase {
 
 	onActivateProducts() {
 		new ModalActivateProducts(this.depts).show();
+	}
+
+	onStripeCheckout() {
+		new ModalStripeCheckout(this.depts).show(this.profile, this.accessToken);
+	}
+
+	async onManageSubscription() {
+		try {
+			const url = await this.stripe.createPortalSession(this.profile.userId, this.accessToken, window.location.href);
+			window.location.href = url;
+		} catch (error) {
+			alert(this.t("manageSubscriptionError"));
+		}
 	}
 
 	onGiveFeedback(type) {

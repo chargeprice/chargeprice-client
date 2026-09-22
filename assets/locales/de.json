@@ -267,5 +267,21 @@
   "activateProductsReload": "Seite neu laden",
   "activateProductsErrorNotFound": "Die eingegebenen Daten sind ungültig.",
   "activateProductsErrorAlreadyUsed": "Die eingegebenen Daten werden bereits verwendet.",
-  "activateProductsErrorGeneric": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+  "activateProductsErrorGeneric": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+  "stripeCheckoutBtn": "Premium kaufen",
+  "stripeCheckoutHeader": "Premium kaufen",
+  "stripeCheckoutTagline": "Chargeprice Premium freischalten",
+  "stripeCheckoutSubtext": "Voller Zugriff auf Ladetarife, Ladestationen und Premium-Funktionen.",
+  "stripeCheckoutFeature1": "Unbegrenzter Zugriff auf alle Ladetarife",
+  "stripeCheckoutFeature2": "Zugriff auf die Web-App",
+  "stripeCheckoutFeature3": "Unterstütze die Weiterentwicklung von Chargeprice",
+  "stripeCheckoutMonthly": "Monatlich",
+  "stripeCheckoutYearly": "Jährlich",
+  "stripeCheckoutPerMonth": "/ Monat",
+  "stripeCheckoutYearlyEquivalent": "≈ {0} / Monat",
+  "stripeCheckoutSavings": "Spare {0}%",
+  "stripeCheckoutContinue": "Weiter zur Kasse",
+  "stripeCheckoutError": "Beim Starten des Bezahlvorgangs ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+  "manageSubscriptionBtn": "Abo verwalten",
+  "manageSubscriptionError": "Beim Öffnen der Abo-Verwaltung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
 }

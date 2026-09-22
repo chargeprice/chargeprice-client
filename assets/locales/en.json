@@ -267,5 +267,21 @@
   "activateProductsReload": "Reload page",
   "activateProductsErrorNotFound": "Entered data is invalid.",
   "activateProductsErrorAlreadyUsed": "Entered data is already used.",
-  "activateProductsErrorGeneric": "An error occurred. Please try again."
+  "activateProductsErrorGeneric": "An error occurred. Please try again.",
+  "stripeCheckoutBtn": "Buy Premium",
+  "stripeCheckoutHeader": "Buy Premium",
+  "stripeCheckoutTagline": "Unlock Chargeprice Premium",
+  "stripeCheckoutSubtext": "Get full access to charging prices, stations and premium features.",
+  "stripeCheckoutFeature1": "Unlimited access to all charging tariffs",
+  "stripeCheckoutFeature2": "Access to the web app",
+  "stripeCheckoutFeature3": "Support the ongoing development of Chargeprice",
+  "stripeCheckoutMonthly": "Monthly",
+  "stripeCheckoutYearly": "Yearly",
+  "stripeCheckoutPerMonth": "/ month",
+  "stripeCheckoutYearlyEquivalent": "≈ {0} / month",
+  "stripeCheckoutSavings": "Save {0}%",
+  "stripeCheckoutContinue": "Continue to checkout",
+  "stripeCheckoutError": "An error occurred while starting the checkout. Please try again.",
+  "manageSubscriptionBtn": "Manage subscription",
+  "manageSubscriptionError": "An error occurred while opening the subscription management page. Please try again."
 }
