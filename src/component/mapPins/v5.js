@@ -27,8 +27,8 @@ export default class MapPinsV2 {
     const highestPower = this.highestPower(model);
     const price = this.displayedPrice(pricePreview);
     const mainValue = price || highestPower;
-    const unit = price ? "EUR" : "kW";
-    const pinFile = model.branding? "pin_gold" : (price ? this.pinForPrice(pricePreview.price, cheapestPrice) : this.pinForPower(highestPower));
+    const unit = price ? pricePreview.currency : "kW";
+    const pinFile = model.branding? "pin_gold" : (price ? this.pinForPrice(pricePreview.pricePerKWh, cheapestPrice) : this.pinForPower(highestPower));
     const mainTextColor = price ? "#fff" : this.textColorForPower(highestPower);
 
     let html = `<div class="cp-map-poi-marker cp-map-poi-marker-v2">
@@ -108,7 +108,7 @@ export default class MapPinsV2 {
     if(model.branding) return 7;
 
     if(pricePreview){
-      const price = pricePreview.price;
+      const price = pricePreview.pricePerKWh;
       if(price <= cheapestPrice * 1.1) return 6;
       else if(price <= cheapestPrice * 1.25) return 5;
       else return 4;
@@ -122,7 +122,7 @@ export default class MapPinsV2 {
 
   displayedPrice(pricePreview){
     if(pricePreview == null) return null;
-    const priceValue = pricePreview.price
+    const priceValue = pricePreview.pricePerKWh
     if(priceValue >= 100){
       return priceValue.toFixed(0);
     }

@@ -26,6 +26,6 @@ export default class GroupPriceList {
   }
 
   isMyTariff(tariff){
-    return this.myTariffs.some(t=>t.id == tariff.tariff.id); 
+    return tariff.directPayment || this.myTariffs.some(t=>t.id == tariff.tariff.id);
   }
 }

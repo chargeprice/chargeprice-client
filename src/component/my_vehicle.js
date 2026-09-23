@@ -1,5 +1,4 @@
 import VehicleSelection from '../modal/vehicleSelection';
-import { html, render } from 'lit-html';
 import UpdateUserSettings from '../useCase/updateUserSettings';
 
 export default class MyVehicle {
@@ -11,14 +10,6 @@ export default class MyVehicle {
     this.myVehicle = null;
     this.defaultVehicleId = "7de25a64-e9fa-484f-bf99-d02b02cfb17d"; // Model 3 LR
     this.initVehicles(userSettings);
-  }
-
-  template(){
-    return html`
-      <span @click="${()=>this.changeVehicle()}" class="w3-button w3-light-gray">
-        ${this.myVehicle.brand} ${this.myVehicle.name}
-      </span>
-    `;
   }
 
   async initVehicles(userSettings){
@@ -36,7 +27,11 @@ export default class MyVehicle {
     this.myVehicle = vehicle;
     new UpdateUserSettings(this.depts).run({vehicle: { id: vehicle.id, type: vehicle.type }})
     this.sidebar.optionsChanged();
-    render(this.template(),document.getElementById("selectVehicle"));
+    if(this.changedCallback) this.changedCallback();
+  }
+
+  onChanged(callback){
+    this.changedCallback = callback;
   }
 
   getVehicle(){

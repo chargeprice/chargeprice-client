@@ -26,17 +26,14 @@ export default class Sidebar extends ViewBase {
     this.myVehicle = new MyVehicle(this,this.depts, userSettings);
     this.stationPrices = new StationPrices(this,this.depts);
     this.routePlanner = new RoutePlanner(this,this.depts);
+    this.routePlanner.render();
 		this.userProfile = new UserProfile(this, this.depts, userSettings);
     this.userSettings = userSettings;
     this.loaded = false;
     this.rootId = "sidebar";
-    this.payloadSidebars = ["prices","route","manageMyTariffs", "settings"];
+    this.payloadSidebars = ["prices","manageMyTariffs"];
 
     this.sidebarContent = {
-      "settings": {
-        header: this.translation.get("settingsHeader"),
-        contentId: "settingsContent"
-      },
       "info": {
         header: this.translation.get("infoHeader"),
         contentId: "infoContent"
@@ -51,11 +48,6 @@ export default class Sidebar extends ViewBase {
         contentId: "manageMyTariffsContent",
         onClosed: ()=>this.optionsChanged(),
         onOpen: ()=>this.manageMyTariffs.render()
-      },
-      "route": {
-        header: this.translation.get("routePlannerHeader"),
-        contentId: "routeContent",
-        onOpen: ()=>this.routePlanner.render()
       },
 			"userProfile": {
 				header: this.translation.get("authProfileSettingsHeader"),
@@ -87,22 +79,16 @@ export default class Sidebar extends ViewBase {
       duration: 0,
       kwh: 0,
       minPower: settingsModel.minPower,
-      onlyFree: settingsModel.onlyFree,
-      openNow: settingsModel.openNow,
-      pricesOnTheMap: settingsModel.pricesOnTheMap,
       carACPhases: 3,
-      providerCustomerTariffs: settingsModel.providerCustomerTariffs,
-      onlyShowMyTariffs: settingsModel.onlyShowMyTariffs,
-      allowUnbalancedLoad: !this.translation.showUnbalancedLoad() || settingsModel.allowUnbalancedLoad,
-      onlyTariffsWithoutMonthlyFees: settingsModel.onlyTariffsWithoutMonthlyFees,
-      batteryRange: this.stationPrices.getBatteryRange(),
+      allowUnbalancedLoad: !this.translation.showUnbalancedLoad(),
+      batteryRange: this.settingsView.getBatteryRange(),
       myTariffs: this.manageMyTariffs.getMyTariffs(),
       myVehicle: this.myVehicle.getVehicle(),
       displayedCurrency: this.currency.getDisplayedCurrency(),
       startTime: this.stationPrices.getStartTime(),
       chargePoint: this.stationPrices.getCurrentChargePoint(),
       cpoFilterChargeprice: settingsModel.cpoFilterChargeprice,
-      showPriceDetails: settingsModel.showPriceDetails,
+      facilities: settingsModel.facilities,
       isPro: settingsModel.isPro,
       isMobilePremium: settingsModel.isMobilePremium,
     }
@@ -113,7 +99,16 @@ export default class Sidebar extends ViewBase {
     const isFirstAppStart = this.settingsPrimitive.getAppStartCount() == 1;
 
     if(isMobileOrTablet && !isFirstAppStart) return;
-    this.open("settings");
+    this.openPreferences();
+  }
+
+  openPreferences(){
+    this.analytics.log('event', 'sidebar_opened',{sidebar_id: 'settings'});
+    this.show("preferences");
+  }
+
+  closePreferences(){
+    this.hide("preferences");
   }
 
   showStation(station){

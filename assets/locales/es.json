@@ -5,6 +5,7 @@
   "paypalLocale": "es_ES/ES",
   "title": "Chargeprice - Comparador de precios de recarga",
   "locationSearchPlaceholder": "Buscar",
+  "locationSearchHeader": "Buscar",
   "providerCustomerOnly": "Reservado para los clientes del operador",
   "freeParking": "Estacionamiento gratís",
   "freeCharging": "Recarga gratuita",

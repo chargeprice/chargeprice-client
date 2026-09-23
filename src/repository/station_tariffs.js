@@ -61,19 +61,14 @@ export default class StationTariffs {
       query["filter[operator.id]"] = options.cpoFilterChargeprice.join(",");
     }
 
+    if(options.facilities && options.facilities.length > 0){
+      query["filter[facilities]"] = options.facilities.join(",");
+    }
+
     if(options.minPower) query["filter[charge_points.power.gte]"] = options.minPower;
 
     if(options.myVehicle){
       query["filter[charge_points.plug.in]"]= this.defaultPlugs.concat(options.myVehicle.dcChargePorts);
-    }
-
-    if(options.onlyFree){
-      query["filter[free_charging]"] = true;
-    }
-
-    const myEmpIds = options.myTariffs.filter(t=>t.emp).map(t=>t.emp.id);
-    if(options.onlyShowMyTariffs && myEmpIds.length > 0){
-      query["filter[operator.supported_emps.id]"]=myEmpIds.join(",")
     }
 
     const url = `${this.base_url}/v1/charging_stations?${this.toQuery(query)}`;
@@ -146,13 +141,9 @@ export default class StationTariffs {
     const jsonOptions = {
       currency: options.displayedCurrency,
       allow_unbalanced_load: options.allowUnbalancedLoad,
-      provider_customer_tariffs: (options.providerCustomerTariffs),
+      provider_customer_tariffs: true,
       start_time: options.startTime,
       show_price_unavailable: true
-    }
-
-    if(options.onlyTariffsWithoutMonthlyFees){
-      jsonOptions.max_monthly_fees = 0;
     }
 
     if(options.myVehicle){
@@ -186,7 +177,7 @@ export default class StationTariffs {
   buildRelationships(station, options){
     const tariffRefs = options.myTariffs.map(t=>{ return {id: t.id, type: t.type } }) ;
     const rels = {
-      tariffs: { data: tariffRefs, meta: { include: options.onlyShowMyTariffs ? "exclusive" : "always" } }
+      tariffs: { data: tariffRefs, meta: { include: "always" } }
     };
     if(options.myVehicle){
       rels["vehicle"] = {
@@ -221,6 +212,7 @@ export default class StationTariffs {
       branding:          data.meta.branding,
       parkingDescription: data.parkingDescription,
       sourceLabel:      data.sourceLabel,
+      facilities:        data.facilities || [],
     }
   }
 
@@ -231,6 +223,7 @@ export default class StationTariffs {
       start_time: options.startTime,
       currency: options.displayedCurrency,
       allow_unbalanced_load: options.allowUnbalancedLoad,
+      include_direct_payment: true,
       vehicle: options.myVehicle,
       tariffs: options.myTariffs,
       charging_stations: stations.map(s=>{ return {id: s.id, type: "charging_station"} })

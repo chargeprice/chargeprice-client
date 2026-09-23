@@ -5,16 +5,12 @@ import RepositoryStartTime from '../repository/settings/startTime';
 import ModalFeedback from '../modal/feedback';
 import PriceListView from '../views/priceList';
 import StationDetailsView from '../views/stationDetails';
-import noUiSlider from 'nouislider';
-import 'nouislider/dist/nouislider.css';
 
 export default class StationPrices extends ViewBase{
   constructor(sidebar,depts) {
     super(depts);
     this.sidebar = sidebar;
     this.analytics = depts.analytics();
-    this.slider = null;
-    this.defaultBatteryRange = [20,80];
     this.startTimeRepo = new RepositoryStartTime();
     this.currentChargePoint = null;
     this.chargePointsSortedByPower = []
@@ -31,29 +27,24 @@ export default class StationPrices extends ViewBase{
         isHidden: () => false
       }
     ]
-
-    this.initSlider();
-  }
-
-  batteryRangeInfoTempl(obj){
-    return this.sf(this.t("batteryRangeInfo"),obj.from,obj.to);
   }
 
   parameterNoteTempl(obj){
     return html`
-      <span class="w3-left">
-        <i class="fa fa-clock-o"></i> 
-          <span class="link-text" @click="${()=>this.selectStartTime()}">${this.h().timeOfDay(this.getStartTime())}</span> 
-          <i class="fa fa-angle-right"></i> ~${this.h().timeOfDay(this.getEndTime(obj.chargePointDuration))}
-          <br>
-        (${this.h().time(obj.chargePointDuration)})*
-        
-      </span>
-      <span class="w3-right">
-        <i class="fa fa-bolt"></i>
-        ${this.h().int(obj.chargePointEnergy)} kWh 
-        (ø ${this.h().power(obj.chargePointEnergy*60/obj.chargePointDuration)} kW)*
-      </span>
+      <div class="charge-summary">
+        <span class="charge-summary-item">
+          <i class="fa fa-clock-o"></i>
+          <span class="link-text" @click="${()=>this.selectStartTime()}">${this.h().timeOfDay(this.getStartTime())}</span>
+          &rarr;
+          ${this.h().timeOfDay(this.getEndTime(obj.chargePointDuration))}
+          <span class="w3-text-gray">(${this.h().time(obj.chargePointDuration)}*)</span>
+        </span>
+        <span class="charge-summary-item">
+          <i class="fa fa-bolt"></i>
+          ${this.h().int(obj.chargePointEnergy)} kWh
+          <span class="w3-text-gray">(ø ${this.h().power(obj.chargePointEnergy*60/obj.chargePointDuration)} kW*)</span>
+        </span>
+      </div>
     `;
   }
 
@@ -115,41 +106,6 @@ export default class StationPrices extends ViewBase{
     `;
   }
 
-  initSlider(){
-    this.slider = document.getElementById('batteryRange');
-
-    noUiSlider.create(this.slider, {
-        start: this.getStoredOrDefaultBatteryRange(),
-        step: 1,
-        margin: 1,
-        connect: true,
-        range: { min: 0,max: 100 }
-    });
-
-    this.updateBatteryRangeInfo();
-    this.slider.noUiSlider.on('update', ()=>this.updateBatteryRangeInfo());
-    this.slider.noUiSlider.on('end', ()=>{
-      this.storeBatteryRange();
-      const range = this.getBatteryRange();
-
-      this.analytics.log('event', 'battery_changed',{
-        percentage_start: range[0],
-        percentage_end: range[1]
-      });
-
-      this.batteryChangedCallback()
-    });
-  }
-
-  getBatteryRange(){
-    return this.slider.noUiSlider.get().map(v=>parseInt(v));
-  }
-
-  updateBatteryRangeInfo(){
-    const range = this.getBatteryRange();
-    render(this.batteryRangeInfoTempl({from: range[0], to: range[1]}),this.getEl("batteryRangeInfo"));
-  }
-
   showStation(station, options, loadAvailability=true){
     this.chargePointsSortedByPower = this.sortChargePointsByPower(station.chargePoints);
     this.currentChargePoint = this.chargePointsSortedByPower[0];
@@ -209,25 +165,10 @@ export default class StationPrices extends ViewBase{
     return 0;
   }
 
-  onBatteryRangeChanged(callback){
-    this.batteryChangedCallback = callback;
-  }
-
-  storeBatteryRange(){
-    localStorage.setItem("batteryRange",JSON.stringify(this.getBatteryRange()));
-  }
-
   onAdBannerClicked(banner, country){
     this.analytics.log('event', 'ad_banner_clicked', { partner: banner.partner, country: country});
 
     window.open(banner.ctaUrl, '_blank');
-  }
-  
-  getStoredOrDefaultBatteryRange(){
-    if(localStorage.getItem("batteryRange")){
-      return JSON.parse(localStorage.getItem("batteryRange"));
-    }
-    else return this.defaultBatteryRange;
   }
 
   onStartTimeChanged(callback){
@@ -242,7 +183,7 @@ export default class StationPrices extends ViewBase{
     const opts = context.options;
     const contextString = [
       `${opts.myVehicle.brand} ${opts.myVehicle.name}`,
-      `Battery: ${this.getBatteryRange()}`,
+      `Battery: ${this.sidebar.settingsView.getBatteryRange()}`,
       `${this.currentChargePoint.plug} ${this.currentChargePoint.power} kw`,
       opts.displayedCurrency
     ].join(", ")

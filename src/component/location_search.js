@@ -6,8 +6,7 @@ export default class LocationSearch extends ViewBase {
     super(depts);
     this.analytics = depts.analytics();
     this.locationSearch = depts.locationSearch();
-    this.eventBus = depts.eventBus();
-    this.root = "search";
+    this.root = "searchContent";
     this.callback = null;
     this.autocompleteNonce = 0;
   }
@@ -15,10 +14,7 @@ export default class LocationSearch extends ViewBase {
   template(){
     return html`
       <div class="w3-row">
-        <button id="jump-to-my-location" @click="${()=>this.onShowRoutePlaner()}" class="w3-button w3-light-gray w3-border w3-col">
-          <i class="fa fa-directions"></i>
-        </button>
-        <button id="jump-to-my-location" @click="${()=>this.onMyLocation()}" class="w3-button w3-light-gray w3-border w3-col">
+        <button id="jump-to-my-location" @click="${()=>this.onMyLocation()}" class="w3-button w3-light-gray w3-border w3-right">
           <i class="fa fa-dot-circle-o"></i>
         </button>
         <div class="w3-rest">
@@ -37,7 +33,6 @@ export default class LocationSearch extends ViewBase {
       <ul class="w3-ul w3-border w3-white">
         ${results.map(entry=> html`<li @mousedown="${()=>this.onPlaceChanged(entry)}">${entry.name}</li>`)}
       </ul>
-      <span class="w3-white w3-block w3-small"><a href="https://locationiq.com">Search by LocationIQ.com</a></span>
     `;
   }
 
@@ -48,11 +43,6 @@ export default class LocationSearch extends ViewBase {
 
   onFocusOut(){
     this.showResults([])
-  }
-
-  onShowRoutePlaner(){
-    this.analytics.log('event', 'route_planner_open');
-    this.eventBus.publish("sidebar.change",{ sidebar: "route" })
   }
 
   onKeyUp(event){

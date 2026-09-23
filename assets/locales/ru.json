@@ -5,6 +5,7 @@
   "paypalLocale": "en_US/AT",
   "title": "Chargeprice - Check the best charging tariffs for your EVs",
   "locationSearchPlaceholder": "Search for location...",
+  "locationSearchHeader": "Поиск",
   "providerCustomerOnly": "Only for provider customers",
   "freeParking": "Free parking",
   "freeCharging": "Free charging",

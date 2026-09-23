@@ -3,7 +3,7 @@ import ViewBase from '../component/viewBase';
 import GroupPriceList from '../useCase/groupPriceList';
 import FileUtils from '../helper/fileUtils';
 import PriceCsvSerializer from '../helper/priceCsvSerializer';
-import PriceLimitation from '../component/priceLimitation';
+import GenericPopup from '../modal/genericPopup';
 var dayjs = require('dayjs');
 
 export default class PriceListView extends ViewBase {
@@ -14,27 +14,13 @@ export default class PriceListView extends ViewBase {
     this.sidebar = sidebar;
 
     this.theme = depts.themeLoader().getCurrentThemeConfig();
-    this.priceLimitation = new PriceLimitation(this.depts);
+    this.filters = { noMonthlyFee: false, providerCustomerOnly: false };
   }
 
   template(){
-    let sections = [];
     const prices = this.groupedPrices;
-    const limitActive = this.priceLimitation.isDisplayed(this.station, this.options.isPro || this.options.isMobilePremium);
-
-    if(limitActive){
-      sections = [ { header: ()=>this.t("tariff"), prices: prices.promoted } ]
-    }
-    else {
-      sections = [
-        { header: ()=>html`<i class="fa fa-star fav-icon"></i> <a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("myTariffs")} <i class="fa fa-pencil"></a>`, 
-          prices: prices.allMyPrices },
-        { header: ()=>prices.allMyPrices.length > 0 ? this.t("otherTariffs") : this.t("tariff"),
-          prices: prices.allOtherPrices }
-      ]
-    }
-
-    const hasPrices = sections.some(s=>s.prices.length > 0);
+    const hasWallet = prices.allMyPrices.length > 0;
+    const hasPrices = hasWallet || prices.allOtherPrices.length > 0;
 
     return html`
       ${hasPrices && this.options.isPro ? html`
@@ -43,9 +29,18 @@ export default class PriceListView extends ViewBase {
         </div>
       `:""}
 
-      ${sections.map(s=>this.priceSectionTemplate(s.header,s.prices))}
+      ${this.priceSectionTemplate(()=>html`<a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("myTariffs")} <i class="fa fa-pencil"></a>`, prices.allMyPrices)}
 
-      ${limitActive ? this.priceLimitation.template() : ""}
+      ${prices.allOtherPrices.length > 0 ? html`
+        <div class="price-flex-container w3-margin-top price-header header-font">
+          <div class="price-flex-left">${hasWallet ? this.t("otherTariffs") : html`<a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("tariff")} <i class="fa fa-pencil"></i></a>`}</div>
+          <div class="price-flex-right">${this.currency.getDisplayedCurrency()}</div>
+        </div>
+
+        ${this.filterChipsTemplate()}
+
+        ${this.rowsTemplate(this.applyFilters(prices.allOtherPrices))}
+      `:""}
 
       ${hasPrices ? html`
         <div class="w3-margin-top w3-small w3-container">
@@ -53,6 +48,45 @@ export default class PriceListView extends ViewBase {
         </div>
       `:""}
     `;
+  }
+
+  filterChipsTemplate(){
+    const chips = [
+      { key: "noMonthlyFee", text: this.t("noMonthlyFee") },
+      { key: "providerCustomerOnly", text: this.t("providerCustomerOnly"), info: this.t("providerCustomerFilterInfo") }
+    ];
+
+    return html`
+      <div style="margin-left: 8px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          ${chips.map(chip=>html`
+            <span @click="${()=>this.onToggleFilter(chip.key)}" class="w3-tag w3-round cp-clickable ${this.filters[chip.key] ? "pc-secondary" : "w3-white w3-border"}" style="padding: 8px 14px; font-size: 15px;">
+              ${this.filters[chip.key] ? html`<i class="fa fa-check"></i> `:""}${chip.text}
+              ${chip.info ? html`<i @click="${(e)=>this.onShowFilterInfo(e,chip)}" class="fa fa-info-circle w3-margin-left"></i>`:""}
+            </span>
+          `)}
+        </div>
+      </div>
+    `;
+  }
+
+  onShowFilterInfo(event, chip){
+    event.stopPropagation();
+    new GenericPopup(this.depts).show({header: chip.text, message: chip.info});
+  }
+
+  applyFilters(prices){
+    return prices.filter(p=>{
+      const tariff = p.tariff;
+      if(this.filters.noMonthlyFee && !(tariff.totalMonthlyFee === 0 && tariff.monthlyMinSales === 0)) return false;
+      if(this.filters.providerCustomerOnly && !tariff.providerCustomerTariff) return false;
+      return true;
+    });
+  }
+
+  onToggleFilter(key){
+    this.filters[key] = !this.filters[key];
+    this.rerender();
   }
 
   priceSectionTemplate(header, prices){
@@ -95,10 +129,6 @@ export default class PriceListView extends ViewBase {
           ${tariff.monthlyMinSales > 0 ? `${this.t("minSales")}: ${this.h().dec(tariff.monthlyMinSales)}/${this.t("month")}`:"" }
           </label>
         `:""}
-      ${tariff.providerCustomerTariff ?
-        html`
-          <label class="w3-small w3-block">${this.t("providerCustomerOnly")}</label> 
-        `:""}
       ${this.isHighlighted(tariff) ? html`
         <a href="${tariff.url}" target="_blank" class="w3-block"><img class="feature-logo" src="${tariff.branding.logo_url}"/></a>
       `:""}
@@ -115,31 +145,10 @@ export default class PriceListView extends ViewBase {
 
     return html`
     <div class="price-flex-right">
-      <label class="w3-right ${this.isMyTariff(tariff)?"":""}">${this.isMyTariff(tariff) ? html``:"" }${this.h().dec(price.price)}</label>
-      
-      ${this.showPriceDetails ? this.priceDetailsTemplate(price) : ""}
+      <label class="w3-right ${this.isMyTariff(tariff)?"":""}">${this.isMyTariff(tariff) ? html``:"" }${this.h().dec(price.pricePerKWh)} / kWh</label>
+      ${this.timeFeeText(price) ? html`<br><label class="w3-right w3-small">${this.timeFeeText(price)}</label>`:""}
     </div>
     `;
-  }
-
-  priceDetailsTemplate(price){
-    return html`
-      <br>
-      ${price.price > 0 ?
-        html`<label class="w3-right w3-small">${this.t("average")} ${this.h().dec(price.pricePerKWh)}</label><br>`:""
-      }
-      <label class="w3-right w3-small">
-        ${price.price > 0 ? this.t("per") : ""}
-        ${[
-          price.distribution.session ? `${(price.distribution.session < 1 ? this.h().perc(price.distribution.session) : "")} ${this.t("session")}` : null,
-          price.distribution.kwh ? `${(price.distribution.kwh < 1 ? this.h().perc(price.distribution.kwh) : "")} kWh` : null,
-          price.distribution.minute ? 
-            `${(price.distribution.minute < 1 ? this.h().perc(price.distribution.minute) : "")} `+ 
-            `min${price.blockingFeeStart ? ` (${this.blockingFeeTemplate(price)})` : ""}` : null,
-          (price.distribution.minute == undefined || price.distribution.minute == 0) && price.blockingFeeStart ? this.blockingFeeTemplate(price) : null
-        ].filter(t=>t).join(" + ")}
-      </label>
-    `
   }
 
   noPriceAvailableTemplate(price){
@@ -150,9 +159,11 @@ export default class PriceListView extends ViewBase {
     </div>
     `;
   }
-  
-  blockingFeeTemplate(price){
-    return this.sf(this.t("blockingFeeFrom"),this.h().time(price.blockingFeeStart));
+
+  timeFeeText(price){
+    if(price.blockingFeeStart == null) return "";
+    if(price.blockingFeeStart === 0) return this.t("timeFeeFromStart");
+    return this.sf(this.t("timeFeeAfter"),this.h().time(price.blockingFeeStart));
   }
 
   renderTags(tags, tariff){
@@ -183,7 +194,6 @@ export default class PriceListView extends ViewBase {
     this.station = station;
     this.root = root;
     this.rawPrices = prices;
-    this.showPriceDetails = options.showPriceDetails;
     this.options = options;
     this.groupedPrices = this.groupIntoSections(prices);
     this.rerender();
@@ -225,7 +235,7 @@ export default class PriceListView extends ViewBase {
   }
 
   isMyTariff(tariff){
-    return this.myTariffs.some(t=>t.id == tariff.tariff.id); 
+    return tariff.directPayment || this.myTariffs.some(t=>t.id == tariff.tariff.id);
   }
 
   isHighlighted(tariff) {

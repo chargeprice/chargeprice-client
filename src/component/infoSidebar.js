@@ -6,6 +6,7 @@ import ModalSocialMedia from '../modal/socialMedia';
 import ModalInstallApp from '../modal/installApp';
 import ModalPartner from '../modal/partner';
 import ModalDisclaimer from '../modal/disclaimer';
+import GenericList from '../modal/genericList';
 
 export default class InfoSidebar extends ViewBase {
   constructor(depts) {
@@ -13,6 +14,7 @@ export default class InfoSidebar extends ViewBase {
     this.analytics = depts.analytics();
     this.themeLoader = depts.themeLoader();
     this.customConfig = depts.customConfig();
+    this.currency = depts.currency();
     this.menuItems = [
       {
         id: "install",
@@ -20,6 +22,13 @@ export default class InfoSidebar extends ViewBase {
         icon: "download",
         class: "bold",
         action: ()=> new ModalInstallApp(this.depts).show()
+      },
+      {
+        id: "currency",
+        title: this.t("displayedCurrencyHeader"),
+        subTitle: ()=>this.currency.getDisplayedCurrency(),
+        icon: "money",
+        action: ()=> this.onChangeCurrency()
       },
       {
         id: "pro",
@@ -105,7 +114,7 @@ export default class InfoSidebar extends ViewBase {
         ${this.menuItems.filter(entry=>!entry.show || entry.show()).map(entry=>html`
           <a @click="${()=>this.executeAction(entry)}" href="#" class="w3-bar-item w3-button w3-border-bottom">
             <i class="fa fa-${entry.icon} pc-main-text"></i> <span class="${entry.class}">${entry.title}</span>
-            ${entry.subTitle ? html`<span class="w3-small w3-block w3-text-dark-gray">${entry.subTitle}</span>`:""}
+            ${entry.subTitle ? html`<span class="w3-small w3-block w3-text-dark-gray">${typeof entry.subTitle === "function" ? entry.subTitle() : entry.subTitle}</span>`:""}
           </a>
         `)}
 
@@ -117,8 +126,9 @@ export default class InfoSidebar extends ViewBase {
     render(this.template(),document.getElementById("infoContent"));
   }
 
-  inject(map){
+  inject(map, sidebar){
     this.map=map;
+    this.sidebar=sidebar;
   }
 
   onGiveFeedback(type){
@@ -131,6 +141,23 @@ export default class InfoSidebar extends ViewBase {
     this.map.registerClickOnce(event=>{
       new ModalFeedback(this.depts).show("missing_station",{ location: event.location });
     });
+  }
+
+  onChangeCurrency(){
+    new GenericList(this.depts).show(
+      {
+        items: this.currency.getAvailableCurrencies(),
+        header: this.translation.get("displayedCurrencyHeader"),
+        convert: i => i,
+        narrow: true
+      },(c)=>this.currencyChanged(c));
+  }
+
+  currencyChanged(value){
+    this.currency.changeCurrency(value);
+    this.sidebar.optionsChanged();
+    this.analytics.log('event', 'currency_changed',{new_value: value});
+    this.render();
   }
 
   executeAction(entry){

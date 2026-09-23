@@ -9,7 +9,7 @@ export default class FetchStations {
     this.depts=depts;
     this.deduplicateThreshold = 50;
     this.deduplicateThresholdFast = 120;
-    this.pricePreviewStationLimit = 50;
+    this.pricePreviewStationLimit = 100;
 
     this.stationTariffsRepo = new StationTariffs(this.depts);
   }
@@ -44,12 +44,13 @@ export default class FetchStations {
   }
 
   async fetchIndexedPricePreviewForStations(stations,options, mapCenter){
-    if(!options.pricesOnTheMap || options.myVehicle == null || options.myTariffs == null || options.myTariffs.length == 0 || stations.length==0) return {};
+    if(options.myVehicle == null || stations.length==0) return {};
     const closestStationsToCenter = this.closestChargepriceStationsToCenter(stations, mapCenter);
     const pricePreviews = await this.stationTariffsRepo.getPricePreviewForStations(closestStationsToCenter,options);
-    const cheapestPrice = pricePreviews.reduce((memo,pricePreview)=>pricePreview.price < memo ? pricePreview.price : memo,Number.MAX_SAFE_INTEGER);
+    pricePreviews.forEach(pricePreview=>pricePreview.pricePerKWh = pricePreview.price / pricePreview.energy);
+    const cheapestPrice = pricePreviews.reduce((memo,pricePreview)=>pricePreview.pricePerKWh < memo ? pricePreview.pricePerKWh : memo,Number.MAX_SAFE_INTEGER);
     const prices = pricePreviews.reduce((memo,pricePreview)=>{
-      pricePreview.best = pricePreview.price <= cheapestPrice * 1.05;
+      pricePreview.best = pricePreview.pricePerKWh <= cheapestPrice * 1.05;
       memo[pricePreview.chargingStation.id] = pricePreview;
       return memo;
     },{});

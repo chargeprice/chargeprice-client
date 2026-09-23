@@ -8,6 +8,10 @@ export class LocationSearchBox extends LitElement {
       #searchResult ul li{
         cursor: pointer;
       }
+
+      .w3-input{
+        border-radius: 12px;
+      }
     `]
   }
 
@@ -53,7 +57,6 @@ export class LocationSearchBox extends LitElement {
       <ul class="w3-ul w3-border w3-white">
         ${this._searchResults.map(entry=> html`<li @mousedown="${()=>this.onPlaceChanged(entry)}">${entry.name}</li>`)}
       </ul>
-      <span class="w3-white w3-block w3-small"><a href="https://locationiq.com">Search by LocationIQ.com</a></span>
     `;
   }
 

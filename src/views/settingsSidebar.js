@@ -1,7 +1,8 @@
 import { html, render } from 'lit';
 import ViewBase from '../component/viewBase';
-import GenericList from '../modal/genericList';
 import CompanySearchBox from '../component/companySearchBox';
+import FACILITIES from '../helper/facilities';
+import 'nouislider/dist/nouislider.css';
 
 export default class SettingsSidebar extends ViewBase {
   constructor(depts, userSettings) {
@@ -9,43 +10,24 @@ export default class SettingsSidebar extends ViewBase {
     this.depts = depts;
     this.analytics = depts.analytics();
     this.settingsPrimitive = depts.settingsPrimitive();
-    this.customConfig = depts.customConfig();
-    this.currency = depts.currency();
     this.themeLoader = depts.themeLoader();
     this.selectedMinPower = 0;
     this.userSettings = userSettings;
     this.filteredCpos = [];
-
-    this.checkBoxes = [
-      "onlyFree",
-      "openNow",
-      "pricesOnTheMap",
-      "providerCustomerTariffs",
-      "onlyShowMyTariffs",
-      "onlyTariffsWithoutMonthlyFees",
-      "allowUnbalancedLoad",
-      "showPriceDetails"
-    ]
+    this.selectedFacilities = [];
+    this.defaultBatteryRange = [20,80];
+    this.batterySlider = null;
   }
 
   template(){
     return html`
-    <label class="w3-block">${this.t("myVehicle")}</label>
-    <div id="selectVehicle" class="w3-margin-bottom"></div>
+    <label class="w3-margin-bottom w3-large w3-block">${this.t("myVehicle")}</label>
 
-    <input @click="${()=>this.onOptionsChanged("tariff_without_subscription")}" id="onlyTariffsWithoutMonthlyFees" class="w3-check" type="checkbox">
-    <label>${this.t("onlyTariffsWithoutMonthlyFees")}</label><br>
+    <div id="vehicleInfo" class="w3-margin-bottom"></div>
+    <div id="batteryRange" class="w3-margin-top"></div>
+    <div id="batteryRangeLabel" class="w3-small w3-margin-top"></div>
 
-    <input @click="${()=>this.onOptionsChanged("customer_tariff")}" id="providerCustomerTariffs" class="w3-check w3-margin-top" type="checkbox">
-    <label>${this.t("showExclusiveProviderCustomerTariffs")}</label><br>
-    <label class="w3-small">${this.t("showExclusiveProviderCustomerTariffsDetail")}</label><br>
-
-    <input @click="${()=>this.onOptionsChanged()}" id="onlyShowMyTariffs" class="w3-check w3-margin-top" type="checkbox">
-    <label>${this.t("onlyShowMyTariffs")}</label><br>
-    <label class="w3-small">${this.t("onlyShowMyTariffsDetail")}</label><br>
-    <label @click="${()=>this.onShowMyTariffs()}" class="link-text">${this.t("manageMyTariffsLink")}</label><br>
-
-    <label class="w3-margin-top w3-margin-bottom w3-large w3-block">${this.t("mapFilter")}</label>
+    <label class="w3-margin-bottom w3-block" style="margin-top: 24px;">${this.t("mapFilter")}</label>
 
     <div id="cpoFilter" class="w3-margin-bottom"></div>
 
@@ -53,51 +35,27 @@ export default class SettingsSidebar extends ViewBase {
     <div class="w3-small">${this.t("zoomLevelDependentStation")}</div>
     <div class="w3-row w3-margin-top" id="powerSlider"></div>
 
-    ${(this.themeLoader.isDefaultTheme() && this.freePriceOnTheMapActive()) || (this.userSettings.isPro || this.userSettings.isMobilePremium ) ? html`
-    <input @click="${()=>this.onOptionsChanged()}" id="pricesOnTheMap" class="w3-check w3-margin-top" type="checkbox">
-    <label>${this.t("pricePerStationTitle")}</label><br>
-    <label class="w3-small">${this.t("pricePerStationInfo")}</label><br>
-    `:""}
-
-    <input @click="${()=>this.onOptionsChanged("free_charging_changed")}" id="onlyFree" class="w3-check w3-margin-top" type="checkbox">
-    <label>${this.t("onlyFreeStations")}</label><br>
-
-    <input @click="${()=>this.onOptionsChanged()}" id="openNow" class="w3-check w3-margin-top" type="checkbox">
-    <label>${this.t("onlyOpenNow")}</label><br>
-
-    <label class="w3-block w3-margin-top">${this.t("displayedCurrencyHeader")}</label>
-    <div id="selectCurrency"></div>
-
-    <label class="w3-margin-top w3-large w3-block">${this.t("expertOptions")}</label>
-
-    <input @click="${()=>this.onOptionsChanged()}" id="showPriceDetails" class="w3-check" type="checkbox">
-    <label>${this.t("priceDetailsLabel")}</label><br>
-    <label class="w3-small">${this.t("priceDetailsDetails")}</label><br>
-
-    ${this.translation.showUnbalancedLoad() ?
-      html`
-      <input id="allowUnbalancedLoad"  @click="${()=>this.onOptionsChanged()}" class="w3-check" type="checkbox">
-      <label>${this.t("unbalancedLoadHeader")}</label><br>
-      <label class="w3-small">${this.t("unbalancedLoadDetail")}</label><br>
-      `:""
-    }
-
-    <button id="settings-ok" @click="${()=>this.onOk()}" class="w3-btn pc-secondary w3-margin-top">${this.t("ok")}</button>
+    <label class="w3-margin-bottom w3-block" style="margin-top: 24px;">${this.t("facilitiesHeader")}</label>
+    <div id="facilitiesFilter" class="w3-margin-bottom"></div>
     `;
   }
 
-  currencyTemplate(){
+  vehicleInfoTempl(){
+    const vehicle = this.sidebar.myVehicle.getVehicle();
+    if(!vehicle) return "";
+
     return html`
-      <span @click="${()=>this.onChangeCurrency()}" class="w3-button w3-light-gray">
-        ${this.currency.getDisplayedCurrency()}
-      </span>
+      <a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.sidebar.myVehicle.changeVehicle();}}"><i class="fa fa-car"></i> ${vehicle.brand} ${vehicle.name} <i class="fa fa-pencil"></i></a>
     `;
+  }
+
+  batteryRangeLabelTempl(range){
+    return html`${this.sf(this.t("batteryRangeShort"),range[0],range[1])}`;
   }
 
   cpoFilterTemplate(){
-    if(!this.customConfig.isInternalMode() && !this.userSettings.isPro) return "";
     return html`
-      <div>      
+      <div>
       <company-search-box placeholder="${this.t("filterOperators")}" @company-changed="${(res)=>this.onCompanyChanged(res.detail)}"></company-search-box>
       <div class="w3-margin-top">
         ${this.filteredCpos.map(cpo=>html`
@@ -111,16 +69,27 @@ export default class SettingsSidebar extends ViewBase {
     `;
   }
 
+  facilitiesTemplate(){
+    return html`
+      <div style="display:flex; flex-wrap:wrap; gap:8px;">
+        ${FACILITIES.map(facility=>html`
+          <span @click="${()=>this.onToggleFacility(facility.id)}"
+            class="w3-tag w3-round cp-clickable ${this.selectedFacilities.includes(facility.id) ? "pc-secondary" : "w3-white w3-border"}"
+            style="padding: 8px 10px;">
+            <i class="fa fa-${facility.icon}"></i> ${this.t('facility_'+facility.id)}
+          </span>
+        `)}
+      </div>
+    `;
+  }
+
   render(){
     render(this.template(),this.getEl("settingsContent"));
     this.loadModel();
-    this.initSlider();
+    this.initPowerSlider();
+    this.initBatteryRangeSlider();
     this.rerenderCpoFilter();
-    this.rerenderCurrency();
-  }
-
-  freePriceOnTheMapActive(){
-    return new Date() < new Date('2024-04-15');
+    this.rerenderFacilities();
   }
 
   powerValueTemplate(){
@@ -129,24 +98,7 @@ export default class SettingsSidebar extends ViewBase {
     return html`${this.sf(this.t("minPowerInfo"),powerStringValue)}`;
   }
 
-  onChangeCurrency(){
-    new GenericList(this.depts).show(
-      {
-        items: this.currency.getAvailableCurrencies(),
-        header: this.translation.get("displayedCurrencyHeader"), 
-        convert: i => i,
-        narrow: true
-      },(c)=>this.currencyChanged(c));
-  }
-
-  currencyChanged(value){
-    this.currency.changeCurrency(value);
-    this.sidebar.optionsChanged();
-    this.analytics.log('event', 'currency_changed',{new_value: value});
-    this.rerenderCurrency();
-  }
-
-  initSlider(){
+  initPowerSlider(){
     const slider = document.getElementById('powerSlider');
     noUiSlider.create(slider, {
       start: [this.selectedMinPower],
@@ -181,13 +133,57 @@ export default class SettingsSidebar extends ViewBase {
     slider.noUiSlider.on('end', ()=>this.onOptionsChanged("connector_speed"));
   }
 
-  onShowMyTariffs(){
-    this.sidebar.showMyTariffs();
+  initBatteryRangeSlider(){
+    this.batterySlider = document.getElementById('batteryRange');
+
+    noUiSlider.create(this.batterySlider, {
+      start: this.getStoredOrDefaultBatteryRange(),
+      step: 1,
+      margin: 1,
+      connect: true,
+      range: { min: 0,max: 100 }
+    });
+
+    this.renderBatteryRangeLabel();
+    this.batterySlider.noUiSlider.on('update', ()=>this.renderBatteryRangeLabel());
+    this.batterySlider.noUiSlider.on('end', ()=>{
+      this.storeBatteryRange();
+      const range = this.getBatteryRange();
+
+      this.analytics.log('event', 'battery_changed',{
+        percentage_start: range[0],
+        percentage_end: range[1]
+      });
+
+      if(this.batteryChangedCallback) this.batteryChangedCallback();
+    });
   }
 
-  onOk(){
-    this.sidebar.close();
-    this.saveModel();
+  getBatteryRange(){
+    return this.batterySlider.noUiSlider.get().map(v=>parseInt(v));
+  }
+
+  getStoredOrDefaultBatteryRange(){
+    if(localStorage.getItem("batteryRange")){
+      return JSON.parse(localStorage.getItem("batteryRange"));
+    }
+    else return this.defaultBatteryRange;
+  }
+
+  storeBatteryRange(){
+    localStorage.setItem("batteryRange",JSON.stringify(this.getBatteryRange()));
+  }
+
+  onBatteryRangeChanged(callback){
+    this.batteryChangedCallback = callback;
+  }
+
+  renderVehicleInfo(){
+    render(this.vehicleInfoTempl(),this.getEl("vehicleInfo"));
+  }
+
+  renderBatteryRangeLabel(){
+    render(this.batteryRangeLabelTempl(this.getBatteryRange()),this.getEl("batteryRangeLabel"));
   }
 
   onOptionsChanged(trackingKey){
@@ -201,6 +197,9 @@ export default class SettingsSidebar extends ViewBase {
   inject(sidebar){
     this.sidebar = sidebar;
     this.sidebar.settingsView = this;
+
+    this.sidebar.myVehicle.onChanged(()=>this.renderVehicleInfo());
+    this.renderVehicleInfo();
   }
 
   onCompanyChanged(company){
@@ -223,22 +222,27 @@ export default class SettingsSidebar extends ViewBase {
     render(this.cpoFilterTemplate(),this.getEl("cpoFilter"));
   }
 
-  rerenderCurrency(){
-    render(this.currencyTemplate(),this.getEl("selectCurrency"));
+  onToggleFacility(facilityId){
+    if(this.selectedFacilities.includes(facilityId)){
+      this.selectedFacilities = this.selectedFacilities.filter(f=>f!=facilityId);
+    }
+    else {
+      this.selectedFacilities = this.selectedFacilities.concat([facilityId]);
+    }
+
+    this.rerenderFacilities();
+    this.sidebar.optionsChanged();
+  }
+
+  rerenderFacilities(){
+    render(this.facilitiesTemplate(),this.getEl("facilitiesFilter"));
   }
 
   getModel(){
     return {
       minPower: this.selectedMinPower,
-      onlyFree: this.isChecked("onlyFree"),
-      openNow: this.isChecked("openNow"),
-      pricesOnTheMap: this.isChecked("pricesOnTheMap"),
-      providerCustomerTariffs: this.isChecked("providerCustomerTariffs"),
-      onlyShowMyTariffs: this.isChecked("onlyShowMyTariffs"),
-      onlyTariffsWithoutMonthlyFees: this.isChecked("onlyTariffsWithoutMonthlyFees"),
-      allowUnbalancedLoad: this.isChecked("allowUnbalancedLoad"),
       cpoFilterChargeprice: this.filteredCpos.map(c=>c.id),
-      showPriceDetails: this.isChecked("showPriceDetails"),
+      facilities: this.selectedFacilities,
       isPro: this.userSettings.isPro,
       isMobilePremium: this.userSettings.isMobilePremium,
     }
@@ -246,31 +250,15 @@ export default class SettingsSidebar extends ViewBase {
 
   loadModel(){
     this.selectedMinPower = this.settingsPrimitive.getFloat("minPower",3.7);
-    this.checkBoxes.forEach(
-      key => this.setChecked(key,this.settingsPrimitive.getBoolean(key))
-    );
   }
 
   saveModel(){
-    const model = this.getModel();
     this.settingsPrimitive.setFloat("minPower", this.selectedMinPower);
-    this.checkBoxes.forEach(
-      key => this.settingsPrimitive.setBoolean(key, model[key])
-    );
   }
 
   trackChange(trackingKey){
     const model = this.getModel();
     switch(trackingKey){
-      case "tariff_without_subscription":
-        this.analytics.log('event', trackingKey,{new_value: model.onlyTariffsWithoutMonthlyFees});
-        break;
-      case "customer_tariff":
-        this.analytics.log('event', trackingKey,{new_value: model.providerCustomerTariffs});
-        break;
-      case "free_charging_changed":
-        this.analytics.log('event', trackingKey,{new_value: model.onlyFree});
-        break;
       case "connector_speed":
         this.analytics.log('event', trackingKey,{new_value: parseInt(model.minPower)});
         break;

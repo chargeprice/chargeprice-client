@@ -2,6 +2,7 @@ import { html, render } from 'lit-html';
 var dayjs = require('dayjs');
 import ViewBase from '../component/viewBase';
 import GenericPopup from '../modal/genericPopup';
+import FACILITIES from '../helper/facilities';
 export default class StationDetailsView extends ViewBase {
   constructor(depts) {
     super(depts);
@@ -46,7 +47,24 @@ export default class StationDetailsView extends ViewBase {
           ${this.t("poiDataSourceTitle")} ${station.sourceLabel}
         </span>` : ""}
 
+        ${this.facilitiesTemplate(station)}
+
         ${this.customConfig.isInternalMode() ? this.internalTemplate(station) : ""}
+      </div>
+    `;
+  }
+
+  facilitiesTemplate(station){
+    const facilities = station.facilities || [];
+    if(facilities.length == 0) return "";
+
+    return html`
+      <div class="w3-block">
+        ${FACILITIES.filter(f=>facilities.includes(f.id)).map(f=>html`
+          <span class="w3-tag w3-white w3-border cp-margin-top-small">
+            <label><i class="fa fa-${f.icon}"></i> ${this.t('facility_'+f.id)}</label>
+          </span>
+        `)}
       </div>
     `;
   }

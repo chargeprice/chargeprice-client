@@ -2,7 +2,6 @@ import { html, render } from 'lit-html';
 
 import ViewBase from '../component/viewBase';
 import LocationSearchBox from '../component/locationSearchBox';
-import ModalFeedback from '../modal/feedback';
 
 export default class RoutePlanner extends ViewBase{
   constructor(sidebar,depts) {
@@ -32,8 +31,6 @@ export default class RoutePlanner extends ViewBase{
       <button @click="${()=>this.onAddStop()}" class="w3-btn pc-secondary w3-margin-top">${this.t("routePlannerAddStop")}</button>
       
       ${this.resultTemplate()}
-
-      ${this.feedbackTemplate()}
     `;
   }
 
@@ -47,19 +44,8 @@ export default class RoutePlanner extends ViewBase{
     `;
   }
 
-  feedbackTemplate(){
-    return html`
-      <div style="margin-top: 32px">${this.t("routePlannerFeedbackText")}</div>
-      <button @click="${()=>this.onGiveFeedback()}" class="w3-btn pc-secondary w3-margin-top">${this.t("fbGiveFeedback")}</button>
-    `;
-  }
-
   render(){
     render(this.template(),this.getEl("routeContent"));
-  }
-
-  onGiveFeedback(){
-    new ModalFeedback(this.depts).show("other_feedback");
   }
 
   onRemoveStop(idx){

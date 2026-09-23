@@ -89,7 +89,7 @@ class App {
     this.currentStation = null;
 
     settingsSidebar.inject(this.sidebar);
-    infoSidebar.inject(this.map);
+    infoSidebar.inject(this.map, this.sidebar);
 		this.sidebar.injectMap(this.map);
     this.rootContainer.inject(this.sidebar);
 
@@ -102,7 +102,7 @@ class App {
 
     this.map.onBoundsChanged(this.showStationsAtLocation.bind(this));
     this.sidebar.onOptionsChanged(this.optionsChanged.bind(this));
-    this.sidebar.stationPrices.onBatteryRangeChanged(()=>this.updatePrices());
+    this.sidebar.settingsView.onBatteryRangeChanged(()=>this.updatePrices());
     this.sidebar.stationPrices.onStartTimeChanged(()=>this.updatePrices());
     this.sidebar.stationPrices.onSelectedChargePointChanged(()=>this.selectedChargePointChanged());
     this.locationSearch.onResultSelected(coords=>{
@@ -247,7 +247,6 @@ class App {
   }
 
   async withNetwork(func,errorMsg){
-    this.rootContainer.toggleLoadingIndicator(true);
     try{
       await func();
     }
@@ -255,8 +254,6 @@ class App {
       this.rootContainer.showAlert(errorMsg);
       console.error(ex);
     }
-
-    this.rootContainer.toggleLoadingIndicator(false);
   }
 
   selectedChargePointChanged(){
