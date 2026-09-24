@@ -49,7 +49,7 @@ export default class RootContainer extends ViewBase {
               <div class="w3-bar pc-secondary">
                 <span class="w3-bar-item w3-large"><span id="sidebarHeader" class="header-font"></span></span>
                 <button @click="${()=>this.onCloseSidebar()}" class="w3-bar-item w3-button w3-right w3-hover-dark-gray" title="close Sidebar">
-                  <img class="inverted" class="w3-button " src="img/close.svg">
+                  <img class="inverted" class="w3-button " style="height: 26px;" src="img/close.svg">
                 </button>
               </div>
 

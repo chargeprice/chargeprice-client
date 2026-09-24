@@ -93,6 +93,12 @@ html, body {
   right: 0;
 }
 
+#sidebar > .w3-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 .w3-sidebar {
   z-index: 100000;
 }
@@ -129,6 +135,9 @@ html, body {
 #preferences > .w3-bar {
   display: flex;
   align-items: stretch;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 #preferences > .w3-bar .preferences-tab {

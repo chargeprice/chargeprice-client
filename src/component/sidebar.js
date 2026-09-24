@@ -17,7 +17,6 @@ export default class Sidebar extends ViewBase {
     this.translation= depts.translation();
     this.analytics = depts.analytics();
     this.urlModifier = depts.urlModifier();
-    this.settingsPrimitive=depts.settingsPrimitive();
     this.customConfig = depts.customConfig();
     this.eventBus = depts.eventBus();
     this.currency = depts.currency();
@@ -95,10 +94,7 @@ export default class Sidebar extends ViewBase {
   }
 
   showSettingsOnStart(){
-    const isMobileOrTablet = this.customConfig.isMobileOrTablet();
-    const isFirstAppStart = this.settingsPrimitive.getAppStartCount() == 1;
-
-    if(isMobileOrTablet && !isFirstAppStart) return;
+    if(this.customConfig.isMobileOrTablet()) return;
     this.openPreferences();
   }
 
@@ -114,7 +110,7 @@ export default class Sidebar extends ViewBase {
   showStation(station){
     this.stationPrices.showStation(station, this.chargingOptions());
 
-    this.open("prices");
+    this.open("prices", station.name);
   }
 
   updateStationPrice(station,prices,options){
@@ -136,15 +132,15 @@ export default class Sidebar extends ViewBase {
     if(this.optionsChangedCallback) this.optionsChangedCallback();
   }
 
-  async open(contentKey) {
+  async open(contentKey, headerOverride) {
     if(await this.showPaywallIfNeeded(contentKey)) return;
-    
+
     this.analytics.log('event', 'sidebar_opened',{sidebar_id: contentKey});
 
     this.show(this.rootId)
 
     const content = this.sidebarContent[contentKey];
-    this.getEl("sidebarHeader").innerText = content.header;
+    this.getEl("sidebarHeader").innerText = headerOverride || content.header;
 
     this.hideOldContent();
     this.show(content.contentId);

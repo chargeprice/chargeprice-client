@@ -52,7 +52,7 @@ export default class PriceListView extends ViewBase {
 
   filterChipsTemplate(){
     const chips = [
-      { key: "noMonthlyFee", text: this.t("noMonthlyFee") },
+      { key: "noMonthlyFee", text: this.t("onlyTariffsWithoutMonthlyFees") },
       { key: "providerCustomerOnly", text: this.t("providerCustomerOnly"), info: this.t("providerCustomerFilterInfo") }
     ];
 

@@ -14,9 +14,8 @@ export default class StationDetailsView extends ViewBase {
   template(station){
     const url = `${this.customConfig.isIOS() ? 'maps' : 'https' }://maps.google.com/maps?daddr=${station.latitude},${station.longitude}&ll=`;
     return html`
-      <label class="w3-margin-top w3-large header-font">${station.name}</label><br>    
-      <label>${station.address}</label><br>    
-      
+      <label class="w3-margin-top">${station.address}</label><br>
+
       <div class="cp-margin-top-small">
         ${station.network  ? html`
           <span class="w3-tag w3-light-gray cp-margin-top-small">
