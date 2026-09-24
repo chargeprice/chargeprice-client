@@ -11,6 +11,7 @@ import LocationSearch from './component/location_search.js';
 import Dependencies from './helper/dependencies';
 import RootContainer from './views/rootContainer';
 import LandingPage from './views/landing';
+import PromoPage from './views/promo';
 import AppInstall from './component/app_install';
 import FetchUserSettingsOrCreateFromLocal from './useCase/fetchUserSettingsOrCreateFromLocal.js';
 import ModalInstallApp from './modal/installApp.js';
@@ -38,7 +39,8 @@ class App {
     this.depts.router()
       .on({
         "/map": () => this.initializeMapApp(this.userSettings),
-        "/welcome": () => this.showLandingPage()
+        "/welcome": () => this.showLandingPage(),
+        "/promo": () => this.showPromoPage()
       })
       .notFound(() => this.navigateToDefaultRoute());
 
@@ -63,6 +65,10 @@ class App {
 
   showLandingPage(){
     new LandingPage(this.depts).render();
+  }
+
+  showPromoPage(){
+    new PromoPage(this.depts).render();
   }
 
   async initializeMapApp(userSettings){

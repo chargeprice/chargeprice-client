@@ -4,11 +4,12 @@ import {unsafeHTML} from 'lit-html/directives/unsafe-html.js';
 import AuthService from "../repository/authorizationService";
 
 export default class Authorization extends ViewBase {
-	constructor(depts) {
+	constructor(depts, options = {}) {
 		super(depts);
 		this.root = "messageDialog";
 		this.settingsRepo = depts.settingsPrimitive();
 		this.authService = depts.auth();
+		this.whitelabel = options.whitelabel || null;
 
 		this.validation = {
 			email: new RegExp(/^[\w-+_\.]+@([\w-]+\.)+[\w-]{2,}$/),
@@ -287,6 +288,7 @@ export default class Authorization extends ViewBase {
 			email: document.getElementsByName("sign_up_email")[0].value,
 			password: document.getElementsByName("sign_up_password")[0].value,
 			username: document.getElementsByName("sign_up_username")[0].value,
+			whitelabel: this.whitelabel,
 		};
 
 		// Toggle button loading state

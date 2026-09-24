@@ -329,6 +329,13 @@
   "stripeCheckoutSavings": "Économisez {0}%",
   "stripeCheckoutContinue": "Continuer vers le paiement",
   "stripeCheckoutError": "Une erreur s'est produite lors du démarrage du paiement. Veuillez réessayer.",
+  "promoClaimOffer": "Profitez dès maintenant de votre offre spéciale :",
+  "promoAlreadyPremium": "Toutes les fonctionnalités Premium sont déjà déverrouillées et prêtes à l'emploi.",
+  "promoLoginCta": "Connectez-vous ou créez un compte pour appliquer le code à votre compte",
+  "promoCodePlaceholder": "Entrez votre code promo",
+  "promoValidateCta": "Valider",
+  "promoValidating": "Validation...",
+  "promoInvalidCode": "Ce code promo n'est pas valide. Veuillez le vérifier et réessayer.",
   "manageSubscriptionBtn": "Gérer l'abonnement",
   "manageSubscriptionError": "Une erreur s'est produite lors de l'ouverture de la gestion de l'abonnement. Veuillez réessayer."
 }

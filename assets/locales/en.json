@@ -305,6 +305,13 @@
   "stripeCheckoutSavings": "Save {0}%",
   "stripeCheckoutContinue": "Continue to checkout",
   "stripeCheckoutError": "An error occurred while starting the checkout. Please try again.",
+  "promoClaimOffer": "Claim your special offer now:",
+  "promoAlreadyPremium": "All Premium features are unlocked and ready to use.",
+  "promoLoginCta": "Login to apply the code",
+  "promoCodePlaceholder": "Enter your promo code",
+  "promoValidateCta": "Validate",
+  "promoValidating": "Validating...",
+  "promoInvalidCode": "This promo code is invalid. Please check it and try again.",
   "manageSubscriptionBtn": "Manage subscription",
   "manageSubscriptionError": "An error occurred while opening the subscription management page. Please try again."
 }

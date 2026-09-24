@@ -329,6 +329,13 @@
   "stripeCheckoutSavings": "Spare {0}%",
   "stripeCheckoutContinue": "Weiter zur Kasse",
   "stripeCheckoutError": "Beim Starten des Bezahlvorgangs ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+  "promoClaimOffer": "Sichern Sie sich jetzt Ihr Sonderangebot:",
+  "promoAlreadyPremium": "Alle Premium-Funktionen sind bereits freigeschaltet und einsatzbereit.",
+  "promoLoginCta": "Einloggen um Code einzulösen",
+  "promoCodePlaceholder": "Promo-Code eingeben",
+  "promoValidateCta": "Bestätigen",
+  "promoValidating": "Wird geprüft...",
+  "promoInvalidCode": "Dieser Promo-Code ist ungültig. Bitte überprüfen Sie ihn und versuchen Sie es erneut.",
   "manageSubscriptionBtn": "Abo verwalten",
   "manageSubscriptionError": "Beim Öffnen der Abo-Verwaltung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
 }

@@ -55,7 +55,9 @@ export default class AuthService {
 			language: window.navigator.language.substring(0, 2),
 		};
 
-		if (this.themeLoader.getCurrentThemeId() === "emc") {
+		if (data.whitelabel) {
+			attributes.whitelabel = data.whitelabel;
+		} else if (this.themeLoader.getCurrentThemeId() === "emc") {
 			attributes.whitelabel = "emc_ladepreise";
 		}
 

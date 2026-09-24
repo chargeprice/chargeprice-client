@@ -865,7 +865,7 @@ body.landing-page {
 }
 
 .landing-get-free {
-  margin: 0 0 28px;
+  margin: 20px 0 28px;
   font-size: 1.25em;
   font-weight: 600;
   opacity: 0.95;
@@ -917,6 +917,57 @@ body.landing-page {
 .landing-webapp-cta:hover {
   background: transparent;
   color: #fff;
+}
+
+button.landing-webapp-cta {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button.landing-webapp-cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.landing-promo-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: stretch;
+  order: 1;
+  margin-bottom: 16px;
+}
+
+.landing-promo-input {
+  box-sizing: border-box;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 1em;
+  min-width: 220px;
+}
+
+.landing-promo-cta {
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
+
+.landing-promo-input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+.landing-promo-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.landing-promo-error {
+  color: #ffb3b3;
+  font-weight: 600;
+  order: 2;
+  margin: 0 0 16px;
 }
 
 .landing-stats {
@@ -1180,6 +1231,40 @@ body.landing-page {
     background: transparent;
     color: #fff;
     opacity: 0.8;
+  }
+
+  .landing-promo-login-cta,
+  .landing-promo-cta {
+    order: initial;
+    display: inline-block;
+    background: #fff;
+    color: #111;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    padding: 14px 28px;
+    font-size: 1.1em;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 0;
+  }
+
+  .landing-promo-login-cta {
+    margin-bottom: 20px;
+  }
+
+  .landing-promo-login-cta:hover,
+  .landing-promo-cta:hover {
+    background: transparent;
+    color: #fff;
+    opacity: 1;
+  }
+
+  .landing-promo-form {
+    order: 1;
+  }
+
+  .landing-promo-store-badges {
+    order: 2;
   }
 
   .landing-stats {

@@ -38,8 +38,14 @@ export default class Stripe {
     throw { code: "GENERIC_ERROR" };
   }
 
-  async createCheckoutSession(userId, accessToken, product, billingCycle) {
+  async createCheckoutSession(userId, accessToken, product, billingCycle, promoCode) {
     const url = `${this.base_url}/v1/users/${userId}/stripe/checkout`;
+    const attributes = {
+      product: product,
+      billing_cycle: billingCycle
+    };
+    if (promoCode) attributes.promo_code = promoCode;
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -49,10 +55,7 @@ export default class Stripe {
       body: JSON.stringify({
         data: {
           type: "stripe_checkout_session",
-          attributes: {
-            product: product,
-            billing_cycle: billingCycle
-          }
+          attributes: attributes
         }
       })
     });
@@ -67,6 +70,9 @@ export default class Stripe {
 
     if (response.status === 404 && code === "PRICE_NOT_FOUND") {
       throw { code: "PRICE_NOT_FOUND" };
+    }
+    if (response.status === 400 && code === "INVALID_PROMO_CODE") {
+      throw { code: "INVALID_PROMO_CODE" };
     }
     throw { code: "GENERIC_ERROR" };
   }

@@ -110,15 +110,19 @@ export default class ThemeLoader {
     return availableThemes.hasOwnProperty(theme) ? theme : this.defaultTheme;
   }
 
-  initializeTheme(){
+  loadThemeStylesheet(){
     const themeId = this.getCurrentThemeId();
-    const theme = this.getCurrentThemeConfig();
-
-    // Set CSS
     var newSS=document.createElement('link');
     newSS.rel='stylesheet';
     newSS.href=`themes/${themeId}/style.css?v=1`;
     document.getElementsByTagName("head")[0].appendChild(newSS);
+  }
+
+  initializeTheme(){
+    const themeId = this.getCurrentThemeId();
+    const theme = this.getCurrentThemeConfig();
+
+    this.loadThemeStylesheet();
 
     // Title Bar
     if(typeof theme.titleBarHtml == "string") {

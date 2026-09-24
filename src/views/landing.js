@@ -38,22 +38,9 @@ export default class LandingPage extends ViewBase {
                 </span>
                 <span>${this.t("paywallPrivateRating")}</span>
               </p>
-              <p class="landing-get-free">${this.t("paywallPrivateGetItFree")}</p>
+              ${this.getFreeTextTemplate()}
 
-              <div class="landing-cta-group">
-                <a href="/map" class="landing-webapp-cta" @click="${(e)=>this.onTryWebApp(e)}">
-                  ${this.t("landingTryWebAppCta")} &#8594;
-                </a>
-
-                <div class="landing-store-badges">
-                  <a href="${this.iosLink}" target="_blank" @click="${()=>this.trackAppClick('ios')}">
-                    <img src="img/store/app-store-badge.png" alt="Download on the App Store" class="landing-store-badge">
-                  </a>
-                  <a href="${this.playLink}" target="_blank" @click="${()=>this.trackAppClick('android')}">
-                    <img src="img/store/play-store-badge.png" alt="Get it on Google Play" class="landing-store-badge">
-                  </a>
-                </div>
-              </div>
+              ${this.ctaGroupTemplate()}
 
               <div class="landing-stats">
                 <div class="landing-stat">
@@ -135,6 +122,29 @@ export default class LandingPage extends ViewBase {
     `;
   }
 
+  getFreeTextTemplate() {
+    return html`<p class="landing-get-free">${this.t("paywallPrivateGetItFree")}</p>`;
+  }
+
+  ctaGroupTemplate() {
+    return html`
+      <div class="landing-cta-group">
+        <a href="/map" class="landing-webapp-cta" @click="${(e)=>this.onTryWebApp(e)}">
+          ${this.t("landingTryWebAppCta")} &#8594;
+        </a>
+
+        <div class="landing-store-badges">
+          <a href="${this.iosLink}" target="_blank" @click="${()=>this.trackAppClick('ios')}">
+            <img src="img/store/app-store-badge.png" alt="Download on the App Store" class="landing-store-badge">
+          </a>
+          <a href="${this.playLink}" target="_blank" @click="${()=>this.trackAppClick('android')}">
+            <img src="img/store/play-store-badge.png" alt="Get it on Google Play" class="landing-store-badge">
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
   languageChooser() {
     const locales = this.translation.getSupportedLocales();
     const current = this.translation.currentLocale;
@@ -161,6 +171,7 @@ export default class LandingPage extends ViewBase {
   }
 
   render() {
+    this.depts.themeLoader().loadThemeStylesheet();
     document.documentElement.classList.add("landing-page");
     document.body.classList.add("landing-page");
     render(this.template(), document.getElementById("rootContainer"));
