@@ -8,6 +8,7 @@ export default class PromoPage extends LandingPage {
     super(depts);
     this.stripe = depts.stripe();
     this.userSettingsRepo = depts.userSettings();
+    this.settingsRepo = depts.settingsPrimitive();
     this.profile = null;
     this.accessToken = null;
     this.isPremium = false;
@@ -80,6 +81,7 @@ export default class PromoPage extends LandingPage {
   }
 
   async render() {
+    this.consumeTokensFromUrl();
     await this.loadProfile();
 
     this.depts.themeLoader().loadThemeStylesheet();
@@ -90,6 +92,23 @@ export default class PromoPage extends LandingPage {
 
   rerender() {
     render(this.template(), document.getElementById("rootContainer"));
+  }
+
+  consumeTokensFromUrl() {
+    const params = new URL(window.location.href).searchParams;
+    if (!params.has("access_token") || !params.has("refresh_token")) return;
+
+    this.settingsRepo.authTokens().set({
+      accessToken: params.get("access_token"),
+      refreshToken: params.get("refresh_token"),
+    });
+
+    params.delete("access_token");
+    params.delete("refresh_token");
+
+    const query = params.toString();
+    const newUrl = window.location.pathname + (query ? `?${query}` : "") + window.location.hash;
+    window.history.replaceState({}, "", newUrl);
   }
 
   async loadProfile() {
