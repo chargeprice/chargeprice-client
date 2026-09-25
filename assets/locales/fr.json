@@ -28,7 +28,6 @@
   "manageMyTariffsSelect": "+",
   "manageMyTariffsRemove": "-",
   "errorStationsUnavailable": "Erreur d'affichage",
-  "mapZoomInForMoreStations": "Zoomez pour voir les stations dans la zone grise.",
   "errorPricesUnavailable": "Erreur de chargement des prix. Veuillez rafraîchir la page. ",
   "totalPriceInfo": "prix total hors frais mensuels éventuels<br>*les tarifs sont calculés en tenant compte d'une perte d'énergie théorique de 10%. Les valeurs réelles dépendent du véhicule, de la station, des conditions climatiques, etc.<br>**frais de session ou forfait mensuel",
   "timeFormat": "{0}h et {1} min.",

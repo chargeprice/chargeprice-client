@@ -24,7 +24,6 @@
   "manageMyTariffsSelect": "Select",
   "manageMyTariffsRemove": "Remove",
   "errorStationsUnavailable": "Error de visualización",
-  "mapZoomInForMoreStations": "Acércate para ver las estaciones en la zona gris.",
   "errorPricesUnavailable": "Error de carga de los precios. Por favor actualice la página",
   "totalPriceInfo": "precio total sin contabilizar las posibles cuotas mensuales *Las tarifas han sido calculadas teniendo en cuenta la perdida de energia teorica del 10%. Los valores reales cambian en función del modelo del auto, de la estación de carga, de las condiciones meteologicas, etc **Gasto por sesión de recarga o plan mensual",
   "timeFormat": "{0}horas y {1} minutos.",

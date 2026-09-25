@@ -63,7 +63,7 @@ export default class MapPinsV2 {
 
     const color = this.colorForPower(highestPower);
     // Light AC dots are hard to see on the map without a dark border
-    const border = color == this.acColor ? "border-color: #000;" : "";
+    const border = color == this.acColor ? `border: 1.5px solid ${this.hpcColor}; box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);` : "";
 
     const html = `<div class="cp-map-dot-marker-dot" style="background: ${color}; ${border}"></div>`;
 
@@ -95,6 +95,13 @@ export default class MapPinsV2 {
     if(power < this.dcLimitLowerLimit) return "pin";
     else if(power < this.hpcLimitLowerLimit) return "pin_dc";
     return "pin_hpc";
+  }
+
+  // Stations with a price that isn't in the most expensive (red) class
+  isPriceHighlighted(model, pricePreview, cheapestPrice){
+    if(pricePreview == null) return false;
+    if(model.branding) return true;
+    return this.pinForPrice(pricePreview.pricePerKWh, cheapestPrice) != "pin_red";
   }
 
   pinForPrice(price, cheapestPrice){

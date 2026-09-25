@@ -56,6 +56,7 @@ export default class StationTariffs {
     query["filter[latitude]"] = latitude;
     query["filter[longitude]"] = longitude;
     query["filter[radius]"] = radius;
+    query["filter[dynamic_power]"] = true;
 
     if(options.cpoFilterChargeprice.length > 0){
       query["filter[operator.id]"] = options.cpoFilterChargeprice.join(",");
