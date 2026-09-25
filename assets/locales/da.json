@@ -24,6 +24,7 @@
   "manageMyTariffsSelect": "Vælg",
   "manageMyTariffsRemove": "Fjern",
   "errorStationsUnavailable": "Stationer er utilgængelige",
+  "mapZoomInForMoreStations": "Zoom ind for at se stationer i det grå område.",
   "errorPricesUnavailable": "Priser er ikke tilgængelige. Prøv at genindlæse siden.",
   "totalPriceInfo": "Den samlede pris for en opladningssession i betragtning af de medfølgende parametre ekskl. månedlige gebyrer <br><br>* Beregnede værdier inkl. 10% ladetab. Faktiske værdier afhænger af køretøj, ladestander, vejr osv. <br><br>** Afhængig af tariffer: basisgebyr, servicegebyr, medlemskabsgebyr<br><br><br>Links til udbydere kan være tilknyttede links, hvor ChargePrice får en provision pr. klik. Tilknyttede partnere er ikke rangeret højere. Tariffer sorteres kun efter priser.",
   "timeFormat": "{0} T {1} min",

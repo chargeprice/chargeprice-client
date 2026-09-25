@@ -209,7 +209,7 @@ class App {
       const stations = result.stations;
       this.map.clearMarkers();
       this.map.resetMarkers();
-      stations.forEach(st => this.map.addStation(st, result.indexedPricePreviews, result.cheapestPrice, (model)=>this.stationSelected(model,false)));
+      this.map.showStations(stations, result.indexedPricePreviews, result.cheapestPrice, (model)=>this.stationSelected(model,false));
     },this.translation.get("errorStationsUnavailable"));
   }
 

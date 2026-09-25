@@ -61,7 +61,11 @@ export default class MapPinsV2 {
     const highestPower = this.highestPower(model);
     const size = 12;
 
-    const html = `<div class="cp-map-dot-marker-dot" style="background: ${this.colorForPower(highestPower)};"></div>`;
+    const color = this.colorForPower(highestPower);
+    // Light AC dots are hard to see on the map without a dark border
+    const border = color == this.acColor ? "border-color: #000;" : "";
+
+    const html = `<div class="cp-map-dot-marker-dot" style="background: ${color}; ${border}"></div>`;
 
     return {
       html: html,

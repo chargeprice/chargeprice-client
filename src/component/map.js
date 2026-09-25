@@ -27,6 +27,7 @@ export default class Map {
   constructor(depts) {
     this.customConfig = depts.customConfig();
     this.eventBus = depts.eventBus();
+    this.translation = depts.translation();
     this.component = L.map('map');
     this.markers = L.layerGroup([]);
     this.routing = L.layerGroup([]);
@@ -44,6 +45,13 @@ export default class Map {
     this.priceIconWidth = 32;
     this.priceIconHeight = 24;
     this.pinClass = new MapPinsV5();
+
+    // The API returns at most this many stations (the ones closest to the map center)
+    this.stationLimit = 400;
+    // Above this many stations, only stations with a price are shown as big pins
+    this.denseStationThreshold = 250;
+    this.stationLimitMask = null;
+    this.stationLimitInfo = this.buildStationLimitInfo();
   }
 
   initializeLayer() {
@@ -164,6 +172,7 @@ export default class Map {
   clearMarkers() {
     this.markers.clearLayers();
     this.clearSelectedStationCircle();
+    this.clearStationLimit();
   }
 
   clearSelectedStationCircle(){
@@ -178,9 +187,20 @@ export default class Map {
     this.markers.addTo(this.component);
   }
 
-  addStation(model, indexedPricePreviews, cheapestPrice, onClickCallback) {
-    const pricePreview = indexedPricePreviews[model.id];
-    const showAsDot = this.showStationsAsDots();
+  showStations(stations, indexedPricePreviews, cheapestPrice, onClickCallback) {
+    const allAsDots = this.showStationsAsDots();
+    const dense = stations.length > this.denseStationThreshold;
+
+    stations.forEach(model => {
+      const pricePreview = indexedPricePreviews[model.id];
+      const showAsDot = allAsDots || (dense && !pricePreview);
+      this.addStation(model, pricePreview, cheapestPrice, showAsDot, onClickCallback);
+    });
+
+    this.updateStationLimit(stations);
+  }
+
+  addStation(model, pricePreview, cheapestPrice, showAsDot, onClickCallback) {
     const pinConfig = showAsDot ?
       this.pinClass.buildDotHtml(model) :
       this.pinClass.buildHtml(model, cheapestPrice, pricePreview);
@@ -202,6 +222,72 @@ export default class Map {
     }
 
     this.markers.addLayer(marker);
+  }
+
+  // If the station limit is reached, only the stations closest to the map center are returned.
+  // Grey out everything beyond the furthest returned station and ask the user to zoom in.
+  updateStationLimit(stations){
+    this.clearStationLimit();
+
+    const limitReached = stations.length > 0 && stations.length >= this.stationLimit;
+    if(!limitReached) return;
+
+    this.stationLimitInfo.style.display = "block";
+    this.stationLimitInfo.innerText = this.translation.get("mapZoomInForMoreStations");
+
+    const center = this.component.getBounds().getCenter();
+    const radius = stations.reduce((memo, st) =>
+      Math.max(memo, center.distanceTo([st.latitude, st.longitude])), 0);
+
+    // Stack several masks with growing holes to get a soft edge towards the grey area
+    const world = [[-90, -360], [-90, 360], [90, 360], [90, -360]];
+    const bands = 8;
+    const edgeWidth = radius * 0.15;
+    const totalOpacity = 0.35;
+    const bandOpacity = 1 - Math.pow(1 - totalOpacity, 1 / bands);
+
+    this.stationLimitMask = L.layerGroup([...Array(bands).keys()].map(i =>
+      L.polygon([world, this.circlePoints(center, radius + edgeWidth * i / bands)], {
+        interactive: false,
+        stroke: false,
+        fillColor: "#666",
+        fillOpacity: bandOpacity
+      })
+    ));
+    this.stationLimitMask.addTo(this.component);
+  }
+
+  clearStationLimit(){
+    this.stationLimitInfo.style.display = "none";
+    if(this.stationLimitMask){
+      this.component.removeLayer(this.stationLimitMask);
+      this.stationLimitMask = null;
+    }
+  }
+
+  circlePoints(center, radiusInMeters, segments = 90){
+    const toRad = Math.PI / 180;
+    const lat1 = center.lat * toRad;
+    const lng1 = center.lng * toRad;
+    const angularDistance = radiusInMeters / 6371008.8;
+    const points = [];
+
+    for(let i = 0; i < segments; i++){
+      const bearing = (i / segments) * 2 * Math.PI;
+      const lat2 = Math.asin(Math.sin(lat1) * Math.cos(angularDistance) +
+        Math.cos(lat1) * Math.sin(angularDistance) * Math.cos(bearing));
+      const lng2 = lng1 + Math.atan2(Math.sin(bearing) * Math.sin(angularDistance) * Math.cos(lat1),
+        Math.cos(angularDistance) - Math.sin(lat1) * Math.sin(lat2));
+      points.push([lat2 / toRad, lng2 / toRad]);
+    }
+    return points;
+  }
+
+  buildStationLimitInfo(){
+    const info = L.DomUtil.create("div", "cp-map-station-limit-info", this.component.getContainer());
+    info.style.display = "none";
+    L.DomEvent.disableClickPropagation(info);
+    return info;
   }
 
   showRoute(routingResult){

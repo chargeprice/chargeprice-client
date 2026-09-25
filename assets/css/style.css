@@ -1331,3 +1331,18 @@ button.landing-webapp-cta:disabled {
     background-position: 75% center;
   }
 }
+
+.cp-map-station-limit-info {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 6px 12px;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  font-size: 13px;
+  white-space: nowrap;
+  pointer-events: auto;
+}

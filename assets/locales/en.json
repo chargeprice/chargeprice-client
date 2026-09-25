@@ -28,6 +28,7 @@
   "manageMyTariffsSelect": "Select",
   "manageMyTariffsRemove": "Remove",
   "errorStationsUnavailable": "Stations unavailable",
+  "mapZoomInForMoreStations": "Zoom in to see stations in the grey area.",
   "errorPricesUnavailable": "Prices unavailable. Please try to reload the page.",
   "totalPriceInfo": "Total price of a charging session, given the provided parameters excl. monthly fees<br>* Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br>** Depending on tariff: Base fee, service fee, membership fee<br>Links to providers might be affiliate links, where Chargeprice gets a commission per click. Affiliate partner are not ranked higher. Tariffs are only sorted by prices.",
   "timeFormat": "{0}h {1}min",
