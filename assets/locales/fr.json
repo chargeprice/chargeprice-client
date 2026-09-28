@@ -365,5 +365,10 @@
   "premiumFreeBadge": "Gratuit",
   "premiumCardAppTitle": "Utilisez l'application mobile Chargeprice",
   "premiumDataPlatformTitle": "Vous analysez des données de recharge à titre professionnel ?",
-  "premiumDataPlatformText": "Accédez aux prix et tarifs à grande échelle avec la Chargeprice Data Platform & API."
+  "premiumDataPlatformText": "Accédez aux prix et tarifs à grande échelle avec la Chargeprice Data Platform & API.",
+  "vehicleSelectionSearchBrand": "Rechercher une marque",
+  "vehicleSelectionSearchModel": "Rechercher un modèle",
+  "vehicleSelectionBackToBrands": "Retour aux marques",
+  "vehicleSelectionBackToModels": "Retour aux modèles",
+  "vehicleSelectionError": "Les véhicules n'ont pas pu être chargés. Veuillez réessayer."
 }

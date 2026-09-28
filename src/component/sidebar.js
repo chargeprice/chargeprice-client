@@ -1,5 +1,6 @@
 import ManageMyTariffs from './manage_my_tariffs';
 import MyVehicle from './my_vehicle';
+import VehicleSelectionSidebar from '../views/vehicleSelectionSidebar';
 import StationPrices from './station_prices';
 import ViewBase from './viewBase';
 import UserProfile from './userProfile';
@@ -23,6 +24,7 @@ export default class Sidebar extends ViewBase {
     this.premiumGate = new PremiumGate(depts, userSettings);
     this.manageMyTariffs = new ManageMyTariffs(this,depts, userSettings);
     this.myVehicle = new MyVehicle(this,this.depts, userSettings);
+    this.vehicleSelection = new VehicleSelectionSidebar(this, this.depts);
     this.stationPrices = new StationPrices(this,this.depts);
 		this.userProfile = new UserProfile(this, this.depts, userSettings);
     this.userSettings = userSettings;
@@ -46,6 +48,11 @@ export default class Sidebar extends ViewBase {
         contentId: "manageMyTariffsContent",
         onClosed: ()=>this.optionsChanged(),
         onOpen: ()=>this.manageMyTariffs.render()
+      },
+      "vehicleSelection": {
+        header: this.translation.get("myVehicle"),
+        contentId: "vehicleSelectionContent",
+        onOpen: ()=>this.vehicleSelection.open()
       },
 			"userProfile": {
 				header: this.translation.get("authProfileSettingsHeader"),

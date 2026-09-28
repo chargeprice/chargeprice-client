@@ -52,8 +52,13 @@ export default class SettingsSidebar extends ViewBase {
     if(!vehicle) return "";
 
     return html`
-      <a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.sidebar.myVehicle.changeVehicle();}}"><i class="fa fa-car"></i> ${vehicle.brand} ${vehicle.name} <i class="fa fa-pencil"></i></a>
+      <a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.sidebar.myVehicle.changeVehicle();}}"><i class="fa fa-car"></i> ${vehicle.brand} ${vehicle.model} <i class="fa fa-pencil"></i></a>
+      ${this.variantText(vehicle) ? html`<div class="w3-small w3-text-dark-gray vehicle-info-variant">${this.variantText(vehicle)}</div>` : ""}
     `;
+  }
+
+  variantText(vehicle){
+    return [vehicle.variant, vehicle.releaseYear ? `(${vehicle.releaseYear})` : null].filter(v=>v).join(" ");
   }
 
   batteryRangeLabelTempl(range){

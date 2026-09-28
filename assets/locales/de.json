@@ -365,5 +365,10 @@
   "premiumFreeBadge": "Kostenlos",
   "premiumCardAppTitle": "Nutze die Chargeprice App",
   "premiumDataPlatformTitle": "Du analysierst Ladedaten professionell?",
-  "premiumDataPlatformText": "Nutze Preise und Tarife im großen Stil mit der Chargeprice Data Platform & API."
+  "premiumDataPlatformText": "Nutze Preise und Tarife im großen Stil mit der Chargeprice Data Platform & API.",
+  "vehicleSelectionSearchBrand": "Marke suchen",
+  "vehicleSelectionSearchModel": "Modell suchen",
+  "vehicleSelectionBackToBrands": "Zurück zu den Marken",
+  "vehicleSelectionBackToModels": "Zurück zu den Modellen",
+  "vehicleSelectionError": "Fahrzeuge konnten nicht geladen werden. Bitte versuche es erneut."
 }

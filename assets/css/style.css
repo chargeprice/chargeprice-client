@@ -1710,3 +1710,45 @@ button.landing-webapp-cta:disabled {
     background-position: 75% center;
   }
 }
+
+.vehicle-selection-back {
+  margin-bottom: 12px;
+  box-shadow: none !important;
+}
+
+.vehicle-selection-heading {
+  font-size: 1.3em;
+  margin: 0 0 12px;
+}
+
+.vehicle-selection-search {
+  border-radius: 12px;
+}
+
+.vehicle-selection-row {
+  align-items: center;
+  gap: 8px;
+}
+
+.vehicle-selection-name,
+.vehicle-selection-variant {
+  flex: 1;
+  min-width: 0;
+}
+
+.vehicle-selection-count {
+  min-width: 16px;
+  text-align: right;
+}
+
+.vehicle-selection-chevron {
+  color: #aaa;
+}
+
+.price-row.vehicle-selection-current {
+  background: #e3effc;
+}
+
+.vehicle-info-variant {
+  margin-top: 2px;
+}

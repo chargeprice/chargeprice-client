@@ -1,4 +1,3 @@
-import VehicleSelection from '../modal/vehicleSelection';
 import UpdateUserSettings from '../useCase/updateUserSettings';
 
 export default class MyVehicle {
@@ -20,7 +19,7 @@ export default class MyVehicle {
   }
 
   async changeVehicle(){
-    new VehicleSelection(this.depts).show((v)=>this.vehicleChanged(v));
+    this.sidebar.open("vehicleSelection");
   }
 
   vehicleChanged(vehicle){

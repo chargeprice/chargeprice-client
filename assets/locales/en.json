@@ -341,5 +341,10 @@
   "premiumFreeBadge": "Free",
   "premiumCardAppTitle": "Use the Chargeprice mobile app",
   "premiumDataPlatformTitle": "Analysing charging data professionally?",
-  "premiumDataPlatformText": "Get prices and tariffs at scale with the Chargeprice Data Platform & API."
+  "premiumDataPlatformText": "Get prices and tariffs at scale with the Chargeprice Data Platform & API.",
+  "vehicleSelectionSearchBrand": "Search brand",
+  "vehicleSelectionSearchModel": "Search model",
+  "vehicleSelectionBackToBrands": "Back to brands",
+  "vehicleSelectionBackToModels": "Back to models",
+  "vehicleSelectionError": "Vehicles could not be loaded. Please try again."
 }
