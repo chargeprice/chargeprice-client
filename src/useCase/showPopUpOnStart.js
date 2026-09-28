@@ -1,6 +1,5 @@
 
 import ModalWelcome from '../modal/welcome';
-import ModalPaywall from '../modal/paywall';
 import ModalPaywallEmc from '../modal/paywall_emc';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile';
 
@@ -27,27 +26,14 @@ export default class ShowPopUpOnStart {
       return;
     }
 
-    // don't show any paywall for white labels!
-    if(!this.themeLoader.isDefaultTheme() || !this.customConfig.paywallEnabled())
-    {
-      if(!this.didAskForTracking()){
-        this.showWelcome();
-      }
-      return;
-    }
-    
-    if(!(await this.isLoggedIn())){
-      this.showPaywall();
-      return;
+    // Premium features are restricted inside the app (PremiumGate), so everyone gets the welcome screen
+    if(!this.didAskForTracking()){
+      this.showWelcome();
     }
   }
 
   showWelcome(){   
     new ModalWelcome(this.depts).show();
-  }
-
-  showPaywall(){
-    new ModalPaywall(this.depts).show();
   }
 
   didAskForTracking(){
