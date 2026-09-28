@@ -349,5 +349,16 @@
   "premiumAppFeatureTariffs": "Find the cheapest tariff at every station",
   "premiumAppFeatureWallet": "Keep your own charging cards in your wallet",
   "premiumAppFeatureOperatorFilter": "Only see the charging networks you care about",
-  "premiumAppScanQr": "Scan with your phone"
+  "premiumAppScanQr": "Scan with your phone",
+  "tariffDetails_kwh": "Energy",
+  "tariffDetails_session": "Session fee",
+  "tariffDetails_minute": "Charging time",
+  "tariffDetails_parking_minute": "Parking time",
+  "tariffDetailsAfter": "after {0}",
+  "tariffDetailsFirst": "first {0}",
+  "tariffDetailsOccupancy": "at occupancy {0}",
+  "tariffDetailsBillingIncrement": "billed per started {0}",
+  "tariffDetailsWebsite": "Go to website",
+  "tariffDetailsNoPrices": "No unit prices available for this tariff.",
+  "tariffDetailsError": "Unit prices could not be loaded. Please try again."
 }

@@ -2,6 +2,9 @@
 import JsonApiDeserializer from '../helper/json_api_deserializer.js'
 import JsonApiSerializer from '../helper/jsonApiSerializer.js'
 
+// Shared by all instances, the unit prices don't change while the page is open
+const tariffDetailsCache = {};
+
 export default class StationTariffs {
 
   constructor(depts){
@@ -30,6 +33,48 @@ export default class StationTariffs {
     if(response.status != 200) throw "Error in request";
 
     return new JsonApiDeserializer(response).deserialize();
+  }
+
+  // Unit prices (price components) of one tariff at one charge point of a station
+  async getTariffDetails(stationId, chargePoint, tariffId){
+    const cacheKey = [stationId, chargePoint.power, chargePoint.plug, tariffId].join("|");
+    if(tariffDetailsCache[cacheKey]) return tariffDetailsCache[cacheKey];
+
+    const url = `${this.base_url}/v1/tariff_details`;
+    const body = {
+      data: {
+        attributes: {
+          station: {
+            id: [stationId],
+            charge_point: { power: chargePoint.power, plug: chargePoint.plug }
+          }
+        },
+        relationships: {
+          tariffs: { data: [{ id: tariffId, type: "tariff" }] }
+        }
+      }
+    };
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Api-Key": this.apiKey
+      },
+      body: JSON.stringify(body),
+    })
+
+    if(response.status != 200) throw "Error in request";
+
+    const details = (await new JsonApiDeserializer(response).deserialize()).data;
+    const entry = details.find(d=>d.tariff && d.tariff.id == tariffId) || details[0] || null;
+    const result = {
+      segments: entry ? entry.restrictedSegments || [] : [],
+      noPriceReason: entry ? entry.noPriceReason : null
+    };
+
+    tariffDetailsCache[cacheKey] = result;
+    return result;
   }
 
   async getPricePreviewForStations(stations,options){

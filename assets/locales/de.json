@@ -373,5 +373,16 @@
   "premiumAppFeatureTariffs": "Finde an jeder Station den günstigsten Tarif",
   "premiumAppFeatureWallet": "Deine eigenen Ladekarten in deinem Wallet",
   "premiumAppFeatureOperatorFilter": "Sieh nur die Ladenetze, die dich interessieren",
-  "premiumAppScanQr": "Mit dem Smartphone scannen"
+  "premiumAppScanQr": "Mit dem Smartphone scannen",
+  "tariffDetails_kwh": "Energie",
+  "tariffDetails_session": "Startgebühr",
+  "tariffDetails_minute": "Ladezeit",
+  "tariffDetails_parking_minute": "Parkzeit",
+  "tariffDetailsAfter": "ab {0}",
+  "tariffDetailsFirst": "erste {0}",
+  "tariffDetailsOccupancy": "bei Auslastung {0}",
+  "tariffDetailsBillingIncrement": "Abrechnung je angefangene {0}",
+  "tariffDetailsWebsite": "Zur Website",
+  "tariffDetailsNoPrices": "Für diesen Tarif sind keine Einzelpreise verfügbar.",
+  "tariffDetailsError": "Einzelpreise konnten nicht geladen werden. Bitte versuche es erneut."
 }

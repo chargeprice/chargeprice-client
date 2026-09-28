@@ -373,5 +373,16 @@
   "premiumAppFeatureTariffs": "Trouvez le tarif le moins cher à chaque borne",
   "premiumAppFeatureWallet": "Vos propres cartes de recharge dans votre Wallet",
   "premiumAppFeatureOperatorFilter": "Affichez uniquement les réseaux qui vous intéressent",
-  "premiumAppScanQr": "Scannez avec votre smartphone"
+  "premiumAppScanQr": "Scannez avec votre smartphone",
+  "tariffDetails_kwh": "Énergie",
+  "tariffDetails_session": "Frais de session",
+  "tariffDetails_minute": "Temps de recharge",
+  "tariffDetails_parking_minute": "Temps de stationnement",
+  "tariffDetailsAfter": "après {0}",
+  "tariffDetailsFirst": "premières {0}",
+  "tariffDetailsOccupancy": "avec une occupation {0}",
+  "tariffDetailsBillingIncrement": "facturé par tranche entamée de {0}",
+  "tariffDetailsWebsite": "Voir le site web",
+  "tariffDetailsNoPrices": "Aucun prix unitaire disponible pour ce tarif.",
+  "tariffDetailsError": "Les prix unitaires n'ont pas pu être chargés. Veuillez réessayer."
 }

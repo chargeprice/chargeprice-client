@@ -4,7 +4,15 @@ import GroupPriceList from '../useCase/groupPriceList';
 import FileUtils from '../helper/fileUtils';
 import PriceCsvSerializer from '../helper/priceCsvSerializer';
 import GenericPopup from '../modal/genericPopup';
+import StationTariffs from '../repository/station_tariffs';
 var dayjs = require('dayjs');
+
+// Energy price always comes first
+const DIMENSION_ORDER = ["kwh", "session", "minute", "parking_minute"];
+const WEEKDAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+
+// A new view is created for every price update, only the latest one may render async results
+let activeView = null;
 
 export default class PriceListView extends ViewBase {
   constructor(depts,sidebar) {
@@ -18,6 +26,8 @@ export default class PriceListView extends ViewBase {
 
     this.theme = depts.themeLoader().getCurrentThemeConfig();
     this.filters = { noMonthlyFee: false, providerCustomerOnly: false };
+    this.expandedTariffIds = [];
+    this.tariffDetails = {};
   }
 
   template(){
@@ -141,10 +151,15 @@ export default class PriceListView extends ViewBase {
     return prices.map(p=>{
       const tariff = p.tariff;
       if(this.isLocked(tariff)) return this.lockedRowTemplate(p, tariff);
+      const expanded = this.expandedTariffIds.includes(tariff.tariff.id);
       return html`
-        <div class="price-flex-container price-row" style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
-          ${this.tariffOverviewTemplate(p,tariff)}
-          ${this.priceTemplate(p,tariff)}
+        <div class="price-row price-row-expandable cp-clickable" @click="${()=>this.onToggleTariff(tariff)}" style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
+          <div class="price-flex-container">
+            ${this.tariffOverviewTemplate(p,tariff)}
+            ${this.priceTemplate(p,tariff)}
+            <i class="fa fa-chevron-${expanded ? "up" : "down"} price-row-toggle"></i>
+          </div>
+          ${expanded ? this.tariffDetailsTemplate(tariff) : ""}
         </div>
       `});
   }
@@ -181,9 +196,9 @@ export default class PriceListView extends ViewBase {
     return html`
     <div class="price-flex-left">
       ${tariff.tariffName == null || tariff.tariffName == tariff.provider ?
-        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank" style="${this.isHighlighted(tariff) ? `border-bottom-color: ${tariff.branding.text_color};`:""}"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.provider}</span></a>` :
-        html`<a class="tariff-link" @click="${()=>this.onAffiliateClicked(tariff)}" href="${tariff.url}" target="_blank" style="${this.isHighlighted(tariff) ? `border-bottom-color: ${tariff.branding.text_color};`:""}"><span class="${this.isMyTariff(tariff)?"":""}">${tariff.tariffName}</span></a><br>
-            ${!this.isHighlighted(tariff) ? html`<label class="w3-margin-top w3-small ${this.isMyTariff(tariff)?"":""}">${tariff.provider}</label>`:""}`
+        html`<span class="tariff-name">${tariff.provider}</span>` :
+        html`<span class="tariff-name">${tariff.tariffName}</span><br>
+            ${!this.isHighlighted(tariff) ? html`<label class="w3-margin-top w3-small">${tariff.provider}</label>`:""}`
       }
       ${this.renderTags(price.tariff.tags, tariff)}
       ${tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0 ?
@@ -194,14 +209,150 @@ export default class PriceListView extends ViewBase {
           </label>
         `:""}
       ${this.isHighlighted(tariff) ? html`
-        <a href="${tariff.url}" target="_blank" class="w3-block"><img class="feature-logo" src="${tariff.branding.logo_url}"/></a>
+        <a href="${tariff.url}" target="_blank" class="w3-block" @click="${(e)=>{e.stopPropagation(); this.onAffiliateClicked(tariff);}}"><img class="feature-logo" src="${tariff.branding.logo_url}"/></a>
       `:""}
       ${this.h().customConfig.isBeta() && tariff.links && tariff.links.open_app_at_station ?
         html`<br>
-        <a href="${tariff.links.open_app_at_station}" class="w3-button w3-small w3-blue" target="_blank"><i class="fa fa-bolt"></i> Start Charging!</a> 
+        <a href="${tariff.links.open_app_at_station}" class="w3-button w3-small w3-blue" target="_blank" @click="${(e)=>e.stopPropagation()}"><i class="fa fa-bolt"></i> Start Charging!</a> 
         `:""}
     </div>
     `;
+  }
+
+  tariffDetailsTemplate(tariff){
+    const details = this.tariffDetails[tariff.tariff.id] || { loading: true };
+
+    let content;
+    if(details.loading) content = html`<div class="w3-center"><i class="fa fa-spinner fa-spin"></i></div>`;
+    else if(details.error) content = html`<div class="w3-small">${this.t("tariffDetailsError")}</div>`;
+    else if(details.segments.length == 0) content = html`<div class="w3-small">${this.t("tariffDetailsNoPrices")}</div>`;
+    else content = details.segments.map(segment=>this.segmentTemplate(segment));
+
+    return html`
+      <div class="tariff-details" @click="${(e)=>e.stopPropagation()}">
+        ${content}
+        ${tariff.url ? html`
+          <a href="${tariff.url}" target="_blank" class="link-text w3-small tariff-details-website" @click="${()=>this.onAffiliateClicked(tariff)}">
+            ${this.t("tariffDetailsWebsite")} <i class="fa fa-external-link"></i>
+          </a>
+        `:""}
+      </div>
+    `;
+  }
+
+  segmentTemplate(segment){
+    const conditions = this.segmentConditions(segment);
+    return html`
+      <div class="tariff-details-row">
+        <div>
+          ${this.t(`tariffDetails_${segment.dimension}`)}
+          ${conditions ? html`<div class="w3-small tariff-details-condition">${conditions}</div>` : ""}
+        </div>
+        <div class="tariff-details-price">${this.segmentPrice(segment)}</div>
+      </div>
+    `;
+  }
+
+  segmentPrice(segment){
+    const units = { kwh: " / kWh", minute: " / min", parking_minute: " / min", session: "" };
+    // Some time based prices have more than 2 decimals (e.g. 0.035/min)
+    const cents = segment.price * 100;
+    const digits = Math.abs(cents - Math.round(cents)) > 1e-9 ? 3 : 2;
+    return `${segment.price.toFixed(digits)} ${segment.currency || ""}${units[segment.dimension] || ""}`;
+  }
+
+  segmentConditions(segment){
+    const conditions = [];
+    const isTime = segment.dimension == "minute" || segment.dimension == "parking_minute";
+    const formatRange = value => isTime ? this.h().time(value) : `${value} kWh`;
+    const from = segment.range_gte || 0;
+    const to = segment.range_lt;
+
+    if(segment.dimension != "session"){
+      if(from > 0 && to != null) conditions.push(`${formatRange(from)} – ${formatRange(to)}`);
+      else if(from > 0) conditions.push(this.sf(this.t("tariffDetailsAfter"), formatRange(from)));
+      else if(to != null) conditions.push(this.sf(this.t("tariffDetailsFirst"), formatRange(to)));
+    }
+
+    if(segment.time_of_day_start != null && segment.time_of_day_end != null){
+      conditions.push(`${this.h().timeOfDay(segment.time_of_day_start)} – ${this.h().timeOfDay(segment.time_of_day_end)}`);
+    }
+
+    if(segment.weekdays && segment.weekdays.length > 0){
+      const formatter = new Intl.DateTimeFormat(this.translation.currentLocaleOrFallback(), { weekday: "short" });
+      // 1 Jan 2024 was a Monday
+      conditions.push(segment.weekdays.map(day=>formatter.format(new Date(2024, 0, 1 + WEEKDAYS.indexOf(day)))).join(", "));
+    }
+
+    const occupancyFrom = segment.occupancy_gte;
+    const occupancyTo = segment.occupancy_lt;
+    if(occupancyFrom != null || occupancyTo != null){
+      let range;
+      if(occupancyFrom != null && occupancyTo != null) range = `${occupancyFrom}–${occupancyTo}%`;
+      else if(occupancyFrom != null) range = `≥ ${occupancyFrom}%`;
+      else range = `< ${occupancyTo}%`;
+      conditions.push(this.sf(this.t("tariffDetailsOccupancy"), range));
+    }
+
+    // Small increments (e.g. per second or per 0.01 kWh) aren't worth mentioning
+    if(isTime && segment.billing_increment >= 1){
+      conditions.push(this.sf(this.t("tariffDetailsBillingIncrement"), this.h().time(segment.billing_increment)));
+    }
+
+    return conditions.join(" · ");
+  }
+
+  async onToggleTariff(tariff){
+    const tariffId = tariff.tariff.id;
+
+    if(this.expandedTariffIds.includes(tariffId)){
+      this.expandedTariffIds = this.expandedTariffIds.filter(id=>id != tariffId);
+      this.rerender();
+      return;
+    }
+
+    this.expandedTariffIds = this.expandedTariffIds.concat([tariffId]);
+    this.analytics.log('event', 'tariff_details_opened', { emp_name: tariff.provider, tariff_name: tariff.tariffName });
+
+    const details = this.tariffDetails[tariffId];
+    if(details && !details.error){
+      this.rerender();
+      return;
+    }
+
+    // Unit prices are only available for stations from the Chargeprice database
+    const chargePoint = this.options.chargePoint;
+    if(this.station.dataAdapter != "chargeprice" || !chargePoint){
+      this.tariffDetails[tariffId] = { segments: [] };
+      this.rerender();
+      return;
+    }
+
+    this.tariffDetails[tariffId] = { loading: true };
+    this.rerender();
+
+    try {
+      const result = await new StationTariffs(this.depts).getTariffDetails(this.station.id, chargePoint, tariffId);
+      this.tariffDetails[tariffId] = { segments: this.sortSegments(result.segments) };
+    }
+    catch(ex){
+      console.error(ex);
+      this.tariffDetails[tariffId] = { error: true };
+    }
+
+    if(activeView === this) this.rerender();
+  }
+
+  sortSegments(segments){
+    const order = segment => {
+      const idx = DIMENSION_ORDER.indexOf(segment.dimension);
+      return idx == -1 ? DIMENSION_ORDER.length : idx;
+    };
+    return segments.slice().sort((a,b)=>
+      order(a) - order(b) ||
+      (a.range_gte || 0) - (b.range_gte || 0) ||
+      (a.time_of_day_start || 0) - (b.time_of_day_start || 0)
+    );
   }
 
   priceTemplate(price,tariff){
@@ -247,13 +398,14 @@ export default class PriceListView extends ViewBase {
     const entries = tags.map(tag=>
       html`
         <span class="${ `w3-tag w3-small cp-margin-top-right-small ${colorMapping[tag.kind]}`}"><label><i class="${`fa fa-${iconMapping[tag.kind]}`}"></i> 
-          ${tag.url ? html`<a @click="${()=>this.onTagClicked(tag, tariff)}" href="${tag.url.replace("{locale}",this.translation.currentLocaleOrFallback())}" target="_blank">${tag.text}</a>` : tag.text}
+          ${tag.url ? html`<a @click="${(e)=>{e.stopPropagation(); this.onTagClicked(tag, tariff);}}" href="${tag.url.replace("{locale}",this.translation.currentLocaleOrFallback())}" target="_blank">${tag.text}</a>` : tag.text}
         </label>
     `);
     return html`<div>${entries}</div>`
   }
 
   render(prices, options, station, root ){
+    activeView = this;
     // The wallet is a premium feature, so free users only see ad-hoc prices in it
     this.myTariffs = this.premiumGate.isRestricted() ? [] : options.myTariffs;
     this.station = station;
