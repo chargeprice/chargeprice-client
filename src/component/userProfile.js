@@ -93,7 +93,7 @@ export default class UserProfile extends ViewBase {
 				<div class="w3-row">
 					<div class="w3-bar-block">
 						${this.menuItems.filter(entry => !entry.show || entry.show()).map(entry => html`
-							<a @click="${() =>this.executeAction(entry)}" href="#" class="w3-bar-item w3-button w3-border-bottom">
+							<a @click="${(e) =>{e.preventDefault(); this.executeAction(entry);}}" href="#" class="w3-bar-item w3-button w3-border-bottom">
 								<i class="fa fa-${entry.icon} pc-main-text"></i> <span class="${entry.class}">${entry.title}</span>
 								${entry.subTitle ? html`<span class="w3-small w3-block w3-text-dark-gray">${entry.subTitle}</span>` : ""}
 							</a>

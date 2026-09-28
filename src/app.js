@@ -38,9 +38,9 @@ class App {
 
     this.depts.router()
       .on({
-        "/map": () => this.initializeMapApp(this.userSettings),
-        "/welcome": () => this.showLandingPage(),
-        "/promo": () => this.showPromoPage()
+        "/map": () => this.showRoute("/map", () => this.initializeMapApp(this.userSettings)),
+        "/welcome": () => this.showRoute("/welcome", () => this.showLandingPage()),
+        "/promo": () => this.showRoute("/promo", () => this.showPromoPage())
       })
       .notFound(() => this.navigateToDefaultRoute());
 
@@ -49,6 +49,14 @@ class App {
     } else {
       this.depts.router().resolve();
     }
+  }
+
+  // Navigo re-resolves a route when only its query string changed (e.g. after the
+  // poi_id deeplink params got removed), which would re-initialize the whole page.
+  showRoute(path, handler){
+    if(this.currentRoute === path) return;
+    this.currentRoute = path;
+    handler();
   }
 
   navigateToDefaultRoute(){

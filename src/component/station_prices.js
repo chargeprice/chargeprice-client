@@ -14,19 +14,8 @@ export default class StationPrices extends ViewBase{
     this.startTimeRepo = new RepositoryStartTime();
     this.currentChargePoint = null;
     this.chargePointsSortedByPower = []
-    this.themeLoader = depts.themeLoader();
     this.settingsPrimitive = depts.settingsPrimitive();
     this.chargingStationRepo = depts.chargingStation();
-
-    this.adBanners = [
-      {
-        bannerImageUrl: "/img/partners/and_charge_FR.png",
-        ctaUrl: "https://kylomtr.me/ln/BgCMQ",
-        countries: ["FR"],
-        partner: "andcharge",
-        isHidden: () => false
-      }
-    ]
   }
 
   parameterNoteTempl(obj){
@@ -91,21 +80,6 @@ export default class StationPrices extends ViewBase{
     else return "";
   }
 
-  adBannerTemplate(station,options){
-    const country = station.country;
-    const currentBanner = this.adBanners.find(b => b.countries.includes(country));
-    if(currentBanner == null || currentBanner.isHidden() || !this.themeLoader.isDefaultTheme() || options.isPro || options.isMobilePremium) return html``;
-
-    this.analytics.log('event', 'ad_banner_displayed', { partner: currentBanner.partner, country: country});
-    const action = currentBanner.customAction || (()=> this.onAdBannerClicked(currentBanner, country));
-
-    return html`
-      <div class="w3-row w3-margin-top">
-        <a href="#" @click="${()=>action()}"><img src="${currentBanner.bannerImageUrl}" style="width: 100%;"/></a>
-      </div>
-    `;
-  }
-
   showStation(station, options, loadAvailability=true){
     this.chargePointsSortedByPower = this.sortChargePointsByPower(station.chargePoints);
     this.currentChargePoint = this.chargePointsSortedByPower[0];
@@ -141,7 +115,6 @@ export default class StationPrices extends ViewBase{
     new PriceListView(this.depts,this.sidebar).render(sortedPrices, options, station, "prices")
     render(this.stationPriceGeneralInfoTemplate(station, prices),this.getEl("priceInfo"))
     render(this.feedbackTemplate({options: options, station: station, prices: sortedPrices}),this.getEl("priceFeedback")); 
-    render(this.adBannerTemplate(station, options), this.getEl("adBanner"));
   }
 
   renderStationDetails(station){
@@ -163,12 +136,6 @@ export default class StationPrices extends ViewBase{
     if(a==null && b!=null) return 1;
     if(b==null && a!=null) return -1;
     return 0;
-  }
-
-  onAdBannerClicked(banner, country){
-    this.analytics.log('event', 'ad_banner_clicked', { partner: banner.partner, country: country});
-
-    window.open(banner.ctaUrl, '_blank');
   }
 
   onStartTimeChanged(callback){

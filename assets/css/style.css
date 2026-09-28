@@ -1,3 +1,7 @@
+:root {
+  color-scheme: only light;
+}
+
 html, body, .flex-container{
   height: 100%;
   width: 100%;
@@ -97,6 +101,24 @@ html, body {
   position: sticky;
   top: 0;
   z-index: 10;
+  display: flex;
+  align-items: center;
+}
+
+#sidebar > .w3-bar > .w3-bar-item {
+  float: none;
+}
+
+#sidebar > .w3-bar > .w3-button {
+  flex: 0 0 auto;
+  align-self: flex-start;
+}
+
+#sidebar-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-left: 0;
+  overflow-wrap: anywhere;
 }
 
 .w3-sidebar {
@@ -148,7 +170,6 @@ html, body {
 
 #preferences > .w3-bar #preferences-close {
   float: none;
-  margin-left: auto;
 }
 
 #preferences .pc-tab-active {

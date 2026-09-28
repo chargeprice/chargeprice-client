@@ -47,10 +47,10 @@ export default class RootContainer extends ViewBase {
           <div id="sidebar" class="w3-sidebar w3-white w3-card-4 w3-animate-right">
 
               <div class="w3-bar pc-secondary">
-                <span class="w3-bar-item w3-large"><span id="sidebarHeader" class="header-font"></span></span>
-                <button @click="${()=>this.onCloseSidebar()}" class="w3-bar-item w3-button w3-right w3-hover-dark-gray" title="close Sidebar">
-                  <img class="inverted" class="w3-button " style="height: 26px;" src="img/close.svg">
+                <button @click="${()=>this.onCloseSidebar()}" class="w3-bar-item w3-button w3-hover-dark-gray" title="close Sidebar">
+                  <img class="inverted" class="w3-button " style="height: 26px;" src="img/arrow-back.svg">
                 </button>
+                <span id="sidebar-title" class="w3-bar-item w3-large"><span id="sidebarHeader" class="header-font"></span></span>
               </div>
 
               <div id="infoContent" class="w3-row"></div>
@@ -62,11 +62,11 @@ export default class RootContainer extends ViewBase {
           <div id="map-row" class="flex-item-d">
             <div id="preferences" class="w3-white w3-card-4">
               <div class="w3-bar pc-secondary">
+                <button id="preferences-close" @click="${()=>this.onClosePreferences()}" class="w3-bar-item w3-button w3-hover-dark-gray" title="close">
+                  <img class="inverted" class="w3-button " src="img/arrow-back.svg">
+                </button>
                 <span id="preferences-tab-search" @click="${()=>this.onSelectPreferencesTab('search')}" class="w3-bar-item w3-button preferences-tab pc-tab-active">${this.t("locationSearchHeader")}</span>
                 <span id="preferences-tab-route" @click="${()=>this.onSelectPreferencesTab('route')}" class="w3-bar-item w3-button preferences-tab">${this.t("routePlannerHeader")}</span>
-                <button id="preferences-close" @click="${()=>this.onClosePreferences()}" class="w3-bar-item w3-button w3-right w3-hover-dark-gray" title="close">
-                  <img class="inverted" class="w3-button " src="img/close.svg">
-                </button>
               </div>
 
               <div id="searchContent" class="w3-container w3-padding-16"></div>

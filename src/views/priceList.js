@@ -29,11 +29,11 @@ export default class PriceListView extends ViewBase {
         </div>
       `:""}
 
-      ${this.priceSectionTemplate(()=>html`<a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("myTariffs")} <i class="fa fa-pencil"></a>`, prices.allMyPrices)}
+      ${this.priceSectionTemplate(()=>html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("myTariffs")} <i class="fa fa-pencil"></a>`, prices.allMyPrices)}
 
       ${prices.allOtherPrices.length > 0 ? html`
         <div class="price-flex-container w3-margin-top price-header header-font">
-          <div class="price-flex-left">${hasWallet ? this.t("otherTariffs") : html`<a href="#" class="tariff-link" @click="${()=>this.onManageMyTariffs()}">${this.t("tariff")} <i class="fa fa-pencil"></i></a>`}</div>
+          <div class="price-flex-left">${hasWallet ? this.t("otherTariffs") : html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("tariff")} <i class="fa fa-pencil"></i></a>`}</div>
           <div class="price-flex-right">${this.currency.getDisplayedCurrency()}</div>
         </div>
 
