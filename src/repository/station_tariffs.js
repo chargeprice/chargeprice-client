@@ -6,6 +6,7 @@ export default class StationTariffs {
 
   constructor(depts){
     this.translation = depts.translation();
+    this.customConfig = depts.customConfig();
     this.base_url = process.env.CHARGEPRICE_API_URL;
     this.apiKey = process.env.CHARGEPRICE_API_KEY;
 
@@ -67,6 +68,9 @@ export default class StationTariffs {
     }
 
     if(options.minPower) query["filter[charge_points.power.gte]"] = options.minPower;
+
+    // Mobile devices struggle with rendering many markers
+    if(this.customConfig.isMobileOrTablet()) query["page[size]"] = 200;
 
     if(options.myVehicle){
       query["filter[charge_points.plug.in]"]= this.defaultPlugs.concat(options.myVehicle.dcChargePorts);
