@@ -36,6 +36,10 @@ export default class CustomConfig {
     return check;
   }
 
+  isSamsungBrowser(){
+    return /SamsungBrowser/i.test(navigator.userAgent);
+  }
+
   isRunningStandalone(){
     const iOSstandalone = (window.navigator.standalone == true);
     const chromeStandalone = (window.matchMedia('(display-mode: standalone)').matches);

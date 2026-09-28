@@ -85,8 +85,7 @@ export default class PromoPage extends LandingPage {
     await this.loadProfile();
 
     this.depts.themeLoader().loadThemeStylesheet();
-    document.documentElement.classList.add("landing-page");
-    document.body.classList.add("landing-page");
+    this.addPageClasses();
     this.rerender();
   }
 

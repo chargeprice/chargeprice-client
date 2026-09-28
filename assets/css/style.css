@@ -1,7 +1,3 @@
-:root {
-  color-scheme: only light;
-}
-
 html, body, .flex-container{
   height: 100%;
   width: 100%;
@@ -819,7 +815,6 @@ body.landing-page {
 .landing-hero-logo {
   display: block;
   height: 28px;
-  filter: brightness(0) invert(1);
   margin-bottom: 24px;
 }
 
@@ -1008,6 +1003,15 @@ button.landing-webapp-cta:disabled {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.samsung-browser .landing-headline,
+.samsung-browser .landing-stat-number {
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
 }
 
 .landing-stat-label {

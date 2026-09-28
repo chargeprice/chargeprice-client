@@ -28,7 +28,7 @@ export default class LandingPage extends ViewBase {
 
           <div class="landing-hero-inner">
             <div class="landing-hero-content">
-              <img src="img/CP-logotype-h-black.svg" alt="Chargeprice" class="landing-hero-logo">
+              <img src="img/CP-logotype-h-white.svg" alt="Chargeprice" class="landing-hero-logo">
               <h1 class="landing-headline">${this.t("landingHeroHeadline")}</h1>
               <p class="landing-subtext">${this.t("landingHeroSubtext")}</p>
 
@@ -172,8 +172,14 @@ export default class LandingPage extends ViewBase {
 
   render() {
     this.depts.themeLoader().loadThemeStylesheet();
+    this.addPageClasses();
+    render(this.template(), document.getElementById("rootContainer"));
+  }
+
+  addPageClasses() {
     document.documentElement.classList.add("landing-page");
     document.body.classList.add("landing-page");
-    render(this.template(), document.getElementById("rootContainer"));
+    // Samsung Internet's forced dark mode breaks the gradient texts
+    document.documentElement.classList.toggle("samsung-browser", this.customConfig.isSamsungBrowser());
   }
 }
