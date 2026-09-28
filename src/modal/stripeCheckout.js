@@ -11,6 +11,13 @@ const FEATURES = [
   { title: "stripeCheckoutFeatureMobileAppTitle", url: "https://www.chargeprice.net/en/applications/" }
 ];
 
+// Features that are premium on the web but free in the mobile app
+const FREE_IN_APP_FEATURES = [
+  { title: "stripeCheckoutFeatureAllTariffsTitle", text: "premiumAppFeatureTariffs" },
+  { title: "stripeCheckoutFeatureWalletTitle", text: "premiumAppFeatureWallet" },
+  { title: "stripeCheckoutFeatureOperatorFilterTitle", text: "premiumAppFeatureOperatorFilter" }
+];
+
 const HERO_IMAGE = "img/hero-background.png";
 const PLAY_LINK = "https://play.google.com/store/apps/details?id=fr.chargeprice.app";
 const IOS_LINK = "https://apps.apple.com/us/app/chargeprice/id1552707493";
@@ -73,19 +80,7 @@ export default class ModalStripeCheckout extends ModalBase {
               <p class="premium-section-title">${this.t("premiumWebTitle")}</p>
               <p class="w3-small w3-text-dark-gray" style="margin-top:0;">${this.t("premiumWebText")}</p>
 
-              <ul style="list-style:none;padding:0;margin:16px 0;text-align:left;">
-                ${FEATURES.map(feature => html`
-                  <li style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;">
-                    <i class="fa fa-check-circle pc-main-text" style="font-size:1.1em;margin-top:2px;"></i>
-                    <span>
-                      ${feature.url
-                        ? html`<a href="${feature.url}" target="_blank" class="link-text" style="font-weight:600;">${this.t(feature.title)}</a>`
-                        : html`<span style="font-weight:600;">${this.t(feature.title)}</span>`}
-                      ${feature.text ? html`<span class="w3-small w3-block w3-text-dark-gray">${this.t(feature.text)}</span>` : ""}
-                    </span>
-                  </li>
-                `)}
-              </ul>
+              ${this.featureListTemplate(FEATURES)}
 
               <div class="premium-billing-options">
                 <div
@@ -129,18 +124,53 @@ export default class ModalStripeCheckout extends ModalBase {
   mobileAppTemplate() {
     return html`
       <div class="premium-app-section">
-        <p class="premium-app-title"><i class="fa fa-mobile"></i> ${this.t("premiumAppTitle")}</p>
-        <p class="premium-app-text">${this.t("premiumAppText")}</p>
-        <img src="img/screenshot_pricelist.png" alt="Chargeprice app price list" class="premium-app-screenshot">
-        <div class="premium-app-badges">
-          <a href="${IOS_LINK}" target="_blank" @click="${() => this.onDownloadApp("ios")}">
-            <img src="img/store/app-store-badge.png" alt="Download on the App Store" class="premium-app-badge">
-          </a>
-          <a href="${PLAY_LINK}" target="_blank" @click="${() => this.onDownloadApp("android")}">
-            <img src="img/store/play-store-badge.png" alt="Get it on Google Play" class="premium-app-badge">
-          </a>
+        <span class="w3-tag w3-round premium-free-badge premium-app-free-badge">${this.t("premiumFreeBadge")}</span>
+        <p class="premium-app-title">${this.t("premiumAppTitle")}</p>
+        <div class="premium-app-proof">
+          <div class="premium-app-stat">
+            <div class="premium-app-stat-value premium-app-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></div>
+            <div class="premium-app-stat-label">${this.t("paywallPrivateRating")}</div>
+          </div>
+          <div class="premium-app-stat">
+            <div class="premium-app-stat-value">${this.t("landingStatUsersNumber")}</div>
+            <div class="premium-app-stat-label">${this.t("landingStatUsersLabel")}</div>
+          </div>
+        </div>
+        ${this.featureListTemplate(FREE_IN_APP_FEATURES)}
+        <div class="premium-app-download">
+          <div class="premium-app-badges">
+            <a href="${IOS_LINK}" target="_blank" @click="${() => this.onDownloadApp("ios")}">
+              <img src="img/store/app-store-badge.png" alt="Download on the App Store" class="premium-app-badge">
+            </a>
+            <a href="${PLAY_LINK}" target="_blank" @click="${() => this.onDownloadApp("android")}">
+              <img src="img/store/play-store-badge.png" alt="Get it on Google Play" class="premium-app-badge">
+            </a>
+          </div>
+          <!-- Desktop only: the QR code leads to tosto.re/chargeprice, which redirects to the right app store -->
+          <div class="premium-app-qr">
+            <img src="img/qr-mobile-app.svg?v=1" alt="QR code to download the Chargeprice mobile app">
+            <span class="w3-small">${this.t("premiumAppScanQr")}</span>
+          </div>
         </div>
       </div>
+    `;
+  }
+
+  featureListTemplate(features) {
+    return html`
+      <ul class="premium-feature-list">
+        ${features.map(feature => html`
+          <li>
+            <i class="fa fa-check-circle pc-main-text premium-feature-icon"></i>
+            <span>
+              ${feature.url
+                ? html`<a href="${feature.url}" target="_blank" class="link-text premium-feature-title">${this.t(feature.title)}</a>`
+                : html`<span class="premium-feature-title">${this.t(feature.title)}</span>`}
+              ${feature.text ? html`<span class="w3-small w3-block w3-text-dark-gray">${this.t(feature.text)}</span>` : ""}
+            </span>
+          </li>
+        `)}
+      </ul>
     `;
   }
 

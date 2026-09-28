@@ -356,8 +356,7 @@
   "premiumOr": "oder",
   "stripeCheckoutQuote": "Mit Premium war günstig Laden noch nie so einfach",
   "premiumTrial": "7 Tage kostenlos testen",
-  "premiumAppTitle": "Chargeprice kostenlos am Smartphone",
-  "premiumAppText": "Alle Tarifpreise, dein Wallet und der Betreiberfilter sind in der Chargeprice App kostenlos.",
+  "premiumAppTitle": "Hol dir die Chargeprice App fürs Smartphone",
   "premiumAppLink": "Mehr erfahren",
   "premiumWebTitle": "Die Web-App mit Premium nutzen",
   "premiumWebText": "Voller Zugriff im Browser, ideal für den professionellen Einsatz.",
@@ -370,5 +369,9 @@
   "vehicleSelectionSearchModel": "Modell suchen",
   "vehicleSelectionBackToBrands": "Zurück zu den Marken",
   "vehicleSelectionBackToModels": "Zurück zu den Modellen",
-  "vehicleSelectionError": "Fahrzeuge konnten nicht geladen werden. Bitte versuche es erneut."
+  "vehicleSelectionError": "Fahrzeuge konnten nicht geladen werden. Bitte versuche es erneut.",
+  "premiumAppFeatureTariffs": "Finde an jeder Station den günstigsten Tarif",
+  "premiumAppFeatureWallet": "Deine eigenen Ladekarten in deinem Wallet",
+  "premiumAppFeatureOperatorFilter": "Sieh nur die Ladenetze, die dich interessieren",
+  "premiumAppScanQr": "Mit dem Smartphone scannen"
 }

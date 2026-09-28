@@ -332,8 +332,7 @@
   "premiumOr": "or",
   "stripeCheckoutQuote": "With Premium, charging cheap is as easy as never before",
   "premiumTrial": "Try 7 days for free",
-  "premiumAppTitle": "Get Chargeprice for free on your phone",
-  "premiumAppText": "All tariff prices, your wallet and the operator filter are free in the Chargeprice app.",
+  "premiumAppTitle": "Get the Chargeprice mobile app",
   "premiumAppLink": "Learn more",
   "premiumWebTitle": "Use the web app with Premium",
   "premiumWebText": "Full access in your browser, ideal for professional use.",
@@ -346,5 +345,9 @@
   "vehicleSelectionSearchModel": "Search model",
   "vehicleSelectionBackToBrands": "Back to brands",
   "vehicleSelectionBackToModels": "Back to models",
-  "vehicleSelectionError": "Vehicles could not be loaded. Please try again."
+  "vehicleSelectionError": "Vehicles could not be loaded. Please try again.",
+  "premiumAppFeatureTariffs": "Find the cheapest tariff at every station",
+  "premiumAppFeatureWallet": "Keep your own charging cards in your wallet",
+  "premiumAppFeatureOperatorFilter": "Only see the charging networks you care about",
+  "premiumAppScanQr": "Scan with your phone"
 }

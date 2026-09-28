@@ -356,8 +356,7 @@
   "premiumOr": "ou",
   "stripeCheckoutQuote": "Avec Premium, recharger à petit prix n'a jamais été aussi simple",
   "premiumTrial": "Essai gratuit de 7 jours",
-  "premiumAppTitle": "Chargeprice gratuit sur votre smartphone",
-  "premiumAppText": "Les prix de tous les tarifs, votre Wallet et le filtre par opérateur sont gratuits dans l'application Chargeprice.",
+  "premiumAppTitle": "Téléchargez l'application mobile Chargeprice",
   "premiumAppLink": "En savoir plus",
   "premiumWebTitle": "Utiliser l'application web avec Premium",
   "premiumWebText": "Accès complet dans votre navigateur, idéal pour un usage professionnel.",
@@ -370,5 +369,9 @@
   "vehicleSelectionSearchModel": "Rechercher un modèle",
   "vehicleSelectionBackToBrands": "Retour aux marques",
   "vehicleSelectionBackToModels": "Retour aux modèles",
-  "vehicleSelectionError": "Les véhicules n'ont pas pu être chargés. Veuillez réessayer."
+  "vehicleSelectionError": "Les véhicules n'ont pas pu être chargés. Veuillez réessayer.",
+  "premiumAppFeatureTariffs": "Trouvez le tarif le moins cher à chaque borne",
+  "premiumAppFeatureWallet": "Vos propres cartes de recharge dans votre Wallet",
+  "premiumAppFeatureOperatorFilter": "Affichez uniquement les réseaux qui vous intéressent",
+  "premiumAppScanQr": "Scannez avec votre smartphone"
 }
