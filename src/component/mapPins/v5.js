@@ -6,6 +6,8 @@ export default class MapPinsV2 {
     this.acColor = "#c2e3fd";
     this.dcColor = "#0497ff";
     this.hpcColor = "#006cb8";
+    // Same gold as the promoted station pin (pin_gold.svg)
+    this.goldColor = "#c79b28";
 
     // green: #17a572
     // orange: #ff8228
@@ -61,9 +63,12 @@ export default class MapPinsV2 {
     const highestPower = this.highestPower(model);
     const size = 12;
 
-    const color = this.colorForPower(highestPower);
+    const color = model.branding ? this.goldColor : this.colorForPower(highestPower);
+    let border = "";
+    // Promoted stations stand out with a thicker white border
+    if(model.branding) border = "border: 1.5px solid #fff;";
     // Light AC dots are hard to see on the map without a dark border
-    const border = color == this.acColor ? `border: 1.5px solid ${this.hpcColor}; box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);` : "";
+    else if(color == this.acColor) border = `border: 1.5px solid ${this.hpcColor}; box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);`;
 
     const html = `<div class="cp-map-dot-marker-dot" style="background: ${color}; ${border}"></div>`;
 

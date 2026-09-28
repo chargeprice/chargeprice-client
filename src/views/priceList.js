@@ -12,6 +12,9 @@ export default class PriceListView extends ViewBase {
     this.analytics = depts.analytics();
     this.currency = depts.currency();
     this.sidebar = sidebar;
+    this.premiumGate = sidebar.premiumGate;
+    this.playLink = "https://play.google.com/store/apps/details?id=fr.chargeprice.app";
+    this.iosLink = "https://apps.apple.com/us/app/chargeprice/id1552707493";
 
     this.theme = depts.themeLoader().getCurrentThemeConfig();
     this.filters = { noMonthlyFee: false, providerCustomerOnly: false };
@@ -29,15 +32,17 @@ export default class PriceListView extends ViewBase {
         </div>
       `:""}
 
-      ${this.priceSectionTemplate(()=>html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("myTariffs")} <i class="fa fa-pencil"></a>`, prices.allMyPrices)}
+      ${this.priceSectionTemplate(()=>html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("myTariffs")} <i class="fa fa-pencil"></i>${this.premiumStarTemplate()}</a>`, prices.allMyPrices)}
 
       ${prices.allOtherPrices.length > 0 ? html`
         <div class="price-flex-container w3-margin-top price-header header-font">
-          <div class="price-flex-left">${hasWallet ? this.t("otherTariffs") : html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("tariff")} <i class="fa fa-pencil"></i></a>`}</div>
+          <div class="price-flex-left">${hasWallet ? this.t("otherTariffs") : html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("tariff")} <i class="fa fa-pencil"></i>${this.premiumStarTemplate()}</a>`}</div>
           <div class="price-flex-right">${this.currency.getDisplayedCurrency()}</div>
         </div>
 
         ${this.filterChipsTemplate()}
+
+        ${prices.allOtherPrices.some(p=>this.isLocked(p.tariff)) ? this.premiumBannerTemplate() : ""}
 
         ${this.rowsTemplate(this.applyFilters(prices.allOtherPrices))}
       `:""}
@@ -47,6 +52,36 @@ export default class PriceListView extends ViewBase {
           ${this.ut("totalPriceInfo")}
         </div>
       `:""}
+    `;
+  }
+
+  premiumStarTemplate(){
+    return this.premiumGate.isRestricted() ? html` <i class="fa fa-star premium-star-inline"></i>` : "";
+  }
+
+  premiumBannerTemplate(){
+    return html`
+      <div class="premium-banner">
+        <div class="premium-banner-app">
+          <p class="premium-banner-title">
+            <span class="w3-tag w3-round w3-small premium-free-badge">${this.t("premiumFreeBadge")}</span>
+            ${this.t("premiumBannerAppTitle")}
+          </p>
+          <div class="premium-banner-actions">
+            <a href="${this.iosLink}" target="_blank" @click="${()=>this.onDownloadApp("ios")}">
+              <img src="img/store/app-store-badge.png" alt="Download on the App Store" class="premium-banner-badge">
+            </a>
+            <a href="${this.playLink}" target="_blank" @click="${()=>this.onDownloadApp("android")}">
+              <img src="img/store/play-store-badge.png" alt="Get it on Google Play" class="premium-banner-badge">
+            </a>
+          </div>
+        </div>
+        <div class="premium-banner-web w3-small">
+          <i class="fa fa-star premium-star-inline"></i>
+          ${this.t("premiumBannerWebText")}
+          <a href="#" class="link-text" @click="${(e)=>{e.preventDefault(); this.premiumGate.showPremiumScreen("price_list_banner");}}">${this.t("premiumBannerWebCta")}</a>
+        </div>
+      </div>
     `;
   }
 
@@ -105,12 +140,41 @@ export default class PriceListView extends ViewBase {
   rowsTemplate(prices){
     return prices.map(p=>{
       const tariff = p.tariff;
+      if(this.isLocked(tariff)) return this.lockedRowTemplate(p, tariff);
       return html`
         <div class="price-flex-container price-row" style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
           ${this.tariffOverviewTemplate(p,tariff)}
           ${this.priceTemplate(p,tariff)}
         </div>
       `});
+  }
+
+  // Tariff name and tags are hidden, the price stays visible. The real name isn't rendered
+  // at all, so it can't be read from the DOM.
+  lockedRowTemplate(price, tariff){
+    const name = tariff.tariffName == null || tariff.tariffName == tariff.provider ? tariff.provider : tariff.tariffName;
+    const showProvider = tariff.tariffName != null && tariff.tariffName != tariff.provider;
+
+    return html`
+      <div class="price-flex-container price-row price-row-locked cp-clickable" @click="${()=>this.onLockedTariffClicked()}">
+        <div class="price-flex-left">
+          <span class="price-locked-text"><i class="fa fa-lock"></i> <span class="price-locked-blur">${this.scramble(name)}</span></span>
+          ${showProvider ? html`<br><label class="w3-margin-top w3-small price-locked-blur">${this.scramble(tariff.provider)}</label>`:""}
+          ${tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0 ?
+            html`
+              <label class=" w3-small w3-block">
+              ${tariff.totalMonthlyFee > 0 ? `${this.t("baseFee")}: ${this.h().dec(tariff.totalMonthlyFee)}/${this.t("month")}**`:"" }
+              ${tariff.monthlyMinSales > 0 ? `${this.t("minSales")}: ${this.h().dec(tariff.monthlyMinSales)}/${this.t("month")}`:"" }
+              </label>
+            `:""}
+        </div>
+        ${this.priceTemplate(price,tariff)}
+      </div>
+    `;
+  }
+
+  scramble(text){
+    return (text || "").replace(/\p{Lu}/gu, "X").replace(/\p{Ll}/gu, "x").replace(/\d/g, "0");
   }
 
   tariffOverviewTemplate(price,tariff){
@@ -190,7 +254,8 @@ export default class PriceListView extends ViewBase {
   }
 
   render(prices, options, station, root ){
-    this.myTariffs = options.myTariffs;
+    // The wallet is a premium feature, so free users only see ad-hoc prices in it
+    this.myTariffs = this.premiumGate.isRestricted() ? [] : options.myTariffs;
     this.station = station;
     this.root = root;
     this.rawPrices = prices;
@@ -236,6 +301,19 @@ export default class PriceListView extends ViewBase {
 
   isMyTariff(tariff){
     return tariff.directPayment || this.myTariffs.some(t=>t.id == tariff.tariff.id);
+  }
+
+  // Ad-hoc prices and promoted partner tariffs are always visible
+  isLocked(tariff){
+    return this.premiumGate.isRestricted() && !tariff.directPayment && !this.isHighlighted(tariff);
+  }
+
+  onLockedTariffClicked(){
+    this.premiumGate.showPremiumScreen("locked_tariff");
+  }
+
+  onDownloadApp(platform){
+    this.analytics.log('event', 'app_install_price_list_clicked', { platform: platform });
   }
 
   isHighlighted(tariff) {

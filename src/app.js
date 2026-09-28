@@ -101,6 +101,7 @@ class App {
 
     this.currentStationTariffs = null;
     this.currentStation = null;
+    this.stationsRequestId = 0;
 
     settingsSidebar.inject(this.sidebar);
     infoSidebar.inject(this.map, this.sidebar);
@@ -114,7 +115,7 @@ class App {
       this.showFallbackLocation();
     }
 
-    this.map.onBoundsChanged(this.showStationsAtLocation.bind(this));
+    this.map.onBoundsChanged(()=>this.scheduleStationsUpdate());
     this.sidebar.onOptionsChanged(this.optionsChanged.bind(this));
     this.sidebar.settingsView.onBatteryRangeChanged(()=>this.updatePrices());
     this.sidebar.stationPrices.onStartTimeChanged(()=>this.updatePrices());
@@ -212,8 +213,13 @@ class App {
     options.minPower = this.map.minPowerOfStations(options.minPower);
     this.map.rerender();
 
+    const requestId = ++this.stationsRequestId;
+
     await this.withNetwork(async ()=>{
       const result = await (new FetchStations(this.depts)).list(bounds.northEast, bounds.southWest,options);
+      // Several requests run at startup (fallback location, own location, loaded settings) and can
+      // finish out of order. Only the latest one may draw, otherwise stations of an old area replace the current ones.
+      if(requestId != this.stationsRequestId) return;
       const stations = result.stations;
       this.map.clearMarkers();
       this.map.resetMarkers();
@@ -309,7 +315,18 @@ class App {
       this.settings.setLastDeeplinkStation(this.poiId, this.poiSource);
       this.stationSelected({id: this.poiId, lite: true, dataAdapter: this.poiSource, charge_points: [] }, true)
     }
-    this.showStationsAtLocation(this.map.getBounds());
+    this.scheduleStationsUpdate();
+  }
+
+  // At startup the map moves to the fallback location, then to the own location and the settings get loaded,
+  // each triggering a reload. Waiting until these triggers settle loads the stations only once.
+  scheduleStationsUpdate(){
+    const delay = this.stationsLoadedOnce ? 300 : 1000;
+    clearTimeout(this.stationsUpdateTimer);
+    this.stationsUpdateTimer = setTimeout(()=>{
+      this.stationsLoadedOnce = true;
+      this.showStationsAtLocation(this.map.getBounds());
+    }, delay);
   }
 
   redirectLegacyUrls(){

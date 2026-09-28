@@ -59,14 +59,28 @@ export default class StationPrices extends ViewBase{
   }
 
   feedbackTemplate(context){
+    const premiumGate = this.sidebar.premiumGate;
+    const restricted = premiumGate.isRestricted();
+
     return html`
       <label class="w3-block" >${this.t("fbReportPriceText")}</label>
-      <button @click="${()=>this.onReportPrice("missing_price",context)}" class="w3-btn pc-secondary">
-      ${this.t("fbReportMissing")}
-      </button>
-      <button @click="${()=>this.onReportPrice("wrong_price",context)}" class="w3-btn pc-secondary">
-        ${this.t("fbReportWrong")}
-      </button>
+      ${!restricted ? html`
+        <button @click="${()=>this.onReportPrice("missing_price",context)}" class="w3-btn pc-secondary">
+        ${this.t("fbReportMissing")}
+        </button>
+        <button @click="${()=>this.onReportPrice("wrong_price",context)}" class="w3-btn pc-secondary">
+          ${this.t("fbReportWrong")}
+        </button>
+      `:""}
+      ${restricted ? html`
+        <div class="w3-small w3-margin-top">
+          <i class="fa fa-star premium-star-inline"></i>
+          ${this.t("premiumFeatureHintPrefix")}
+          <a href="https://www.chargeprice.net/en/applications/" target="_blank" class="link-text">${this.t("premiumFeatureHintMobileApp")}</a>
+          ${this.t("premiumFeatureHintOr")}
+          <a href="#" class="link-text" @click="${(e)=>{e.preventDefault(); premiumGate.showPremiumScreen("price_feedback");}}">${this.t("premiumFeatureHintUpgrade")}</a>.
+        </div>
+      `:""}
     `;
   }
 

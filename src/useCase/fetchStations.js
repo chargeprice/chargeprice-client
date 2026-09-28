@@ -44,7 +44,7 @@ export default class FetchStations {
   }
 
   async fetchIndexedPricePreviewForStations(stations,options, mapCenter){
-    if(options.myVehicle == null || stations.length==0) return {};
+    if(!options.pricesOnMap || options.myVehicle == null || stations.length==0) return {};
     const closestStationsToCenter = this.closestChargepriceStationsToCenter(stations, mapCenter);
     const pricePreviews = await this.stationTariffsRepo.getPricePreviewForStations(closestStationsToCenter,options);
     pricePreviews.forEach(pricePreview=>pricePreview.pricePerKWh = pricePreview.price / pricePreview.energy);

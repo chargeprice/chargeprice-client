@@ -19,6 +19,7 @@ export class CompanySearchBox extends LitElement {
     return {
       placeholder: {  },
       companyName: { },
+      disabled: { type: Boolean },
       _searchResults: { state: true } 
     }
   }
@@ -29,6 +30,7 @@ export class CompanySearchBox extends LitElement {
     this.repoCompany = this.depts.company();
     this._searchResults = [];
     this.companyName = "";
+    this.disabled = false;
     this.autocompleteNonce = 0;
   }
 
@@ -36,7 +38,7 @@ export class CompanySearchBox extends LitElement {
     return html`
       <div>
         <div class="w3-row">
-          <input id="search-box" .value="${this.companyName}" @keyup="${(e)=>this.onKeyUp(e)}" @focusout="${()=>this.onFocusOut()}" class="w3-border w3-input w3-padding" placeholder="${this.placeholder}"/>
+          <input id="search-box" .value="${this.companyName}" @keyup="${(e)=>this.onKeyUp(e)}" @focusout="${()=>this.onFocusOut()}" class="w3-border w3-input w3-padding" placeholder="${this.placeholder}" ?disabled="${this.disabled}"/>
         </div>
         <div id="searchResult">${this.searchResultTemplate()}</div>
       </div>

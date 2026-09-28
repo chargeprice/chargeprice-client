@@ -6,7 +6,6 @@ import ModalSocialMedia from '../modal/socialMedia';
 import ModalInstallApp from '../modal/installApp';
 import ModalPartner from '../modal/partner';
 import ModalDisclaimer from '../modal/disclaimer';
-import GenericList from '../modal/genericList';
 
 export default class InfoSidebar extends ViewBase {
   constructor(depts) {
@@ -14,7 +13,6 @@ export default class InfoSidebar extends ViewBase {
     this.analytics = depts.analytics();
     this.themeLoader = depts.themeLoader();
     this.customConfig = depts.customConfig();
-    this.currency = depts.currency();
     this.menuItems = [
       {
         id: "install",
@@ -22,13 +20,6 @@ export default class InfoSidebar extends ViewBase {
         icon: "download",
         class: "bold",
         action: ()=> new ModalInstallApp(this.depts).show()
-      },
-      {
-        id: "currency",
-        title: this.t("displayedCurrencyHeader"),
-        subTitle: ()=>this.currency.getDisplayedCurrency(),
-        icon: "money",
-        action: ()=> this.onChangeCurrency()
       },
       {
         id: "pro",
@@ -141,23 +132,6 @@ export default class InfoSidebar extends ViewBase {
     this.map.registerClickOnce(event=>{
       new ModalFeedback(this.depts).show("missing_station",{ location: event.location });
     });
-  }
-
-  onChangeCurrency(){
-    new GenericList(this.depts).show(
-      {
-        items: this.currency.getAvailableCurrencies(),
-        header: this.translation.get("displayedCurrencyHeader"),
-        convert: i => i,
-        narrow: true
-      },(c)=>this.currencyChanged(c));
-  }
-
-  currencyChanged(value){
-    this.currency.changeCurrency(value);
-    this.sidebar.optionsChanged();
-    this.analytics.log('event', 'currency_changed',{new_value: value});
-    this.render();
   }
 
   executeAction(entry){

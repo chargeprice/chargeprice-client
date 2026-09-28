@@ -37,6 +37,7 @@ export default class UserProfile extends ViewBase {
 				id: "tariffs",
 				title: this.t("manageMyTariffsLink"),
 				icon: "bars",
+				premium: true,
 				action: ()=>this.onShowMyTariffs()
 			},
 			{
@@ -44,14 +45,6 @@ export default class UserProfile extends ViewBase {
 				title: this.t("activateProductsBtn"),
 				icon: "basket-shopping",
 				action: ()=>this.onActivateProducts()
-			},
-			{
-				id: "stripe_checkout",
-				title: this.t("stripeCheckoutBtn"),
-				icon: "credit-card",
-				// gated behind ?stripe=true while the feature is being rolled out
-				show: ()=>!(this.userSettings.isPro || this.userSettings.isMobilePremium),
-				action: ()=>this.onStripeCheckout()
 			},
 			{
 				id: "manage_subscription",
@@ -83,6 +76,7 @@ export default class UserProfile extends ViewBase {
 				</div>
 				<p><b>${this.t("authLabelUsername")}:</b> ${this.profile.username}</p>
 				<p><b>${this.t("authLabelEmail")}:</b> ${this.profile.email}</p>
+				${this.sidebar.premiumGate.isRestricted() ? this.premiumCardTemplate() : ""}
 				${this.userSettings.isPro ? html`<p><b>${this.t("activateProductsWebPro")}</b> <i class="fa fa-check-circle w3-large"></i></p>` : ""}
 				${this.userSettings.isMobilePremium ? html`<p><b>${this.t("activateProductsMobilePremium")}</b> <i class="fa fa-check-circle w3-large"></i></p>` : ""}
 				${!(this.userSettings.isPro || this.userSettings.isMobilePremium) ? this.accountNotActivatedTemplate() : ""}
@@ -95,6 +89,7 @@ export default class UserProfile extends ViewBase {
 						${this.menuItems.filter(entry => !entry.show || entry.show()).map(entry => html`
 							<a @click="${(e) =>{e.preventDefault(); this.executeAction(entry);}}" href="#" class="w3-bar-item w3-button w3-border-bottom">
 								<i class="fa fa-${entry.icon} pc-main-text"></i> <span class="${entry.class}">${entry.title}</span>
+								${entry.premium && this.sidebar.premiumGate.isRestricted() ? html`<i class="fa fa-star premium-star-inline"></i>` : ""}
 								${entry.subTitle ? html`<span class="w3-small w3-block w3-text-dark-gray">${entry.subTitle}</span>` : ""}
 							</a>
 						`)}
@@ -107,6 +102,40 @@ export default class UserProfile extends ViewBase {
 
 				<span class="w3-link" @click="${()=>this.deleteAccount()}">${this.t("deleteAccountLabel")}</span>
 			</div>
+		`;
+	}
+
+	premiumCardTemplate() {
+		return html`
+		<div class="premium-hero premium-card" style="background-image:url('img/hero-background.png');">
+			<div class="premium-hero-content">
+				<p class="header-font premium-hero-title">
+					<i class="fa fa-star premium-hero-star"></i> ${this.t("stripeCheckoutTagline")}
+				</p>
+				<p class="premium-hero-subtext">${this.t("premiumCardWebText")}</p>
+				<button @click="${()=>this.onStripeCheckout()}" class="w3-btn pc-secondary w3-margin-top">${this.t("premiumTrial")}</button>
+
+				<div class="premium-divider premium-card-divider"><span>${this.t("premiumOr")}</span></div>
+
+				<div class="premium-card-app">
+					<span class="w3-tag w3-round w3-small premium-free-badge">${this.t("premiumFreeBadge")}</span>
+					<p class="premium-card-app-title"><i class="fa fa-mobile"></i> ${this.t("premiumCardAppTitle")}</p>
+					<ul class="premium-card-app-list">
+						${["stripeCheckoutFeatureAllTariffsTitle", "stripeCheckoutFeatureWalletTitle", "stripeCheckoutFeatureOperatorFilterTitle"].map(key => html`
+							<li><i class="fa fa-check"></i> ${this.t(key)}</li>
+						`)}
+					</ul>
+					<div class="premium-app-badges">
+						<a href="${this.iosLink}" target="_blank">
+							<img src="img/store/app-store-badge.png" alt="Download on the App Store" class="premium-app-badge">
+						</a>
+						<a href="${this.playLink}" target="_blank">
+							<img src="img/store/play-store-badge.png" alt="Get it on Google Play" class="premium-app-badge">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
 		`;
 	}
 
@@ -138,32 +167,7 @@ export default class UserProfile extends ViewBase {
 
 	accountNotActivatedTemplate() {
 		if(this.themeLoader.getCurrentThemeId() === 'emc' && this.customConfig.paywallEnabled()) return this.accountNotActivatedEmcTemplate();
-		if(!this.themeLoader.isDefaultTheme() || !this.customConfig.paywallEnabled()) return "";
-
-		return html`
-		<div class="w3-panel w3-pale-blue w3-leftbar w3-border-blue w3-margin-top" style="border-radius:6px;">
-			<p><strong>${this.t("paywallWebPaidCardHeader")}</strong></p>
-			<p>${this.t("paywallWebPaidCardText")}</p>
-
-			<div class="w3-margin-bottom">
-              <a href="${this.iosLink}" target="_blank" style="text-decoration:none;">
-                <img src="img/store/app-store-badge.png" alt="Download on the App Store" style="max-width:150px;height:auto;">
-              </a>
-              <a href="${this.playLink}" target="_blank" style="text-decoration:none;">
-                <img src="img/store/play-store-badge.png" alt="Get it on Google Play" style="max-width:150px;height:auto;">
-              </a>
-            </div>
-		</div>
-
-		<div class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-margin-top" style="border-radius:6px;">
-			<p><strong>${this.t("paywallLoggedInNotActivated")}</strong></p>
-			<p>${this.t("paywallLoggedInProText")}</p>
-			<button @click="${()=>this.onRequestQuote()}" class="w3-btn w3-light-grey w3-small w3-margin-bottom">${this.t("paywallRequestQuoteCta")}</button>
-			<p>${this.ut("paywallLoggedInPrivateText")}</p>
-			${!this.userSettings.isMobilePremium ? html`<p class="w3-small w3-text-red">${this.t("paywallLoggedInRequestAccessNoMobilePremium")}</p>` : ""}
-			<button @click="${()=>this.onRequestWebAppAccess()}" ?disabled="${!this.userSettings.isMobilePremium}" class="w3-btn w3-light-grey w3-small w3-margin-bottom">${this.t("paywallLoggedInRequestAccess")}</button>
-		</div>
-		`;
+		return "";
 	}
 
 	async loadProfileInfo() {
@@ -253,14 +257,6 @@ export default class UserProfile extends ViewBase {
 
 	onGiveFeedback(type) {
 		new ModalFeedback(this.depts).show(type);
-	}
-
-	onRequestWebAppAccess() {
-		new ModalFeedback(this.depts).show("other_feedback", { defaultText: "I am a Premium member on the mobile app and want to get access to the web app." });
-	}
-
-	onRequestQuote() {
-		window.open(this.t("paywallDotNetQuotePro"), "_blank");
 	}
 
 	onMissingStation() {

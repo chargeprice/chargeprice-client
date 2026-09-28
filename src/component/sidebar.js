@@ -1,12 +1,11 @@
 import ManageMyTariffs from './manage_my_tariffs';
 import MyVehicle from './my_vehicle';
 import StationPrices from './station_prices';
-import RoutePlanner from '../views/routePlanner';
 import ViewBase from './viewBase';
 import UserProfile from './userProfile';
 import Authorization from '../component/authorization';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile.js';
-import ModalPaywall from '../modal/paywall.js';
+import PremiumGate from './premiumGate.js';
 import ModalPaywallEmc from '../modal/paywall_emc.js';
 
 export default class Sidebar extends ViewBase {
@@ -21,16 +20,16 @@ export default class Sidebar extends ViewBase {
     this.eventBus = depts.eventBus();
     this.currency = depts.currency();
     this.themeLoader = depts.themeLoader();
+    this.premiumGate = new PremiumGate(depts, userSettings);
     this.manageMyTariffs = new ManageMyTariffs(this,depts, userSettings);
     this.myVehicle = new MyVehicle(this,this.depts, userSettings);
     this.stationPrices = new StationPrices(this,this.depts);
-    this.routePlanner = new RoutePlanner(this,this.depts);
-    this.routePlanner.render();
 		this.userProfile = new UserProfile(this, this.depts, userSettings);
     this.userSettings = userSettings;
     this.loaded = false;
     this.rootId = "sidebar";
     this.payloadSidebars = ["prices","manageMyTariffs"];
+    this.premiumSidebars = ["manageMyTariffs"];
 
     this.sidebarContent = {
       "info": {
@@ -90,6 +89,7 @@ export default class Sidebar extends ViewBase {
       facilities: settingsModel.facilities,
       isPro: settingsModel.isPro,
       isMobilePremium: settingsModel.isMobilePremium,
+      pricesOnMap: !this.premiumGate.isRestricted(),
     }
   }
 
@@ -133,6 +133,11 @@ export default class Sidebar extends ViewBase {
   }
 
   async open(contentKey, headerOverride) {
+    if(this.premiumSidebars.includes(contentKey) && this.premiumGate.isRestricted()){
+      this.premiumGate.showPremiumScreen(contentKey);
+      return;
+    }
+
     if(await this.showPaywallIfNeeded(contentKey)) return;
 
     this.analytics.log('event', 'sidebar_opened',{sidebar_id: contentKey});
@@ -181,18 +186,15 @@ export default class Sidebar extends ViewBase {
     // Only show paywall for certain sidebars
     if(this.payloadSidebars.indexOf(contentKey) == -1) return false; 
 
+    // Only EMC has a full paywall, the default theme restricts single features via PremiumGate
     const isEmc = this.themeLoader.getCurrentThemeId() === 'emc';
-
-    // No paywall for white labels (except EMC)
-    if((!this.themeLoader.isDefaultTheme() && !isEmc) || (this.userSettings.isPro || this.userSettings.isMobilePremium) || !this.customConfig.paywallEnabled()) return false;
+    if(!isEmc || this.premiumGate.isPremium() || !this.customConfig.paywallEnabled()) return false;
 
     const loggedIn = await this.isLoggedIn();
     if (loggedIn) {
       this.open("userProfile");
-    } else if (isEmc) {
-      new ModalPaywallEmc(this.depts).show();
     } else {
-      new ModalPaywall(this.depts, 'intro').show();
+      new ModalPaywallEmc(this.depts).show();
     }
 
     return true;

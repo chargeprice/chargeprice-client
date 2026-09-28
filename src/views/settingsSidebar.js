@@ -2,6 +2,8 @@ import { html, render } from 'lit';
 import ViewBase from '../component/viewBase';
 import CompanySearchBox from '../component/companySearchBox';
 import FACILITIES from '../helper/facilities';
+import PremiumGate from '../component/premiumGate';
+import GenericList from '../modal/genericList';
 import 'nouislider/dist/nouislider.css';
 
 export default class SettingsSidebar extends ViewBase {
@@ -11,8 +13,10 @@ export default class SettingsSidebar extends ViewBase {
     this.analytics = depts.analytics();
     this.settingsPrimitive = depts.settingsPrimitive();
     this.themeLoader = depts.themeLoader();
+    this.currency = depts.currency();
     this.selectedMinPower = 0;
     this.userSettings = userSettings;
+    this.premiumGate = new PremiumGate(depts, userSettings);
     this.filteredCpos = [];
     this.selectedFacilities = [];
     this.defaultBatteryRange = [20,80];
@@ -37,6 +41,9 @@ export default class SettingsSidebar extends ViewBase {
 
     <label class="w3-margin-bottom w3-block" style="margin-top: 24px;">${this.t("facilitiesHeader")}</label>
     <div id="facilitiesFilter" class="w3-margin-bottom"></div>
+
+    <label class="w3-margin-bottom w3-block" style="margin-top: 24px;">${this.t("displayedCurrencyHeader")}</label>
+    <div id="selectCurrency" style="margin-bottom: 24px;"></div>
     `;
   }
 
@@ -54,9 +61,14 @@ export default class SettingsSidebar extends ViewBase {
   }
 
   cpoFilterTemplate(){
+    const restricted = this.premiumGate.isRestricted();
+
     return html`
       <div>
-      <company-search-box placeholder="${this.t("filterOperators")}" @company-changed="${(res)=>this.onCompanyChanged(res.detail)}"></company-search-box>
+      <div class="premium-filter-row ${restricted ? "premium-filter-locked" : ""}" @click="${()=>{ if(restricted) this.premiumGate.showPremiumScreen("operator_filter"); }}">
+        <company-search-box class="premium-filter-input" placeholder="${this.t("filterOperators")}" ?disabled="${restricted}" @company-changed="${(res)=>this.onCompanyChanged(res.detail)}"></company-search-box>
+        ${restricted ? html`<i class="fa fa-star premium-star"></i>`:""}
+      </div>
       <div class="w3-margin-top">
         ${this.filteredCpos.map(cpo=>html`
           <span class="w3-tag w3-round w3-light-grey">
@@ -83,6 +95,14 @@ export default class SettingsSidebar extends ViewBase {
     `;
   }
 
+  currencyTemplate(){
+    return html`
+      <span @click="${()=>this.onChangeCurrency()}" class="w3-tag w3-round cp-clickable w3-white w3-border" style="padding: 8px 10px;">
+        <i class="fa fa-money"></i> ${this.currency.getDisplayedCurrency()}
+      </span>
+    `;
+  }
+
   render(){
     render(this.template(),this.getEl("settingsContent"));
     this.loadModel();
@@ -90,6 +110,7 @@ export default class SettingsSidebar extends ViewBase {
     this.initBatteryRangeSlider();
     this.rerenderCpoFilter();
     this.rerenderFacilities();
+    this.rerenderCurrency();
   }
 
   powerValueTemplate(){
@@ -236,6 +257,27 @@ export default class SettingsSidebar extends ViewBase {
 
   rerenderFacilities(){
     render(this.facilitiesTemplate(),this.getEl("facilitiesFilter"));
+  }
+
+  onChangeCurrency(){
+    new GenericList(this.depts).show(
+      {
+        items: this.currency.getAvailableCurrencies(),
+        header: this.t("displayedCurrencyHeader"),
+        convert: i => i,
+        narrow: true
+      },(c)=>this.currencyChanged(c));
+  }
+
+  currencyChanged(value){
+    this.currency.changeCurrency(value);
+    this.sidebar.optionsChanged();
+    this.analytics.log('event', 'currency_changed',{new_value: value});
+    this.rerenderCurrency();
+  }
+
+  rerenderCurrency(){
+    render(this.currencyTemplate(),this.getEl("selectCurrency"));
   }
 
   getModel(){
