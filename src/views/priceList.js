@@ -159,7 +159,7 @@ export default class PriceListView extends ViewBase {
             ${this.priceTemplate(p,tariff)}
             <i class="fa fa-chevron-${expanded ? "up" : "down"} price-row-toggle"></i>
           </div>
-          ${expanded ? this.tariffDetailsTemplate(tariff) : ""}
+          ${expanded ? this.tariffDetailsTemplate(tariff, p) : ""}
         </div>
       `});
   }
@@ -219,7 +219,7 @@ export default class PriceListView extends ViewBase {
     `;
   }
 
-  tariffDetailsTemplate(tariff){
+  tariffDetailsTemplate(tariff, price){
     const details = this.tariffDetails[tariff.tariff.id] || { loading: true };
 
     let content;
@@ -231,11 +231,29 @@ export default class PriceListView extends ViewBase {
     return html`
       <div class="tariff-details" @click="${(e)=>e.stopPropagation()}">
         ${content}
+        ${this.totalCostTemplate(price)}
         ${tariff.url ? html`
           <a href="${tariff.url}" target="_blank" class="link-text w3-small tariff-details-website" @click="${()=>this.onAffiliateClicked(tariff)}">
             ${this.t("tariffDetailsWebsite")} <i class="fa fa-external-link"></i>
           </a>
         `:""}
+      </div>
+    `;
+  }
+
+  // Total of the simulated session, as calculated by the charge_prices API
+  totalCostTemplate(price){
+    if(price.price == null) return "";
+    const energy = this.options.chargePointEnergy;
+    const duration = this.options.chargePointDuration;
+
+    return html`
+      <div class="tariff-details-row tariff-details-total">
+        <div>
+          ${this.t("tariffDetailsTotal")}
+          ${energy && duration ? html`<div class="w3-small tariff-details-condition">${this.h().int(energy)} kWh · ${this.h().time(duration)}</div>` : ""}
+        </div>
+        <div class="tariff-details-price">${this.h().dec(price.price)} ${this.currency.getDisplayedCurrency()}</div>
       </div>
     `;
   }

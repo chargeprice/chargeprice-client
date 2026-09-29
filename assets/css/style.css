@@ -707,6 +707,17 @@ i.fav-icon {
   white-space: nowrap;
 }
 
+.tariff-details-total {
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  font-weight: 600;
+}
+
+.tariff-details-total .tariff-details-condition {
+  font-weight: normal;
+}
+
 .tariff-details-website {
   display: inline-block;
   margin-top: 6px;

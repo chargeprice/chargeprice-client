@@ -384,5 +384,6 @@
   "tariffDetailsBillingIncrement": "facturé par tranche entamée de {0}",
   "tariffDetailsWebsite": "Voir le site web",
   "tariffDetailsNoPrices": "Aucun prix unitaire disponible pour ce tarif.",
-  "tariffDetailsError": "Les prix unitaires n'ont pas pu être chargés. Veuillez réessayer."
+  "tariffDetailsError": "Les prix unitaires n'ont pas pu être chargés. Veuillez réessayer.",
+  "tariffDetailsTotal": "Coût total de la recharge"
 }

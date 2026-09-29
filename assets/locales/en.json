@@ -360,5 +360,6 @@
   "tariffDetailsBillingIncrement": "billed per started {0}",
   "tariffDetailsWebsite": "Go to website",
   "tariffDetailsNoPrices": "No unit prices available for this tariff.",
-  "tariffDetailsError": "Unit prices could not be loaded. Please try again."
+  "tariffDetailsError": "Unit prices could not be loaded. Please try again.",
+  "tariffDetailsTotal": "Total session cost"
 }

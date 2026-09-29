@@ -384,5 +384,6 @@
   "tariffDetailsBillingIncrement": "Abrechnung je angefangene {0}",
   "tariffDetailsWebsite": "Zur Website",
   "tariffDetailsNoPrices": "Für diesen Tarif sind keine Einzelpreise verfügbar.",
-  "tariffDetailsError": "Einzelpreise konnten nicht geladen werden. Bitte versuche es erneut."
+  "tariffDetailsError": "Einzelpreise konnten nicht geladen werden. Bitte versuche es erneut.",
+  "tariffDetailsTotal": "Gesamtkosten des Ladevorgangs"
 }
