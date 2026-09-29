@@ -173,20 +173,6 @@ export default class StationTariffs {
     return this.toStationDetailModel(apiResponse.data, options);
   }
 
-  async postUserFeedback(feedback){
-    const url = `${this.base_url}/v1/user_feedback`;
-    const body = new JsonApiSerializer(feedback).serialize();
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Api-Key": this.apiKey
-      },
-      body: JSON.stringify(body),
-    })
-    if(response.status != 204) throw "Error in request";
-  }
-
   buildPriceJsonApiRequestBody(station,options){
     const jsonOptions = {
       currency: options.displayedCurrency,

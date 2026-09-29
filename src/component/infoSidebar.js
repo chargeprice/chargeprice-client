@@ -1,6 +1,5 @@
 import { html, render } from 'lit-html';
 import ViewBase from './viewBase';
-import ModalFeedback from '../modal/feedback';
 import ModalMapKey from '../modal/mapKey';
 import ModalSocialMedia from '../modal/socialMedia';
 import ModalInstallApp from '../modal/installApp';
@@ -69,7 +68,7 @@ export default class InfoSidebar extends ViewBase {
         id: "feedback",
         title: this.t("fbGiveFeedback"),
         icon: "comment",
-        action: ()=>this.onGiveFeedback("other_feedback")
+        action: ()=>this.onGiveFeedback()
       },
       {
         id: "missing_station",
@@ -122,15 +121,15 @@ export default class InfoSidebar extends ViewBase {
     this.sidebar=sidebar;
   }
 
-  onGiveFeedback(type){
-    new ModalFeedback(this.depts).show(type);
+  onGiveFeedback(){
+    this.sidebar.feedback.other();
   }
 
   onMissingStation(){
     alert(this.t("fbMissingStationSelectOnMap"));
 
     this.map.registerClickOnce(event=>{
-      new ModalFeedback(this.depts).show("missing_station",{ location: event.location });
+      this.sidebar.feedback.missingStation(event.location);
     });
   }
 

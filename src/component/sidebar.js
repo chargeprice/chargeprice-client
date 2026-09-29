@@ -7,6 +7,7 @@ import UserProfile from './userProfile';
 import Authorization from '../component/authorization';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile.js';
 import PremiumGate from './premiumGate.js';
+import OpenFeedbackForm from '../useCase/openFeedbackForm.js';
 import ModalPaywallEmc from '../modal/paywall_emc.js';
 
 export default class Sidebar extends ViewBase {
@@ -22,6 +23,7 @@ export default class Sidebar extends ViewBase {
     this.currency = depts.currency();
     this.themeLoader = depts.themeLoader();
     this.premiumGate = new PremiumGate(depts, userSettings);
+    this.feedback = new OpenFeedbackForm(depts, userSettings);
     this.manageMyTariffs = new ManageMyTariffs(this,depts, userSettings);
     this.myVehicle = new MyVehicle(this,this.depts, userSettings);
     this.vehicleSelection = new VehicleSelectionSidebar(this, this.depts);

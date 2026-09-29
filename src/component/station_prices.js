@@ -2,7 +2,6 @@ import ViewBase from './viewBase';
 import StartTimeSelection from '../modal/startTimeSelection';
 import {html, render} from 'lit-html';
 import RepositoryStartTime from '../repository/settings/startTime';
-import ModalFeedback from '../modal/feedback';
 import PriceListView from '../views/priceList';
 import StationDetailsView from '../views/stationDetails';
 
@@ -63,16 +62,13 @@ export default class StationPrices extends ViewBase{
     const restricted = premiumGate.isRestricted();
 
     return html`
-      <label class="w3-block" >${this.t("fbReportPriceText")}</label>
       ${!restricted ? html`
-        <button @click="${()=>this.onReportPrice("missing_price",context)}" class="w3-btn pc-secondary">
-        ${this.t("fbReportMissing")}
-        </button>
-        <button @click="${()=>this.onReportPrice("wrong_price",context)}" class="w3-btn pc-secondary">
-          ${this.t("fbReportWrong")}
+        <button @click="${()=>this.onReportMissingPrice(context)}" class="w3-btn pc-secondary">
+          ${this.t("fbReportMissingPriceHeader")}
         </button>
       `:""}
       ${restricted ? html`
+        <label class="w3-block">${this.t("fbReportMissingPriceHeader")}</label>
         <div class="w3-small w3-margin-top">
           <i class="fa fa-star premium-star-inline"></i>
           ${this.t("premiumFeatureHintPrefix")}
@@ -105,7 +101,6 @@ export default class StationPrices extends ViewBase{
   }
 
   loadStationWithAvailability(station,options){
-    if(station.dataAdapter != "chargeprice") return;
     this.chargingStationRepo.getStationDetails(station.id,{ availability: (options.isPro || options.isMobilePremium), myVehicle: options.myVehicle }).then(data=>{
       this.showStation(data, options, false);
     });
@@ -160,23 +155,8 @@ export default class StationPrices extends ViewBase{
     this.selectedChargePointChangedCallback=callback;
   }
 
-  onReportPrice(type, context){
-    const opts = context.options;
-    const contextString = [
-      `${opts.myVehicle.brand} ${opts.myVehicle.name}`,
-      `Battery: ${this.sidebar.settingsView.getBatteryRange()}`,
-      `${this.currentChargePoint.plug} ${this.currentChargePoint.power} kw`,
-      opts.displayedCurrency
-    ].join(", ")
-
-    const options = {
-      cpo: context.station.network,
-      poiLink: window.location.href,
-      prices: context.prices,
-      context: contextString
-    }
-
-    new ModalFeedback(this.depts).show(type,options);
+  onReportMissingPrice(context){
+    this.sidebar.feedback.missingPrice(context.station, this.currentChargePoint);
   }
 
   getStartTime(){

@@ -232,11 +232,18 @@ export default class PriceListView extends ViewBase {
       <div class="tariff-details" @click="${(e)=>e.stopPropagation()}">
         ${content}
         ${this.totalCostTemplate(price)}
-        ${tariff.url ? html`
-          <a href="${tariff.url}" target="_blank" class="link-text w3-small tariff-details-website" @click="${()=>this.onAffiliateClicked(tariff)}">
-            ${this.t("tariffDetailsWebsite")} <i class="fa fa-external-link"></i>
-          </a>
-        `:""}
+        <div class="tariff-details-links">
+          ${tariff.url ? html`
+            <a href="${tariff.url}" target="_blank" class="link-text w3-small" @click="${()=>this.onAffiliateClicked(tariff)}">
+              ${this.t("tariffDetailsWebsite")} <i class="fa fa-external-link"></i>
+            </a>
+          `:""}
+          ${!this.premiumGate.isRestricted() && this.options.chargePoint ? html`
+            <a href="#" class="link-text w3-small" @click="${(e)=>{e.preventDefault(); this.sidebar.feedback.wrongPrice(this.station, this.options.chargePoint, tariff.tariff.id);}}">
+              ${this.t("fbReportWrongPriceHeader")}
+            </a>
+          `:""}
+        </div>
       </div>
     `;
   }
@@ -338,9 +345,8 @@ export default class PriceListView extends ViewBase {
       return;
     }
 
-    // Unit prices are only available for stations from the Chargeprice database
     const chargePoint = this.options.chargePoint;
-    if(this.station.dataAdapter != "chargeprice" || !chargePoint){
+    if(!chargePoint){
       this.tariffDetails[tariffId] = { segments: [] };
       this.rerender();
       return;

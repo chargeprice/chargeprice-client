@@ -1,6 +1,5 @@
 import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
-import ModalFeedback from '../modal/feedback';
 
 // Vehicle selection in three levels: brand -> model -> variant
 export default class VehicleSelectionSidebar extends ViewBase {
@@ -203,7 +202,7 @@ export default class VehicleSelectionSidebar extends ViewBase {
   }
 
   onReportMissingVehicle() {
-    new ModalFeedback(this.depts).show("missing_vehicle");
+    this.sidebar.feedback.missingVehicle();
   }
 
   currentVehicle() {

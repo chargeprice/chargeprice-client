@@ -150,7 +150,8 @@ class App {
 			location.search = params.toString();
 		}
 
-    if (poiId != null && poiSource != null) {
+    // Stations only come from Chargeprice, old deeplinks to other sources (e.g. GoingElectric) are ignored
+    if (poiId != null && poiSource == "chargeprice") {
       this.poiId = poiId;
       this.poiSource = poiSource;
       this.analytics.log('event', 'poi_deeplink_opened', { poi_source: poiSource });

@@ -718,9 +718,12 @@ i.fav-icon {
   font-weight: normal;
 }
 
-.tariff-details-website {
-  display: inline-block;
-  margin-top: 6px;
+.tariff-details-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .price-locked-blur {
