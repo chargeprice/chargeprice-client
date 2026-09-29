@@ -58,6 +58,16 @@ html, body {
   filter: invert(100%);
 }
 
+/* The area below the top bar must shrink to the remaining window height. Otherwise the preferences
+   panel grows to its full content height, the page gets taller than the window and any scroll
+   (focus, touch) pushes the top bar out of view. */
+.flex-item-d {
+  -webkit-flex: 1 1 0;
+  -ms-flex: 1 1 0;
+  flex: 1 1 0;
+  min-height: 0;
+}
+
 #top-bar{
   z-index: 10000;
   display: flex;
