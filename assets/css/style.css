@@ -1003,6 +1003,19 @@ i.fav-icon {
   margin-bottom: 6px;
 }
 
+.premium-context-message {
+  background: #eaf7f1;
+  color: #0f7a53;
+  border-bottom: 1px solid #cfe9dc;
+  padding: 10px 16px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.premium-context-message .fa {
+  margin-right: 4px;
+}
+
 .premium-details-toggle {
   display: inline-block;
   margin: -8px 0 14px;
@@ -2107,16 +2120,6 @@ button.landing-webapp-cta:disabled {
   color: #444;
 }
 
-.route-result-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.route-result-actions .w3-btn {
-  box-shadow: none !important;
-}
 
 .route-card {
   /* Same look as the price list rows */
@@ -2238,4 +2241,143 @@ button.landing-webapp-cta:disabled {
   background: #222;
   border-color: #fff;
   color: #fff;
+}
+
+.route-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 14px;
+  margin: 16px 0 8px;
+  font-size: 0.8em;
+  color: #555;
+}
+
+.route-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.route-legend-line {
+  display: inline-block;
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+
+.route-use-station {
+  background: #eaf3ff;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 0 0 12px;
+}
+
+.route-use-station-text {
+  color: #1a5fb4;
+  font-size: 0.9em;
+  margin-bottom: 8px;
+}
+
+.route-use-station-text .fa {
+  margin-right: 4px;
+}
+
+.route-use-station-button {
+  box-shadow: none !important;
+}
+
+.route-saved-trips {
+  margin-top: 24px;
+}
+
+.route-saved-trips .route-option-label {
+  margin-top: 0;
+}
+
+.route-saved-trip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.route-saved-trip-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.route-saved-trip-name {
+  font-weight: 600;
+}
+
+.route-saved-trip-delete {
+  color: #888;
+  padding: 6px;
+}
+
+.route-saved-trip-delete:hover {
+  color: #f74a56;
+}
+
+.route-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.route-action {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Icons on the same height, even if a label wraps */
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 10px 4px 8px;
+  text-align: center;
+  line-height: 1.2;
+  background: #efefef;
+  border: none;
+  border-radius: 8px;
+  box-shadow: -1px 1px 2px #ddd;
+  color: #333;
+  font: inherit;
+  font-size: 0.8em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.route-action:hover {
+  background: #e4e4e4;
+}
+
+.route-action:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.route-action > .fa:first-child {
+  font-size: 1.5em;
+  color: #007AFF;
+}
+
+.route-action-saved > .fa:first-child {
+  color: #f74a56;
+}
+
+/* Saving is premium: small star in the corner for free users */
+.route-action-premium {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  font-size: 0.9em;
+  color: #f5a623;
+}
+
+/* Battery range taken from the charging stop of the planned route */
+.charge-summary-trip {
+  color: #007AFF;
 }

@@ -1,6 +1,7 @@
 var L = require('leaflet');
 require('leaflet.awesome-markers');
 import MapPinsV5 from './mapPins/v5.js';
+import { TRIP_SEGMENT_COLORS } from '../helper/tripColors.js';
 
 export const defaultLocations = {
 	PARIS: {
@@ -16,15 +17,6 @@ export const defaultLocations = {
     latitude: 55.676098
   }
 }
-
-// Route color by the battery level on this part of the trip
-const TRIP_SEGMENT_COLORS = {
-  normal: "#007AFF",
-  warning: "#ff8229",
-  low: "#f74a56",
-  critical: "#b00020",
-  empty: "#555555"
-};
 
 // Alternative charging stations of a trip are only shown from this zoom level on
 const TRIP_CANDIDATES_MIN_ZOOM = 12;

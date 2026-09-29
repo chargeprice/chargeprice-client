@@ -87,7 +87,7 @@ export class LocationSearchBox extends LitElement {
       placeholder: {  },
       placeName: { },
       removable: { type: Boolean },
-      // Optional { name, latitude, longitude }, offered as first search result
+      // Optional { name, latitude, longitude }, offered as last search result
       currentLocation: { attribute: false },
       _focused: { state: true },
       _searchResults: { state: true } 
@@ -130,13 +130,13 @@ export class LocationSearchBox extends LitElement {
     }
     return html`
       <ul class="w3-ul w3-border w3-white">
+        ${this._searchResults.map(entry=> html`<li @mousedown="${()=>this.onPlaceChanged(entry)}">${entry.name}</li>`)}
         ${showCurrentLocation ? html`
           <li @mousedown="${()=>this.onPlaceChanged(this.currentLocation)}" class="current-location-entry">
             <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="4" fill="currentColor"/><circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
             ${this.currentLocation.name}
           </li>
         ` : ""}
-        ${this._searchResults.map(entry=> html`<li @mousedown="${()=>this.onPlaceChanged(entry)}">${entry.name}</li>`)}
       </ul>
     `;
   }

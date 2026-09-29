@@ -156,7 +156,10 @@ export default class RootContainer extends ViewBase {
     this.toggle("routeContent", tab === "route");
     this.getEl("preferences-tab-search").classList.toggle("pc-tab-active", tab === "search");
     this.getEl("preferences-tab-route").classList.toggle("pc-tab-active", tab === "route");
-    if(tab === "route") this.sidebar.routePlanner.render();
+    if(tab === "route"){
+      this.sidebar.routePlanner.render();
+      this.sidebar.routePlanner.loadSavedTrips();
+    }
   }
 
   onOpenInfo(){

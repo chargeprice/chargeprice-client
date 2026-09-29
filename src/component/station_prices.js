@@ -32,6 +32,12 @@ export default class StationPrices extends ViewBase{
           ${this.h().int(obj.chargePointEnergy)} kWh
           <span class="w3-text-gray">(ø ${this.h().power(obj.chargePointEnergy*60/obj.chargePointDuration)} kW*)</span>
         </span>
+        ${obj.tripBatteryRange ? html`
+          <span class="charge-summary-item charge-summary-trip">
+            <i class="fa fa-route"></i>
+            ${this.sf(this.t("routeChargeStopBatteryRange"), obj.tripBatteryRange[0], obj.tripBatteryRange[1])}
+          </span>
+        ` : ""}
       </div>
     `;
   }
@@ -115,7 +121,14 @@ export default class StationPrices extends ViewBase{
   }
 
   renderStationDetails(station){
-    new StationDetailsView(this.depts).render(station,"station-info");
+    this.currentStation = station;
+    const tripAction = this.sidebar.routePlanner ? this.sidebar.routePlanner.chargeStopActionTemplate(station) : "";
+    new StationDetailsView(this.depts).render(station,"station-info", tripAction);
+  }
+
+  // e.g. after the station became a charging stop of the route
+  refreshStationDetails(){
+    if(this.currentStation) this.renderStationDetails(this.currentStation);
   }
 
   sortChargePointsByPower(chargePoints) {

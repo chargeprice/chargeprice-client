@@ -11,9 +11,11 @@ export default class StationDetailsView extends ViewBase {
     this.customConfig = depts.customConfig();
   }
 
-  template(station){
+  // extra: optional template shown on top, e.g. the "use as charging stop" button of the route planner
+  template(station, extra){
     const url = `${this.customConfig.isIOS() ? 'maps' : 'https' }://maps.google.com/maps?daddr=${station.latitude},${station.longitude}&ll=`;
     return html`
+      ${extra || ""}
       <label class="w3-margin-top">${station.address}</label><br>
 
       <div class="cp-margin-top-small">
@@ -88,8 +90,8 @@ export default class StationDetailsView extends ViewBase {
     `;
   }
 
-  render(station,root){
-    render(this.template(station),document.getElementById(root));
+  render(station,root,extra){
+    render(this.template(station, extra),document.getElementById(root));
   }
 
   onFaultReport(station){

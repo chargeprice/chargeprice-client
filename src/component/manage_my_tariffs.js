@@ -72,6 +72,13 @@ export default class ManageMyTariffs extends ViewBase{
   }
 
   async onAdd(tariff) {
+    // Adding tariffs to the wallet is a premium feature on the web (free in the mobile app)
+    const premiumGate = this.sidebar.premiumGate;
+    if(premiumGate.isRestricted()){
+      premiumGate.showPremiumScreen("wallet_add", { message: this.t("premiumWalletAddMessage") });
+      return;
+    }
+
     if(this.myTariffIds.includes(tariff.id)) return;
     this.myTariffIds.push(tariff.id);
 

@@ -37,7 +37,8 @@ export default class Sidebar extends ViewBase {
     this.stationOpenId = 0;
     this.rootId = "sidebar";
     this.payloadSidebars = ["prices","manageMyTariffs"];
-    this.premiumSidebars = ["manageMyTariffs"];
+    // Sidebars that only premium users can open (the wallet is open, but adding tariffs is premium)
+    this.premiumSidebars = [];
 
     this.sidebarContent = {
       "info": {

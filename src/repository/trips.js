@@ -40,6 +40,40 @@ export default class Trips {
     return trip;
   }
 
+  async get(tripId, accessToken){
+    return this.parse(await fetch(`${this.baseUrl}/v1/trips/${tripId}`, { headers: this.headers(accessToken) }));
+  }
+
+  // attributes: { charge_stop: { id, new_station_id }, is_saved }. Requires a logged in user.
+  async update(tripId, attributes, accessToken){
+    const response = await fetch(`${this.baseUrl}/v1/trips/${tripId}`, {
+      method: "PATCH",
+      headers: this.headers(accessToken),
+      body: JSON.stringify({ data: { type: "trip_update", attributes: attributes } })
+    });
+    return this.parse(response);
+  }
+
+  // Saved trips of a user (newest first), only with a summary of the selected route
+  async listSaved(userId, accessToken){
+    const response = await fetch(`${this.baseUrl}/v1/users/${userId}/trips`, { headers: this.headers(accessToken) });
+    if(response.status != 200) throw new TripError(null);
+
+    const data = (await new JsonApiDeserializer(response).deserialize()).data;
+    return (Array.isArray(data) ? data : [data]).filter(trip=>trip && trip.routes).map(trip=>{
+      const route = trip.routes.find(r=>r.id == trip.selectedRouteId) || trip.routes[0];
+      const stops = (route.steps || []).filter(step=>step.type == "stop");
+      return {
+        id: trip.id,
+        start: stops.length > 0 ? stops[0].name : "",
+        destination: stops.length > 1 ? stops[stops.length - 1].name : "",
+        totalDistance: route.total_distance,
+        totalDuration: route.total_duration,
+        chargeStopCount: route.charge_stop_count
+      };
+    });
+  }
+
   headers(accessToken){
     const headers = {
       "Content-Type": "application/json",
@@ -64,6 +98,7 @@ export default class Trips {
       id: trip.id,
       // A missing status means the calculation is already complete
       status: trip.status || "completed",
+      isSaved: !!trip.isSaved,
       route: route ? this.toRouteModel(route) : null
     };
   }

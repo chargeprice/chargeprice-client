@@ -69,7 +69,8 @@ export default class ViewBase {
       power: val => val >= 10 ? val.toFixed(0) : val.toFixed(1),
       time: val => {
         const h = Math.floor(val / 60);
-        const min = Math.ceil(val % 60);
+        // Rounded down, like the durations of the trips API (e.g. charging time of a charging stop)
+        const min = Math.floor(val % 60);
         if(h==0 && min > 0) return `${min}min`;
         else if(h>0 && min == 0)return `${h}h`;
         else return this.translation.stringFormatWithKey("timeFormat",h,min);

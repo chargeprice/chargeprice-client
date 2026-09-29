@@ -45,9 +45,10 @@ export default class ModalStripeCheckout extends ModalBase {
     this.showDetails = false;
   }
 
-  show(profile, accessToken) {
+  show(profile, accessToken, options = {}) {
     this.profile = profile;
     this.accessToken = accessToken;
+    this.message = options.message || null;
     this.billingCycle = "yearly";
     this.loading = false;
     this.error = null;
@@ -73,6 +74,11 @@ export default class ModalStripeCheckout extends ModalBase {
             <p class="premium-hero-quote">&ldquo;${this.t("stripeCheckoutQuote")}&rdquo;</p>
           </div>
         </div>
+        ${this.message ? html`
+          <div class="premium-context-message">
+            <i class="fa fa-mobile"></i> ${this.message}
+          </div>
+        ` : ""}
         <div class="w3-container w3-padding w3-center">
           <div class="premium-columns">
             <div class="premium-col-app">

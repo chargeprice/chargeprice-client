@@ -258,6 +258,12 @@ class App {
       this.scheduleStationsUpdate();
     });
 
+    this.sidebar.routePlanner.onChargeStopReplaced(()=>{
+      this.sidebar.stationPrices.refreshStationDetails();
+      // The station is now a charging stop, so its prices use the battery range of the stop
+      if(this.currentStation) this.updatePrices();
+    });
+
     this.sidebar.routePlanner.onStationSelected((station)=>{
       this.map.centerLocation(station, 14);
       this.map.changeSelectedStation(station);
@@ -300,9 +306,21 @@ class App {
     this.depts.urlModifier().modifyUrlParam({poi_id: this.currentStation.id, poi_source: this.currentStation.dataAdapter})
   }
 
+  // Charging options for the current station: at a charging stop of the planned route,
+  // the battery range of that stop is used instead of the one from the settings
+  stationChargingOptions(){
+    const options = this.sidebar.chargingOptions();
+    const tripRange = this.sidebar.routePlanner.chargeStopBatteryRange(this.currentStation && this.currentStation.id);
+    if(tripRange){
+      options.batteryRange = tripRange;
+      options.tripBatteryRange = tripRange;
+    }
+    return options;
+  }
+
   async updatePrices() {
     await this.withNetwork(async ()=>{
-      const options = this.sidebar.chargingOptions();
+      const options = this.stationChargingOptions();
       const result = await this.stationTariffs.getTariffsOfStation(this.currentStation,options);
       this.currentStationTariffs = result.data;
       this.currentStationMeta = result.meta;
@@ -321,7 +339,7 @@ class App {
   }
 
   selectedChargePointChanged(){
-    const options = this.sidebar.chargingOptions();
+    const options = this.stationChargingOptions();
     const selectedCP = options.chargePoint;
     if(selectedCP==null) return;
 

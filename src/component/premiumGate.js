@@ -18,7 +18,8 @@ export default class PremiumGate {
     return this.themeLoader.isDefaultTheme() && !this.isPremium();
   }
 
-  async showPremiumScreen(source){
+  // options.message: optional context shown at the top of the premium screen
+  async showPremiumScreen(source, options = {}){
     this.analytics.log('event', 'premium_screen_opened', { source: source });
 
     let profile = null;
@@ -32,6 +33,6 @@ export default class PremiumGate {
       // Not logged in, the checkout asks to log in first
     }
 
-    new ModalStripeCheckout(this.depts).show(profile, accessToken);
+    new ModalStripeCheckout(this.depts).show(profile, accessToken, options);
   }
 }

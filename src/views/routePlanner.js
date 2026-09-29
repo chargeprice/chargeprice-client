@@ -5,7 +5,14 @@ import ViewBase from '../component/viewBase';
 import '../component/locationSearchBox';
 import Trips from '../repository/trips';
 import FetchValidAccessToken from '../useCase/fetchValidAccessToken';
+import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile';
+import Authorization from '../component/authorization';
+import GenericList from '../modal/genericList';
 import AppUpsellBanner from '../component/appUpsellBanner';
+import { TRIP_SEGMENT_CATEGORIES, TRIP_SEGMENT_COLORS } from '../helper/tripColors';
+
+// Google Maps route links support at most 9 waypoints between origin and destination
+const GOOGLE_MAPS_MAX_WAYPOINTS = 9;
 
 // Consumption slider: offset in percent to the vehicle's standard consumption
 const CONSUMPTION_OFFSET_MIN = -50;
@@ -34,6 +41,11 @@ export default class RoutePlanner extends ViewBase{
     };
 
     this.currentLocation = null;
+    this.tripId = null;
+    this.isSaved = false;
+    this.saving = false;
+    this.savedTrips = [];
+    this.savedTripsLoaded = false;
     this.route = null;
     this.showResult = false;
     this.loading = false;
@@ -86,6 +98,30 @@ export default class RoutePlanner extends ViewBase{
           ${this.t("routeShowResult")}
         </button>
       ` : ""}
+
+      ${this.savedTripsTemplate()}
+    `;
+  }
+
+  // Saved trips of the user (premium only)
+  savedTripsTemplate(){
+    if(this.sidebar.premiumGate.isRestricted() || this.savedTrips.length == 0) return "";
+
+    return html`
+      <div class="route-saved-trips">
+        <label class="route-option-label">${this.t("routeSavedTrips")}</label>
+        ${this.savedTrips.map(trip=>html`
+          <div class="route-card route-saved-trip cp-clickable" @click="${()=>this.onOpenSavedTrip(trip)}">
+            <div class="route-saved-trip-text">
+              <div class="route-saved-trip-name">${trip.start} → ${trip.destination}</div>
+              <div class="w3-small w3-text-dark-gray">
+                ${this.formatDistance(trip.totalDistance)} · ${this.h().time(trip.totalDuration)} · ${this.chargeStopsText(trip.chargeStopCount)}
+              </div>
+            </div>
+            <i class="fa fa-trash route-saved-trip-delete" title="${this.t("routeDeleteTrip")}" @click="${(e)=>{e.stopPropagation(); this.onDeleteSavedTrip(trip);}}"></i>
+          </div>
+        `)}
+      </div>
     `;
   }
 
@@ -146,10 +182,7 @@ export default class RoutePlanner extends ViewBase{
   resultTemplate(){
     const route = this.route;
     return html`
-      <div class="route-result-actions">
-        <button @click="${()=>this.onEdit()}" class="w3-btn w3-light-grey w3-small w3-round"><i class="fa fa-pencil"></i> ${this.t("routeEdit")}</button>
-        <button @click="${()=>this.onClearRoute()}" class="w3-btn w3-light-grey w3-small w3-round"><i class="fa fa-times"></i> ${this.t("routePlannerClearRoute")}</button>
-      </div>
+      ${this.actionsTemplate(route)}
 
       <div class="route-card route-summary">
         <div class="route-summary-top">
@@ -169,7 +202,73 @@ export default class RoutePlanner extends ViewBase{
       </div>
 
       ${this.stepsTemplate(route.steps)}
+
+      ${this.routeLegendTemplate(route)}
     `;
+  }
+
+  // Explains the colors of the route on the map, only for the battery levels on this route
+  routeLegendTemplate(route){
+    const categories = TRIP_SEGMENT_CATEGORIES.filter(category=>route.segments.some(segment=>segment.category == category));
+    if(categories.length == 0) return "";
+
+    return html`
+      <div class="route-legend">
+        ${categories.map(category=>html`
+          <span class="route-legend-item">
+            <span class="route-legend-line" style="background: ${TRIP_SEGMENT_COLORS[category]}"></span>
+            ${this.t(`routeBattery_${category}`)}
+          </span>
+        `)}
+      </div>
+    `;
+  }
+
+  actionsTemplate(route){
+    const restricted = this.sidebar.premiumGate.isRestricted();
+
+    return html`
+      <div class="route-actions">
+        <button @click="${()=>this.onEdit()}" class="route-action">
+          <i class="fa fa-pencil"></i>
+          <span>${this.t("routeEdit")}</span>
+        </button>
+        <button @click="${()=>this.onToggleSaved()}" ?disabled="${this.saving}" class="route-action ${this.isSaved ? "route-action-saved" : ""}">
+          ${this.saving ? html`<i class="fa fa-spinner fa-spin"></i>` : html`<i class="fa fa-${this.isSaved ? "heart" : "heart-o"}"></i>`}
+          <span>${this.t(this.isSaved ? "routeSaved" : "routeSave")}</span>
+          ${restricted ? html`<i class="fa fa-star route-action-premium"></i>` : ""}
+        </button>
+        <a href="${this.googleMapsUrl(route)}" target="_blank" rel="noopener" class="route-action" @click="${()=>this.analytics.log('event', 'route_planner_google_maps')}">
+          <i class="fa fa-route"></i>
+          <span>${this.t("routeNavigate")}</span>
+        </a>
+        <button @click="${()=>this.onClearRoute()}" class="route-action">
+          <i class="fa fa-undo"></i>
+          <span>${this.t("routeReset")}</span>
+        </button>
+      </div>
+    `;
+  }
+
+  chargeStopsText(count){
+    if(count == 0) return this.t("routeNoChargeStops");
+    if(count == 1) return this.t("routeOneChargeStop");
+    return this.sf(this.t("routeChargeStops"), count);
+  }
+
+  // Whole route incl. intermediate and charging stops, see developers.google.com/maps/documentation/urls
+  googleMapsUrl(route){
+    const points = route.steps.filter(step=>step.type == "stop" || step.type == "charge_stop");
+    const coords = point=>`${point.latitude},${point.longitude}`;
+    const params = new URLSearchParams({
+      api: "1",
+      origin: coords(points[0]),
+      destination: coords(points[points.length - 1]),
+      travelmode: "driving"
+    });
+    const waypoints = points.slice(1, -1).slice(0, GOOGLE_MAPS_MAX_WAYPOINTS);
+    if(waypoints.length > 0) params.set("waypoints", waypoints.map(coords).join("|"));
+    return `https://www.google.com/maps/dir/?${params.toString()}`;
   }
 
   chargeStopsSummary(route){
@@ -309,9 +408,7 @@ export default class RoutePlanner extends ViewBase{
       const trip = await this.trips.create(this.buildAttributes(), this.buildRelationships(), await this.accessToken());
       if(!trip.route) throw { code: "NO_ROUTE_FOUND" };
 
-      this.route = trip.route;
-      this.showResult = true;
-      this.eventBus.publish("trip.created", this.route);
+      this.showTrip(trip);
       this.analytics.log('event', 'route_planner_calculate', {
         number_of_steps: this.waypoints.length - 2,
         strategy: this.options.strategy,
@@ -348,7 +445,8 @@ export default class RoutePlanner extends ViewBase{
       exclude: exclude,
       price_display_mode: "average_price_per_kwh",
       include_direct_payment: true,
-      user_products: ((this.sidebar.userSettings.meta || {}).products) || []
+      // The trips API only knows mobile_premium (e.g. web_pro must not be sent)
+      user_products: (((this.sidebar.userSettings.meta || {}).products) || []).filter(product=>product == "mobile_premium")
     };
 
     const consumption = this.consumption();
@@ -406,8 +504,192 @@ export default class RoutePlanner extends ViewBase{
     this.render();
   }
 
+  showTrip(trip){
+    this.tripId = trip.id;
+    this.isSaved = trip.isSaved;
+    this.route = trip.route;
+    this.showResult = true;
+    this.eventBus.publish("trip.created", this.route);
+  }
+
+  // Battery range [from%, to%] if the station is a selected charging stop of the current route, otherwise null
+  chargeStopBatteryRange(stationId){
+    if(!this.route || !stationId) return null;
+    const stop = this.route.steps.find(step=>step.type == "charge_stop" && step.station_id == stationId);
+    if(!stop) return null;
+
+    const from = Math.round(stop.state_of_charge_start * 100);
+    // The price calculation needs a range of at least 1%
+    const to = Math.max(Math.round(stop.state_of_charge_end * 100), from + 1);
+    return [from, Math.min(to, 100)];
+  }
+
+  // ---------- Charging stop replacement ----------
+
+  // Charge stops for which the station is an alternative (and not already the selected station)
+  chargeStopsForStation(stationId){
+    if(!this.route) return [];
+    return this.route.steps.filter(step=>
+      step.type == "charge_stop" &&
+      step.station_id != stationId &&
+      (step.station_candidates || []).some(candidate=>candidate.station_id == stationId)
+    );
+  }
+
+  // Button for the station detail page, empty if the station isn't an alternative on the current route
+  chargeStopActionTemplate(station){
+    if(this.chargeStopsForStation(station.id).length == 0) return "";
+
+    return html`
+      <div class="route-use-station">
+        <div class="route-use-station-text"><i class="fa fa-route"></i> ${this.t("routeAlternativeStation")}</div>
+        <button @click="${()=>this.onUseAsChargingStop(station)}" ?disabled="${this.saving}" class="w3-btn pc-secondary w3-block w3-round route-use-station-button">
+          ${this.saving ? html`<i class="fa fa-spinner fa-spin"></i>` : html`<i class="fa fa-bolt"></i>`} ${this.t("routeUseAsChargingStop")}
+        </button>
+      </div>
+    `;
+  }
+
+  onUseAsChargingStop(station){
+    const chargeStops = this.chargeStopsForStation(station.id);
+    if(chargeStops.length == 1){
+      this.replaceChargeStop(chargeStops[0], station);
+      return;
+    }
+
+    // Alternative for several charging stops: the user chooses which one to replace
+    new GenericList(this.depts).show({
+      items: chargeStops,
+      header: this.t("routeChooseChargeStop"),
+      convert: stop=>`${stop.station_name} (${Math.round(stop.state_of_charge_start * 100)}-${Math.round(stop.state_of_charge_end * 100)}%)`,
+      narrow: true
+    }, stop=>this.replaceChargeStop(stop, station));
+  }
+
+  async replaceChargeStop(chargeStop, station){
+    const accessToken = await this.accessToken();
+    // Changing a trip requires a logged in user
+    if(!accessToken){
+      new Authorization(this.depts).render();
+      return;
+    }
+
+    this.saving = true;
+    this.render();
+
+    try {
+      const trip = await this.trips.update(this.tripId, {
+        charge_stop: { id: chargeStop.id, new_station_id: station.id },
+        is_saved: this.isSaved
+      }, accessToken);
+      this.showTrip(trip);
+      this.analytics.log('event', 'route_planner_charge_stop_replaced');
+      if(this.chargeStopReplacedCallback) this.chargeStopReplacedCallback(station);
+    }
+    catch(error){
+      console.error(error);
+      alert(this.t("routeUpdateError"));
+    }
+
+    this.saving = false;
+    this.render();
+  }
+
+  onChargeStopReplaced(callback){
+    this.chargeStopReplacedCallback = callback;
+  }
+
+  // ---------- Saved trips (premium) ----------
+
+  async onToggleSaved(){
+    if(this.sidebar.premiumGate.isRestricted()){
+      this.sidebar.premiumGate.showPremiumScreen("route_save");
+      return;
+    }
+
+    const accessToken = await this.accessToken();
+    if(!accessToken){
+      new Authorization(this.depts).render();
+      return;
+    }
+
+    this.saving = true;
+    this.render();
+
+    try {
+      const trip = await this.trips.update(this.tripId, { is_saved: !this.isSaved }, accessToken);
+      this.isSaved = trip.isSaved;
+      this.analytics.log('event', this.isSaved ? 'route_planner_saved' : 'route_planner_unsaved');
+      this.loadSavedTrips(true);
+    }
+    catch(error){
+      console.error(error);
+      alert(this.t(error && error.code == "TOO_MANY_SAVED_TRIPS" ? "routeTooManySavedTrips" : "routeUpdateError"));
+    }
+
+    this.saving = false;
+    this.render();
+  }
+
+  async loadSavedTrips(force = false){
+    if(this.sidebar.premiumGate.isRestricted()) return;
+    if(this.savedTripsLoaded && !force) return;
+    this.savedTripsLoaded = true;
+
+    try {
+      const { profile, accessToken } = await new FetchAccessTokenWithProfile(this.depts).run();
+      this.savedTrips = await this.trips.listSaved(profile.userId, accessToken);
+    }
+    catch(error){
+      // Not logged in or not available
+      this.savedTrips = [];
+    }
+    this.render();
+  }
+
+  async onOpenSavedTrip(savedTrip){
+    this.loading = true;
+    this.render();
+
+    try {
+      const trip = await this.trips.get(savedTrip.id, await this.accessToken());
+      // Show the trip's stops in the form, so it can be edited and recalculated
+      this.waypoints = trip.route.steps.filter(step=>step.type == "stop").map((step, idx, stops)=>{
+        const placeholder = idx == 0 ? "routePlannerStart" : (idx == stops.length - 1 ? "routePlannerDestination" : "routePlannerStop");
+        return Object.assign(this.newWaypoint(placeholder), { place: { name: step.name, latitude: step.latitude, longitude: step.longitude } });
+      });
+      this.showTrip(trip);
+      this.analytics.log('event', 'route_planner_saved_trip_opened');
+    }
+    catch(error){
+      console.error(error);
+      this.error = this.t("routeError");
+    }
+
+    this.loading = false;
+    this.render();
+  }
+
+  async onDeleteSavedTrip(savedTrip){
+    if(!confirm(this.t("routeDeleteTripConfirm"))) return;
+
+    try {
+      await this.trips.update(savedTrip.id, { is_saved: false }, await this.accessToken());
+      this.savedTrips = this.savedTrips.filter(trip=>trip.id != savedTrip.id);
+      if(savedTrip.id == this.tripId) this.isSaved = false;
+      this.analytics.log('event', 'route_planner_saved_trip_deleted');
+    }
+    catch(error){
+      console.error(error);
+      alert(this.t("routeUpdateError"));
+    }
+    this.render();
+  }
+
   onClearRoute(){
     this.route = null;
+    this.tripId = null;
+    this.isSaved = false;
     this.showResult = false;
     this.render();
 
