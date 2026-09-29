@@ -50,7 +50,7 @@ export default class PriceListView extends ViewBase {
           <div class="price-flex-right">${this.currency.getDisplayedCurrency()}</div>
         </div>
 
-        ${this.filterChipsTemplate()}
+        ${!this.premiumGate.isRestricted() ? this.filterChipsTemplate() : ""}
 
         ${prices.allOtherPrices.some(p=>this.isLocked(p.tariff)) ? this.premiumBannerTemplate() : ""}
 
@@ -102,15 +102,14 @@ export default class PriceListView extends ViewBase {
     ];
 
     return html`
-      <div style="margin-left: 8px;">
-        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-          ${chips.map(chip=>html`
-            <span @click="${()=>this.onToggleFilter(chip.key)}" class="w3-tag w3-round cp-clickable ${this.filters[chip.key] ? "pc-secondary" : "w3-white w3-border"}" style="padding: 8px 14px; font-size: 15px;">
-              ${this.filters[chip.key] ? html`<i class="fa fa-check"></i> `:""}${chip.text}
-              ${chip.info ? html`<i @click="${(e)=>this.onShowFilterInfo(e,chip)}" class="fa fa-info-circle w3-margin-left"></i>`:""}
-            </span>
-          `)}
-        </div>
+      <div class="price-filter-chips">
+        <i class="fa fa-filter price-filter-icon"></i>
+        ${chips.map(chip=>html`
+          <span @click="${()=>this.onToggleFilter(chip.key)}" class="w3-tag w3-round cp-clickable price-filter-chip ${this.filters[chip.key] ? "pc-secondary" : "w3-white w3-border"}">
+            ${this.filters[chip.key] ? html`<i class="fa fa-check"></i> `:""}${chip.text}
+            ${chip.info ? html`<i @click="${(e)=>this.onShowFilterInfo(e,chip)}" class="fa fa-info-circle price-filter-info"></i>`:""}
+          </span>
+        `)}
       </div>
     `;
   }
@@ -234,7 +233,7 @@ export default class PriceListView extends ViewBase {
         ${this.totalCostTemplate(price)}
         <div class="tariff-details-links">
           ${tariff.url ? html`
-            <a href="${tariff.url}" target="_blank" class="link-text w3-small" @click="${()=>this.onAffiliateClicked(tariff)}">
+            <a href="${tariff.url}" target="_blank" class="w3-btn pc-secondary w3-small w3-round tariff-details-website" @click="${()=>this.onAffiliateClicked(tariff)}">
               ${this.t("tariffDetailsWebsite")} <i class="fa fa-external-link"></i>
             </a>
           `:""}

@@ -360,5 +360,8 @@
   "tariffDetailsWebsite": "Voir le site web",
   "tariffDetailsNoPrices": "Aucun prix unitaire disponible pour ce tarif.",
   "tariffDetailsError": "Les prix unitaires n'ont pas pu être chargés. Veuillez réessayer.",
-  "tariffDetailsTotal": "Coût total de la recharge"
+  "tariffDetailsTotal": "Coût total de la recharge",
+  "mapKeyPriceGreen": "Meilleur prix à +10%",
+  "mapKeyPriceOrange": "Jusqu'à +25%",
+  "mapKeyPriceRed": "Plus de +25%"
 }

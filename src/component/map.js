@@ -47,6 +47,9 @@ export default class Map {
 
     // Above this many stations, only stations with a (not most expensive) price are shown as big pins
     this.denseStationThreshold = 100;
+
+    // Promoted stations get golden pins and dots, except for premium users
+    this.highlightPromoted = true;
   }
 
   initializeLayer() {
@@ -145,6 +148,10 @@ export default class Map {
     return minPower > minPowerFromZoom ? minPower : minPowerFromZoom;
   }
 
+  setHighlightPromoted(highlight){
+    this.highlightPromoted = highlight;
+  }
+
   showStationsAsDots(){
     return this.effectiveZoom() <= 11;
   }
@@ -185,10 +192,13 @@ export default class Map {
     const allAsDots = this.showStationsAsDots();
     const dense = stations.length > this.denseStationThreshold;
 
-    stations.forEach(model => {
+    stations.forEach(station => {
+      // Without highlighting, promoted stations are drawn like any other station
+      const model = this.highlightPromoted || !station.branding ? station : Object.assign({}, station, { branding: null });
       const pricePreview = indexedPricePreviews[model.id];
       const showAsDot = allAsDots || (dense && !this.pinClass.isPriceHighlighted(model, pricePreview, cheapestPrice));
-      this.addStation(model, pricePreview, cheapestPrice, showAsDot, onClickCallback);
+      // The click always gets the original station, only the pin ignores the promotion
+      this.addStation(model, pricePreview, cheapestPrice, showAsDot, ()=>onClickCallback(station));
     });
   }
 

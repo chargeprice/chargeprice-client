@@ -103,6 +103,7 @@ class App {
     this.currentStation = null;
     this.stationsRequestId = 0;
 
+    this.map.setHighlightPromoted(!this.sidebar.premiumGate.isPremium());
     settingsSidebar.inject(this.sidebar);
     infoSidebar.inject(this.map, this.sidebar);
 		this.sidebar.injectMap(this.map);

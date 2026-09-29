@@ -336,5 +336,8 @@
   "tariffDetailsWebsite": "Go to website",
   "tariffDetailsNoPrices": "No unit prices available for this tariff.",
   "tariffDetailsError": "Unit prices could not be loaded. Please try again.",
-  "tariffDetailsTotal": "Total session cost"
+  "tariffDetailsTotal": "Total session cost",
+  "mapKeyPriceGreen": "Best price to +10%",
+  "mapKeyPriceOrange": "Up to +25%",
+  "mapKeyPriceRed": "More than +25%"
 }

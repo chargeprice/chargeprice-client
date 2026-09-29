@@ -298,6 +298,10 @@ html, body {
   bottom: 1px;
 }
 
+.map-key-row {
+  line-height: 1.6;
+}
+
 .map-key-item {
   padding: 2px 6px;
   margin: 0px !important;
@@ -672,6 +676,29 @@ i.fav-icon {
   box-shadow: -1px 1px 2px #ddd;
 }
 
+.price-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  /* Same horizontal margin as .price-header */
+  margin: 0 16px;
+}
+
+.price-filter-icon {
+  color: #888;
+  margin-right: 2px;
+}
+
+.price-filter-chip {
+  padding: 3px 10px;
+  font-size: 13px;
+}
+
+.price-filter-info {
+  margin-left: 6px;
+}
+
 .tariff-name {
   font-family: 'Merriweather Sans';
   font-weight: 300;
@@ -722,8 +749,15 @@ i.fav-icon {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 10px;
+}
+
+.tariff-details-website {
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: none !important;
 }
 
 .price-locked-blur {

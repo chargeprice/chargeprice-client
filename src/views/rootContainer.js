@@ -2,6 +2,7 @@ import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
 import Authorization from '../component/authorization';
 import GenericList from '../modal/genericList';
+import PremiumGate from '../component/premiumGate';
 
 
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile';
@@ -16,6 +17,7 @@ export default class RootContainer extends ViewBase {
     this.themeLoader = depts.themeLoader();
     this.profile = null;
     this.userSettings = userSettings;
+    this.premiumGate = new PremiumGate(depts, userSettings);
   }
 
   template(){
@@ -79,7 +81,14 @@ export default class RootContainer extends ViewBase {
               <img src="img/edit.svg">
             </button>
             <div id="map-key" class="w3-display-bottommiddle ${this.customConfig.isIOS() ? "w3-margin-bottom":""}">
-              <span class="map-key-item" style="background: #c2e3fd; color: black;">< 50 kW</span><span class="map-key-item" style="background: #0497ff">< 150 kW</span><span class="map-key-item" style="background: #006cb8">>= 150 kW</span>
+              ${!this.premiumGate.isRestricted() ? html`
+                <div class="map-key-row">
+                  <span class="map-key-item" style="background: #19a673">${this.t("mapKeyPriceGreen")}</span><span class="map-key-item" style="background: #ff8229">${this.t("mapKeyPriceOrange")}</span><span class="map-key-item" style="background: #f74a56">${this.t("mapKeyPriceRed")}</span>
+                </div>
+              `:""}
+              <div class="map-key-row">
+                <span class="map-key-item" style="background: #c2e3fd; color: black;">< 50 kW</span><span class="map-key-item" style="background: #0497ff">< 150 kW</span><span class="map-key-item" style="background: #006cb8">>= 150 kW</span>
+              </div>
             </div>
           </div>
         </div>

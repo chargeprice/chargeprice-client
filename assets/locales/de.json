@@ -360,5 +360,8 @@
   "tariffDetailsWebsite": "Zur Website",
   "tariffDetailsNoPrices": "Für diesen Tarif sind keine Einzelpreise verfügbar.",
   "tariffDetailsError": "Einzelpreise konnten nicht geladen werden. Bitte versuche es erneut.",
-  "tariffDetailsTotal": "Gesamtkosten des Ladevorgangs"
+  "tariffDetailsTotal": "Gesamtkosten des Ladevorgangs",
+  "mapKeyPriceGreen": "Bester Preis bis +10%",
+  "mapKeyPriceOrange": "Bis +25%",
+  "mapKeyPriceRed": "Mehr als +25%"
 }
