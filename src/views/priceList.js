@@ -7,6 +7,7 @@ import GenericPopup from '../modal/genericPopup';
 import StationTariffs from '../repository/station_tariffs';
 import Advertisements from '../repository/advertisements';
 import BannerAd from '../component/bannerAd';
+import AppUpsellBanner from '../component/appUpsellBanner';
 var dayjs = require('dayjs');
 
 // Energy price always comes first
@@ -31,8 +32,7 @@ export default class PriceListView extends ViewBase {
     this.currency = depts.currency();
     this.sidebar = sidebar;
     this.premiumGate = sidebar.premiumGate;
-    this.playLink = "https://play.google.com/store/apps/details?id=fr.chargeprice.app";
-    this.iosLink = "https://apps.apple.com/us/app/chargeprice/id1552707493";
+    this.appUpsellBanner = new AppUpsellBanner(depts, this.premiumGate);
 
     this.theme = depts.themeLoader().getCurrentThemeConfig();
     this.filters = { noMonthlyFee: false, providerCustomerOnly: false };
@@ -87,29 +87,7 @@ export default class PriceListView extends ViewBase {
   }
 
   premiumBannerTemplate(){
-    return html`
-      <div class="premium-banner">
-        <div class="premium-banner-app">
-          <p class="premium-banner-title">
-            <span class="w3-tag w3-round w3-small premium-free-badge">${this.t("premiumFreeBadge")}</span>
-            ${this.t("premiumBannerAppTitle")}
-          </p>
-          <div class="premium-banner-actions">
-            <a href="${this.iosLink}" target="_blank" @click="${()=>this.onDownloadApp("ios")}">
-              <img src="img/store/app-store-badge.png" alt="Download on the App Store" class="premium-banner-badge">
-            </a>
-            <a href="${this.playLink}" target="_blank" @click="${()=>this.onDownloadApp("android")}">
-              <img src="img/store/play-store-badge.png" alt="Get it on Google Play" class="premium-banner-badge">
-            </a>
-          </div>
-        </div>
-        <div class="premium-banner-web w3-small">
-          <i class="fa fa-star premium-star-inline"></i>
-          ${this.t("premiumBannerWebText")}
-          <a href="#" class="link-text" @click="${(e)=>{e.preventDefault(); this.premiumGate.showPremiumScreen("price_list_banner");}}">${this.t("premiumBannerWebCta")}</a>
-        </div>
-      </div>
-    `;
+    return this.appUpsellBanner.template({ title: this.t("premiumBannerAppTitle"), source: "price_list_banner" });
   }
 
   filterChipsTemplate(){
@@ -565,9 +543,6 @@ export default class PriceListView extends ViewBase {
     this.premiumGate.showPremiumScreen("locked_tariff");
   }
 
-  onDownloadApp(platform){
-    this.analytics.log('event', 'app_install_price_list_clicked', { platform: platform });
-  }
 
   isHighlighted(tariff) {
     const highlightedIds = this.theme.highlightedTariffs;

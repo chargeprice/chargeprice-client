@@ -1003,6 +1003,17 @@ i.fav-icon {
   margin-bottom: 6px;
 }
 
+.premium-details-toggle {
+  display: inline-block;
+  margin: -8px 0 14px;
+}
+
+.premium-fleet-hint {
+  margin: 8px 0 0;
+  font-size: 0.8em;
+  color: #777;
+}
+
 .premium-data-platform {
   display: flex;
   gap: 12px;
@@ -1056,6 +1067,8 @@ i.fav-icon {
 .premium-app-free-badge {
   font-size: 1em;
   padding: 2px 12px;
+  /* The desktop column is a flex column, which would stretch the badge */
+  align-self: center;
 }
 
 .premium-app-title {
@@ -1091,6 +1104,10 @@ i.fav-icon {
 /* Free features in the mobile app block are green */
 .premium-app-section .premium-feature-icon {
   color: #17a572;
+}
+
+.premium-app-section .premium-feature-icon.premium-feature-icon-premium {
+  color: #f5a623;
 }
 
 .premium-app-section .premium-feature-list {
@@ -2026,4 +2043,199 @@ button.landing-webapp-cta:disabled {
   height: 40px;
   width: auto;
   display: block;
+}
+
+/* Route planner */
+.route-add-stop {
+  box-shadow: none !important;
+}
+
+.route-options {
+  margin: 16px 0 8px;
+}
+
+.route-option-label {
+  display: block;
+  margin: 14px 0 6px;
+}
+
+.route-strategy {
+  display: flex;
+  gap: 8px;
+}
+
+.route-strategy .w3-tag {
+  padding: 6px 14px;
+}
+
+.route-range {
+  width: 100%;
+  accent-color: #007AFF;
+}
+
+.route-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+/* w3.css moves checkboxes down (top: 6px), which misaligns them with the label */
+.route-checkbox .w3-check {
+  top: 0;
+  margin: 0;
+}
+
+.route-calculate {
+  margin-top: 16px;
+  box-shadow: none !important;
+}
+
+.route-premium-hint {
+  margin-top: 16px;
+}
+
+/* The banner has its own side margin in the price list */
+.route-premium-hint .premium-banner {
+  margin: 0;
+}
+
+.premium-banner-text {
+  margin: 0 0 8px;
+  font-size: 0.9em;
+  color: #444;
+}
+
+.route-result-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.route-result-actions .w3-btn {
+  box-shadow: none !important;
+}
+
+.route-card {
+  /* Same look as the price list rows */
+  background: #efefef;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: -1px 1px 2px #ddd;
+}
+
+.route-summary {
+  margin-bottom: 12px;
+}
+
+.route-summary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.route-summary-duration {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.route-summary-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.route-summary-line .fa {
+  width: 18px;
+  text-align: center;
+  color: #777;
+}
+
+.route-cost-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border-radius: 999px;
+  padding: 3px 10px;
+  margin-top: 8px;
+}
+
+.route-cost-pill-large {
+  font-weight: 600;
+  margin-top: 0;
+}
+
+.route-leg {
+  text-align: center;
+  color: #777;
+  font-size: 0.9em;
+  padding: 8px 0;
+}
+
+.route-stop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.route-stop-icon {
+  color: #777;
+}
+
+.route-charge-stop-name {
+  font-weight: 600;
+}
+
+.route-charge-stop-name .fa {
+  color: #777;
+  margin-right: 6px;
+}
+
+.route-charge-stop-meta {
+  color: #777;
+  font-size: 0.9em;
+  margin-top: 2px;
+}
+
+.route-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #007AFF;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 10px;
+  font-size: 0.9em;
+  cursor: default;
+}
+
+.route-hint span {
+  flex: 1;
+}
+
+.trip-stop-marker-inner {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #007AFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #007AFF;
+  font-size: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+.trip-stop-destination {
+  background: #222;
+  border-color: #fff;
+  color: #fff;
 }

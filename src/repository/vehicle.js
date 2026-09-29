@@ -84,7 +84,9 @@ export default class Vehicle{
       dcChargePorts: vehicle.dcPorts,
       usableBatterySize: vehicle.usableBatterySize,
       acMaxPower: vehicle.acMaxPower,
-      dcMaxPower: vehicle.dcMaxPower
+      dcMaxPower: vehicle.dcMaxPower,
+      // Average consumption in kWh/100km
+      consumption: (vehicle.energyConsumption || {}).average_consumption || null
     }
   }
 

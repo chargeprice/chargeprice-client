@@ -68,10 +68,12 @@ export default class RootContainer extends ViewBase {
                 <button id="preferences-close" @click="${()=>this.onClosePreferences()}" class="w3-bar-item w3-button w3-hover-dark-gray" title="close">
                   <img class="inverted" class="w3-button " src="img/arrow-back.svg">
                 </button>
-                <span id="preferences-tab-search" class="w3-bar-item w3-button preferences-tab pc-tab-active">${this.t("locationSearchHeader")}</span>
+                <span id="preferences-tab-search" @click="${()=>this.onSelectPreferencesTab('search')}" class="w3-bar-item w3-button preferences-tab pc-tab-active">${this.t("locationSearchHeader")}</span>
+                <span id="preferences-tab-route" @click="${()=>this.onSelectPreferencesTab('route')}" class="w3-bar-item w3-button preferences-tab">${this.t("routePlannerHeader")}</span>
               </div>
 
               <div id="searchContent" class="w3-container w3-padding-16"></div>
+              <div id="routeContent" class="w3-container w3-padding-16" style="display:none"></div>
 
               <div id="settingsContent" class="w3-container"></div>
             </div>
@@ -146,6 +148,15 @@ export default class RootContainer extends ViewBase {
 
   onClosePreferences(){
     this.sidebar.closePreferences();
+  }
+
+  onSelectPreferencesTab(tab){
+    this.toggle("searchContent", tab === "search");
+    this.toggle("settingsContent", tab === "search");
+    this.toggle("routeContent", tab === "route");
+    this.getEl("preferences-tab-search").classList.toggle("pc-tab-active", tab === "search");
+    this.getEl("preferences-tab-route").classList.toggle("pc-tab-active", tab === "route");
+    if(tab === "route") this.sidebar.routePlanner.render();
   }
 
   onOpenInfo(){

@@ -3,19 +3,22 @@ import ModalBase from './base';
 import Authorization from '../component/authorization';
 
 const FEATURES = [
-  { title: "stripeCheckoutFeatureAllTariffsTitle", text: "stripeCheckoutFeatureAllTariffsText" },
+  { title: "stripeCheckoutFeatureTariffsWalletTitle", text: "stripeCheckoutFeatureTariffsWalletText" },
   { title: "stripeCheckoutFeatureMapPricesTitle", text: "stripeCheckoutFeatureMapPricesText" },
   { title: "stripeCheckoutFeatureAvailabilityTitle", text: "stripeCheckoutFeatureAvailabilityText" },
   { title: "stripeCheckoutFeatureOperatorFilterTitle", text: "stripeCheckoutFeatureOperatorFilterText" },
-  { title: "stripeCheckoutFeatureWalletTitle", text: "stripeCheckoutFeatureWalletText" },
-  { title: "stripeCheckoutFeatureMobileAppTitle", url: "https://www.chargeprice.net/en/applications/" }
+  { title: "stripeCheckoutFeatureRoutePlannerTitle", text: "stripeCheckoutFeatureRoutePlannerText" },
+  { title: "stripeCheckoutFeatureNoAdsTitle" },
+  { title: "stripeCheckoutFeatureMobileAppTitle" }
 ];
 
 // Features that are premium on the web but free in the mobile app
 const FREE_IN_APP_FEATURES = [
-  { title: "stripeCheckoutFeatureAllTariffsTitle", text: "premiumAppFeatureTariffs" },
-  { title: "stripeCheckoutFeatureWalletTitle", text: "premiumAppFeatureWallet" },
-  { title: "stripeCheckoutFeatureOperatorFilterTitle", text: "premiumAppFeatureOperatorFilter" }
+  { title: "stripeCheckoutFeatureTariffsWalletTitle", text: "stripeCheckoutFeatureTariffsWalletText" },
+  { title: "stripeCheckoutFeatureOperatorFilterTitle", text: "stripeCheckoutFeatureOperatorFilterText" },
+  { title: "stripeCheckoutFeatureRoutePlannerTitle", text: "stripeCheckoutFeatureRoutePlannerText" },
+  // Not free, so it gets a golden star instead of the green check
+  { title: "premiumAppFeaturePremiumAvailable", premium: true }
 ];
 
 const HERO_IMAGE = "img/hero-background.png";
@@ -39,6 +42,7 @@ export default class ModalStripeCheckout extends ModalBase {
     this.billingCycle = "yearly";
     this.loading = false;
     this.error = null;
+    this.showDetails = false;
   }
 
   show(profile, accessToken) {
@@ -47,6 +51,7 @@ export default class ModalStripeCheckout extends ModalBase {
     this.billingCycle = "yearly";
     this.loading = false;
     this.error = null;
+    this.showDetails = false;
     super.show();
   }
 
@@ -111,6 +116,9 @@ export default class ModalStripeCheckout extends ModalBase {
               >
                 ${this.loading ? html`<i class="fa fa-spinner fa-spin"></i>` : (this.billingCycle === "yearly" ? this.t("premiumTrial") : this.t("stripeCheckoutContinue"))}
               </button>
+              <p class="premium-fleet-hint">
+                ${this.t("premiumFleetLicenses")} <a href="mailto:sales@chargeprice.net" class="link-text">sales@chargeprice.net</a>
+              </p>
             </div>
           </div>
 
@@ -161,17 +169,26 @@ export default class ModalStripeCheckout extends ModalBase {
       <ul class="premium-feature-list">
         ${features.map(feature => html`
           <li>
-            <i class="fa fa-check-circle pc-main-text premium-feature-icon"></i>
+            <i class="fa ${feature.premium ? "fa-star premium-feature-icon-premium" : "fa-check-circle"} pc-main-text premium-feature-icon"></i>
             <span>
-              ${feature.url
-                ? html`<a href="${feature.url}" target="_blank" class="link-text premium-feature-title">${this.t(feature.title)}</a>`
-                : html`<span class="premium-feature-title">${this.t(feature.title)}</span>`}
-              ${feature.text ? html`<span class="w3-small w3-block w3-text-dark-gray">${this.t(feature.text)}</span>` : ""}
+              <span class="premium-feature-title">${this.t(feature.title)}</span>
+              ${feature.text && this.showDetails ? html`<span class="w3-small w3-block w3-text-dark-gray">${this.t(feature.text)}</span>` : ""}
             </span>
           </li>
         `)}
       </ul>
+      ${features.some(feature=>feature.text) ? html`
+        <a href="#" class="link-text w3-small premium-details-toggle" @click="${(e)=>{e.preventDefault(); this.onToggleDetails();}}">
+          ${this.t(this.showDetails ? "premiumLessDetails" : "premiumMoreDetails")}
+        </a>
+      ` : ""}
     `;
+  }
+
+  // One toggle for both lists, so the two columns stay aligned
+  onToggleDetails() {
+    this.showDetails = !this.showDetails;
+    this.rerender();
   }
 
   // For people analysing charging data professionally, Premium isn't the right product

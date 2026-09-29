@@ -1,10 +1,5 @@
 var L = require('leaflet');
 require('leaflet.awesome-markers');
-var turf = {
-  along: require('@turf/along').default,
-  length: require('@turf/length').default,
-  helpers: require('@turf/helpers')
-}
 import MapPinsV5 from './mapPins/v5.js';
 
 export const defaultLocations = {
@@ -22,6 +17,18 @@ export const defaultLocations = {
   }
 }
 
+// Route color by the battery level on this part of the trip
+const TRIP_SEGMENT_COLORS = {
+  normal: "#007AFF",
+  warning: "#ff8229",
+  low: "#f74a56",
+  critical: "#b00020",
+  empty: "#555555"
+};
+
+// Alternative charging stations of a trip are only shown from this zoom level on
+const TRIP_CANDIDATES_MIN_ZOOM = 12;
+
 export default class Map {
 
   constructor(depts) {
@@ -31,13 +38,14 @@ export default class Map {
     this.markers = L.layerGroup([]);
     this.routing = L.layerGroup([]);
     this.routing.addTo(this.component);
+    // Alternative charging stations of a trip, only shown when zoomed in
+    this.tripCandidates = L.layerGroup([]);
     this.markers.addTo(this.component);
     this.selectedStationCircle = null;
     this.myLocation = null;
     this.searchLocation = null;
     this.mapReady = false;
     this.initializeLayer();
-    this.registerEvents();
 
     this.iconWidth = 24;
     this.iconHeight = 30;
@@ -75,11 +83,6 @@ export default class Map {
         style: `https://tiles.locationiq.com/v2/streets/vector.json?key=${process.env.LOCATION_IQ_KEY}`
       }).addTo(this.component);
     });
-  }
-
-  registerEvents(){
-    this.eventBus.subscribe("route.created",(payload)=>this.showRoute(payload));
-    this.eventBus.subscribe("route.deleted",(payload)=>this.deleteRoute(payload));
   }
 
   centerLocation(coords, zoom=13) {
@@ -226,42 +229,80 @@ export default class Map {
     this.markers.addLayer(marker);
   }
 
-  showRoute(routingResult){
-    this.deleteRoute();
+  // Shows a planned trip (see repository/trips.js): route line, stops, charging stops and their alternatives
+  showTrip(route, onStationClick){
+    this.deleteTrip();
 
-    const points = routingResult.route.points.map(ll=>[ll.latitude,ll.longitude]);
+    // White outline first, so the route is visible on every map background
+    route.segments.forEach(segment=>L.polyline(segment.points, { color: "#fff", weight: 9, opacity: 0.9 }).addTo(this.routing));
+    route.segments.forEach(segment=>L.polyline(segment.points, { color: TRIP_SEGMENT_COLORS[segment.category] || TRIP_SEGMENT_COLORS.normal, weight: 5 }).addTo(this.routing));
 
-    const routeLine = L.polyline(points, { color: "#007AFF", weight: 5, distanceMarkers: true });
-    routeLine.addTo(this.routing);
+    route.steps.filter(step=>step.type == "stop").forEach(step=>this.addTripStopMarker(step));
 
-    const invertedPoints = points.map(coord=>coord.reverse());
-    const turfLine = turf.helpers.lineString(invertedPoints);
-    const turfOptions = {units: 'kilometers'};
-    const totalDistance = turf.length(turfLine,turfOptions);
+    const allStations = route.chargingStations.concat(route.candidateStations);
+    const prices = allStations.map(s=>s.price).filter(p=>p != null);
+    const cheapestPrice = prices.length > 0 ? Math.min(...prices) : null;
 
-    const delta= 50;
-    let currentDistance = delta;
+    // Charging stops are always shown as full pins
+    route.chargingStations.forEach(station=>this.addTripStation(station, cheapestPrice, this.routing, 1, onStationClick, 900));
+    route.candidateStations.forEach(station=>this.addTripStation(station, cheapestPrice, this.tripCandidates, 0.8, onStationClick, 0));
 
-    while(currentDistance < totalDistance){
-      var along = turf.along(turfLine, currentDistance, turfOptions);
-      const coord = along.geometry.coordinates.reverse();
-      L.marker(coord, { icon: this.distanceMarkerIcon(currentDistance) }).addTo(this.routing);
-      currentDistance += delta;
-    }
+    this.tripZoomListener = ()=>this.updateTripCandidatesVisibility();
+    this.component.on("zoomend", this.tripZoomListener);
+    this.updateTripCandidatesVisibility();
 
-    this.component.fitBounds(routeLine.getBounds());
-    this.component._onResize();
+    const bounds = L.latLngBounds(route.segments.reduce((memo, segment)=>memo.concat(segment.points), []));
+    if(bounds.isValid()) this.component.fitBounds(bounds, { padding: [30, 30] });
   }
 
-  distanceMarkerIcon(km){
-    return new L.DivIcon({
-      className: 'distance-icon',
-      html: `<span class="w3-black w3-border">${km} km</span>`
+  addTripStopMarker(step){
+    const icons = { start: "fa-circle", intermediate: "fa-map-marker", destination: "fa-flag-checkered" };
+    const icon = L.divIcon({
+      className: "trip-stop-marker",
+      html: `<div class="trip-stop-marker-inner trip-stop-${step.stop_type}"><i class="fa ${icons[step.stop_type] || icons.intermediate}"></i></div>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
     });
+    L.marker([step.latitude, step.longitude], { icon: icon, zIndexOffset: 2000, title: step.name }).addTo(this.routing);
   }
 
-  deleteRoute(){
+  addTripStation(station, cheapestPrice, layer, opacity, onStationClick, zIndexBonus){
+    // Same pin style as the regular stations
+    const model = {
+      chargePoints: [{ power: station.power || 0, count: station.chargePointCount || 1, supportedByVehicle: true }],
+      branding: station.promoted && this.highlightPromoted ? { map_pin_icon_url: station.mapPinIconUrl } : null
+    };
+    const pricePreview = station.price != null ? { pricePerKWh: station.price, currency: station.currency } : null;
+    const pinConfig = this.pinClass.buildHtml(model, cheapestPrice, pricePreview);
+
+    const icon = L.divIcon({
+      className: "cp-map-poi-marker",
+      html: pinConfig.html,
+      iconSize: [pinConfig.width, pinConfig.height],
+      iconAnchor: [pinConfig.width/2, pinConfig.height]
+    });
+
+    const marker = L.marker([station.latitude, station.longitude], { icon: icon, opacity: opacity, zIndexOffset: pinConfig.zIndex + zIndexBonus });
+    marker.on('click', ()=>{
+      this.changeSelectedStation({ id: station.id, latitude: station.latitude, longitude: station.longitude });
+      onStationClick(station);
+    });
+    marker.addTo(layer);
+  }
+
+  updateTripCandidatesVisibility(){
+    const visible = this.effectiveZoom() >= TRIP_CANDIDATES_MIN_ZOOM;
+    const shown = this.component.hasLayer(this.tripCandidates);
+    if(visible && !shown) this.tripCandidates.addTo(this.component);
+    else if(!visible && shown) this.component.removeLayer(this.tripCandidates);
+  }
+
+  deleteTrip(){
     this.routing.clearLayers();
+    this.tripCandidates.clearLayers();
+    this.component.removeLayer(this.tripCandidates);
+    if(this.tripZoomListener) this.component.off("zoomend", this.tripZoomListener);
+    this.tripZoomListener = null;
   }
 
   changeSelectedStation(model){

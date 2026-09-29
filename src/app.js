@@ -106,6 +106,7 @@ class App {
 
     this.map.setHighlightPromoted(!this.sidebar.premiumGate.isPremium());
     this.mapAd = new MapAd(this.depts, this.sidebar.premiumGate);
+    this.initializeTrips();
     settingsSidebar.inject(this.sidebar);
     infoSidebar.inject(this.map, this.sidebar);
 		this.sidebar.injectMap(this.map);
@@ -184,6 +185,7 @@ class App {
         this.map.centerLocation(pos.coords);
         this.map.watchLocation();
         this.map.setMyLocation(pos.coords);
+        this.sidebar.routePlanner.setCurrentLocation(pos.coords);
       },
       () => this.showFallbackLocation());
   }
@@ -211,6 +213,8 @@ class App {
 
   async showStationsAtLocation(bounds) {
     if(!bounds) return; // Map not ready yet
+    // While a trip is shown, only the stations of the trip are on the map
+    if(this.tripActive) return;
 
     const options = this.sidebar.chargingOptions();
 
@@ -233,6 +237,36 @@ class App {
         longitude: (bounds.northEast.longitude + bounds.southWest.longitude) / 2
       });
     },this.translation.get("errorStationsUnavailable"));
+  }
+
+  initializeTrips(){
+    this.tripActive = false;
+    const eventBus = this.depts.eventBus();
+
+    eventBus.subscribe("trip.created", (route)=>{
+      this.tripActive = true;
+      // Station requests that are still running must not draw anymore
+      this.stationsRequestId++;
+      this.map.clearMarkers();
+      this.map.resetMarkers();
+      this.map.showTrip(route, (station)=>this.tripStationSelected(station));
+    });
+
+    eventBus.subscribe("trip.deleted", ()=>{
+      this.tripActive = false;
+      this.map.deleteTrip();
+      this.scheduleStationsUpdate();
+    });
+
+    this.sidebar.routePlanner.onStationSelected((station)=>{
+      this.map.centerLocation(station, 14);
+      this.map.changeSelectedStation(station);
+      this.tripStationSelected(station);
+    });
+  }
+
+  tripStationSelected(station){
+    this.stationSelected({ id: station.id, lite: true, dataAdapter: "chargeprice", chargePoints: [], network: station.network }, false);
   }
 
   async stationSelected(model,viaDeeplink) {
