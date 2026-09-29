@@ -2,8 +2,6 @@ import { html, render } from 'lit-html';
 import ViewBase from './viewBase';
 import ModalMapKey from '../modal/mapKey';
 import ModalSocialMedia from '../modal/socialMedia';
-import ModalInstallApp from '../modal/installApp';
-import ModalPartner from '../modal/partner';
 import ModalDisclaimer from '../modal/disclaimer';
 
 export default class InfoSidebar extends ViewBase {
@@ -12,14 +10,9 @@ export default class InfoSidebar extends ViewBase {
     this.analytics = depts.analytics();
     this.themeLoader = depts.themeLoader();
     this.customConfig = depts.customConfig();
+    this.appStoreLink = "https://apps.apple.com/app/chargeprice/id1552707493";
+    this.playStoreLink = "https://play.google.com/store/apps/details?id=fr.chargeprice.app";
     this.menuItems = [
-      {
-        id: "install",
-        title: this.t("installApp"),
-        icon: "download",
-        class: "bold",
-        action: ()=> new ModalInstallApp(this.depts).show()
-      },
       {
         id: "pro",
         title: this.t("infoProHeader"),
@@ -55,14 +48,6 @@ export default class InfoSidebar extends ViewBase {
         subTitle: this.t("infoApiSub"),
         icon: "connectdevelop",
         action: ()=>window.open("https://github.com/chargeprice/chargeprice-api-docs")
-      },
-      {
-        id: "partner",
-        title: this.t("partnerHeader"),
-        subTitle: this.t("partnerSub"),
-        icon: "percent",
-        show: ()=> this.themeLoader.isDefaultTheme(),
-        action: ()=> new ModalPartner(this.depts).show()
       },
       {
         id: "feedback",
@@ -101,6 +86,17 @@ export default class InfoSidebar extends ViewBase {
          </div>
         ` : ""
         }
+        <div class="w3-padding w3-border-bottom info-app-install">
+          <div class="bold"><i class="fa fa-mobile pc-main-text"></i> ${this.t("menuMobileApp")}</div>
+          <div class="info-app-badges">
+            <a href="${this.appStoreLink}" target="_blank" @click="${()=>this.onAppStoreClicked("ios")}">
+              <img src="img/store/app-store-badge.png" alt="Download on the App Store">
+            </a>
+            <a href="${this.playStoreLink}" target="_blank" @click="${()=>this.onAppStoreClicked("android")}">
+              <img src="img/store/play-store-badge.png" alt="Get it on Google Play">
+            </a>
+          </div>
+        </div>
         ${this.menuItems.filter(entry=>!entry.show || entry.show()).map(entry=>html`
           <a @click="${(e)=>{e.preventDefault(); this.executeAction(entry);}}" href="#" class="w3-bar-item w3-button w3-border-bottom">
             <i class="fa fa-${entry.icon} pc-main-text"></i> <span class="${entry.class}">${entry.title}</span>
@@ -131,6 +127,10 @@ export default class InfoSidebar extends ViewBase {
     this.map.registerClickOnce(event=>{
       this.sidebar.feedback.missingStation(event.location);
     });
+  }
+
+  onAppStoreClicked(platform){
+    this.analytics.log('event', 'app_install_clicked', { platform: platform, source: 'info_menu' });
   }
 
   executeAction(entry){

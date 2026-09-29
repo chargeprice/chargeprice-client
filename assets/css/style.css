@@ -1973,3 +1973,21 @@ button.landing-webapp-cta:disabled {
 .price-list-ad {
   margin: 8px;
 }
+
+.info-app-install {
+  padding-top: 12px !important;
+  padding-bottom: 14px !important;
+}
+
+.info-app-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.info-app-badges img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
