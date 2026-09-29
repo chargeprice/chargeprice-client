@@ -62,7 +62,7 @@ export default class PriceListView extends ViewBase {
       ${prices.allOtherPrices.length > 0 ? html`
         <div class="price-flex-container w3-margin-top price-header header-font">
           <div class="price-flex-left">${hasWallet ? this.t("otherTariffs") : html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("tariff")} <i class="fa fa-pencil"></i>${this.premiumStarTemplate()}</a>`}</div>
-          <div class="price-flex-right">${this.currency.getDisplayedCurrency()}</div>
+          <div class="price-flex-right">${this.priceHeaderTemplate()}</div>
         </div>
 
         ${!this.premiumGate.isRestricted() ? this.filterChipsTemplate() : ""}
@@ -74,11 +74,6 @@ export default class PriceListView extends ViewBase {
 
       ${hasPrices && this.ad && !this.adShown ? this.priceListAdTemplate() : ""}
 
-      ${hasPrices ? html`
-        <div class="w3-margin-top w3-small w3-container">
-          ${this.ut("totalPriceInfo")}
-        </div>
-      `:""}
     `;
   }
 
@@ -88,6 +83,26 @@ export default class PriceListView extends ViewBase {
 
   premiumBannerTemplate(){
     return this.appUpsellBanner.template({ title: this.t("premiumBannerAppTitle"), source: "price_list_banner" });
+  }
+
+  // The prices are effective prices per kWh (total cost of the session / charged energy)
+  priceHeaderTemplate(){
+    return html`
+      <span class="price-header-unit">
+        ${this.t("priceListAvgPriceHeader")} (${this.currency.getDisplayedCurrency()})
+        <i class="fa fa-info-circle cp-clickable price-header-info" @click="${(e)=>this.onShowAvgPriceInfo(e)}"></i>
+      </span>
+    `;
+  }
+
+  onShowTotalCostInfo(event){
+    event.stopPropagation();
+    new GenericPopup(this.depts).show({ header: this.t("tariffDetailsTotal"), message: this.t("tariffDetailsTotalInfo"), narrow: true });
+  }
+
+  onShowAvgPriceInfo(event){
+    event.stopPropagation();
+    new GenericPopup(this.depts).show({ header: this.t("priceListAvgPriceHeader"), message: this.t("priceListAvgPriceInfo"), narrow: true });
   }
 
   filterChipsTemplate(){
@@ -134,7 +149,7 @@ export default class PriceListView extends ViewBase {
     return html`
       <div class="price-flex-container w3-margin-top price-header header-font">
         <div class="price-flex-left">${header()}</div>
-        <div class="price-flex-right">${this.currency.getDisplayedCurrency()}</div>
+        <div class="price-flex-right">${this.priceHeaderTemplate()}</div>
       </div>
 
       ${this.rowsTemplate(prices)}
@@ -199,7 +214,7 @@ export default class PriceListView extends ViewBase {
           ${tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0 ?
             html`
               <label class=" w3-small w3-block">
-              ${tariff.totalMonthlyFee > 0 ? `${this.t("baseFee")}: ${this.h().dec(tariff.totalMonthlyFee)}/${this.t("month")}**`:"" }
+              ${tariff.totalMonthlyFee > 0 ? `${this.t("baseFee")}: ${this.h().dec(tariff.totalMonthlyFee)}/${this.t("month")}`:"" }
               ${tariff.monthlyMinSales > 0 ? `${this.t("minSales")}: ${this.h().dec(tariff.monthlyMinSales)}/${this.t("month")}`:"" }
               </label>
             `:""}
@@ -225,7 +240,7 @@ export default class PriceListView extends ViewBase {
       ${tariff.totalMonthlyFee > 0 || tariff.monthlyMinSales > 0 ?
         html`
           <label class=" w3-small w3-block">
-          ${tariff.totalMonthlyFee > 0 ? `${this.t("baseFee")}: ${this.h().dec(tariff.totalMonthlyFee)}/${this.t("month")}**`:"" }
+          ${tariff.totalMonthlyFee > 0 ? `${this.t("baseFee")}: ${this.h().dec(tariff.totalMonthlyFee)}/${this.t("month")}`:"" }
           ${tariff.monthlyMinSales > 0 ? `${this.t("minSales")}: ${this.h().dec(tariff.monthlyMinSales)}/${this.t("month")}`:"" }
           </label>
         `:""}
@@ -265,6 +280,7 @@ export default class PriceListView extends ViewBase {
             </a>
           `:""}
         </div>
+        ${tariff.url ? html`<div class="tariff-details-disclosure">${this.t("affiliateDisclosure")}</div>` : ""}
       </div>
     `;
   }
@@ -279,6 +295,7 @@ export default class PriceListView extends ViewBase {
       <div class="tariff-details-row tariff-details-total">
         <div>
           ${this.t("tariffDetailsTotal")}
+          <i class="fa fa-info-circle cp-clickable price-header-info" @click="${(e)=>this.onShowTotalCostInfo(e)}"></i>
           ${energy && duration ? html`<div class="w3-small tariff-details-condition">${this.h().int(energy)} kWh · ${this.h().time(duration)}</div>` : ""}
         </div>
         <div class="tariff-details-price">${this.h().dec(price.price)} ${this.currency.getDisplayedCurrency()}</div>

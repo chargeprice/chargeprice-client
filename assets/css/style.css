@@ -2381,3 +2381,50 @@ button.landing-webapp-cta:disabled {
 .charge-summary-trip {
   color: #007AFF;
 }
+
+/* Column heading of the price list: effective price per kWh */
+.price-header-unit {
+  white-space: nowrap;
+  font-size: 0.85em;
+}
+
+.price-header-info {
+  margin-left: 4px;
+  color: #888;
+}
+
+.tariff-details-disclosure {
+  margin-top: 8px;
+  font-size: 0.75em;
+  opacity: 0.7;
+}
+
+.landing-plan-app-icon {
+  color: #888;
+  margin-right: 4px;
+}
+
+/* Explains that the free/premium plans above are the mobile app's */
+.landing-web-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  max-width: 760px;
+  margin: 28px auto 0;
+  padding: 16px 20px;
+  background: #f4f7fa;
+  border: 1px solid #e3e8ee;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.landing-web-note > .fa {
+  font-size: 1.6em;
+  color: #007AFF;
+  margin-top: 2px;
+}
+
+.landing-web-note p {
+  margin: 4px 0 0;
+  color: #555;
+}

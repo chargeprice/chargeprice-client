@@ -90,7 +90,7 @@ export default class LandingPage extends ViewBase {
 
             <div class="landing-plans-grid">
               <div class="landing-plan-card">
-                <h3 class="landing-plan-title">${this.t("landingFreeTitle")}</h3>
+                <h3 class="landing-plan-title"><i class="fa fa-mobile landing-plan-app-icon"></i> ${this.t("landingFreeTitle")}</h3>
                 <p class="landing-plan-tagline">${this.t("landingFreeTagline")}</p>
                 <ul class="landing-plan-features">
                   <li><i class="fa fa-check"></i> ${this.t("landingFreeFeature1")}</li>
@@ -100,7 +100,7 @@ export default class LandingPage extends ViewBase {
               </div>
 
               <div class="landing-plan-card landing-plan-card-premium">
-                <h3 class="landing-plan-title">${this.t("landingPremiumTitle")}</h3>
+                <h3 class="landing-plan-title"><i class="fa fa-mobile landing-plan-app-icon"></i> ${this.t("landingPremiumTitle")}</h3>
                 <p class="landing-plan-tagline">${this.t("landingPremiumTagline")}</p>
                 <ul class="landing-plan-features">
                   <li><i class="fa fa-check-circle"></i> ${this.t("landingPremiumFeature1")}</li>
@@ -109,6 +109,15 @@ export default class LandingPage extends ViewBase {
                   <li><i class="fa fa-check-circle"></i> ${this.t("landingPremiumFeature4")}</li>
                 </ul>
                 <p class="landing-plan-price">${this.t("landingPremiumPrice")}</p>
+              </div>
+            </div>
+
+            <!-- The plans above are the mobile app's. The free web app is more limited. -->
+            <div class="landing-web-note">
+              <i class="fa fa-laptop"></i>
+              <div>
+                <strong>${this.t("landingWebNoteTitle")}</strong>
+                <p>${this.t("landingWebNoteText")}</p>
               </div>
             </div>
           </div>

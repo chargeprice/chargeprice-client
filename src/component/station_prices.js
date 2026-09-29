@@ -25,12 +25,12 @@ export default class StationPrices extends ViewBase{
           <span class="link-text" @click="${()=>this.selectStartTime()}">${this.h().timeOfDay(this.getStartTime())}</span>
           &rarr;
           ${this.h().timeOfDay(this.getEndTime(obj.chargePointDuration))}
-          <span class="w3-text-gray">(${this.h().time(obj.chargePointDuration)}*)</span>
+          <span class="w3-text-gray">(${this.h().time(obj.chargePointDuration)})</span>
         </span>
         <span class="charge-summary-item">
           <i class="fa fa-bolt"></i>
           ${this.h().int(obj.chargePointEnergy)} kWh
-          <span class="w3-text-gray">(ø ${this.h().power(obj.chargePointEnergy*60/obj.chargePointDuration)} kW*)</span>
+          <span class="w3-text-gray">(ø ${this.h().power(obj.chargePointEnergy*60/obj.chargePointDuration)} kW)</span>
         </span>
         ${obj.tripBatteryRange ? html`
           <span class="charge-summary-item charge-summary-trip">

@@ -28,7 +28,6 @@
   "manageMyTariffsRemove": "Remove",
   "errorStationsUnavailable": "Stations unavailable",
   "errorPricesUnavailable": "Prices unavailable. Please try to reload the page.",
-  "totalPriceInfo": "Total price of a charging session, given the provided parameters excl. monthly fees<br>* Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br>** Depending on tariff: Base fee, service fee, membership fee<br>Links to providers might be affiliate links, where Chargeprice gets a commission per click. Affiliate partner are not ranked higher. Tariffs are only sorted by prices.",
   "timeFormat": "{0}h {1}min",
   "chargeDuration": "Duration of charge",
   "myChargeHeader": "Your Charge",
@@ -212,8 +211,8 @@
   "landingStatUsersLabel": "EV drivers trust Chargeprice",
   "landingStatTariffsNumber": "1,500+",
   "landingStatTariffsLabel": "Tariffs compared, including ad-hoc and roaming prices",
-  "landingPlansHeader": "Free or Premium — you decide",
-  "landingPlansSubheader": "The free version already gives you full price comparison across Europe. Premium just makes it a lot more convenient.",
+  "landingPlansHeader": "The mobile app: Free or Premium — you decide",
+  "landingPlansSubheader": "In the Chargeprice mobile app, the free version already gives you full price comparison across Europe. Premium just makes it a lot more convenient.",
   "landingFreeTitle": "Free",
   "landingFreeTagline": "Full price comparison, for everyone",
   "landingFreeFeature1": "Compare prices across all tariffs in our database",
@@ -384,5 +383,11 @@
   "routeReset": "Reset",
   "routeNavigate": "Navigate",
   "routeChargeStopBatteryRange": "Charging stop of your route: {0}-{1}%",
-  "routeAlternativeStation": "Alternative charging stop on your route"
+  "routeAlternativeStation": "Alternative charging stop on your route",
+  "priceListAvgPriceHeader": "Avg. Price / kWh",
+  "priceListAvgPriceInfo": "Average price per kWh: based on your charging session, we calculate the cost of kWh, taking into account fees and time based prices.<br><br>You can also see unit prices in the price details.",
+  "tariffDetailsTotalInfo": "Calculated values incl. 10% charging drain. Actual values depend on vehicle, charging station, weather etc.<br><br>Monthly fees are not included.",
+  "affiliateDisclosure": "Links to providers might be affiliate links, where Chargeprice gets a commission per click. Affiliate partner are not ranked higher. Tariffs are only sorted by prices.",
+  "landingWebNoteTitle": "Using the web app?",
+  "landingWebNoteText": "The free web app compares direct payment prices. All tariffs, your wallet, the operator filter and saved routes require Premium in the browser — or use them for free in the mobile app."
 }

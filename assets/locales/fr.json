@@ -28,7 +28,6 @@
   "manageMyTariffsRemove": "-",
   "errorStationsUnavailable": "Erreur d'affichage",
   "errorPricesUnavailable": "Erreur de chargement des prix. Veuillez rafraîchir la page. ",
-  "totalPriceInfo": "prix total hors frais mensuels éventuels<br>*les tarifs sont calculés en tenant compte d'une perte d'énergie théorique de 10%. Les valeurs réelles dépendent du véhicule, de la station, des conditions climatiques, etc.<br>**frais de session ou forfait mensuel",
   "timeFormat": "{0}h et {1} min.",
   "chargeDuration": "Durée de la recharge",
   "myChargeHeader": "Votre recharge",
@@ -236,8 +235,8 @@
   "landingStatUsersLabel": "Conducteurs de VE font confiance à Chargeprice",
   "landingStatTariffsNumber": "1 500+",
   "landingStatTariffsLabel": "Tarifs comparés, y compris les prix ad-hoc et de roaming",
-  "landingPlansHeader": "Gratuit ou Premium — à vous de choisir",
-  "landingPlansSubheader": "La version gratuite offre déjà une comparaison complète des prix en Europe. Premium la rend simplement bien plus pratique.",
+  "landingPlansHeader": "L'application mobile : Gratuit ou Premium — à vous de choisir",
+  "landingPlansSubheader": "Dans l'application mobile Chargeprice, la version gratuite offre déjà une comparaison complète des prix en Europe. Premium la rend simplement bien plus pratique.",
   "landingFreeTitle": "Gratuit",
   "landingFreeTagline": "Comparaison complète des prix, pour tous",
   "landingFreeFeature1": "Comparez les prix de tous les tarifs de notre base de données",
@@ -408,5 +407,11 @@
   "routeReset": "Réinitialiser",
   "routeNavigate": "Naviguer",
   "routeChargeStopBatteryRange": "Arrêt de recharge de votre trajet : {0}-{1}%",
-  "routeAlternativeStation": "Arrêt de recharge alternatif sur votre trajet"
+  "routeAlternativeStation": "Arrêt de recharge alternatif sur votre trajet",
+  "priceListAvgPriceHeader": "Prix moyen / kWh",
+  "priceListAvgPriceInfo": "Prix moyen du kWh : le coût total de la session est divisé par l'énergie distribuée. Cela inclut les autres frais éventuels, comme un prix à la minute.<br><br>À ne pas confondre avec le prix unitaire. Vous pouvez voir les prix unitaire dans la vue détaillée de chaque offre",
+  "tariffDetailsTotalInfo": "Les valeurs sont calculées en tenant compte d'une perte d'énergie théorique de 10%. Les valeurs réelles dépendent du véhicule, de la station, des conditions climatiques, etc.<br><br>Les frais mensuels ne sont pas inclus.",
+  "affiliateDisclosure": "Les liens vers les fournisseurs peuvent être des liens d'affiliation, pour lesquels Chargeprice reçoit une commission par clic. Les partenaires affiliés ne sont pas mieux classés. Les tarifs sont triés uniquement par prix.",
+  "landingWebNoteTitle": "Vous utilisez l'application web ?",
+  "landingWebNoteText": "L'application web gratuite compare les prix de paiement direct. Tous les tarifs, votre Wallet, le filtre par opérateur et les trajets enregistrés nécessitent Premium dans le navigateur — ou utilisez-les gratuitement dans l'application mobile."
 }

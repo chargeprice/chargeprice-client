@@ -28,7 +28,6 @@
   "manageMyTariffsRemove": "Löschen",
   "errorStationsUnavailable": "Stationen konnten nicht geladen werden.",
   "errorPricesUnavailable": "Preise konnten nicht geladen werden. Bitte versuchen Sie die Seite neu zu laden.",
-  "totalPriceInfo": "Gesamtpreis einer Ladung mit den angegebenen Parametern exkl. monatliche Gebühren<br>* Errechnete Werte inkl. 10% Ladeverlust. Die Werte hängen in der Realität von Fahrzeug, Station, Wetter etc. ab.<br>** Abhängig von Tarif: Grundgebühr, Servicepauschale oder Mitgliedsbeitrag<br>Links zu Tarifanbietern sind potenziell Affiliate-Links, wo Chargeprice pro Klick eine Provision erhält. Affiliate-Partner werden nicht höher gelistet. Die Reihenfolge hängt nur vom Preis ab. ",
   "timeFormat": "{0}h {1}min",
   "chargeDuration": "Ladedauer",
   "myChargeHeader": "Deine Ladung",
@@ -236,8 +235,8 @@
   "landingStatUsersLabel": "E-Autofahrer vertrauen Chargeprice",
   "landingStatTariffsNumber": "1.500+",
   "landingStatTariffsLabel": "Ladetarife, inkl. Ad-hoc- und Roamingpreise",
-  "landingPlansHeader": "Kostenlos oder Premium — du entscheidest",
-  "landingPlansSubheader": "Schon die kostenlose Version bietet dir den vollen Preisvergleich in ganz Europa. Premium macht es nur noch komfortabler.",
+  "landingPlansHeader": "Die mobile App: Kostenlos oder Premium — du entscheidest",
+  "landingPlansSubheader": "In der Chargeprice App bietet dir schon die kostenlose Version den vollen Preisvergleich in ganz Europa. Premium macht es nur noch komfortabler.",
   "landingFreeTitle": "Kostenlos",
   "landingFreeTagline": "Voller Preisvergleich, für alle",
   "landingFreeFeature1": "Preise über alle Tarife in unserer Datenbank vergleichen",
@@ -408,5 +407,11 @@
   "routeReset": "Zurücksetzen",
   "routeNavigate": "Navigieren",
   "routeChargeStopBatteryRange": "Ladestopp deiner Route: {0}-{1}%",
-  "routeAlternativeStation": "Alternativer Ladestopp auf deiner Route"
+  "routeAlternativeStation": "Alternativer Ladestopp auf deiner Route",
+  "priceListAvgPriceHeader": "Eff. Preis / kWh",
+  "priceListAvgPriceInfo": "Effektiver kWh-Preis: Gesamtkosten dividiert durch die geladene Energie.<br><br>So weißt du wie viel du inkl. eventueller Start- oder Zeitgebühren bezahlst.",
+  "tariffDetailsTotalInfo": "Errechnete Werte inkl. 10% Ladeverlust. Die Werte hängen in der Realität von Fahrzeug, Station, Wetter etc. ab.<br><br>Monatliche Gebühren sind nicht enthalten.",
+  "affiliateDisclosure": "Links zu Tarifanbietern sind potenziell Affiliate-Links, wo Chargeprice pro Klick eine Provision erhält. Affiliate-Partner werden nicht höher gelistet. Die Reihenfolge hängt nur vom Preis ab.",
+  "landingWebNoteTitle": "Du nutzt die Web-App?",
+  "landingWebNoteText": "Die kostenlose Web-App vergleicht Direktzahlungspreise. Alle Tarife, dein Wallet, der Betreiberfilter und gespeicherte Routen benötigen im Browser Premium — oder du nutzt sie kostenlos in der mobilen App."
 }
