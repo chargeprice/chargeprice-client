@@ -88,7 +88,7 @@ export default class RootContainer extends ViewBase {
                 </div>
               `:""}
               <div class="map-key-row">
-                <span class="map-key-item" style="background: #c2e3fd; color: black;">< 50 kW</span><span class="map-key-item" style="background: #0497ff">< 150 kW</span><span class="map-key-item" style="background: #006cb8">>= 150 kW</span>
+                <span class="map-key-item" style="background: #c2e3fd; color: black;">< 50 kW</span><span class="map-key-item" style="background: #0497ff">< 150 kW</span><span class="map-key-item" style="background: #006cb8">>= 150 kW</span>${!this.premiumGate.isPremium() ? html`<span class="map-key-item" style="background: #c79b28">${this.t("mapKeyPromoted")}</span>` : ""}
               </div>
             </div>
           </div>

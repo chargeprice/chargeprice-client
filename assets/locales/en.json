@@ -300,10 +300,6 @@
   "premiumBannerAppTitle": "See all tariffs for free in the mobile app",
   "premiumBannerWebText": "Prefer the web app?",
   "premiumBannerWebCta": "Get full access now",
-  "premiumFeatureHintPrefix": "Use this feature for free in the",
-  "premiumFeatureHintMobileApp": "mobile app",
-  "premiumFeatureHintOr": "or",
-  "premiumFeatureHintUpgrade": "upgrade to Premium",
   "premiumOr": "or",
   "stripeCheckoutQuote": "With Premium, charging cheap is as easy as never before",
   "premiumTrial": "Try 7 days for free",
@@ -340,5 +336,6 @@
   "mapKeyPriceGreen": "Best price to +10%",
   "mapKeyPriceOrange": "Up to +25%",
   "mapKeyPriceRed": "More than +25%",
-  "bannerAdLabel": "Ad"
+  "bannerAdLabel": "Ad",
+  "mapKeyPromoted": "Promoted"
 }

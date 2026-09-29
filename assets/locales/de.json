@@ -324,10 +324,6 @@
   "premiumBannerAppTitle": "Alle Tarife kostenlos in der mobilen App",
   "premiumBannerWebText": "Lieber die Web-App?",
   "premiumBannerWebCta": "Jetzt vollen Zugriff erhalten",
-  "premiumFeatureHintPrefix": "Nutze diese Funktion kostenlos in der",
-  "premiumFeatureHintMobileApp": "mobilen App",
-  "premiumFeatureHintOr": "oder",
-  "premiumFeatureHintUpgrade": "upgrade auf Premium",
   "premiumOr": "oder",
   "stripeCheckoutQuote": "Mit Premium war günstig Laden noch nie so einfach",
   "premiumTrial": "7 Tage kostenlos testen",
@@ -364,5 +360,6 @@
   "mapKeyPriceGreen": "Bester Preis bis +10%",
   "mapKeyPriceOrange": "Bis +25%",
   "mapKeyPriceRed": "Mehr als +25%",
-  "bannerAdLabel": "Anzeige"
+  "bannerAdLabel": "Anzeige",
+  "mapKeyPromoted": "Beworben"
 }

@@ -324,10 +324,6 @@
   "premiumBannerAppTitle": "Tous les tarifs gratuitement dans l'application mobile",
   "premiumBannerWebText": "Vous préférez l'application web ?",
   "premiumBannerWebCta": "Obtenez l'accès complet",
-  "premiumFeatureHintPrefix": "Utilisez cette fonctionnalité gratuitement dans",
-  "premiumFeatureHintMobileApp": "l'application mobile",
-  "premiumFeatureHintOr": "ou",
-  "premiumFeatureHintUpgrade": "passez à Premium",
   "premiumOr": "ou",
   "stripeCheckoutQuote": "Avec Premium, recharger à petit prix n'a jamais été aussi simple",
   "premiumTrial": "Essai gratuit de 7 jours",
@@ -364,5 +360,6 @@
   "mapKeyPriceGreen": "Meilleur prix à +10%",
   "mapKeyPriceOrange": "Jusqu'à +25%",
   "mapKeyPriceRed": "Plus de +25%",
-  "bannerAdLabel": "Pub"
+  "bannerAdLabel": "Pub",
+  "mapKeyPromoted": "Sponsorisé"
 }

@@ -57,26 +57,14 @@ export default class StationPrices extends ViewBase{
     return html`<span class="w3-tag ${color}">${countText} ${this.t("liveStatusAvailable")}</span>`;
   }
 
+  // Only premium users can report missing prices
   feedbackTemplate(context){
-    const premiumGate = this.sidebar.premiumGate;
-    const restricted = premiumGate.isRestricted();
+    if(this.sidebar.premiumGate.isRestricted()) return "";
 
     return html`
-      ${!restricted ? html`
-        <button @click="${()=>this.onReportMissingPrice(context)}" class="w3-btn pc-secondary">
-          ${this.t("fbReportMissingPriceHeader")}
-        </button>
-      `:""}
-      ${restricted ? html`
-        <label class="w3-block">${this.t("fbReportMissingPriceHeader")}</label>
-        <div class="w3-small w3-margin-top">
-          <i class="fa fa-star premium-star-inline"></i>
-          ${this.t("premiumFeatureHintPrefix")}
-          <a href="https://www.chargeprice.net/en/applications/" target="_blank" class="link-text">${this.t("premiumFeatureHintMobileApp")}</a>
-          ${this.t("premiumFeatureHintOr")}
-          <a href="#" class="link-text" @click="${(e)=>{e.preventDefault(); premiumGate.showPremiumScreen("price_feedback");}}">${this.t("premiumFeatureHintUpgrade")}</a>.
-        </div>
-      `:""}
+      <button @click="${()=>this.onReportMissingPrice(context)}" class="w3-btn pc-secondary">
+        ${this.t("fbReportMissingPriceHeader")}
+      </button>
     `;
   }
 
