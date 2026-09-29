@@ -52,8 +52,14 @@ export default class SettingsSidebar extends ViewBase {
     if(!vehicle) return "";
 
     return html`
-      <a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.sidebar.myVehicle.changeVehicle();}}"><i class="fa fa-car"></i> ${vehicle.brand} ${vehicle.model} <i class="fa fa-pencil"></i></a>
-      ${this.variantText(vehicle) ? html`<div class="w3-small w3-text-dark-gray vehicle-info-variant">${this.variantText(vehicle)}</div>` : ""}
+      <div class="vehicle-card cp-clickable" @click="${()=>this.sidebar.myVehicle.changeVehicle()}">
+        <div class="vehicle-card-icon pc-main"><i class="fa fa-car"></i></div>
+        <div class="vehicle-card-text">
+          <div class="vehicle-card-name">${vehicle.brand} ${vehicle.model}</div>
+          ${this.variantText(vehicle) ? html`<div class="w3-small w3-text-dark-gray">${this.variantText(vehicle)}</div>` : ""}
+        </div>
+        <i class="fa fa-pencil vehicle-card-edit"></i>
+      </div>
     `;
   }
 

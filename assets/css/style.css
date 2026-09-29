@@ -1934,8 +1934,44 @@ button.landing-webapp-cta:disabled {
   background: #e3effc;
 }
 
-.vehicle-info-variant {
-  margin-top: 2px;
+.vehicle-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #f4f7fa;
+  border: 1px solid #e3e3e3;
+  border-radius: 12px;
+}
+
+.vehicle-card:hover {
+  background: #eaf0f6;
+}
+
+.vehicle-card-icon {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1em;
+}
+
+.vehicle-card-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.vehicle-card-name {
+  font-weight: 600;
+  font-size: 1.1em;
+  line-height: 1.3;
+}
+
+.vehicle-card-edit {
+  color: #888;
 }
 
 /* Banner ads (free version) */
