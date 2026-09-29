@@ -6,6 +6,7 @@ const bannersByCountry = {};
 export default class Advertisements {
   constructor(depts){
     this.translation = depts.translation();
+    this.analytics = depts.analytics();
     this.baseUrl = process.env.CHARGEPRICE_API_URL;
     this.apiKey = process.env.CHARGEPRICE_API_KEY;
   }
@@ -54,7 +55,10 @@ export default class Advertisements {
     }
   }
 
-  trackImpression(ad){
+  // Called whenever a banner is shown
+  trackDisplay(ad){
+    this.analytics.log('event', 'ad_displayed', { cta_url: ad.ctaUrl, banner_image_url: ad.imageUrl });
+
     if(!ad.impressionUrl) return;
     fetch(ad.impressionUrl, { mode: "no-cors", keepalive: true }).catch(()=>{});
   }

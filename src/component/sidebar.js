@@ -31,6 +31,8 @@ export default class Sidebar extends ViewBase {
 		this.userProfile = new UserProfile(this, this.depts, userSettings);
     this.userSettings = userSettings;
     this.loaded = false;
+    // Incremented each time a station is opened, e.g. to track promoted tariffs once per open
+    this.stationOpenId = 0;
     this.rootId = "sidebar";
     this.payloadSidebars = ["prices","manageMyTariffs"];
     this.premiumSidebars = ["manageMyTariffs"];

@@ -26,7 +26,7 @@ export default class MapAd {
 
     render(ad ? this.bannerAd.template(ad) : "", document.getElementById("mapAd"));
 
-    if(ad && ad.id != this.currentAdId) this.repo.trackImpression(ad);
+    if(ad && ad.id != this.currentAdId) this.repo.trackDisplay(ad);
     this.currentAdId = ad ? ad.id : null;
   }
 

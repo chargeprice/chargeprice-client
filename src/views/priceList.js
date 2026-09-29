@@ -18,6 +18,12 @@ const AD_AFTER_ROWS = 3;
 // A new view is created for every price update, only the latest one may render async results
 let activeView = null;
 
+// Promoted tariffs are tracked once per station open (see Sidebar.stationOpenId), over all views
+const trackedPromotedTariffs = { stationOpenId: null, tariffIds: new Set() };
+let promotedTariffObserver = null;
+// The price list is rendered several times per station open, the ad counts as displayed once
+let adDisplayedForStationOpenId = null;
+
 export default class PriceListView extends ViewBase {
   constructor(depts,sidebar) {
     super(depts);
@@ -179,7 +185,10 @@ export default class PriceListView extends ViewBase {
 
     this.ad = ad;
     this.rerender();
-    if(this.groupedPrices.allPrices.length > 0) this.adsRepo.trackImpression(ad);
+    if(this.groupedPrices.allPrices.length > 0 && adDisplayedForStationOpenId !== this.sidebar.stationOpenId){
+      adDisplayedForStationOpenId = this.sidebar.stationOpenId;
+      this.adsRepo.trackDisplay(ad);
+    }
   }
 
   rowTemplate(p){
@@ -187,7 +196,7 @@ export default class PriceListView extends ViewBase {
     if(this.isLocked(tariff)) return this.lockedRowTemplate(p, tariff);
     const expanded = this.expandedTariffIds.includes(tariff.tariff.id);
     return html`
-      <div class="price-row price-row-expandable cp-clickable" @click="${()=>this.onToggleTariff(tariff)}" style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
+      <div class="price-row price-row-expandable cp-clickable" data-promoted-tariff-id="${this.isHighlighted(tariff) ? tariff.tariff.id : ""}" data-emp-name="${tariff.provider}" @click="${()=>this.onToggleTariff(tariff)}" style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
         <div class="price-flex-container">
           ${this.tariffOverviewTemplate(p,tariff)}
           ${this.priceTemplate(p,tariff)}
@@ -479,6 +488,37 @@ export default class PriceListView extends ViewBase {
 
   rerender(){
     render(this.isPriceListEmpty() ? this.template() : "",this.getEl(this.root));
+    this.observePromotedTariffs();
+  }
+
+  // Logs promoted tariffs once they are actually visible (at least half of the row)
+  observePromotedTariffs(){
+    if(promotedTariffObserver) promotedTariffObserver.disconnect();
+    if(typeof IntersectionObserver == "undefined") return;
+
+    const stationOpenId = this.sidebar.stationOpenId;
+    if(trackedPromotedTariffs.stationOpenId !== stationOpenId){
+      trackedPromotedTariffs.stationOpenId = stationOpenId;
+      trackedPromotedTariffs.tariffIds = new Set();
+    }
+
+    const rows = [...this.getEl(this.root).querySelectorAll("[data-promoted-tariff-id]")]
+      .filter(row=>row.dataset.promotedTariffId && !trackedPromotedTariffs.tariffIds.has(row.dataset.promotedTariffId));
+    if(rows.length == 0) return;
+
+    promotedTariffObserver = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+        const tariffId = entry.target.dataset.promotedTariffId;
+        promotedTariffObserver.unobserve(entry.target);
+        if(trackedPromotedTariffs.tariffIds.has(tariffId)) return;
+
+        trackedPromotedTariffs.tariffIds.add(tariffId);
+        this.analytics.log('event', 'tariff_displayed', { emp_name: entry.target.dataset.empName, tariff_id: tariffId });
+      });
+    }, { threshold: 0.5 });
+
+    rows.forEach(row=>promotedTariffObserver.observe(row));
   }
 
   groupIntoSections(prices){

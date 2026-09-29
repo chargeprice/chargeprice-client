@@ -236,6 +236,8 @@ class App {
   }
 
   async stationSelected(model,viaDeeplink) {
+    this.sidebar.stationOpenId++;
+
     if(!viaDeeplink) {
       // If CP was opened by Deeplink, don't track the station
       // Look at PoiDeeplink instead
