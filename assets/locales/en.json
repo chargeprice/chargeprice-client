@@ -339,5 +339,6 @@
   "tariffDetailsTotal": "Total session cost",
   "mapKeyPriceGreen": "Best price to +10%",
   "mapKeyPriceOrange": "Up to +25%",
-  "mapKeyPriceRed": "More than +25%"
+  "mapKeyPriceRed": "More than +25%",
+  "bannerAdLabel": "Ad"
 }

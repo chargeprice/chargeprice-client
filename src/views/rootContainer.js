@@ -81,6 +81,7 @@ export default class RootContainer extends ViewBase {
               <img src="img/edit.svg">
             </button>
             <div id="map-key" class="w3-display-bottommiddle ${this.customConfig.isIOS() ? "w3-margin-bottom":""}">
+              <div id="mapAd" class="map-ad"></div>
               ${!this.premiumGate.isRestricted() ? html`
                 <div class="map-key-row">
                   <span class="map-key-item" style="background: #19a673">${this.t("mapKeyPriceGreen")}</span><span class="map-key-item" style="background: #ff8229">${this.t("mapKeyPriceOrange")}</span><span class="map-key-item" style="background: #f74a56">${this.t("mapKeyPriceRed")}</span>

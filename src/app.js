@@ -15,6 +15,7 @@ import PromoPage from './views/promo';
 import AppInstall from './component/app_install';
 import FetchUserSettingsOrCreateFromLocal from './useCase/fetchUserSettingsOrCreateFromLocal.js';
 import ModalInstallApp from './modal/installApp.js';
+import MapAd from './component/mapAd.js';
 
 import '../assets/css/w3.css'
 import '../assets/css/w3-colors-flat.css'
@@ -104,6 +105,7 @@ class App {
     this.stationsRequestId = 0;
 
     this.map.setHighlightPromoted(!this.sidebar.premiumGate.isPremium());
+    this.mapAd = new MapAd(this.depts, this.sidebar.premiumGate);
     settingsSidebar.inject(this.sidebar);
     infoSidebar.inject(this.map, this.sidebar);
 		this.sidebar.injectMap(this.map);
@@ -226,6 +228,10 @@ class App {
       this.map.clearMarkers();
       this.map.resetMarkers();
       this.map.showStations(stations, result.indexedPricePreviews, result.cheapestPrice, (model)=>this.stationSelected(model,false));
+      this.mapAd.update(stations, {
+        latitude: (bounds.northEast.latitude + bounds.southWest.latitude) / 2,
+        longitude: (bounds.northEast.longitude + bounds.southWest.longitude) / 2
+      });
     },this.translation.get("errorStationsUnavailable"));
   }
 

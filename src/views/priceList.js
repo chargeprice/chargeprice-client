@@ -5,11 +5,15 @@ import FileUtils from '../helper/fileUtils';
 import PriceCsvSerializer from '../helper/priceCsvSerializer';
 import GenericPopup from '../modal/genericPopup';
 import StationTariffs from '../repository/station_tariffs';
+import Advertisements from '../repository/advertisements';
+import BannerAd from '../component/bannerAd';
 var dayjs = require('dayjs');
 
 // Energy price always comes first
 const DIMENSION_ORDER = ["kwh", "session", "minute", "parking_minute"];
 const WEEKDAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+// The banner ad (free version) is shown after this many prices
+const AD_AFTER_ROWS = 3;
 
 // A new view is created for every price update, only the latest one may render async results
 let activeView = null;
@@ -28,12 +32,17 @@ export default class PriceListView extends ViewBase {
     this.filters = { noMonthlyFee: false, providerCustomerOnly: false };
     this.expandedTariffIds = [];
     this.tariffDetails = {};
+    this.adsRepo = new Advertisements(depts);
+    this.bannerAd = new BannerAd(depts, this.premiumGate);
+    this.ad = null;
   }
 
   template(){
     const prices = this.groupedPrices;
     const hasWallet = prices.allMyPrices.length > 0;
     const hasPrices = hasWallet || prices.allOtherPrices.length > 0;
+    this.renderedRows = 0;
+    this.adShown = false;
 
     return html`
       ${hasPrices && this.options.isPro ? html`
@@ -56,6 +65,8 @@ export default class PriceListView extends ViewBase {
 
         ${this.rowsTemplate(this.applyFilters(prices.allOtherPrices))}
       `:""}
+
+      ${hasPrices && this.ad && !this.adShown ? this.priceListAdTemplate() : ""}
 
       ${hasPrices ? html`
         <div class="w3-margin-top w3-small w3-container">
@@ -147,20 +158,44 @@ export default class PriceListView extends ViewBase {
   }
 
   rowsTemplate(prices){
-    return prices.map(p=>{
-      const tariff = p.tariff;
-      if(this.isLocked(tariff)) return this.lockedRowTemplate(p, tariff);
-      const expanded = this.expandedTariffIds.includes(tariff.tariff.id);
-      return html`
-        <div class="price-row price-row-expandable cp-clickable" @click="${()=>this.onToggleTariff(tariff)}" style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
-          <div class="price-flex-container">
-            ${this.tariffOverviewTemplate(p,tariff)}
-            ${this.priceTemplate(p,tariff)}
-            <i class="fa fa-chevron-${expanded ? "up" : "down"} price-row-toggle"></i>
-          </div>
-          ${expanded ? this.tariffDetailsTemplate(tariff, p) : ""}
+    return prices.map(p=>html`${this.rowTemplate(p)}${this.adAfterRowTemplate()}`);
+  }
+
+  // Counts the rendered rows across all sections, the ad comes after the AD_AFTER_ROWS-th price
+  adAfterRowTemplate(){
+    this.renderedRows++;
+    if(!this.ad || this.adShown || this.renderedRows != AD_AFTER_ROWS) return "";
+    return this.priceListAdTemplate();
+  }
+
+  priceListAdTemplate(){
+    this.adShown = true;
+    return html`<div class="price-list-ad">${this.bannerAd.template(this.ad)}</div>`;
+  }
+
+  async loadAd(){
+    const ad = await this.adsRepo.bannerFor(this.station.country, "price_list1");
+    if(!ad || activeView !== this) return;
+
+    this.ad = ad;
+    this.rerender();
+    if(this.groupedPrices.allPrices.length > 0) this.adsRepo.trackImpression(ad);
+  }
+
+  rowTemplate(p){
+    const tariff = p.tariff;
+    if(this.isLocked(tariff)) return this.lockedRowTemplate(p, tariff);
+    const expanded = this.expandedTariffIds.includes(tariff.tariff.id);
+    return html`
+      <div class="price-row price-row-expandable cp-clickable" @click="${()=>this.onToggleTariff(tariff)}" style="${this.isHighlighted(tariff) ? `background: ${tariff.branding.background_color} !important; color: ${tariff.branding.text_color} !important;` : ""}" >
+        <div class="price-flex-container">
+          ${this.tariffOverviewTemplate(p,tariff)}
+          ${this.priceTemplate(p,tariff)}
+          <i class="fa fa-chevron-${expanded ? "up" : "down"} price-row-toggle"></i>
         </div>
-      `});
+        ${expanded ? this.tariffDetailsTemplate(tariff, p) : ""}
+      </div>
+    `;
   }
 
   // Tariff name and tags are hidden, the price stays visible. The real name isn't rendered
@@ -437,6 +472,9 @@ export default class PriceListView extends ViewBase {
     this.options = options;
     this.groupedPrices = this.groupIntoSections(prices);
     this.rerender();
+
+    // Ads are only shown in the free version
+    if(this.premiumGate.isRestricted()) this.loadAd();
   }
 
   rerender(){

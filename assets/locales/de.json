@@ -363,5 +363,6 @@
   "tariffDetailsTotal": "Gesamtkosten des Ladevorgangs",
   "mapKeyPriceGreen": "Bester Preis bis +10%",
   "mapKeyPriceOrange": "Bis +25%",
-  "mapKeyPriceRed": "Mehr als +25%"
+  "mapKeyPriceRed": "Mehr als +25%",
+  "bannerAdLabel": "Anzeige"
 }

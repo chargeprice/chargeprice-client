@@ -1937,3 +1937,39 @@ button.landing-webapp-cta:disabled {
 .vehicle-info-variant {
   margin-top: 2px;
 }
+
+/* Banner ads (free version) */
+.banner-ad {
+  position: relative;
+  display: block;
+  line-height: 0;
+}
+
+.banner-ad img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.banner-ad-label {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  font-size: 10px;
+  line-height: 1.4;
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+.map-ad {
+  max-width: 468px;
+  margin: 0 auto 4px;
+  padding: 0 8px;
+}
+
+.price-list-ad {
+  margin: 8px;
+}

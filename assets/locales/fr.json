@@ -363,5 +363,6 @@
   "tariffDetailsTotal": "Coût total de la recharge",
   "mapKeyPriceGreen": "Meilleur prix à +10%",
   "mapKeyPriceOrange": "Jusqu'à +25%",
-  "mapKeyPriceRed": "Plus de +25%"
+  "mapKeyPriceRed": "Plus de +25%",
+  "bannerAdLabel": "Pub"
 }
