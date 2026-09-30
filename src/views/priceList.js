@@ -457,9 +457,10 @@ export default class PriceListView extends ViewBase {
       star: "star",
       lock: "lock"
     }
+    const iconFor = tag => tag.kind == "info" && tag.url ? "external-link" : iconMapping[tag.kind];
     const entries = tags.map(tag=>
       html`
-        <span class="${ `w3-tag w3-small cp-margin-top-right-small ${colorMapping[tag.kind]}`}"><label><i class="${`fa fa-${iconMapping[tag.kind]}`}"></i> 
+        <span class="${ `w3-tag w3-small cp-margin-top-right-small ${colorMapping[tag.kind]}`}"><label><i class="${`fa fa-${iconFor(tag)}`}"></i>
           ${tag.url ? html`<a @click="${(e)=>{e.stopPropagation(); this.onTagClicked(tag, tariff);}}" href="${tag.url.replace("{locale}",this.translation.currentLocaleOrFallback())}" target="_blank">${tag.text}</a>` : tag.text}
         </label>
     `);
