@@ -35,7 +35,7 @@ export default class PriceListView extends ViewBase {
     this.appUpsellBanner = new AppUpsellBanner(depts, this.premiumGate);
 
     this.theme = depts.themeLoader().getCurrentThemeConfig();
-    this.filters = { noMonthlyFee: false, providerCustomerOnly: false };
+    this.filters = { noMonthlyFee: false, providerCustomerTariffs: false };
     this.expandedTariffIds = [];
     this.tariffDetails = {};
     this.adsRepo = new Advertisements(depts);
@@ -108,7 +108,7 @@ export default class PriceListView extends ViewBase {
   filterChipsTemplate(){
     const chips = [
       { key: "noMonthlyFee", text: this.t("onlyTariffsWithoutMonthlyFees") },
-      { key: "providerCustomerOnly", text: this.t("providerCustomerOnly"), info: this.t("providerCustomerFilterInfo") }
+      { key: "providerCustomerTariffs", text: this.t("providerCustomerOnly"), info: this.t("providerCustomerFilterInfo") }
     ];
 
     return html`
@@ -133,7 +133,8 @@ export default class PriceListView extends ViewBase {
     return prices.filter(p=>{
       const tariff = p.tariff;
       if(this.filters.noMonthlyFee && !(tariff.totalMonthlyFee === 0 && tariff.monthlyMinSales === 0)) return false;
-      if(this.filters.providerCustomerOnly && !tariff.providerCustomerTariff) return false;
+      // Provider customer tariffs are hidden unless the filter is active
+      if(!this.filters.providerCustomerTariffs && tariff.providerCustomerTariff) return false;
       return true;
     });
   }
