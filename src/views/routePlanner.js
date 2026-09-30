@@ -27,6 +27,9 @@ export default class RoutePlanner extends ViewBase{
     this.analytics = depts.analytics();
     this.settingsPrimitive = depts.settingsPrimitive();
     this.trips = new Trips(depts);
+    this.chargingStationRepo = depts.chargingStation();
+    // Operator names of the alternative charging stops, loaded when the list is opened
+    this.operatorNames = {};
     this.appUpsellBanner = new AppUpsellBanner(depts, sidebar.premiumGate);
 
     this.waypointCounter = 0;
@@ -354,10 +357,13 @@ export default class RoutePlanner extends ViewBase{
               <span class="route-alternative-check">
                 ${isCurrent ? html`<i class="fa fa-check-circle" title="${this.t("routeCurrentChargeStop")}"></i>` : ""}
               </span>
-              <span class="route-alternative-power">${station && station.power ? `${this.h().power(station.power)} kW` : ""}</span>
-              <span class="route-alternative-diffs">
-                ${isCurrent ? "" : this.alternativeDiffsTemplate(candidate, station, current, currentStation)}
-              </span>
+              <div class="route-alternative-main">
+                <div class="route-alternative-values">
+                  <span class="route-alternative-power">${this.alternativeStationText(station)}</span>
+                  ${isCurrent ? "" : this.alternativeDiffsTemplate(candidate, station, current, currentStation)}
+                </div>
+                ${this.operatorNames[candidate.station_id] ? html`<div class="route-alternative-operator">${this.operatorNames[candidate.station_id]}</div>` : ""}
+              </div>
               ${station ? html`
                 <button @click="${()=>this.onShowAlternativeOnMap(station)}" class="w3-button w3-round route-alternative-map" title="${this.t("routeShowOnMap")}">
                   <i class="fa fa-map-marker"></i>
@@ -373,6 +379,12 @@ export default class RoutePlanner extends ViewBase{
         })}
       </div>
     `;
+  }
+
+  // Max power · number of charge points, like on the charge stop card
+  alternativeStationText(station){
+    if(!station) return "";
+    return [station.power ? `${this.h().power(station.power)} kW` : null, station.chargePointCount ? `${station.chargePointCount}x` : null].filter(v=>v).join(" · ");
   }
 
   // Price (average per kWh, as requested for the trip) and detour compared to the currently selected station
@@ -548,8 +560,25 @@ export default class RoutePlanner extends ViewBase{
 
   onToggleAlternatives(step){
     this.editingChargeStopId = this.editingChargeStopId == step.id ? null : step.id;
-    if(this.editingChargeStopId) this.analytics.log('event', 'route_planner_alternatives_opened');
+    if(this.editingChargeStopId){
+      this.analytics.log('event', 'route_planner_alternatives_opened');
+      this.loadOperatorNames(step);
+    }
     this.render();
+  }
+
+  async loadOperatorNames(step){
+    const ids = (step.station_candidates || []).map(c=>c.station_id).filter(id=>!(id in this.operatorNames));
+    if(ids.length == 0) return;
+
+    try {
+      Object.assign(this.operatorNames, await this.chargingStationRepo.getOperatorNames(ids));
+      this.render();
+    }
+    catch(error){
+      // The list works without the operator names
+      console.error(error);
+    }
   }
 
   onShowAlternativeOnMap(station){

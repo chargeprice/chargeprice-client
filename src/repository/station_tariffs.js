@@ -157,6 +157,33 @@ export default class StationTariffs {
     return 2 * earthRadiusMeters * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
+  // Operator (CPO) name per station id, e.g. for the alternative charging stops of a trip
+  async getOperatorNames(ids){
+    // filter[id] accepts max. 50 ids per request
+    const batches = [];
+    for(let i = 0; i < ids.length; i += 50) batches.push(ids.slice(i, i + 50));
+    const results = await Promise.all(batches.map(batch=>this.getOperatorNamesBatch(batch)));
+    return Object.assign({}, ...results);
+  }
+
+  async getOperatorNamesBatch(ids){
+    const query = { "filter[id]": ids.join(","), "page[size]": ids.length };
+    const response = await fetch(`${this.base_url}/v1/charging_stations?${this.toQuery(query)}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Api-Key": this.apiKey
+      }
+    });
+
+    if(response.status != 200) throw "Error in request";
+
+    const apiResponse = await (new JsonApiDeserializer(response)).deserialize();
+    return apiResponse.data.reduce((memo, station)=>{
+      memo[station.id] = (station.operator || {}).name || null;
+      return memo;
+    }, {});
+  }
+
   async getStationDetails(id,options){
     const url = `${this.base_url}/v1/charging_stations/${id}?${options.availability ? "availability=true" : ""}`;
     const response = await fetch(url, {

@@ -2405,12 +2405,28 @@ button.landing-webapp-cta:disabled {
   white-space: nowrap;
 }
 
-.route-alternative-diffs {
+.route-alternative-main {
   flex: 1;
+  min-width: 0;
+}
+
+.route-alternative-values {
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
   gap: 2px 8px;
+}
+
+.route-alternative-values > span:not(.route-alternative-power) {
   font-size: 0.9em;
+}
+
+.route-alternative-operator {
+  font-size: 0.8em;
+  color: #777;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .route-diff-better {
