@@ -106,6 +106,7 @@ export default class RootContainer extends ViewBase {
   accountTemplate(){
     if(!this.profile) return html`
       <span @click="${()=>this.onTriggerAuthModal()}" class="w3-bar-item w3-button auth-options" style="display: flex;">
+        <span class="auth-options-text w3-hide-small">${this.t("authLogInBtnText")} / ${this.t("authSignUpBtnText")}</span>
         <i class="fa fa-user"></i>
       </span>
     `;

@@ -594,6 +594,10 @@ i.fav-icon {
 	margin: 0 16px;
 }
 
+.auth-options-text {
+	margin-right: 8px;
+}
+
 .auth-details p {
 	margin: 0;
 }
