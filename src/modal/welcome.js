@@ -7,33 +7,59 @@ export default class ModalWelcome extends ModalBase {
     this.analytics = depts.analytics();
     this.themeLoader = depts.themeLoader();
     this.settings = depts.settingsPrimitive();
+    this.eventBus = depts.eventBus();
   }
 
   template(){
-    const themeName = this.themeLoader.getCurrentThemeConfig().name;
+    const theme = this.themeLoader.getCurrentThemeConfig();
 
     return html`
-    <div class="w3-modal-content">
-      ${this.header(this.sf(this.t("popupWelcomeHeader"), themeName), false)}
-      <div class="w3-container w3-padding">
-        <p>${this.ut("popupWelcomeText1")}</p>
-        <p>${this.ut("popupWelcomeText2")}</p>
-
-        <hr>
-
-        <input id="allowTracking" class="w3-check" type="checkbox" checked>
-        <label>${this.t("cookieConstentHeader")}</label>
-        <p class="w3-small">${this.ut("cookieConstentText")}</p>
+    <div class="w3-modal-content w3-animate-top welcome-modal">
+      <div class="welcome-hero" style="background:${theme.themeColor};">
+        <div class="welcome-hero-content">
+          ${this.themeLoader.isDefaultTheme() ?
+            html`<img src="img/CP-logotype-h-white.svg" alt="Chargeprice" class="welcome-hero-logo">` :
+            html`<p class="header-font welcome-hero-title">${this.sf(this.t("popupWelcomeHeader"), theme.name)}</p>`}
+          <p class="welcome-hero-text">${this.ut("popupWelcomeText1")}</p>
+        </div>
       </div>
 
-      <button @click="${()=>this.onContinueAndSetTracking()}" class="w3-btn pc-secondary w3-margin-bottom w3-margin-left">
-        ${this.t("popupWelcomeCTA")}
-      </button>
+      <div class="welcome-body">
+        <div class="welcome-vehicle-hint">
+          <i class="fa fa-car"></i>
+          <p>${this.ut("popupWelcomeText2")}</p>
+        </div>
+
+        <button @click="${()=>this.onChooseVehicle()}" class="w3-btn pc-secondary welcome-cta">
+          ${this.t("popupWelcomeChooseVehicleCta")}
+        </button>
+        <button @click="${()=>this.onChooseLater()}" class="w3-button welcome-later">
+          ${this.t("popupWelcomeLaterCta")}
+        </button>
+
+        <div class="welcome-consent">
+          <input id="allowTracking" class="w3-check" type="checkbox" checked>
+          <label for="allowTracking">${this.t("cookieConstentHeader")}</label>
+          <p>${this.ut("cookieConstentText")}</p>
+        </div>
+      </div>
     </div>
     `
   }
 
-  onContinueAndSetTracking(){
+  onChooseVehicle(){
+    // After the consent, so the event is tracked if it was given
+    this.continueAndSetTracking();
+    this.analytics.log('event', 'welcome_closed', { action: "choose_vehicle" });
+    this.eventBus.publish("sidebar.change", { sidebar: "vehicleSelection" });
+  }
+
+  onChooseLater(){
+    this.continueAndSetTracking();
+    this.analytics.log('event', 'welcome_closed', { action: "later" });
+  }
+
+  continueAndSetTracking(){
     this.settings.setBoolean("askedForTracking", true);
     const trackingAllowed = this.isChecked("allowTracking");
     if(trackingAllowed) this.analytics.consentGranted();
@@ -41,4 +67,3 @@ export default class ModalWelcome extends ModalBase {
     this.hide();
   }
 }
-

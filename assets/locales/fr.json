@@ -104,6 +104,8 @@
   "popupWelcomeText1": "Arrêtez de payer trop cher la recharge de votre véhicule électrique !<br>Comparez les prix de toutes les cartes et applications de recharge et trouvez la solution la moins chère à chaque borne.",
   "popupWelcomeText2": "Sélectionnez simplement votre véhicule et nous calculons le coût réel de votre recharge, y compris les frais basés sur le temps et même les frais d'occupation.",
   "popupWelcomeCTA": "C'est parti !",
+  "popupWelcomeChooseVehicleCta": "Choisissez votre véhicule",
+  "popupWelcomeLaterCta": "Je le choisirai plus tard",
   "popupSocialMediaHeader": "Ne manquez jamais un nouveau prix",
   "popupSocialMediaText1": "Suivez-nous sur les réseaux sociaux, nous vous tiendrons informé des nouvelles offres de recharge pour tous les véhicules électriques !",
   "popupSocialMediaText2": "Comment souhaitez-vous être informé ?",
