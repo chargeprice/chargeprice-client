@@ -2343,8 +2343,93 @@ button.landing-webapp-cta:disabled {
   color: #777;
 }
 
+.route-charge-stop-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .route-charge-stop-name {
   font-weight: 600;
+}
+
+.route-charge-stop-edit {
+  padding: 2px 4px;
+  color: #555;
+  cursor: pointer;
+}
+
+.route-charge-stop-edit-active {
+  color: #007AFF;
+}
+
+.route-alternatives {
+  margin: 8px 0 0 12px;
+  padding: 0 0 2px 10px;
+  border-left: 2px solid #ddd;
+}
+
+.route-alternatives-header {
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+/* One compact line per station: check · power · price/detour differences · actions */
+.route-alternative {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px 4px 8px;
+  margin-bottom: 4px;
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  font-size: 0.9em;
+}
+
+.route-alternative-current {
+  border-color: #4caf50;
+}
+
+.route-alternative-check {
+  width: 14px;
+  flex-shrink: 0;
+  color: #4caf50;
+}
+
+.route-alternative-power {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.route-alternative-diffs {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+  font-size: 0.9em;
+}
+
+.route-diff-better {
+  color: #2e7d32;
+}
+
+.route-diff-worse {
+  color: #c62828;
+}
+
+.route-alternative-map {
+  padding: 4px 8px !important;
+  color: #555;
+}
+
+.route-alternative-select {
+  padding: 3px 10px !important;
+  font-size: 0.9em;
+  white-space: nowrap;
 }
 
 .route-charge-stop-name .fa {
@@ -2356,23 +2441,6 @@ button.landing-webapp-cta:disabled {
   color: #777;
   font-size: 0.9em;
   margin-top: 2px;
-}
-
-.route-hint {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  background: #007AFF;
-  color: #fff;
-  border-radius: 8px;
-  padding: 8px 12px;
-  margin-top: 10px;
-  font-size: 0.9em;
-  cursor: default;
-}
-
-.route-hint span {
-  flex: 1;
 }
 
 .trip-stop-marker-inner {

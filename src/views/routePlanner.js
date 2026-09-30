@@ -47,6 +47,8 @@ export default class RoutePlanner extends ViewBase{
     this.savedTrips = [];
     this.savedTripsLoaded = false;
     this.route = null;
+    // Charge stop whose alternatives are shown
+    this.editingChargeStopId = null;
     this.showResult = false;
     this.loading = false;
     this.error = null;
@@ -278,19 +280,17 @@ export default class RoutePlanner extends ViewBase{
   }
 
   stepsTemplate(steps){
-    let firstChargeStop = true;
-
     return steps.map(step=>{
       switch(step.type){
         case "route_leg":
           return html`<div class="route-leg">${this.h().time(step.duration)} - ${this.formatDistance(step.distance)}</div>`;
         case "stop":
           return this.stopTemplate(step);
-        case "charge_stop": {
-          const showHint = firstChargeStop && !this.settingsPrimitive.getBoolean("routeCandidatesHintDismissed", false);
-          firstChargeStop = false;
-          return this.chargeStopTemplate(step, showHint);
-        }
+        case "charge_stop":
+          return html`
+            ${this.chargeStopTemplate(step)}
+            ${this.editingChargeStopId == step.id ? this.alternativesTemplate(step) : ""}
+          `;
         default:
           return "";
       }
@@ -309,10 +309,15 @@ export default class RoutePlanner extends ViewBase{
     `;
   }
 
-  chargeStopTemplate(step, showHint){
+  chargeStopTemplate(step){
     return html`
       <div class="route-card route-charge-stop cp-clickable" @click="${()=>this.onChargeStopClicked(step)}">
-        <div class="route-charge-stop-name"><i class="fa fa-bolt"></i> ${step.station_name}</div>
+        <div class="route-charge-stop-header">
+          <div class="route-charge-stop-name"><i class="fa fa-bolt"></i> ${step.station_name}</div>
+          <i class="fa fa-pencil route-charge-stop-edit ${this.editingChargeStopId == step.id ? "route-charge-stop-edit-active" : ""}"
+            title="${this.t("routeAlternativesHeader")}"
+            @click="${(e)=>{e.stopPropagation(); this.onToggleAlternatives(step);}}"></i>
+        </div>
         <div class="route-charge-stop-meta">
           ${[step.power ? `${this.h().power(step.power)} kW` : null, step.charge_point_count ? `${step.charge_point_count}x` : null, step.operator_name].filter(v=>v).join(" · ")}
         </div>
@@ -325,14 +330,66 @@ export default class RoutePlanner extends ViewBase{
             <i class="fa fa-credit-card"></i> ${this.formatCost(step.cost, step.currency)}${step.tariff_name ? ` (${step.tariff_name})` : ""}
           </div>
         ` : ""}
-        ${showHint ? html`
-          <div class="route-hint" @click="${(e)=>e.stopPropagation()}">
-            <span>${this.t("routeCandidatesHint")}</span>
-            <i class="fa fa-times cp-clickable" @click="${()=>this.onDismissHint()}"></i>
-          </div>
-        ` : ""}
       </div>
     `;
+  }
+
+  // Candidates of the charge stop incl. the selected station, the best (highest score) first. The score itself isn't shown.
+  alternativesTemplate(step){
+    const candidates = (step.station_candidates || []).slice().sort((a,b)=>b.score - a.score);
+    const current = candidates.find(candidate=>candidate.station_id == step.station_id);
+    const currentStation = this.route.stationsById[step.station_id];
+    const restricted = this.sidebar.premiumGate.isRestricted();
+
+    return html`
+      <div class="route-alternatives">
+        <div class="route-alternatives-header">${this.t("routeAlternativesHeader")}</div>
+        ${candidates.length == 0 ? html`<div class="w3-small w3-text-dark-gray">${this.t("routeNoAlternatives")}</div>` : ""}
+        ${candidates.map(candidate=>{
+          const station = this.route.stationsById[candidate.station_id];
+          const isCurrent = candidate == current;
+
+          return html`
+            <div class="route-alternative ${isCurrent ? "route-alternative-current" : ""}">
+              <span class="route-alternative-check">
+                ${isCurrent ? html`<i class="fa fa-check-circle" title="${this.t("routeCurrentChargeStop")}"></i>` : ""}
+              </span>
+              <span class="route-alternative-power">${station && station.power ? `${this.h().power(station.power)} kW` : ""}</span>
+              <span class="route-alternative-diffs">
+                ${isCurrent ? "" : this.alternativeDiffsTemplate(candidate, station, current, currentStation)}
+              </span>
+              ${station ? html`
+                <button @click="${()=>this.onShowAlternativeOnMap(station)}" class="w3-button w3-round route-alternative-map" title="${this.t("routeShowOnMap")}">
+                  <i class="fa fa-map-marker"></i>
+                </button>
+              ` : ""}
+              ${!isCurrent ? html`
+                <button @click="${()=>this.replaceChargeStop(step, { id: candidate.station_id })}" ?disabled="${this.saving}" class="w3-btn pc-secondary w3-round route-alternative-select" title="${this.t("routeUseAsChargingStop")}">
+                  ${this.saving ? html`<i class="fa fa-spinner fa-spin"></i>` : ""}${this.t("routeSelectAlternative")}${restricted ? html` <i class="fa fa-star premium-star-inline"></i>` : ""}
+                </button>
+              ` : ""}
+            </div>
+          `;
+        })}
+      </div>
+    `;
+  }
+
+  // Price (average per kWh, as requested for the trip) and detour compared to the currently selected station
+  alternativeDiffsTemplate(candidate, station, current, currentStation){
+    const diffs = [];
+
+    if(station && currentStation && station.price != null && currentStation.price != null){
+      const priceDiff = Math.round((station.price - currentStation.price) * 100) / 100;
+      if(priceDiff != 0) diffs.push({ better: priceDiff < 0, text: `${priceDiff > 0 ? "+" : "−"}${this.h().dec(Math.abs(priceDiff))}/kWh` });
+    }
+
+    if(current){
+      const detourDiff = Math.round((candidate.detour || 0) - (current.detour || 0));
+      if(detourDiff != 0) diffs.push({ better: detourDiff < 0, text: `${detourDiff > 0 ? "+" : "−"}${Math.abs(detourDiff)} min` });
+    }
+
+    return diffs.map(diff=>html`<span class="${diff.better ? "route-diff-better" : "route-diff-worse"}">${diff.text}</span>`);
   }
 
   formatCost(cost, currency){
@@ -489,9 +546,15 @@ export default class RoutePlanner extends ViewBase{
     }
   }
 
-  onDismissHint(){
-    this.settingsPrimitive.setBoolean("routeCandidatesHintDismissed", true);
+  onToggleAlternatives(step){
+    this.editingChargeStopId = this.editingChargeStopId == step.id ? null : step.id;
+    if(this.editingChargeStopId) this.analytics.log('event', 'route_planner_alternatives_opened');
     this.render();
+  }
+
+  onShowAlternativeOnMap(station){
+    this.analytics.log('event', 'route_planner_alternative_shown');
+    if(this.stationSelectedCallback) this.stationSelectedCallback({ id: station.id, latitude: station.latitude, longitude: station.longitude });
   }
 
   onShowResult(){
@@ -508,6 +571,7 @@ export default class RoutePlanner extends ViewBase{
     this.tripId = trip.id;
     this.isSaved = trip.isSaved;
     this.route = trip.route;
+    this.editingChargeStopId = null;
     this.showResult = true;
     this.eventBus.publish("trip.created", this.route);
   }
@@ -539,18 +603,29 @@ export default class RoutePlanner extends ViewBase{
   // Button for the station detail page, empty if the station isn't an alternative on the current route
   chargeStopActionTemplate(station){
     if(this.chargeStopsForStation(station.id).length == 0) return "";
+    const restricted = this.sidebar.premiumGate.isRestricted();
 
     return html`
       <div class="route-use-station">
         <div class="route-use-station-text"><i class="fa fa-route"></i> ${this.t("routeAlternativeStation")}</div>
         <button @click="${()=>this.onUseAsChargingStop(station)}" ?disabled="${this.saving}" class="w3-btn pc-secondary w3-block w3-round route-use-station-button">
           ${this.saving ? html`<i class="fa fa-spinner fa-spin"></i>` : html`<i class="fa fa-bolt"></i>`} ${this.t("routeUseAsChargingStop")}
+          ${restricted ? html`<i class="fa fa-star premium-star-inline"></i>` : ""}
         </button>
       </div>
     `;
   }
 
+  // Replacing a charging stop is a premium feature
+  showPremiumScreenIfRestricted(){
+    if(!this.sidebar.premiumGate.isRestricted()) return false;
+    this.sidebar.premiumGate.showPremiumScreen("route_charge_stop_replace");
+    return true;
+  }
+
   onUseAsChargingStop(station){
+    if(this.showPremiumScreenIfRestricted()) return;
+
     const chargeStops = this.chargeStopsForStation(station.id);
     if(chargeStops.length == 1){
       this.replaceChargeStop(chargeStops[0], station);
@@ -567,6 +642,8 @@ export default class RoutePlanner extends ViewBase{
   }
 
   async replaceChargeStop(chargeStop, station){
+    if(this.showPremiumScreenIfRestricted()) return;
+
     const accessToken = await this.accessToken();
     // Changing a trip requires a logged in user
     if(!accessToken){

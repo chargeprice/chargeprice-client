@@ -129,7 +129,12 @@ export default class Trips {
       steps: route.steps,
       // Pin data of the selected charging stations, falling back to the charge stop itself
       chargingStations: chargeStops.map(stop=>this.toStation(stationsById[stop.station_id] || stop, stop.station_id)),
-      candidateStations: [...candidateIds].filter(id=>stationsById[id]).map(id=>this.toStation(stationsById[id], id))
+      candidateStations: [...candidateIds].filter(id=>stationsById[id]).map(id=>this.toStation(stationsById[id], id)),
+      // Power and price of all stations on the route, e.g. for the list of alternative charging stops
+      stationsById: Object.keys(stationsById).reduce((memo, id)=>{
+        memo[id] = this.toStation(stationsById[id], id);
+        return memo;
+      }, {})
     };
   }
 
