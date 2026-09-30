@@ -1520,7 +1520,9 @@ button.landing-webapp-cta:disabled {
 
 .landing-promo-form {
   display: flex;
-  flex-wrap: wrap;
+  /* Input and button always stay on one line, the input shrinks on narrow screens */
+  flex-wrap: nowrap;
+  max-width: 100%;
   gap: 12px;
   align-items: stretch;
   order: 1;
@@ -1535,12 +1537,15 @@ button.landing-webapp-cta:disabled {
   background: rgba(255,255,255,0.1);
   color: #fff;
   font-size: 1em;
-  min-width: 220px;
+  flex: 0 1 220px;
+  min-width: 0;
 }
 
 .landing-promo-cta {
   box-sizing: border-box;
   margin-bottom: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .landing-promo-input::placeholder {
@@ -1831,7 +1836,6 @@ button.landing-webapp-cta:disabled {
     opacity: 0.8;
   }
 
-  .landing-promo-login-cta,
   .landing-promo-cta {
     order: initial;
     display: inline-block;
@@ -1846,11 +1850,6 @@ button.landing-webapp-cta:disabled {
     margin-top: 0;
   }
 
-  .landing-promo-login-cta {
-    margin-bottom: 20px;
-  }
-
-  .landing-promo-login-cta:hover,
   .landing-promo-cta:hover {
     background: transparent;
     color: #fff;

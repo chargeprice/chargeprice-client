@@ -43,7 +43,9 @@ class App {
         "/map": () => this.showRoute("/map", () => this.initializeMapApp(this.userSettings)),
         [PREMIUM_PATH]: () => this.showRoute("/map", () => this.initializeMapApp(this.userSettings)),
         "/welcome": () => this.showRoute("/welcome", () => this.showLandingPage()),
-        "/promo": () => this.showRoute("/promo", () => this.showPromoPage())
+        "/promo": () => this.showRoute("/promo", () => this.showPromoPage()),
+        // e.g. /promo/SUMMER24 prefills the promo code
+        "/promo/:code": (match) => this.showRoute("/promo", () => this.showPromoPage(match.data.code))
       })
       .notFound(() => this.navigateToDefaultRoute());
 
@@ -78,8 +80,8 @@ class App {
     new LandingPage(this.depts).render();
   }
 
-  showPromoPage(){
-    new PromoPage(this.depts).render();
+  showPromoPage(promoCode){
+    new PromoPage(this.depts, promoCode).render();
   }
 
   async initializeMapApp(userSettings){

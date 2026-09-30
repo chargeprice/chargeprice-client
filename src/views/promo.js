@@ -4,7 +4,7 @@ import Authorization from '../component/authorization';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile';
 
 export default class PromoPage extends LandingPage {
-  constructor(depts) {
+  constructor(depts, promoCode = "") {
     super(depts);
     this.stripe = depts.stripe();
     this.userSettingsRepo = depts.userSettings();
@@ -12,7 +12,7 @@ export default class PromoPage extends LandingPage {
     this.profile = null;
     this.accessToken = null;
     this.isPremium = false;
-    this.promoCode = "";
+    this.promoCode = promoCode;
     this.loading = false;
     this.error = null;
   }
@@ -37,24 +37,18 @@ export default class PromoPage extends LandingPage {
 
     return html`
       <div class="landing-cta-group">
-        ${!this.isLoggedIn() ? html`
-          <button class="landing-webapp-cta landing-promo-login-cta" @click="${()=>this.onLogin()}">
-            ${this.t("promoLoginCta")}
-          </button>
-        `:""}
-
         <div class="landing-promo-form">
           <input
             .value="${this.promoCode}"
             @input="${(e)=>this.onPromoCodeChanged(e.target.value)}"
             placeholder="${this.t("promoCodePlaceholder")}"
             class="landing-promo-input"
-            ?disabled="${!this.isLoggedIn() || this.loading}"
+            ?disabled="${this.loading}"
           />
           <button
             class="landing-webapp-cta landing-promo-cta"
             @click="${()=>this.onValidate()}"
-            ?disabled="${!this.isLoggedIn() || !this.promoCode.trim() || this.loading}">
+            ?disabled="${!this.promoCode.trim() || this.loading}">
             ${this.loading ? this.t("promoValidating") : this.t("promoValidateCta")}
           </button>
         </div>
@@ -134,7 +128,10 @@ export default class PromoPage extends LandingPage {
     }
   }
 
+  // The login reloads the page, so the code goes into the URL (also used as registration callback) to keep it
   onLogin() {
+    const newUrl = `/promo/${encodeURIComponent(this.promoCode.trim())}` + window.location.search + window.location.hash;
+    window.history.replaceState({}, "", newUrl);
     new Authorization(this.depts).render();
   }
 
@@ -144,7 +141,8 @@ export default class PromoPage extends LandingPage {
   }
 
   async onValidate() {
-    if (!this.isLoggedIn() || !this.promoCode.trim() || this.loading) return;
+    if (!this.promoCode.trim() || this.loading) return;
+    if (!this.isLoggedIn()) return this.onLogin();
 
     this.loading = true;
     this.error = null;
