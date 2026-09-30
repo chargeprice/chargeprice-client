@@ -16,6 +16,7 @@ import AppInstall from './component/app_install';
 import FetchUserSettingsOrCreateFromLocal from './useCase/fetchUserSettingsOrCreateFromLocal.js';
 import ModalInstallApp from './modal/installApp.js';
 import MapAd from './component/mapAd.js';
+import PremiumGate, { PREMIUM_PATH } from './component/premiumGate.js';
 
 import '../assets/css/w3.css'
 import '../assets/css/w3-colors-flat.css'
@@ -40,6 +41,7 @@ class App {
     this.depts.router()
       .on({
         "/map": () => this.showRoute("/map", () => this.initializeMapApp(this.userSettings)),
+        [PREMIUM_PATH]: () => this.showRoute("/map", () => this.initializeMapApp(this.userSettings)),
         "/welcome": () => this.showRoute("/welcome", () => this.showLandingPage()),
         "/promo": () => this.showRoute("/promo", () => this.showPromoPage())
       })
@@ -170,6 +172,14 @@ class App {
     if(params.has("deeplink_target")){
       new ModalInstallApp(this.depts).show();
     }
+
+    if(window.location.pathname === PREMIUM_PATH) this.showPremiumScreenFromUrl();
+  }
+
+  showPremiumScreenFromUrl(){
+    const premiumGate = this.sidebar.premiumGate;
+    if(premiumGate.isRestricted()) premiumGate.showPremiumScreen("url");
+    else PremiumGate.onPremiumScreenClosed();
   }
 
   async loadStaticContent(rootContainer, settingsSidebar, infoSidebar){

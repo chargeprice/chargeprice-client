@@ -1,5 +1,11 @@
 import ModalStripeCheckout from '../modal/stripeCheckout';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile';
+import UrlModifier from '../helper/urlModifier';
+
+// While the premium screen is open, the URL points to it, so it opens again
+// after a login (page reload) or when coming back from the registration email
+export const PREMIUM_PATH = "/map/premium";
+const MAP_PATH = "/map";
 
 export default class PremiumGate {
   constructor(depts, userSettings){
@@ -34,5 +40,10 @@ export default class PremiumGate {
     }
 
     new ModalStripeCheckout(this.depts).show(profile, accessToken, options);
+    new UrlModifier().setPath(PREMIUM_PATH);
+  }
+
+  static onPremiumScreenClosed(){
+    if(window.location.pathname === PREMIUM_PATH) new UrlModifier().setPath(MAP_PATH);
   }
 }

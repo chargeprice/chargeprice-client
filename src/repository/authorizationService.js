@@ -1,6 +1,8 @@
+// Must match CONFIRM_CALLBACK_ALLOWED_DOMAINS in chargeprice-auth
+const CONFIRM_CALLBACK_ALLOWED_DOMAINS = ["ladepreise.at", "chargeprice.app"];
+
 export default class AuthService {
 	constructor(depts) {
-		this.themeLoader = depts.themeLoader();
 		this.baseEndpointUrl = process.env.CHARGEPRICE_AUTH_SERVICE;
 		this.signInEndpoint = this.baseEndpointUrl + "/v1/authenticate";
 		this.signUpEndpoint = this.baseEndpointUrl + "/v1/users";
@@ -55,10 +57,9 @@ export default class AuthService {
 			language: window.navigator.language.substring(0, 2),
 		};
 
-		if (data.whitelabel) {
-			attributes.whitelabel = data.whitelabel;
-		} else if (this.themeLoader.getCurrentThemeId() === "emc") {
-			attributes.whitelabel = "emc_ladepreise";
+		// After confirming the email, the user gets back to the page they registered on
+		if (this.isAllowedConfirmCallbackUrl(window.location.href)) {
+			attributes.confirm_callback_url = window.location.href;
 		}
 
 		const body = JSON.stringify({
@@ -75,6 +76,14 @@ export default class AuthService {
 				body,
 			},
 		});
+	}
+
+	// The auth service rejects the registration for any other URL (e.g. localhost or previews)
+	isAllowedConfirmCallbackUrl(value) {
+		const url = new URL(value);
+		return url.protocol === "https:" && CONFIRM_CALLBACK_ALLOWED_DOMAINS.some(
+			(domain) => url.hostname === domain || url.hostname.endsWith(`.${domain}`)
+		);
 	}
 
 	async requestPasswordChange(data) {

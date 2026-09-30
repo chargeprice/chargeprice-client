@@ -135,7 +135,7 @@ export default class PromoPage extends LandingPage {
   }
 
   onLogin() {
-    new Authorization(this.depts, { whitelabel: "dot_app_promo" }).render();
+    new Authorization(this.depts).render();
   }
 
   onPromoCodeChanged(value) {

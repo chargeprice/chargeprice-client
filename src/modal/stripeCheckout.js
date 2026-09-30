@@ -1,6 +1,7 @@
 import { html, render } from 'lit-html';
 import ModalBase from './base';
 import Authorization from '../component/authorization';
+import PremiumGate from '../component/premiumGate';
 
 const FEATURES = [
   { title: "stripeCheckoutFeatureTariffsWalletTitle", text: "stripeCheckoutFeatureTariffsWalletText" },
@@ -54,6 +55,11 @@ export default class ModalStripeCheckout extends ModalBase {
     this.error = null;
     this.showDetails = false;
     super.show();
+  }
+
+  hide() {
+    super.hide();
+    PremiumGate.onPremiumScreenClosed();
   }
 
   rerender() {
