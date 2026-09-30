@@ -13,6 +13,7 @@ export default class LandingPage extends ViewBase {
     this.learnMoreLink = "https://www.chargeprice.net/en/applications/";
     this.dataPlatformLink = "https://www.chargeprice.net/en/charging-intelligence-data/";
     this.imprintLink = "https://www.chargeprice.net/en/imprint/";
+    this.aboutUsLink = "https://www.chargeprice.net";
   }
 
   template() {
@@ -21,8 +22,8 @@ export default class LandingPage extends ViewBase {
         <div class="landing-hero" style="background-image:url('${HERO_IMAGE}');">
           <nav class="landing-nav">
             <div class="landing-nav-links">
-              <a href="/map" class="landing-nav-link" @click="${(e)=>this.onTryWebApp(e)}">${this.t("landingNavMap")}</a>
               <a href="${this.dataPlatformLink}" target="_blank" class="landing-nav-link">${this.t("landingNavDataPlatform")}</a>
+              <a href="${this.aboutUsLink}" target="_blank" class="landing-nav-link">${this.t("landingNavAboutUs")}</a>
             </div>
           </nav>
 
@@ -123,6 +124,18 @@ export default class LandingPage extends ViewBase {
           </div>
         </div>
 
+        <!-- Same hint as on the premium screen, for people analysing charging data professionally -->
+        <div class="landing-data-platform">
+          <i class="fa fa-database landing-data-platform-icon"></i>
+          <div>
+            <p class="landing-data-platform-title">${this.t("premiumDataPlatformTitle")}</p>
+            <p class="landing-data-platform-text">
+              ${this.t("premiumDataPlatformText")}
+              <a href="${this.dataPlatformLink}" target="_blank" class="link-text" @click="${()=>this.onDataPlatformClicked()}">${this.t("premiumAppLink")}</a>
+            </p>
+          </div>
+        </div>
+
         <div class="landing-footer">
           <a href="${this.imprintLink}" target="_blank" class="landing-imprint-link">${this.t("landingImprintLink")}</a>
           ${this.languageChooser()}
@@ -173,6 +186,10 @@ export default class LandingPage extends ViewBase {
   onTryWebApp(e) {
     e.preventDefault();
     this.router.navigate("/map");
+  }
+
+  onDataPlatformClicked() {
+    this.depts.analytics().log('event', 'data_platform_landing_clicked');
   }
 
   trackAppClick(platform) {
