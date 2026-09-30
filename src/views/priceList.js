@@ -45,6 +45,10 @@ export default class PriceListView extends ViewBase {
 
   template(){
     const prices = this.groupedPrices;
+    // In the free version promoted tariffs get their own section below the wallet
+    const promoted = this.premiumGate.isRestricted() ? prices.allOtherPrices.filter(p=>this.isHighlighted(p.tariff)) : [];
+    const otherPrices = prices.allOtherPrices.filter(p=>!promoted.includes(p));
+    const promotedPrices = this.applyFilters(promoted);
     const hasWallet = prices.allMyPrices.length > 0;
     const hasPrices = hasWallet || prices.allOtherPrices.length > 0;
     this.renderedRows = 0;
@@ -59,17 +63,19 @@ export default class PriceListView extends ViewBase {
 
       ${this.priceSectionTemplate(()=>html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("myTariffs")} <i class="fa fa-pencil"></i>${this.premiumStarTemplate()}</a>`, prices.allMyPrices)}
 
-      ${prices.allOtherPrices.length > 0 ? html`
+      ${this.priceSectionTemplate(()=>this.t("promotedTariffs"), promotedPrices)}
+
+      ${otherPrices.length > 0 ? html`
         <div class="price-flex-container w3-margin-top price-header header-font">
-          <div class="price-flex-left">${hasWallet ? this.t("otherTariffs") : html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("tariff")} <i class="fa fa-pencil"></i>${this.premiumStarTemplate()}</a>`}</div>
+          <div class="price-flex-left">${hasWallet || promotedPrices.length > 0 ? this.t("otherTariffs") : html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("tariff")} <i class="fa fa-pencil"></i>${this.premiumStarTemplate()}</a>`}</div>
           <div class="price-flex-right">${this.priceHeaderTemplate()}</div>
         </div>
 
         ${!this.premiumGate.isRestricted() ? this.filterChipsTemplate() : ""}
 
-        ${prices.allOtherPrices.some(p=>this.isLocked(p.tariff)) ? this.premiumBannerTemplate() : ""}
+        ${otherPrices.some(p=>this.isLocked(p.tariff)) ? this.premiumBannerTemplate() : ""}
 
-        ${this.rowsTemplate(this.applyFilters(prices.allOtherPrices))}
+        ${this.rowsTemplate(this.applyFilters(otherPrices))}
       `:""}
 
       ${hasPrices && this.ad && !this.adShown ? this.priceListAdTemplate() : ""}
