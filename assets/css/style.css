@@ -2540,13 +2540,18 @@ button.landing-webapp-cta:disabled {
   font-size: 0.85em;
 }
 
+/* The native look (rounded corners on mobile Chrome) is removed, the arrow is drawn instead */
 .price-mode-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   font: inherit;
   color: inherit;
-  background: transparent;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23666' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 2px center;
   border: none;
   border-bottom: 1px dashed currentColor;
-  padding: 0;
+  border-radius: 0;
+  padding: 0 16px 0 0;
   cursor: pointer;
 }
 
