@@ -200,7 +200,7 @@ export default class RootContainer extends ViewBase {
         header: this.translation.get("displayedLanguageHeader"), 
         convert: i => i.name,
         narrow: true
-      },(l)=>window.location = `https://${l.code}.chargeprice.app`);
+      },(l)=>this.translation.changeLocale(l.code));
   }
 
   showAlert(message) {

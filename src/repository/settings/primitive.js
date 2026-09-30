@@ -37,6 +37,15 @@ export default class RepositorySettingsPrimitive {
     else return value == "true"
   }
 
+  setString(key, value){
+    localStorage.setItem(key, value);
+  }
+
+  getString(key, fallback=null){
+    const value = localStorage.getItem(key);
+    return value == undefined ? fallback : value;
+  }
+
   setFloat(key,value){
     localStorage.setItem(key, value);
   }

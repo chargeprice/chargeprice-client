@@ -19,7 +19,7 @@ import Router from '../helper/router'
 
 export default class Dependencies {
   constructor(){
-    this.translationInstance = new Translation();
+    this.translationInstance = new Translation(new RepositorySettingsPrimitive(this));
     this.themeLoaderInstance = new ThemeLoader(this);
     this.customConfigInstance = null;
     this.userSettingsInstance = null;

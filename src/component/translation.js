@@ -1,5 +1,8 @@
+const LANGUAGE_SETTING = "language";
+
 export default class Translation {
-  constructor() {
+  constructor(settingsPrimitive) {
+    this.settingsPrimitive = settingsPrimitive;
     this.supportedLocales = [
       { code: "en", name: "English", flag: "gb" },
       { code: "de", name: "Deutsch", flag: "de" },
@@ -29,9 +32,11 @@ export default class Translation {
     document.getElementById(id).setAttribute("content",value);
   }
 
+  // The language chosen in the app wins over the (language) subdomain
   currentLocaleOrFallback(){
-    return this.languageFromDomain() ||
-      this.languageFromQuery() ||
+    return this.languageFromQuery() ||
+      this.languageFromSettings() ||
+      this.languageFromDomain() ||
       this.languageFromBrowserSetting()||
       this.fallbackLocale;
   }
@@ -44,6 +49,22 @@ export default class Translation {
     const url = `/locales/${this.currentLocale}.json`;
     const response = await fetch(url);
     this.currentLocaleTranslations = await response.json();
+  }
+
+  languageFromSettings(){
+    const lang = this.settingsPrimitive.getString(LANGUAGE_SETTING);
+    return this.isValidLanguage(lang) ? lang : null;
+  }
+
+  // Persists the language and reloads the page, as all views are rendered with the current translations
+  changeLocale(lang){
+    if(!this.isValidLanguage(lang)) return;
+    this.settingsPrimitive.setString(LANGUAGE_SETTING, lang);
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete("lang");
+    window.history.replaceState({}, "", url.toString());
+    window.location.reload();
   }
 
   languageFromDomain(){

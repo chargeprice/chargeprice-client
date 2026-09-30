@@ -170,15 +170,13 @@ export default class LandingPage extends ViewBase {
   languageChooser() {
     const locales = this.translation.getSupportedLocales();
     const current = this.translation.currentLocale;
-    const url = new URL(window.location.href);
     return html`
       <div class="landing-language-chooser">
-        ${locales.map(l => {
-          url.searchParams.set("lang", l.code);
-          return html`<a href="${url.toString()}" title="${l.name}" class="landing-language-flag" style="opacity:${l.code === current ? '1' : '0.5'};">
+        ${locales.map(l => html`
+          <a href="#" @click="${(e)=>{e.preventDefault(); this.translation.changeLocale(l.code);}}" title="${l.name}" class="landing-language-flag" style="opacity:${l.code === current ? '1' : '0.5'};">
             <span class="fi fi-${l.flag}"></span>
-          </a>`;
-        })}
+          </a>
+        `)}
       </div>
     `;
   }
