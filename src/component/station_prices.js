@@ -113,6 +113,8 @@ export default class StationPrices extends ViewBase{
  
   updateStationPrice(station,prices,options){
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
+    // At a charging stop of a planned route this is the battery range of the stop
+    render(options.batteryRange ? `: ${options.batteryRange[0]}-${options.batteryRange[1]}%` : "",this.getEl("chargeSummaryBatteryRange"));
 
     const sortedPrices = prices.sort((a,b)=>this.sortPrice(a.price, b.price));
     new PriceListView(this.depts,this.sidebar).render(sortedPrices, options, station, "prices")

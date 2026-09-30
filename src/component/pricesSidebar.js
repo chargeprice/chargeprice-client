@@ -14,7 +14,7 @@ export default class PricesSidebar extends ViewBase {
         <div id="select-charge-point"></div>
       </div>
       <div class="charge-summary-box">
-        <label class="charge-summary-header">${this.t("myChargeHeader")}</label>
+        <label class="charge-summary-header">${this.t("myChargeHeader")}<span id="chargeSummaryBatteryRange"></span></label>
         <div id="parameterNote" class="w3-medium"></div>
       </div>
 
