@@ -140,6 +140,7 @@
   "refreshHeader": "Rafraichir la page",
   "refreshSub": "Au cas où vous ayez l'ancienne version de Chargeprice",
   "myTariffs": "Wallet",
+  "walletEmptyHint": "Retrouvez ici tous les forfaits auxquels vous avez souscrit, ainsi que les tarifs de paiement direct.",
   "otherTariffs": "Autres tarifs",
   "bestMyTariffs": "Top {0} des prix de mes tarifs",
   "bestTariffsWithoutMonthlyFee": "Top {0} des prix sans abonnements mensuels",

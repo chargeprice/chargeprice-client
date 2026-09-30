@@ -140,6 +140,7 @@
   "refreshHeader": "App neu laden",
   "refreshSub": "Falls du eine veraltete Version von Chargeprice siehst",
   "myTariffs": "Wallet",
+  "walletEmptyHint": "Hier siehst du Ad-hoc Preise und Tarife, bei denen du registriert bist.",
   "otherTariffs": "Weitere Tarife",
   "bestMyTariffs": "Top {0} meiner Tarife",
   "bestTariffsWithoutMonthlyFee": "Top {0} Tarife ohne Grundgebühr",

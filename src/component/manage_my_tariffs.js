@@ -50,7 +50,7 @@ export default class ManageMyTariffs extends ViewBase{
             ${
               this.myTariffIds.includes(tariff.id) ?
               html`<button @click="${()=>this.onRemove(tariff)}" class="w3-btn w3-red w3-small">${this.t("manageMyTariffsRemove")}</button>` :
-              html`<button @click="${()=>this.onAdd(tariff)}" class="w3-btn pc-main w3-small">${this.t("manageMyTariffsSelect")}</button>`
+              html`<button @click="${()=>this.onAdd(tariff)}" class="w3-btn pc-main w3-small">${this.t("manageMyTariffsSelect")}${this.sidebar.premiumGate.isRestricted() ? html` <i class="fa fa-star premium-star-inline"></i>` : ""}</button>`
             }
             </div>
           </div>
@@ -75,7 +75,7 @@ export default class ManageMyTariffs extends ViewBase{
     // Adding tariffs to the wallet is a premium feature on the web (free in the mobile app)
     const premiumGate = this.sidebar.premiumGate;
     if(premiumGate.isRestricted()){
-      premiumGate.showPremiumScreen("wallet_add", { message: this.t("premiumWalletAddMessage") });
+      premiumGate.showPremiumScreen("wallet_add");
       return;
     }
 

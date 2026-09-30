@@ -127,6 +127,7 @@
   "refreshHeader": "Refresh app",
   "refreshSub": "In case you see an outdated version of Chargeprice",
   "myTariffs": "Wallet",
+  "walletEmptyHint": "See all the tariffs you have subscribed to here, as well as direct payment tariffs.",
   "otherTariffs": "Other Tariffs",
   "bestMyTariffs": "Top {0} prices of my tariffs",
   "bestTariffsWithoutMonthlyFee": "Top {0} prices without monthly fee",

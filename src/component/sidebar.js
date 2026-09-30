@@ -147,6 +147,7 @@ export default class Sidebar extends ViewBase {
   }
 
   async open(contentKey, headerOverride) {
+    if(contentKey != "manageMyTariffs") this.returnToStationHeader = null;
     if(this.premiumSidebars.includes(contentKey) && this.premiumGate.isRestricted()){
       this.premiumGate.showPremiumScreen(contentKey);
       return;
@@ -168,6 +169,9 @@ export default class Sidebar extends ViewBase {
   }
 
   async showMyTariffs(){
+    // Opened from a station: going back shows the station again
+    this.returnToStationHeader = this.currentSidebarContentKey == "prices" ? this.getEl("sidebarHeader").innerText : null;
+
     // TODO: Disable later
     const allow = true; //!this.themeLoader.isDefaultTheme() || await this.loggedIn()
 
@@ -175,7 +179,20 @@ export default class Sidebar extends ViewBase {
     else new Authorization(this.depts).render();
   }
 
+  onReturnedToStation(callback){
+    this.returnedToStationCallback = callback;
+  }
+
   close() {
+    const returnToStationHeader = this.returnToStationHeader;
+    this.returnToStationHeader = null;
+    if(returnToStationHeader != null && this.currentSidebarContentKey == "manageMyTariffs"){
+      this.open("prices", returnToStationHeader);
+      // The wallet might have changed
+      if(this.returnedToStationCallback) this.returnedToStationCallback();
+      return;
+    }
+
     this.hide(this.rootId)
     this.hideOldContent();
   }

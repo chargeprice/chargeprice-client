@@ -64,15 +64,16 @@ export default class PriceListView extends ViewBase {
         </div>
       `:""}
 
-      ${this.priceSectionTemplate(()=>html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("myTariffs")} <i class="fa fa-pencil"></i>${this.premiumStarTemplate()}</a>`, prices.allMyPrices)}
+      ${this.priceSectionTemplate(()=>this.walletLinkTemplate(this.t("myTariffs")), prices.allMyPrices, this.walletHintTemplate())}
 
       ${this.priceSectionTemplate(()=>this.t("promotedTariffs"), promotedPrices)}
 
       ${otherPrices.length > 0 ? html`
         <div class="price-flex-container w3-margin-top price-header header-font">
-          <div class="price-flex-left">${hasWallet || promotedPrices.length > 0 ? this.t("otherTariffs") : html`<a href="#" class="tariff-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${this.t("tariff")} <i class="fa fa-pencil"></i>${this.premiumStarTemplate()}</a>`}</div>
+          <div class="price-flex-left">${hasWallet || promotedPrices.length > 0 ? this.t("otherTariffs") : this.walletLinkTemplate(this.t("tariff"))}</div>
           <div class="price-flex-right">${this.priceHeaderTemplate()}</div>
         </div>
+        ${hasWallet || promotedPrices.length > 0 ? "" : this.walletHintTemplate()}
 
         ${!this.premiumGate.isRestricted() ? this.filterChipsTemplate() : ""}
 
@@ -86,8 +87,14 @@ export default class PriceListView extends ViewBase {
     `;
   }
 
-  premiumStarTemplate(){
-    return this.premiumGate.isRestricted() ? html` <i class="fa fa-star premium-star-inline"></i>` : "";
+  // Styled as a button, so it's clear that the wallet can be changed
+  walletLinkTemplate(text){
+    return html`<a href="#" class="tariff-link wallet-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${text} <i class="fa fa-pencil"></i></a>`;
+  }
+
+  // Below the section header (full width), shown until the first tariff is added
+  walletHintTemplate(){
+    return this.myTariffs.length == 0 ? html`<div class="wallet-empty-hint">${this.t("walletEmptyHint")}</div>` : "";
   }
 
   premiumBannerTemplate(){
@@ -164,7 +171,7 @@ export default class PriceListView extends ViewBase {
     this.rerender();
   }
 
-  priceSectionTemplate(header, prices){
+  priceSectionTemplate(header, prices, subtext = ""){
     if(prices.length==0) return "";
 
     return html`
@@ -172,6 +179,7 @@ export default class PriceListView extends ViewBase {
         <div class="price-flex-left">${header()}</div>
         <div class="price-flex-right">${this.priceHeaderTemplate()}</div>
       </div>
+      ${subtext}
 
       ${this.rowsTemplate(prices)}
     `;

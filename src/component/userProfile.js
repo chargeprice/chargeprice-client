@@ -36,7 +36,6 @@ export default class UserProfile extends ViewBase {
 				id: "tariffs",
 				title: this.t("manageMyTariffsLink"),
 				icon: "bars",
-				premium: true,
 				action: ()=>this.onShowMyTariffs()
 			},
 			{

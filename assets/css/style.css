@@ -374,6 +374,29 @@ a.tariff-link {
   font-weight: 300;
 }
 
+a.wallet-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 12px;
+  border: 1px solid currentColor;
+  border-radius: 16px;
+  font-weight: 400;
+}
+
+/* Shown until the first tariff is added, direct payment prices don't count */
+.wallet-empty-hint {
+  /* Aligned with the section header (.price-header) */
+  margin: 0 16px 8px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.8em;
+  color: #666;
+}
+
+a.wallet-link:hover {
+  background: rgba(0,0,0,0.05);
+}
+
 i.fav-icon {
   color: orange;
 }

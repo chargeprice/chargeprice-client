@@ -125,6 +125,7 @@ class App {
 
     this.map.onBoundsChanged(()=>this.scheduleStationsUpdate());
     this.sidebar.onOptionsChanged(this.optionsChanged.bind(this));
+    this.sidebar.onReturnedToStation(()=>this.returnedToStation());
     this.sidebar.settingsView.onBatteryRangeChanged(()=>this.updatePrices());
     this.sidebar.stationPrices.onStartTimeChanged(()=>this.updatePrices());
     this.sidebar.stationPrices.onSelectedChargePointChanged(()=>this.selectedChargePointChanged());
@@ -381,6 +382,13 @@ class App {
 
   findBySelectedChargePoint(list,selectedCP){
     return list.find(cpp=> cpp.power == selectedCP.power && cpp.plug == selectedCP.plug);
+  }
+
+  returnedToStation(){
+    if(!this.currentStation) return;
+    // Closing the station (to open the wallet) removed it from the URL
+    this.depts.urlModifier().modifyUrlParam({poi_id: this.currentStation.id, poi_source: this.currentStation.dataAdapter});
+    this.updatePrices();
   }
 
   optionsChanged(){
