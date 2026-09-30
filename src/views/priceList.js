@@ -36,6 +36,9 @@ export default class PriceListView extends ViewBase {
 
     this.theme = depts.themeLoader().getCurrentThemeConfig();
     this.filters = { noMonthlyFee: false, providerCustomerTariffs: false };
+    this.settingsPrimitive = depts.settingsPrimitive();
+    // Prices are either shown as effective price per kWh or as total cost of the session
+    this.showTotalCost = this.settingsPrimitive.getBoolean("priceListShowTotalCost", false);
     this.expandedTariffIds = [];
     this.tariffDetails = {};
     this.adsRepo = new Advertisements(depts);
@@ -91,14 +94,25 @@ export default class PriceListView extends ViewBase {
     return this.appUpsellBanner.template({ title: this.t("premiumBannerAppTitle"), source: "price_list_banner" });
   }
 
-  // The prices are effective prices per kWh (total cost of the session / charged energy)
+  // The prices are either effective prices per kWh (total cost of the session / charged energy) or the total cost
   priceHeaderTemplate(){
     return html`
       <span class="price-header-unit">
-        ${this.t("priceListAvgPriceHeader")} (${this.currency.getDisplayedCurrency()})
+        <select class="price-mode-select" @change="${(e)=>this.onPriceModeChanged(e.target.value == "total")}">
+          <option value="kwh" ?selected="${!this.showTotalCost}">${this.t("priceListAvgPriceHeader")}</option>
+          <option value="total" ?selected="${this.showTotalCost}">${this.t("priceListTotalCostHeader")}</option>
+        </select>
+        (${this.currency.getDisplayedCurrency()})
         <i class="fa fa-info-circle cp-clickable price-header-info" @click="${(e)=>this.onShowAvgPriceInfo(e)}"></i>
       </span>
     `;
+  }
+
+  onPriceModeChanged(showTotalCost){
+    this.showTotalCost = showTotalCost;
+    this.settingsPrimitive.setBoolean("priceListShowTotalCost", showTotalCost);
+    this.analytics.log('event', 'price_mode_changed', { mode: showTotalCost ? "total" : "kwh" });
+    this.rerender();
   }
 
   onShowTotalCostInfo(event){
@@ -108,7 +122,7 @@ export default class PriceListView extends ViewBase {
 
   onShowAvgPriceInfo(event){
     event.stopPropagation();
-    new GenericPopup(this.depts).show({ header: this.t("priceListAvgPriceHeader"), message: this.t("priceListAvgPriceInfo"), narrow: true });
+    new GenericPopup(this.depts).show({ header: this.t(this.showTotalCost ? "priceListTotalCostHeader" : "priceListAvgPriceHeader"), message: this.t("priceListAvgPriceInfo"), narrow: true });
   }
 
   filterChipsTemplate(){
@@ -274,7 +288,7 @@ export default class PriceListView extends ViewBase {
     return html`
       <div class="tariff-details" @click="${(e)=>e.stopPropagation()}">
         ${content}
-        ${this.totalCostTemplate(price)}
+        ${this.showTotalCost ? this.avgPriceTemplate(price) : this.totalCostTemplate(price)}
         <div class="tariff-details-links">
           ${tariff.url ? html`
             <a href="${tariff.url}" target="_blank" class="w3-btn pc-secondary w3-small w3-round tariff-details-website" @click="${()=>this.onAffiliateClicked(tariff)}">
@@ -306,6 +320,21 @@ export default class PriceListView extends ViewBase {
           ${energy && duration ? html`<div class="w3-small tariff-details-condition">${this.h().int(energy)} kWh · ${this.h().time(duration)}</div>` : ""}
         </div>
         <div class="tariff-details-price">${this.h().dec(price.price)} ${this.currency.getDisplayedCurrency()}</div>
+      </div>
+    `;
+  }
+
+  // Shown in the details instead of the total cost, if the list already shows the total cost
+  avgPriceTemplate(price){
+    if(price.price == null) return "";
+
+    return html`
+      <div class="tariff-details-row tariff-details-total">
+        <div>
+          ${this.t("priceListAvgPriceHeader")}
+          <i class="fa fa-info-circle cp-clickable price-header-info" @click="${(e)=>this.onShowAvgPriceInfo(e)}"></i>
+        </div>
+        <div class="tariff-details-price">${this.h().dec(price.pricePerKWh)} ${this.currency.getDisplayedCurrency()} / kWh</div>
       </div>
     `;
   }
@@ -429,7 +458,7 @@ export default class PriceListView extends ViewBase {
 
     return html`
     <div class="price-flex-right">
-      <label class="w3-right ${this.isMyTariff(tariff)?"":""}">${this.isMyTariff(tariff) ? html``:"" }${this.h().dec(price.pricePerKWh)} / kWh</label>
+      <label class="w3-right">${this.showTotalCost ? this.h().dec(price.price) : html`${this.h().dec(price.pricePerKWh)} / kWh`}</label>
       ${this.timeFeeText(price) ? html`<br><label class="w3-right w3-small">${this.timeFeeText(price)}</label>`:""}
     </div>
     `;

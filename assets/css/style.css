@@ -2391,6 +2391,16 @@ button.landing-webapp-cta:disabled {
   font-size: 0.85em;
 }
 
+.price-mode-select {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed currentColor;
+  padding: 0;
+  cursor: pointer;
+}
+
 .price-header-info {
   margin-left: 4px;
   color: #888;
