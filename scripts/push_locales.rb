@@ -10,7 +10,10 @@ Dotenv.load(".env.local")
 # Only keys that changed compared to a git ref (default: master) are pushed,
 # so translations updated in the sheet in the meantime aren't overwritten.
 #
-# Usage: ruby push_locales.rb [--base REF] [--apply]
+# With --cleanup, the only action is deleting the rows of keys that were deleted locally
+# (and are in that ref or committed on the current branch). Nothing else is written then.
+#
+# Usage: ruby push_locales.rb [--base REF] [--cleanup] [--apply]
 # Prints the changes by default, pass --apply to actually write them.
 
 FALLBACK_LANGUAGE="en"
@@ -18,6 +21,7 @@ SKIPPED_COLUMNS=2
 BASE_FOLDER="../assets/locales"
 SHEET_NAME="Locales"
 APPLY=ARGV.include?("--apply")
+CLEANUP=ARGV.include?("--cleanup")
 BASE_REF=ARGV.include?("--base") ? ARGV[ARGV.index("--base") + 1] : "master"
 
 def push_locales
@@ -61,10 +65,15 @@ def push_locales
     next_row += 1
   end
 
-  removed_keys = row_by_key.keys - local[FALLBACK_LANGUAGE].keys
-  removed_keys.each { |key| puts "Key only in sheet (not touched): #{key}" }
+  # Only keys that were committed (in the base ref or the current branch) and are deleted locally
+  # are deleted in the sheet. Other keys only in the sheet might be new and just not fetched yet.
+  committed_keys = base[FALLBACK_LANGUAGE].keys | read_base_locales([FALLBACK_LANGUAGE], "HEAD")[FALLBACK_LANGUAGE].keys
+  sheet_only_keys = row_by_key.keys - local[FALLBACK_LANGUAGE].keys
+  deleted_keys, unknown_keys = sheet_only_keys.partition { |key| committed_keys.include?(key) }
+  unknown_keys.each { |key| puts "Key only in sheet (not touched): #{key}" }
+  deletions = deleted_keys.map { |key| { key: key, row_number: row_by_key[key][1] } }
 
-  updates
+  [updates, deletions]
 end
 
 def cell_update(lang, key, column_index, row_number, old_value, new_value)
@@ -98,9 +107,9 @@ def read_local_locales(langs)
   end
 end
 
-def read_base_locales(langs)
+def read_base_locales(langs, ref = BASE_REF)
   langs.each_with_object({}) do |lang, memo|
-    content = `git show #{BASE_REF}:assets/locales/#{lang}.json 2>/dev/null`
+    content = `git show #{ref}:assets/locales/#{lang}.json 2>/dev/null`
     memo[lang] = $?.success? ? JSON.parse(content) : {}
   end
 end
@@ -129,10 +138,49 @@ def write_updates(updates)
   google_service.batch_update_values(ENV.fetch("SHEET_ID"), request)
 end
 
-updates = push_locales
+# Rows are deleted from the bottom up, so the row numbers of the remaining ones stay valid
+def delete_rows(deletions)
+  sheet = google_service.get_spreadsheet(ENV.fetch("SHEET_ID"), fields: "sheets.properties").sheets
+    .find { |s| s.properties.title == SHEET_NAME }
+  requests = deletions.map { |d| d[:row_number] }.sort.reverse.map do |row_number|
+    Google::Apis::SheetsV4::Request.new(
+      delete_dimension: Google::Apis::SheetsV4::DeleteDimensionRequest.new(
+        range: Google::Apis::SheetsV4::DimensionRange.new(
+          sheet_id: sheet.properties.sheet_id,
+          dimension: "ROWS",
+          start_index: row_number - 1,
+          end_index: row_number
+        )
+      )
+    )
+  end
+  request = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new(requests: requests)
+  google_service.batch_update_spreadsheet(ENV.fetch("SHEET_ID"), request)
+end
+
+updates, deletions = push_locales
+
+if CLEANUP
+  if deletions.empty?
+    puts "No unused keys in the sheet."
+    exit
+  end
+
+  deletions.each { |d| puts "#{SHEET_NAME}!#{d[:row_number]}:#{d[:row_number]} #{d[:key]}: delete row" }
+
+  if APPLY
+    delete_rows(deletions)
+    puts "Deleted #{deletions.length} rows."
+  else
+    puts "\n#{deletions.length} rows would be deleted. Run with --cleanup --apply to delete them."
+  end
+  exit
+end
+
+cleanup_hint = deletions.empty? ? "" : " #{deletions.length} unused keys can be deleted with --cleanup."
 
 if updates.empty?
-  puts "Sheet is up to date."
+  puts "Sheet is up to date.#{cleanup_hint}"
   exit
 end
 
@@ -142,7 +190,7 @@ end
 
 if APPLY
   write_updates(updates)
-  puts "Wrote #{updates.length} cells."
+  puts "Wrote #{updates.length} cells.#{cleanup_hint}"
 else
-  puts "\n#{updates.length} cells would be changed. Run with --apply to write them."
+  puts "\n#{updates.length} cells would be changed. Run with --apply to write them.#{cleanup_hint}"
 end
