@@ -1807,13 +1807,18 @@ button.landing-webapp-cta:disabled {
   font-family: 'Space Grotesk', 'Open Sans', sans-serif;
   font-size: 2em;
   font-weight: 700;
-  margin: 0 0 8px;
+  margin: 0 0 36px;
 }
 
-.landing-plans-subheader {
-  font-size: 1.1em;
-  color: #555;
-  margin: 0 0 36px;
+.landing-plans-badges {
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.landing-plans-badge {
+  height: 48px;
+  width: auto;
+  display: block;
 }
 
 .landing-plans-grid {
@@ -2678,4 +2683,16 @@ button.landing-webapp-cta:disabled {
 .landing-web-note p {
   margin: 4px 0 0;
   color: #555;
+}
+
+.landing-web-note-cta {
+  display: inline-block;
+  margin-top: 10px;
+  color: #007AFF;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.landing-web-note-cta:hover {
+  text-decoration: underline;
 }

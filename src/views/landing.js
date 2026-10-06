@@ -87,7 +87,6 @@ export default class LandingPage extends ViewBase {
         <div class="landing-plans">
           <div class="landing-plans-inner">
             <h2 class="landing-plans-header">${this.t("landingPlansHeader")}</h2>
-            <p class="landing-plans-subheader">${this.t("landingPlansSubheader")}</p>
 
             <div class="landing-plans-grid">
               <div class="landing-plan-card">
@@ -113,12 +112,23 @@ export default class LandingPage extends ViewBase {
               </div>
             </div>
 
+            <!-- Both plans are in the mobile app -->
+            <div class="landing-store-badges landing-plans-badges">
+              <a href="${this.iosLink}" target="_blank" @click="${()=>this.trackAppClick('ios', 'plans')}">
+                <img src="img/store/app-store-badge.png" alt="Download on the App Store" class="landing-plans-badge">
+              </a>
+              <a href="${this.playLink}" target="_blank" @click="${()=>this.trackAppClick('android', 'plans')}">
+                <img src="img/store/play-store-badge.png" alt="Get it on Google Play" class="landing-plans-badge">
+              </a>
+            </div>
+
             <!-- The plans above are the mobile app's. The free web app is more limited. -->
             <div class="landing-web-note">
               <i class="fa fa-laptop"></i>
               <div>
                 <strong>${this.t("landingWebNoteTitle")}</strong>
                 <p>${this.t("landingWebNoteText")}</p>
+                <a href="/map" class="landing-web-note-cta" @click="${(e)=>this.onTryWebApp(e)}">${this.t("landingTryWebAppCta")} &#8594;</a>
               </div>
             </div>
           </div>
@@ -190,8 +200,8 @@ export default class LandingPage extends ViewBase {
     this.depts.analytics().log('event', 'data_platform_landing_clicked');
   }
 
-  trackAppClick(platform) {
-    this.depts.analytics().log('event', 'app_install_clicked', { platform: platform });
+  trackAppClick(platform, placement = "hero") {
+    this.depts.analytics().log('event', 'app_install_clicked', { platform: platform, placement: placement });
   }
 
   render() {
