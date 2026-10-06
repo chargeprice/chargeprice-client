@@ -56,6 +56,7 @@ export default class PriceListView extends ViewBase {
     const hasPrices = hasWallet || prices.allOtherPrices.length > 0;
     this.renderedRows = 0;
     this.adShown = false;
+    this.priceHeaderShown = false;
 
     return html`
       ${hasPrices && this.options.isPro ? html`
@@ -66,11 +67,11 @@ export default class PriceListView extends ViewBase {
 
       ${this.priceSectionTemplate(()=>this.walletLinkTemplate(this.t("myTariffs")), prices.allMyPrices, this.walletHintTemplate())}
 
-      ${this.priceSectionTemplate(()=>this.t("promotedTariffs"), promotedPrices)}
+      ${this.priceSectionTemplate(()=>this.sectionTitleTemplate(this.t("promotedTariffs")), promotedPrices)}
 
       ${otherPrices.length > 0 ? html`
         <div class="price-flex-container w3-margin-top price-header header-font">
-          <div class="price-flex-left">${hasWallet || promotedPrices.length > 0 ? this.t("otherTariffs") : this.walletLinkTemplate(this.t("tariff"))}</div>
+          <div class="price-flex-left">${hasWallet || promotedPrices.length > 0 ? this.sectionTitleTemplate(this.t("otherTariffs")) : this.walletLinkTemplate(this.t("tariff"))}</div>
           <div class="price-flex-right">${this.priceHeaderTemplate()}</div>
         </div>
         ${hasWallet || promotedPrices.length > 0 ? "" : this.walletHintTemplate()}
@@ -87,6 +88,10 @@ export default class PriceListView extends ViewBase {
     `;
   }
 
+  sectionTitleTemplate(text){
+    return html`<span class="price-section-title">${text}</span>`;
+  }
+
   // Styled as a button, so it's clear that the wallet can be changed
   walletLinkTemplate(text){
     return html`<a href="#" class="tariff-link wallet-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${text} <i class="fa fa-pencil"></i></a>`;
@@ -101,8 +106,12 @@ export default class PriceListView extends ViewBase {
     return this.appUpsellBanner.template({ title: this.t("premiumBannerAppTitle"), source: "price_list_banner" });
   }
 
-  // The prices are either effective prices per kWh (total cost of the session / charged energy) or the total cost
+  // The prices are either effective prices per kWh (total cost of the session / charged energy) or the total cost.
+  // Only the first (top) section shows it, the sections are rendered in order.
   priceHeaderTemplate(){
+    if(this.priceHeaderShown) return "";
+    this.priceHeaderShown = true;
+
     return html`
       <span class="price-header-unit">
         <select class="price-mode-select" @change="${(e)=>this.onPriceModeChanged(e.target.value == "total")}">

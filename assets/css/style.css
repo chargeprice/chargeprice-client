@@ -1366,6 +1366,15 @@ i.fav-icon {
   margin: 8px 16px;
 }
 
+.price-section-title {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #333;
+}
+
 .price-flex-left {
   -webkit-order: 0;
   order: 0;
