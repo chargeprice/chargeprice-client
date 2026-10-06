@@ -26,6 +26,8 @@ export default class Translation {
     this.setMeta("ogDescription", this.get("metaDescription"));
 
     document.documentElement.setAttribute("lang", this.currentLocale);
+    // Runs on every page (also /welcome and /promo), the map's theme may set its own title later
+    document.title = this.get("title");
   }
 
   setMeta(id, value){
