@@ -26,10 +26,15 @@ export default class ThemeLoader {
           </a>
         `,
         favicon: "themes/emc/logo.png",
+        // Shown on the welcome screen (on a white background, the logo is green)
+        welcomeLogo: "themes/emc/emc-logo-full.png",
+        // Shown on the welcome screen below the logo (EMC is German only)
+        welcomeText: "Ladepreise.at ist die Plattform des ElektroMobilitätsClub Österreich für transparente E-Ladekosten, im In- und Ausland.",
         name: `EMC ${this.translation.get("themeTitle")}`,
         themeColor: "#8fbf22",
         appleTouchIcon: "themes/emc/logo.png",
-        highlightedTariffs: ["a480edbe-d673-4faa-ad70-5d22273d15a0","d2a15ed1-b873-4aba-bf6d-070e16da6b45","51052ac3-d1d5-41f4-833d-a6e6713e76b4"]
+        // Promoted tariffs: highlighted (if they have branding) and shown unlocked in the promoted section
+        highlightedTariffs: ["51052ac3-d1d5-41f4-833d-a6e6713e76b4","ef1ad202-cb22-460b-8a28-d067686b7c2c"]
       },
       nissan: {
         titleBarHtml: `<img id=\"logo\" src=\"themes/nissan/logo.png\"/><span class=\"title\">${this.translation.get("themeTitle")}</span>`,

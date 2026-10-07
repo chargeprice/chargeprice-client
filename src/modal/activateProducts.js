@@ -13,7 +13,8 @@ export default class ModalActivateProducts extends ModalBase {
     this.userProducts = new UserProducts(depts);
     this.error = null;
     this.success = false;
-    this.selectedSource = null;
+    // On the EMC theme, users activate their EMC membership
+    this.selectedSource = depts.themeLoader().getCurrentThemeId() === "emc" ? "emc_membership" : null;
     this.activatedProducts = [];
   }
 
@@ -30,8 +31,8 @@ export default class ModalActivateProducts extends ModalBase {
           <p>
             <label>${this.t("activateProductsSource")}</label>
             <select id="activateProductsSource" class="w3-select w3-border" @change="${() => this.onSourceChange()}">
-              <option value="" selected>${this.t("activateProductsSelectSource")}</option>
-              ${SOURCES.map(s => html`<option value="${s.value}">${s.label}</option>`)}
+              <option value="" ?selected="${!this.selectedSource}">${this.t("activateProductsSelectSource")}</option>
+              ${SOURCES.map(s => html`<option value="${s.value}" ?selected="${s.value === this.selectedSource}">${s.label}</option>`)}
             </select>
           </p>
           ${this.selectedSource === "emc_membership" ? html`

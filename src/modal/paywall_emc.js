@@ -1,44 +1,82 @@
 import {html} from 'lit-html';
 import ModalBase from './base';
 import Authorization from '../component/authorization';
+import ModalActivateProducts from './activateProducts';
 
+// What the EMC membership unlocks (the premium features)
+const FEATURES = [
+  "Alle Tarife und Preise an jeder Station",
+  "Preise direkt auf der Karte",
+  "Deine Ladekarten im Wallet",
+  "Filter nach Betreibern",
+  "Routenplaner mit deinen Tarifen"
+];
+
+// Premium features on EMC (with PAYWALL_ENABLED) are exclusive for EMC members.
+// Same look as the welcome screen (white hero with the EMC logo).
 export default class ModalPaywallEmc extends ModalBase {
   constructor(depts){
     super(depts);
   }
 
+  show(loggedIn = false){
+    this.loggedIn = loggedIn;
+    super.show();
+  }
+
   template(){
     return html`
-    <div class="w3-modal-content">
-      <div class="w3-container w3-padding w3-center">
-        <div style="margin:16px 0 8px;">
-          <img src="themes/emc/emc-logo-full.png" style="height:60px;vertical-align:middle;">
-          <p class="pc-main-text header-font" style="font-size:1.4em;font-weight:600;margin:8px 0 0;">Willkommen bei Ladepreise.at</p>
+    <div class="w3-modal-content w3-animate-top welcome-modal">
+      <div class="welcome-hero welcome-hero-light">
+        <button @click="${()=>this.hide()}" class="w3-button paywall-emc-close" title="Schließen">
+          <i class="fa fa-times"></i>
+        </button>
+        <div class="welcome-hero-content">
+          <img src="themes/emc/emc-logo-full.png" alt="EMC" class="welcome-hero-logo welcome-hero-logo-large">
+          <p class="header-font welcome-hero-title">Exklusiv für EMC-Mitglieder</p>
+          <p class="welcome-hero-text">
+            Ladepreise.at ist die Plattform des ElektroMobilitätsClub Österreich für transparente E-Ladekosten,
+            im In- und Ausland.
+          </p>
         </div>
+      </div>
 
-        <p class="pc-main-text" style="margin-top:16px;text-align:left;">
-          Willkommen bei ladepreise.at – die Plattform des ElektroMobilitätsClub Österreich für transparente E-Ladekosten.
-          Finde passende Ladestationen im In- und Ausland und sieh auf einen Blick, was deine nächste Ladung kostet.<br>
-          Exklusiv für EMC-Mitglieder.
-        </p>
+      <div class="welcome-body">
+        <ul class="paywall-emc-features">
+          ${FEATURES.map(feature=>html`<li><i class="fa fa-check-circle pc-main-text"></i> ${feature}</li>`)}
+        </ul>
 
-        <div class="w3-margin-top">
-          <a href="https://www.emcaustria.at/" target="_blank" style="display:block; text-decoration:none;">
-            <button class="w3-btn pc-secondary w3-block w3-margin-bottom">
-              Noch kein EMC-Mitglied? Hier Mitglied werden
-            </button>
-          </a>
-          <button @click="${()=>this.onOpenLogin()}" class="w3-btn pc-secondary w3-block">
+        ${this.loggedIn ? html`
+          <button @click="${()=>this.onActivateMembership()}" class="w3-btn pc-secondary welcome-cta">
+            EMC Mitgliedschaft bestätigen
+          </button>
+        ` : html`
+          <button @click="${()=>this.onOpenLogin()}" class="w3-btn pc-secondary welcome-cta">
             Login oder Account erstellen
           </button>
+        `}
+
+        <a href="https://www.emcaustria.at/" target="_blank" class="w3-btn welcome-cta paywall-emc-secondary">
+          Noch kein EMC-Mitglied? Hier Mitglied werden
+        </a>
+
+        <div class="welcome-vehicle-hint paywall-emc-hint">
+          <i class="fa fa-info-circle"></i>
+          <p>
+            ${this.loggedIn ?
+              `Wähle "EMC Austria Mitgliedschaft" und gib deine Mitgliedsnummer und die Kartennummer ein. Beides findest du auf deiner EMC Mitgliedskarte.` :
+              `Für die Nutzung von Ladepreise.at muss ein eigener Account über unseren Partner Chargeprice erstellt werden.`}
+          </p>
         </div>
 
-        <div class="w3-panel w3-pale-yellow w3-leftbar w3-border-yellow w3-margin-top" style="border-radius:6px;text-align:left;">
-          <p class="w3-small">Für die Nutzung von Ladepreise.at muss ein eigener Account über unseren Partner Chargeprice erstellt werden.</p>
-        </div>
+        <button @click="${()=>this.hide()}" class="w3-button welcome-later">Schließen</button>
       </div>
     </div>
     `;
+  }
+
+  onActivateMembership(){
+    new ModalActivateProducts(this.depts).show();
   }
 
   onOpenLogin(){

@@ -26,8 +26,9 @@ export default class RootContainer extends ViewBase {
         <div class="flex-item-s w3-bar pc-main" id="top-bar">
           <div class="w3-bar-item w3-large"><div id="logo-container"></div></div>
 
-          <!-- Centered in the bar, independent of the logo and the right side -->
-          <div class="top-bar-menu">
+          <!-- Centered in the bar, independent of the logo and the right side. White labels only
+               have one entry (info), so it stays next to the logo there. -->
+          <div class="top-bar-menu ${this.themeLoader.isDefaultTheme() ? "" : "top-bar-menu-left"}">
             ${this.menuItems().map(item=>item.url ? html`
               <a href="${item.url}" target="_blank" class="w3-button w3-hover-dark-gray w3-bar-item top-bar-menu-item">${item.title}</a>
             `: html`

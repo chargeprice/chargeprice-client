@@ -9,7 +9,6 @@ import Authorization from '../component/authorization';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile.js';
 import PremiumGate from './premiumGate.js';
 import OpenFeedbackForm from '../useCase/openFeedbackForm.js';
-import ModalPaywallEmc from '../modal/paywall_emc.js';
 
 export default class Sidebar extends ViewBase {
 
@@ -36,7 +35,6 @@ export default class Sidebar extends ViewBase {
     // Incremented each time a station is opened, e.g. to track promoted tariffs once per open
     this.stationOpenId = 0;
     this.rootId = "sidebar";
-    this.payloadSidebars = ["prices","manageMyTariffs"];
     // Sidebars that only premium users can open (the wallet is open, but adding tariffs is premium)
     this.premiumSidebars = [];
 
@@ -153,8 +151,6 @@ export default class Sidebar extends ViewBase {
       return;
     }
 
-    if(await this.showPaywallIfNeeded(contentKey)) return;
-
     this.analytics.log('event', 'sidebar_opened',{sidebar_id: contentKey});
 
     this.show(this.rootId)
@@ -211,24 +207,6 @@ export default class Sidebar extends ViewBase {
       const content = this.sidebarContent[key];
       this.hide(content.contentId);
     }
-  }
-
-  async showPaywallIfNeeded(contentKey){
-    // Only show paywall for certain sidebars
-    if(this.payloadSidebars.indexOf(contentKey) == -1) return false; 
-
-    // Only EMC has a full paywall, the default theme restricts single features via PremiumGate
-    const isEmc = this.themeLoader.getCurrentThemeId() === 'emc';
-    if(!isEmc || this.premiumGate.isPremium() || !this.customConfig.paywallEnabled()) return false;
-
-    const loggedIn = await this.isLoggedIn();
-    if (loggedIn) {
-      this.open("userProfile");
-    } else {
-      new ModalPaywallEmc(this.depts).show();
-    }
-
-    return true;
   }
 
   async isLoggedIn(){

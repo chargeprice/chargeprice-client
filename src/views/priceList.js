@@ -49,7 +49,7 @@ export default class PriceListView extends ViewBase {
   template(){
     const prices = this.groupedPrices;
     // In the free version promoted tariffs get their own section below the wallet
-    const promoted = this.premiumGate.isRestricted() ? prices.allOtherPrices.filter(p=>this.isHighlighted(p.tariff)) : [];
+    const promoted = this.premiumGate.isRestricted() ? prices.allOtherPrices.filter(p=>this.isPromoted(p.tariff)) : [];
     const otherPrices = prices.allOtherPrices.filter(p=>!promoted.includes(p));
     const promotedPrices = this.applyFilters(promoted);
     const hasWallet = prices.allMyPrices.length > 0;
@@ -78,7 +78,7 @@ export default class PriceListView extends ViewBase {
 
         ${!this.premiumGate.isRestricted() ? this.filterChipsTemplate() : ""}
 
-        ${otherPrices.some(p=>this.isLocked(p.tariff)) ? this.premiumBannerTemplate() : ""}
+        ${otherPrices.some(p=>this.isLocked(p.tariff)) ? this.lockedPricesBannerTemplate() : ""}
 
         ${this.rowsTemplate(this.applyFilters(otherPrices))}
       `:""}
@@ -96,6 +96,24 @@ export default class PriceListView extends ViewBase {
   // Below the section header (full width), shown until the first tariff is added
   walletHintTemplate(){
     return this.myTariffs.length == 0 ? html`<div class="wallet-empty-hint">${this.t("walletEmptyHint")}</div>` : "";
+  }
+
+  // Shown when tariffs are locked: Chargeprice Premium / app on the default theme, the EMC membership on EMC
+  lockedPricesBannerTemplate(){
+    if(this.premiumGate.showsUpsells()) return this.premiumBannerTemplate();
+    if(this.premiumGate.isEmcPaywall()) return this.emcBannerTemplate();
+    return "";
+  }
+
+  // EMC is German only
+  emcBannerTemplate(){
+    return html`
+      <div class="emc-upsell-banner cp-clickable" @click="${()=>this.premiumGate.showPremiumScreen("price_list_banner")}">
+        <i class="fa fa-lock-open pc-main-text"></i>
+        <span>Zugang zu allen Preisen mit deiner EMC Mitgliedschaft</span>
+        <i class="fa fa-chevron-right"></i>
+      </div>
+    `;
   }
 
   premiumBannerTemplate(){
@@ -528,7 +546,7 @@ export default class PriceListView extends ViewBase {
     this.rerender();
 
     // Ads are only shown in the free version
-    if(this.premiumGate.isRestricted()) this.loadAd();
+    if(this.premiumGate.showsUpsells()) this.loadAd();
   }
 
   rerender(){
@@ -599,13 +617,18 @@ export default class PriceListView extends ViewBase {
 
   // Ad-hoc prices and promoted partner tariffs are always visible
   isLocked(tariff){
-    return this.premiumGate.isRestricted() && !tariff.directPayment && !this.isHighlighted(tariff);
+    return this.premiumGate.isRestricted() && !tariff.directPayment && !this.isPromoted(tariff);
   }
 
   onLockedTariffClicked(){
     this.premiumGate.showPremiumScreen("locked_tariff");
   }
 
+
+  // Promoted partner tariffs (branded) and the theme's promoted tariffs, also without branding
+  isPromoted(tariff) {
+    return this.isHighlighted(tariff) || (this.theme.highlightedTariffs || []).includes(tariff.tariff.id);
+  }
 
   isHighlighted(tariff) {
     const highlightedIds = this.theme.highlightedTariffs;

@@ -15,11 +15,10 @@ export default class ModalWelcome extends ModalBase {
 
     return html`
     <div class="w3-modal-content w3-animate-top welcome-modal">
-      <div class="welcome-hero" style="background:${theme.themeColor};">
+      <div class="welcome-hero ${theme.welcomeLogo ? "welcome-hero-light" : ""}" style="${theme.welcomeLogo ? "" : `background:${theme.themeColor};`}">
         <div class="welcome-hero-content">
-          ${this.themeLoader.isDefaultTheme() ?
-            html`<img src="img/CP-logotype-h-white.svg" alt="Chargeprice" class="welcome-hero-logo">` :
-            html`<p class="header-font welcome-hero-title">${this.sf(this.t("popupWelcomeHeader"), theme.name)}</p>`}
+          ${this.logoTemplate(theme)}
+          ${theme.welcomeText ? html`<p class="welcome-hero-text welcome-hero-theme-text">${theme.welcomeText}</p>` : ""}
           <p class="welcome-hero-text">${this.ut("popupWelcomeText1")}</p>
         </div>
       </div>
@@ -45,6 +44,12 @@ export default class ModalWelcome extends ModalBase {
       </div>
     </div>
     `
+  }
+
+  logoTemplate(theme){
+    if(this.themeLoader.isDefaultTheme()) return html`<img src="img/CP-logotype-h-white.svg" alt="Chargeprice" class="welcome-hero-logo">`;
+    if(theme.welcomeLogo) return html`<img src="${theme.welcomeLogo}" alt="${theme.name}" class="welcome-hero-logo welcome-hero-logo-large">`;
+    return html`<p class="header-font welcome-hero-title">${this.sf(this.t("popupWelcomeHeader"), theme.name)}</p>`;
   }
 
   onChooseVehicle(){

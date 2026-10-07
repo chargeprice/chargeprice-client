@@ -14,7 +14,7 @@ export default class MapAd {
 
   // The ad country is the country of the station closest to the map center
   async update(stations, center){
-    if(!this.premiumGate.isRestricted()) return;
+    if(!this.premiumGate.showsUpsells()) return;
 
     const country = this.countryAt(stations, center);
     if(!country || country == this.country) return;

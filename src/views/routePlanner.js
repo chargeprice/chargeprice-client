@@ -92,7 +92,7 @@ export default class RoutePlanner extends ViewBase{
         ${this.loading ? html`<i class="fa fa-spinner fa-spin"></i> ${this.t("routeCalculating")}` : this.t("routePlannerCalculate")}
       </button>
 
-      ${this.sidebar.premiumGate.isRestricted() ? html`
+      ${this.sidebar.premiumGate.showsUpsells() ? html`
         <div class="route-premium-hint">
           ${this.appUpsellBanner.template({ title: this.t("routeAppBannerTitle"), text: this.t("routeDirectPaymentOnly"), source: "route_planner_tariffs" })}
         </div>

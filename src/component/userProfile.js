@@ -66,7 +66,7 @@ export default class UserProfile extends ViewBase {
 				</div>
 				<p><b>${this.t("authLabelUsername")}:</b> ${this.profile.username}</p>
 				<p><b>${this.t("authLabelEmail")}:</b> ${this.profile.email}</p>
-				${this.sidebar.premiumGate.isRestricted() ? this.premiumCardTemplate() : ""}
+				${this.sidebar.premiumGate.showsUpsells() ? this.premiumCardTemplate() : ""}
 				${this.userSettings.isPro ? html`<p><b>${this.t("activateProductsWebPro")}</b> <i class="fa fa-check-circle w3-large"></i></p>` : ""}
 				${this.userSettings.isMobilePremium ? html`<p><b>${this.t("activateProductsMobilePremium")}</b> <i class="fa fa-check-circle w3-large"></i></p>` : ""}
 				${this.explorePremiumTemplate()}
@@ -161,8 +161,9 @@ export default class UserProfile extends ViewBase {
 	accountNotActivatedEmcTemplate() {
 		return html`
 		<div class="w3-panel w3-pale-red w3-leftbar w3-border-red w3-margin-top" style="border-radius:6px;">
-			<p><strong>Um Ladepreise.at zu nutzen, musst du deine EMC Mitgliedschaft bestätigen.</strong></p>
-			<p>Klicke dafür unten auf "Produkte aktivieren". Dann wählst du "EMC Austria Mitgliedschaft" und gibst deine Mitgliedsnummer und die Kartennummer ein. Beides findest du auf deiner EMC Mitgliedskarte.</p>
+			<p><strong>Um Ladepreise.at voll zu nutzen, musst du deine EMC Mitgliedschaft bestätigen.</strong></p>
+			<p>Wähle dafür "EMC Austria Mitgliedschaft" und gib deine Mitgliedsnummer und die Kartennummer ein. Beides findest du auf deiner EMC Mitgliedskarte.</p>
+			<p><button @click="${()=>this.onActivateProducts()}" class="w3-btn pc-secondary">Jetzt EMC Mitgliedschaft bestätigen</button></p>
 		</div>
 		`;
 	}
