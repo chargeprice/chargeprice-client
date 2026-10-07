@@ -3,6 +3,7 @@ import ViewBase from '../component/viewBase';
 import Authorization from '../component/authorization';
 import GenericList from '../modal/genericList';
 import PremiumGate from '../component/premiumGate';
+import { dataPlatformLink, mobileAppsLink } from '../helper/websiteLinks';
 
 
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile';
@@ -181,8 +182,8 @@ export default class RootContainer extends ViewBase {
     }
 
     return [
-      { title: this.t("menuMobileApp"), url: "https://www.chargeprice.net/en/applications/" },
-      { title: this.t("menuDataPlatform"), url: "https://www.chargeprice.net/en/charging-intelligence-data/" },
+      { title: this.t("menuMobileApp"), url: mobileAppsLink(this.translation.currentLocale) },
+      { title: this.t("menuDataPlatform"), url: dataPlatformLink(this.translation.currentLocale) },
       { title: this.t("menuInfo"), action: ()=>this.onOpenInfo() }
     ];
   }

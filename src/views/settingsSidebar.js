@@ -26,7 +26,7 @@ export default class SettingsSidebar extends ViewBase {
   template(){
     return html`
     <div id="vehicleInfo" class="w3-margin-bottom"></div>
-    <label class="settings-section-header" style="margin-top: 24px;"><i class="fa fa-battery-half"></i> <span class="price-section-title">${this.t("batteryRangeHeader")}<span id="batteryRangeValues"></span></span></label>
+    <label class="settings-section-header" style="margin-top: 24px;"><i class="fa fa-battery-half"></i> <span class="price-section-title">${this.t("myChargeHeader")}<span id="batteryRangeValues"></span></span></label>
     <div id="batteryRange" class="w3-margin-top"></div>
     <div class="w3-small w3-margin-top">${this.t("batteryRangeSimulationInfo")}</div>
 
@@ -40,10 +40,10 @@ export default class SettingsSidebar extends ViewBase {
     <div class="w3-small">${this.t("zoomLevelDependentStation")}</div>
     <div class="w3-row w3-margin-top" id="powerSlider"></div>
 
-    <label class="w3-margin-bottom w3-block" style="margin-top: 24px;">${this.t("facilitiesHeader")}</label>
+    <label class="w3-block" style="margin-top: 32px;">${this.t("facilitiesHeader")}</label>
     <div id="facilitiesFilter" class="w3-margin-bottom"></div>
 
-    <label class="w3-margin-bottom w3-block" style="margin-top: 24px;">${this.t("displayedCurrencyHeader")}</label>
+    <label class="w3-block" style="margin-top: 24px;">${this.t("displayedCurrencyHeader")}</label>
     <div id="selectCurrency" style="margin-bottom: 24px;"></div>
     `;
   }

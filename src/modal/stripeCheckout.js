@@ -1,6 +1,7 @@
 import { html, render } from 'lit-html';
 import ModalBase from './base';
 import Authorization from '../component/authorization';
+import { dataPlatformLink } from '../helper/websiteLinks';
 import PremiumGate, { PREMIUM_PATH } from '../component/premiumGate';
 
 const FEATURES = [
@@ -25,7 +26,6 @@ const FREE_IN_APP_FEATURES = [
 const HERO_IMAGE = "img/hero-background.png";
 const PLAY_LINK = "https://play.google.com/store/apps/details?id=fr.chargeprice.app";
 const IOS_LINK = "https://apps.apple.com/us/app/chargeprice/id1552707493";
-const DATA_PLATFORM_LINK = "https://www.chargeprice.net/en/charging-intelligence-data/";
 
 const MONTHLY_PRICE = 2.99;
 const YEARLY_PRICE = 29.99;
@@ -251,7 +251,7 @@ export default class ModalStripeCheckout extends ModalBase {
           <p class="premium-data-platform-title">${this.t("premiumDataPlatformTitle")}</p>
           <p class="premium-data-platform-text">
             ${this.t("premiumDataPlatformText")}
-            <a href="${DATA_PLATFORM_LINK}" target="_blank" class="link-text" @click="${() => this.onDataPlatformClicked()}">${this.t("premiumAppLink")}</a>
+            <a href="${dataPlatformLink(this.depts.translation().currentLocale)}" target="_blank" class="link-text" @click="${() => this.onDataPlatformClicked()}">${this.t("premiumAppLink")}</a>
           </p>
         </div>
       </div>

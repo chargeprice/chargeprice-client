@@ -1,5 +1,6 @@
 import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
+import { dataPlatformLink, mobileAppsLink } from '../helper/websiteLinks';
 
 const HERO_IMAGE = "img/hero-background.png";
 
@@ -10,8 +11,8 @@ export default class LandingPage extends ViewBase {
     this.translation = depts.translation();
     this.playLink = "https://play.google.com/store/apps/details?id=fr.chargeprice.app";
     this.iosLink = "https://apps.apple.com/us/app/chargeprice/id1552707493";
-    this.learnMoreLink = "https://www.chargeprice.net/en/applications/";
-    this.dataPlatformLink = "https://www.chargeprice.net/en/charging-intelligence-data/";
+    this.learnMoreLink = mobileAppsLink(this.translation.currentLocale);
+    this.dataPlatformLink = dataPlatformLink(this.translation.currentLocale);
     this.imprintLink = "https://www.chargeprice.net/en/imprint/";
     this.aboutUsLink = "https://www.chargeprice.net";
   }
@@ -140,7 +141,7 @@ export default class LandingPage extends ViewBase {
           <div>
             <p class="landing-data-platform-title">${this.t("premiumDataPlatformTitle")}</p>
             <p class="landing-data-platform-text">
-              ${this.t("premiumDataPlatformText")}
+              ${this.t("premiumDataPlatformText")}<br>
               <a href="${this.dataPlatformLink}" target="_blank" class="link-text" @click="${()=>this.onDataPlatformClicked()}">${this.t("premiumAppLink")}</a>
             </p>
           </div>
