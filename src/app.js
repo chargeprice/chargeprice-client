@@ -36,7 +36,7 @@ class App {
     this.userSettings = await new FetchUserSettingsOrCreateFromLocal(this.depts).run();
 
     this.redirectLegacyUrls();
-    new AppInstall().registerServiceWorker();
+    new AppInstall().unregisterServiceWorker();
 
     this.depts.router()
       .on({

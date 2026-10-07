@@ -1,6 +1,5 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -16,10 +15,6 @@ var config = {
       template: './src/index.html',
     }),
     new Dotenv({systemvars: true}),
-    new WorkboxPlugin.GenerateSW({
-      clientsClaim: true,
-      skipWaiting: true
-    }),
     new webpack.ProvidePlugin({
       noUiSlider: 'nouislider'
     })

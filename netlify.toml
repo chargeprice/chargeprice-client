@@ -26,6 +26,14 @@
   Content-Type = "application/json"
   X-Content-Type-Options = "nosniff"
 
+# Replaces the old offline service worker, see assets/service-worker.js
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+  Cache-Control = '''
+      public,
+      max-age=0'''
+
 [[headers]]
   for = "/*"
   [headers.values]
