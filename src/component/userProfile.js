@@ -17,7 +17,6 @@ export default class UserProfile extends ViewBase {
 		this.messageDialogId = "messageDialog";
 		this.themeLoader = depts.themeLoader();
 		this.customConfig = depts.customConfig();
-		this.stripe = depts.stripe();
 		this.profile = {};
 		this.accessToken = null;
 		this.map = null;
@@ -45,11 +44,12 @@ export default class UserProfile extends ViewBase {
 				action: ()=>this.onActivateProducts()
 			},
 			{
-				id: "manage_subscription",
-				title: this.t("manageSubscriptionBtn"),
-				icon: "credit-card",
-				show: ()=>this.userSettings.isStripeManaged,
-				action: ()=>this.onManageSubscription()
+				id: "explore_premium",
+				title: this.t("explorePremiumBtn"),
+				icon: "star",
+				// The premium screen (incl. managing the subscription) only exists on the default theme
+				show: ()=>this.themeLoader.isDefaultTheme(),
+				action: ()=>this.sidebar.premiumGate.showPremiumScreen("account")
 			},
 			{
 				id: "feedback",
@@ -242,15 +242,6 @@ export default class UserProfile extends ViewBase {
 
 	onStripeCheckout() {
 		new ModalStripeCheckout(this.depts).show(this.profile, this.accessToken);
-	}
-
-	async onManageSubscription() {
-		try {
-			const url = await this.stripe.createPortalSession(this.profile.userId, this.accessToken, window.location.href);
-			window.location.href = url;
-		} catch (error) {
-			alert(this.t("manageSubscriptionError"));
-		}
 	}
 
 	onGiveFeedback() {

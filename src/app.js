@@ -126,7 +126,11 @@ class App {
     this.map.onBoundsChanged(()=>this.scheduleStationsUpdate());
     this.sidebar.onOptionsChanged(this.optionsChanged.bind(this));
     this.sidebar.onReturnedToStation(()=>this.returnedToStation());
-    this.sidebar.settingsView.onBatteryRangeChanged(()=>this.updatePrices());
+    this.sidebar.settingsView.onBatteryRangeChanged(()=>{
+      this.updatePrices();
+      // The prices on the map also depend on the battery range
+      this.scheduleStationsUpdate();
+    });
     this.sidebar.stationPrices.onStartTimeChanged(()=>this.updatePrices());
     this.sidebar.stationPrices.onSelectedChargePointChanged(()=>this.selectedChargePointChanged());
     this.locationSearch.onResultSelected(coords=>{
@@ -179,10 +183,26 @@ class App {
     if(window.location.pathname === PREMIUM_PATH) this.showPremiumScreenFromUrl();
   }
 
+  // Also the target after the Stripe checkout (?checkoutSuccess=true/false)
   showPremiumScreenFromUrl(){
     const premiumGate = this.sidebar.premiumGate;
-    if(premiumGate.isRestricted()) premiumGate.showPremiumScreen("url");
-    else PremiumGate.onPremiumScreenClosed();
+    const params = new URL(window.location.href).searchParams;
+    const checkoutSuccess = params.get("checkoutSuccess");
+    if(checkoutSuccess != null){
+      // The result is shown once, not again after a reload
+      params.delete("checkoutSuccess");
+      const query = params.toString();
+      window.history.replaceState({}, "", window.location.pathname + (query ? `?${query}` : "") + window.location.hash);
+    }
+
+    // White labels have no premium screen
+    if(!this.depts.themeLoader().isDefaultTheme()){
+      PremiumGate.onPremiumScreenClosed();
+      return;
+    }
+
+    const checkoutResult = checkoutSuccess == null ? null : (checkoutSuccess == "true" ? "success" : "cancelled");
+    premiumGate.showPremiumScreen(checkoutResult ? "checkout_result" : "url", { checkoutResult });
   }
 
   async loadStaticContent(rootContainer, settingsSidebar, infoSidebar){
@@ -332,6 +352,9 @@ class App {
   }
 
   async updatePrices() {
+    // E.g. the battery range changed before any station was opened
+    if(!this.currentStation) return;
+
     await this.withNetwork(async ()=>{
       const options = this.stationChargingOptions();
       const result = await this.stationTariffs.getTariffsOfStation(this.currentStation,options);

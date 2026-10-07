@@ -65,13 +65,13 @@ export default class PriceListView extends ViewBase {
         </div>
       `:""}
 
-      ${this.priceSectionTemplate(()=>this.walletLinkTemplate(this.t("myTariffs")), prices.allMyPrices, this.walletHintTemplate())}
+      ${this.priceSectionTemplate(()=>this.sectionTitleTemplate(this.t("myTariffs")), prices.allMyPrices, this.walletHintTemplate())}
 
       ${this.priceSectionTemplate(()=>this.sectionTitleTemplate(this.t("promotedTariffs")), promotedPrices)}
 
       ${otherPrices.length > 0 ? html`
         <div class="price-flex-container w3-margin-top price-header header-font">
-          <div class="price-flex-left">${hasWallet || promotedPrices.length > 0 ? this.sectionTitleTemplate(this.t("otherTariffs")) : this.walletLinkTemplate(this.t("tariff"))}</div>
+          <div class="price-flex-left">${this.sectionTitleTemplate(this.t(hasWallet || promotedPrices.length > 0 ? "otherTariffs" : "tariff"))}</div>
           <div class="price-flex-right">${this.priceHeaderTemplate()}</div>
         </div>
         ${hasWallet || promotedPrices.length > 0 ? "" : this.walletHintTemplate()}
@@ -92,10 +92,6 @@ export default class PriceListView extends ViewBase {
     return html`<span class="price-section-title">${text}</span>`;
   }
 
-  // Styled as a button, so it's clear that the wallet can be changed
-  walletLinkTemplate(text){
-    return html`<a href="#" class="tariff-link wallet-link" @click="${(e)=>{e.preventDefault(); this.onManageMyTariffs();}}">${text} <i class="fa fa-pencil"></i></a>`;
-  }
 
   // Below the section header (full width), shown until the first tariff is added
   walletHintTemplate(){
@@ -573,10 +569,6 @@ export default class PriceListView extends ViewBase {
   groupIntoSections(prices){
     return new GroupPriceList(this.depts, 
       prices, this.myTariffs, this.theme.highlightedTariffs, this.pricesInBestGroups).run();
-  }
-
-  onManageMyTariffs(){
-    this.sidebar.showMyTariffs();
   }
 
   onAffiliateClicked(tariff){

@@ -46,10 +46,9 @@ export default class StationPrices extends ViewBase{
     const obj = this.currentChargePoint;
     if(!obj)return "";
     return this.chargePointsSortedByPower.map(cp=> html`
-      <span @click="${()=>this.onChargePointChanged(cp)}" class="cp-button ${cp == obj ? "pc-main" : "w3-light-gray"} w3-margin-top w3-margin-bottom ${cp.supportedByVehicle ? "": "w3-disabled"}">
-        <label>${cp.power} kW</label> <label class="w3-small">${this.h().upper(cp.plug)}</label><br>
+      <span @click="${()=>this.onChargePointChanged(cp)}" class="cp-button ${cp == obj ? "pc-main" : "w3-light-gray"} ${cp.supportedByVehicle ? "": "w3-disabled"}">
+        <label>${cp.power} kW</label> <label class="w3-small">${this.h().upper(cp.plug)}</label>
         <label class="w3-small">${this.availabilityCountTemplate(cp) }</label>
-        
       </span>
     `);
   }

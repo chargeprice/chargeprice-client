@@ -72,6 +72,22 @@ html, body {
   z-index: 10000;
   display: flex;
   align-items: center;
+  position: relative;
+}
+
+.top-bar-menu {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: stretch;
+}
+
+.top-bar-menu .top-bar-menu-item {
+  display: flex;
+  align-items: center;
 }
 
 .top-bar-right {
@@ -374,16 +390,6 @@ a.tariff-link {
   font-weight: 300;
 }
 
-a.wallet-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 2px 12px;
-  border: 1px solid currentColor;
-  border-radius: 16px;
-  font-weight: 400;
-}
-
 /* Shown until the first tariff is added, direct payment prices don't count */
 .wallet-empty-hint {
   /* Aligned with the section header (.price-header) */
@@ -391,10 +397,6 @@ a.wallet-link {
   font-family: 'Open Sans', sans-serif;
   font-size: 0.8em;
   color: #666;
-}
-
-a.wallet-link:hover {
-  background: rgba(0,0,0,0.05);
 }
 
 i.fav-icon {
@@ -405,9 +407,12 @@ i.fav-icon {
   margin-bottom: 50px
 }
 
+/* The charge points wrap into a new line if they don't fit */
 #select-charge-point {
-  overflow-x: auto;
-  white-space: nowrap;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
 }
 
 .charge-summary-box {
@@ -419,7 +424,7 @@ i.fav-icon {
 
 .charge-summary-header {
   display: block;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: bold;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1142,6 +1147,21 @@ i.fav-icon {
   margin-right: 4px;
 }
 
+.premium-context-message-neutral {
+  background: #f2f2f2;
+  color: #555;
+  border-bottom-color: #e3e3e3;
+}
+
+/* Purchased mode only has one column, also on desktop */
+.premium-modal.premium-modal-purchased {
+  max-width: 460px;
+}
+
+.premium-purchased-icon {
+  color: #4caf50;
+}
+
 .premium-details-toggle {
   display: inline-block;
   margin: -8px 0 14px;
@@ -1364,6 +1384,25 @@ i.fav-icon {
 
 .price-header {
   margin: 8px 16px;
+}
+
+.wallet-card {
+  /* Separates the wallet from the battery range above */
+  margin-top: 24px;
+}
+
+/* Section headers in the settings, same title style as the price list sections */
+.settings-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-section-header > .fa {
+  font-size: 1.4em;
+  width: 24px;
+  text-align: center;
+  color: #555;
 }
 
 .price-section-title {

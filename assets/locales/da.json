@@ -143,7 +143,7 @@
   "facility_toilet": "Toilet",
   "facility_park": "Park",
   "facility_playground": "Playground",
-  "batteryRangeShort": "Charge from {0}% to {1}%. We simulate this charging session and take all pricing components into account.",
+  "batteryRangeSimulationInfo": "We simulate this charging session and take all pricing components into account.",
   "timeFeeFromStart": "with time fee",
   "timeFeeAfter": "time fee after {0}",
   "landingHeroHeadline": "Find the cheapest place to charge your EV",

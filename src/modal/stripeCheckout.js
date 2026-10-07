@@ -1,7 +1,7 @@
 import { html, render } from 'lit-html';
 import ModalBase from './base';
 import Authorization from '../component/authorization';
-import PremiumGate from '../component/premiumGate';
+import PremiumGate, { PREMIUM_PATH } from '../component/premiumGate';
 
 const FEATURES = [
   { title: "stripeCheckoutFeatureTariffsWalletTitle", text: "stripeCheckoutFeatureTariffsWalletText" },
@@ -46,10 +46,16 @@ export default class ModalStripeCheckout extends ModalBase {
     this.showDetails = false;
   }
 
+  // options.purchased: the user has Premium already, options.stripeManaged: bought via Stripe (can be managed there),
+  // options.checkoutResult: "success" or "cancelled" when coming back from the Stripe checkout
   show(profile, accessToken, options = {}) {
     this.profile = profile;
     this.accessToken = accessToken;
     this.message = options.message || null;
+    this.checkoutResult = options.checkoutResult || null;
+    // Right after the checkout, the webhook granting Premium might not have been processed yet
+    this.purchased = !!options.purchased || this.checkoutResult === "success";
+    this.stripeManaged = !!options.stripeManaged || this.checkoutResult === "success";
     this.billingCycle = "yearly";
     this.loading = false;
     this.error = null;
@@ -68,7 +74,7 @@ export default class ModalStripeCheckout extends ModalBase {
 
   template() {
     return html`
-      <div class="w3-modal-content w3-animate-top premium-modal">
+      <div class="w3-modal-content w3-animate-top premium-modal ${this.purchased ? "premium-modal-purchased" : ""}">
         <div class="premium-hero" style="background-image:url('${HERO_IMAGE}');">
           <button @click="${() => this.hide()}" class="w3-button premium-hero-close" title="close">
             <img class="inverted" src="img/close.svg">
@@ -80,12 +86,49 @@ export default class ModalStripeCheckout extends ModalBase {
             <p class="premium-hero-quote">&ldquo;${this.t("stripeCheckoutQuote")}&rdquo;</p>
           </div>
         </div>
+        ${this.checkoutResultTemplate()}
         ${this.message ? html`
           <div class="premium-context-message">
             <i class="fa fa-mobile"></i> ${this.message}
           </div>
         ` : ""}
         <div class="w3-container w3-padding w3-center">
+          ${this.purchased ? this.purchasedTemplate() : this.purchaseTemplate()}
+
+          ${this.dataPlatformTemplate()}
+        </div>
+      </div>
+    `;
+  }
+
+  checkoutResultTemplate() {
+    if (this.checkoutResult === "success") {
+      return html`<div class="premium-context-message"><i class="fa fa-check-circle"></i> ${this.t("premiumCheckoutSuccess")}</div>`;
+    }
+    if (this.checkoutResult === "cancelled") {
+      return html`<div class="premium-context-message premium-context-message-neutral"><i class="fa fa-info-circle"></i> ${this.t("premiumCheckoutCancelled")}</div>`;
+    }
+    return "";
+  }
+
+  // The user has Premium already: features and (if bought via Stripe) managing the subscription
+  purchasedTemplate() {
+    return html`
+      <p class="premium-section-title"><i class="fa fa-check-circle premium-purchased-icon"></i> ${this.t("premiumPurchasedTitle")}</p>
+      ${this.featureListTemplate(FEATURES)}
+
+      ${this.error ? html`<p class="w3-text-red w3-small">${this.error}</p>` : ""}
+
+      ${this.stripeManaged && this.profile && this.accessToken ? html`
+        <button @click="${() => this.onManageSubscription()}" ?disabled="${this.loading}" class="w3-btn pc-secondary w3-block w3-padding">
+          ${this.loading ? html`<i class="fa fa-spinner fa-spin"></i>` : this.t("manageSubscriptionBtn")}
+        </button>
+      ` : ""}
+    `;
+  }
+
+  purchaseTemplate() {
+    return html`
           <div class="premium-columns">
             <div class="premium-col-app">
               ${this.mobileAppTemplate()}
@@ -133,10 +176,6 @@ export default class ModalStripeCheckout extends ModalBase {
               </p>
             </div>
           </div>
-
-          ${this.dataPlatformTemplate()}
-        </div>
-      </div>
     `;
   }
 
@@ -217,6 +256,23 @@ export default class ModalStripeCheckout extends ModalBase {
         </div>
       </div>
     `;
+  }
+
+  async onManageSubscription() {
+    this.loading = true;
+    this.error = null;
+    this.rerender();
+
+    try {
+      // Stripe's portal leads back to the premium screen
+      const url = await this.stripe.createPortalSession(this.profile.userId, this.accessToken, `${window.location.origin}${PREMIUM_PATH}`);
+      this.analytics.log('event', 'manage_subscription_clicked');
+      window.location.href = url;
+    } catch (error) {
+      this.loading = false;
+      this.error = this.t("manageSubscriptionError");
+      this.rerender();
+    }
   }
 
   onDataPlatformClicked() {

@@ -46,6 +46,14 @@ export default class Stripe {
     };
     if (promoCode) attributes.promo_code = promoCode;
 
+    // Stripe leads back to the premium screen, which shows the result. The API only accepts
+    // https pages on chargeprice.app, elsewhere (e.g. localhost) its default pages are used.
+    const origin = window.location.origin;
+    if (/^https:\/\/([a-z0-9-]+\.)*chargeprice\.app$/.test(origin)) {
+      attributes.success_url = `${origin}/map/premium?checkoutSuccess=true`;
+      attributes.cancel_url = `${origin}/map/premium?checkoutSuccess=false`;
+    }
+
     const response = await fetch(url, {
       method: "POST",
       headers: {

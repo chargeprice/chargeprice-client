@@ -25,13 +25,14 @@ export default class SettingsSidebar extends ViewBase {
 
   template(){
     return html`
-    <label class="w3-margin-bottom w3-large w3-block">${this.t("myVehicle")}</label>
-
     <div id="vehicleInfo" class="w3-margin-bottom"></div>
+    <label class="settings-section-header" style="margin-top: 24px;"><i class="fa fa-battery-half"></i> <span class="price-section-title">${this.t("batteryRangeHeader")}<span id="batteryRangeValues"></span></span></label>
     <div id="batteryRange" class="w3-margin-top"></div>
-    <div id="batteryRangeLabel" class="w3-small w3-margin-top"></div>
+    <div class="w3-small w3-margin-top">${this.t("batteryRangeSimulationInfo")}</div>
 
-    <label class="w3-margin-bottom w3-block" style="margin-top: 24px;">${this.t("mapFilter")}</label>
+    ${this.walletCardTemplate()}
+
+    <label class="settings-section-header w3-margin-bottom" style="margin-top: 24px;"><i class="fa fa-filter"></i> <span class="price-section-title">${this.t("mapFilter")}</span></label>
 
     <div id="cpoFilter" class="w3-margin-bottom"></div>
 
@@ -63,12 +64,26 @@ export default class SettingsSidebar extends ViewBase {
     `;
   }
 
-  variantText(vehicle){
-    return [vehicle.variant, vehicle.releaseYear ? `(${vehicle.releaseYear})` : null].filter(v=>v).join(" ");
+  walletCardTemplate(){
+    return html`
+      <div class="vehicle-card cp-clickable wallet-card" @click="${()=>this.onOpenWallet()}">
+        <div class="vehicle-card-icon pc-main"><i class="fa fa-wallet"></i></div>
+        <div class="vehicle-card-text">
+          <div class="vehicle-card-name">${this.t("myTariffs")}</div>
+          <div class="w3-small w3-text-dark-gray">${this.t("manageMyTariffsLink")}</div>
+        </div>
+        <i class="fa fa-pencil vehicle-card-edit"></i>
+      </div>
+    `;
   }
 
-  batteryRangeLabelTempl(range){
-    return html`${this.sf(this.t("batteryRangeShort"),range[0],range[1])}`;
+  onOpenWallet(){
+    this.analytics.log('event', 'wallet_opened', { source: "settings" });
+    this.sidebar.showMyTariffs();
+  }
+
+  variantText(vehicle){
+    return [vehicle.variant, vehicle.releaseYear ? `(${vehicle.releaseYear})` : null].filter(v=>v).join(" ");
   }
 
   cpoFilterTemplate(){
@@ -177,8 +192,8 @@ export default class SettingsSidebar extends ViewBase {
       range: { min: 0,max: 100 }
     });
 
-    this.renderBatteryRangeLabel();
-    this.batterySlider.noUiSlider.on('update', ()=>this.renderBatteryRangeLabel());
+    this.batterySlider.noUiSlider.on('update', ()=>this.renderBatteryRangeValues());
+
     this.batterySlider.noUiSlider.on('end', ()=>{
       this.storeBatteryRange();
       const range = this.getBatteryRange();
@@ -190,6 +205,12 @@ export default class SettingsSidebar extends ViewBase {
 
       if(this.batteryChangedCallback) this.batteryChangedCallback();
     });
+  }
+
+  // Shown in the header, e.g. "Set battery range: 20-80%"
+  renderBatteryRangeValues(){
+    const range = this.getBatteryRange();
+    this.getEl("batteryRangeValues").innerText = `: ${range[0]}-${range[1]}%`;
   }
 
   getBatteryRange(){
@@ -213,10 +234,6 @@ export default class SettingsSidebar extends ViewBase {
 
   renderVehicleInfo(){
     render(this.vehicleInfoTempl(),this.getEl("vehicleInfo"));
-  }
-
-  renderBatteryRangeLabel(){
-    render(this.batteryRangeLabelTempl(this.getBatteryRange()),this.getEl("batteryRangeLabel"));
   }
 
   onOptionsChanged(trackingKey){

@@ -26,11 +26,14 @@ export default class RootContainer extends ViewBase {
         <div class="flex-item-s w3-bar pc-main" id="top-bar">
           <div class="w3-bar-item w3-large"><div id="logo-container"></div></div>
 
-          ${this.menuItems().map(item=>item.url ? html`
-            <a href="${item.url}" target="_blank" class="w3-button w3-hover-dark-gray w3-bar-item top-bar-menu-item">${item.title}</a>
-          `: html`
-            <button @click="${()=>item.action()}" class="w3-button w3-hover-dark-gray w3-bar-item top-bar-menu-item">${item.title}</button>
-          `)}
+          <!-- Centered in the bar, independent of the logo and the right side -->
+          <div class="top-bar-menu">
+            ${this.menuItems().map(item=>item.url ? html`
+              <a href="${item.url}" target="_blank" class="w3-button w3-hover-dark-gray w3-bar-item top-bar-menu-item">${item.title}</a>
+            `: html`
+              <button @click="${()=>item.action()}" class="w3-button w3-hover-dark-gray w3-bar-item top-bar-menu-item">${item.title}</button>
+            `)}
+          </div>
           <button id="top-bar-burger" @click="${()=>this.onOpenMenu()}" class="w3-button w3-hover-dark-gray w3-bar-item">
             <i class="fa fa-bars"></i>
           </button>
@@ -84,14 +87,14 @@ export default class RootContainer extends ViewBase {
             </button>
             <div id="map-key" class="w3-display-bottommiddle ${this.customConfig.isIOS() ? "w3-margin-bottom":""}">
               <div id="mapAd" class="map-ad"></div>
+              <div class="map-key-row">
+                <span class="map-key-item" style="background: #c2e3fd; color: black;">< 50 kW</span><span class="map-key-item" style="background: #0497ff">< 150 kW</span><span class="map-key-item" style="background: #006cb8">>= 150 kW</span>${!this.premiumGate.isPremium() ? html`<span class="map-key-item" style="background: #c79b28">${this.t("mapKeyPromoted")}</span>` : ""}
+              </div>
               ${!this.premiumGate.isRestricted() ? html`
                 <div class="map-key-row">
                   <span class="map-key-item" style="background: #19a673">${this.t("mapKeyPriceGreen")}</span><span class="map-key-item" style="background: #ff8229">${this.t("mapKeyPriceOrange")}</span><span class="map-key-item" style="background: #f74a56">${this.t("mapKeyPriceRed")}</span>
                 </div>
               `:""}
-              <div class="map-key-row">
-                <span class="map-key-item" style="background: #c2e3fd; color: black;">< 50 kW</span><span class="map-key-item" style="background: #0497ff">< 150 kW</span><span class="map-key-item" style="background: #006cb8">>= 150 kW</span>${!this.premiumGate.isPremium() ? html`<span class="map-key-item" style="background: #c79b28">${this.t("mapKeyPromoted")}</span>` : ""}
-              </div>
             </div>
           </div>
         </div>

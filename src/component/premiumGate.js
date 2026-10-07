@@ -25,6 +25,7 @@ export default class PremiumGate {
   }
 
   // options.message: optional context shown at the top of the premium screen
+  // options.checkoutResult: "success" or "cancelled" when coming back from the Stripe checkout
   async showPremiumScreen(source, options = {}){
     this.analytics.log('event', 'premium_screen_opened', { source: source });
 
@@ -39,7 +40,10 @@ export default class PremiumGate {
       // Not logged in, the checkout asks to log in first
     }
 
-    new ModalStripeCheckout(this.depts).show(profile, accessToken, options);
+    new ModalStripeCheckout(this.depts).show(profile, accessToken, Object.assign({
+      purchased: this.isPremium(),
+      stripeManaged: !!this.userSettings.isStripeManaged
+    }, options));
     new UrlModifier().setPath(PREMIUM_PATH);
   }
 
