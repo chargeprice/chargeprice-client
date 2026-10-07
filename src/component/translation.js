@@ -24,6 +24,9 @@ export default class Translation {
 
     this.setMeta("ogTitle", this.get("metaTitle"));
     this.setMeta("ogDescription", this.get("metaDescription"));
+    // Crawlers without JS get the German preview from index.html, all other languages fall back to English
+    const previewLocale = ["de", "en", "fr"].includes(this.currentLocale) ? this.currentLocale : "en";
+    this.setMeta("ogImage", `https://www.chargeprice.app/img/preview_${previewLocale}.jpg`);
 
     document.documentElement.setAttribute("lang", this.currentLocale);
     // Runs on every page (also /welcome and /promo), the map's theme may set its own title later

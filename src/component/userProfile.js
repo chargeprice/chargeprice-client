@@ -109,7 +109,7 @@ export default class UserProfile extends ViewBase {
 
 	premiumCardTemplate() {
 		return html`
-		<div class="premium-hero premium-card" style="background-image:url('img/hero-background.png');">
+		<div class="premium-hero premium-card" style="background-image:url('img/hero-background.jpg');">
 			<div class="premium-hero-content">
 				<p class="header-font premium-hero-title">
 					<i class="fa fa-star premium-hero-star"></i> ${this.t("stripeCheckoutTagline")}

@@ -2,7 +2,7 @@ import { html, render } from 'lit-html';
 import ViewBase from '../component/viewBase';
 import { dataPlatformLink, mobileAppsLink } from '../helper/websiteLinks';
 
-const HERO_IMAGE = "img/hero-background.png";
+const HERO_IMAGE = "img/hero-background.jpg";
 
 export default class LandingPage extends ViewBase {
   constructor(depts) {

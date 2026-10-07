@@ -23,7 +23,7 @@ const FREE_IN_APP_FEATURES = [
   { title: "premiumAppFeaturePremiumAvailable", premium: true }
 ];
 
-const HERO_IMAGE = "img/hero-background.png";
+const HERO_IMAGE = "img/hero-background.jpg";
 const PLAY_LINK = "https://play.google.com/store/apps/details?id=fr.chargeprice.app";
 const IOS_LINK = "https://apps.apple.com/us/app/chargeprice/id1552707493";
 
