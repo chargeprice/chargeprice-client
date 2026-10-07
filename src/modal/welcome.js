@@ -18,8 +18,9 @@ export default class ModalWelcome extends ModalBase {
       <div class="welcome-hero ${theme.welcomeLogo ? "welcome-hero-light" : ""}" style="${theme.welcomeLogo ? "" : `background:${theme.themeColor};`}">
         <div class="welcome-hero-content">
           ${this.logoTemplate(theme)}
-          ${theme.welcomeText ? html`<p class="welcome-hero-text welcome-hero-theme-text">${theme.welcomeText}</p>` : ""}
-          <p class="welcome-hero-text">${this.ut("popupWelcomeText1")}</p>
+          ${theme.welcomeText ?
+            html`<p class="welcome-hero-text welcome-hero-theme-text">${theme.welcomeText}</p>` :
+            html`<p class="welcome-hero-text">${this.ut("popupWelcomeText1")}</p>`}
         </div>
       </div>
 
