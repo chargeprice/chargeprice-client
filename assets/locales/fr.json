@@ -200,7 +200,7 @@
   "promoInvalidCode": "Ce code promo n'est pas valide. Veuillez le vérifier et réessayer.",
   "manageSubscriptionBtn": "Gérer l'abonnement",
   "manageSubscriptionError": "Une erreur s'est produite lors de l'ouverture de la gestion de l'abonnement. Veuillez réessayer.",
-  "explorePremiumBtn": "Découvrir Premium",
+  "explorePremiumBtn": "Votre abonnement",
   "premiumPurchasedTitle": "Vous avez Premium",
   "premiumCheckoutSuccess": "Merci de vous être abonné à Premium !",
   "premiumCheckoutCancelled": "Votre commande a été annulée.",

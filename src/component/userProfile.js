@@ -44,14 +44,6 @@ export default class UserProfile extends ViewBase {
 				action: ()=>this.onActivateProducts()
 			},
 			{
-				id: "explore_premium",
-				title: this.t("explorePremiumBtn"),
-				icon: "star",
-				// The premium screen (incl. managing the subscription) only exists on the default theme
-				show: ()=>this.themeLoader.isDefaultTheme(),
-				action: ()=>this.sidebar.premiumGate.showPremiumScreen("account")
-			},
-			{
 				id: "feedback",
 				title: this.t("fbGiveFeedback"),
 				icon: "comment",
@@ -77,6 +69,7 @@ export default class UserProfile extends ViewBase {
 				${this.sidebar.premiumGate.isRestricted() ? this.premiumCardTemplate() : ""}
 				${this.userSettings.isPro ? html`<p><b>${this.t("activateProductsWebPro")}</b> <i class="fa fa-check-circle w3-large"></i></p>` : ""}
 				${this.userSettings.isMobilePremium ? html`<p><b>${this.t("activateProductsMobilePremium")}</b> <i class="fa fa-check-circle w3-large"></i></p>` : ""}
+				${this.explorePremiumTemplate()}
 				${!(this.userSettings.isPro || this.userSettings.isMobilePremium) ? this.accountNotActivatedTemplate() : ""}
 				${this.themeLoader.getCurrentThemeId() === 'emc' ? this.emcAppPromoTemplate() : ''}
 
@@ -100,6 +93,17 @@ export default class UserProfile extends ViewBase {
 
 				<span class="w3-link" @click="${()=>this.deleteAccount()}">${this.t("deleteAccountLabel")}</span>
 			</div>
+		`;
+	}
+
+	// Below the premium status. Users without Premium get the premium card above instead.
+	// The premium screen (incl. managing the subscription) only exists on the default theme.
+	explorePremiumTemplate() {
+		if(!this.themeLoader.isDefaultTheme() || this.sidebar.premiumGate.isRestricted()) return "";
+		return html`
+			<p style="margin-top: -14px;">
+				<a href="#" class="link-text" style="font-size: 0.95em;" @click="${(e)=>{e.preventDefault(); this.sidebar.premiumGate.showPremiumScreen("account");}}">${this.t("explorePremiumBtn")}</a>
+			</p>
 		`;
 	}
 
