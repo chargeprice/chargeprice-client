@@ -297,7 +297,7 @@ export default class PriceListView extends ViewBase {
           </label>
         `:""}
       ${this.isHighlighted(tariff) ? html`
-        <img class="feature-logo w3-block" src="${tariff.branding.logo_url}"/>
+        <div><img class="feature-logo" src="${tariff.branding.logo_url}"/></div>
       `:""}
       ${this.h().customConfig.isBeta() && tariff.links && tariff.links.open_app_at_station ?
         html`<br>
