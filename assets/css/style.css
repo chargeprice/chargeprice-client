@@ -437,6 +437,17 @@ i.fav-icon {
   margin-bottom: 4px;
 }
 
+/* French only: the same green as the live status */
+html[lang="fr"] .charge-summary-box {
+  background: #4CAF50;
+  color: #fff;
+}
+
+html[lang="fr"] .charge-summary-header,
+html[lang="fr"] .charge-summary-box .w3-text-gray {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
 .charge-summary {
   display: flex;
   flex-wrap: wrap;
