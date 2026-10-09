@@ -305,5 +305,9 @@
   "routeCurrentChargeStop": "Current charging stop",
   "routeShowOnMap": "Show on map",
   "routeSelectAlternative": "Select",
-  "priceListTotalCostHeader": "Total cost"
+  "priceListTotalCostHeader": "Total cost",
+  "explorePremiumBtn": "Your subscription",
+  "premiumPurchasedTitle": "You are Premium",
+  "premiumCheckoutSuccess": "Thank you for subscribing to Premium!",
+  "premiumCheckoutCancelled": "Your order was cancelled."
 }

@@ -199,10 +199,6 @@
   "promoInvalidCode": "This promo code is invalid. Please check it and try again.",
   "manageSubscriptionBtn": "Manage subscription",
   "manageSubscriptionError": "An error occurred while opening the subscription management page. Please try again.",
-  "explorePremiumBtn": "Your subscription",
-  "premiumPurchasedTitle": "You are Premium",
-  "premiumCheckoutSuccess": "Thank you for subscribing to Premium!",
-  "premiumCheckoutCancelled": "Your order was cancelled.",
   "premiumBannerAppTitle": "See all tariffs for free in the mobile app",
   "premiumBannerWebText": "Prefer the web app?",
   "premiumBannerWebCta": "Get full access now",
@@ -309,5 +305,9 @@
   "routeCurrentChargeStop": "Current charging stop",
   "routeShowOnMap": "Show on map",
   "routeSelectAlternative": "Select",
-  "priceListTotalCostHeader": "Total cost"
+  "priceListTotalCostHeader": "Total cost",
+  "explorePremiumBtn": "Your subscription",
+  "premiumPurchasedTitle": "You are Premium",
+  "premiumCheckoutSuccess": "Thank you for subscribing to Premium!",
+  "premiumCheckoutCancelled": "Your order was cancelled."
 }

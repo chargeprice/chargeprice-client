@@ -199,10 +199,6 @@
   "promoInvalidCode": "Dieser Promo-Code ist ungültig. Bitte überprüfen Sie ihn und versuchen Sie es erneut.",
   "manageSubscriptionBtn": "Abo verwalten",
   "manageSubscriptionError": "Beim Öffnen der Abo-Verwaltung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
-  "explorePremiumBtn": "Dein Abo",
-  "premiumPurchasedTitle": "Du bist Premium",
-  "premiumCheckoutSuccess": "Danke, dass du Premium abonniert hast!",
-  "premiumCheckoutCancelled": "Deine Bestellung wurde abgebrochen.",
   "premiumBannerAppTitle": "Alle Tarife kostenlos in der mobilen App",
   "premiumBannerWebText": "Lieber die Web-App?",
   "premiumBannerWebCta": "Jetzt vollen Zugriff erhalten",
@@ -309,5 +305,9 @@
   "routeCurrentChargeStop": "Aktueller Ladestopp",
   "routeShowOnMap": "Auf Karte zeigen",
   "routeSelectAlternative": "Auswählen",
-  "priceListTotalCostHeader": "Gesamtkosten"
+  "priceListTotalCostHeader": "Gesamtkosten",
+  "explorePremiumBtn": "Dein Abo",
+  "premiumPurchasedTitle": "Du bist Premium",
+  "premiumCheckoutSuccess": "Danke, dass du Premium abonniert hast!",
+  "premiumCheckoutCancelled": "Deine Bestellung wurde abgebrochen."
 }
