@@ -16,6 +16,7 @@ import AppInstall from './component/app_install';
 import FetchUserSettingsOrCreateFromLocal from './useCase/fetchUserSettingsOrCreateFromLocal.js';
 import ModalInstallApp from './modal/installApp.js';
 import MapAd from './component/mapAd.js';
+import countryAt from './helper/countryAt';
 import PremiumGate, { PREMIUM_PATH } from './component/premiumGate.js';
 
 import '../assets/css/w3.css'
@@ -266,10 +267,13 @@ class App {
       this.map.clearMarkers();
       this.map.resetMarkers();
       this.map.showStations(stations, result.indexedPricePreviews, result.cheapestPrice, (model)=>this.stationSelected(model,false));
-      this.mapAd.update(stations, {
+      const center = {
         latitude: (bounds.northEast.latitude + bounds.southWest.latitude) / 2,
         longitude: (bounds.northEast.longitude + bounds.southWest.longitude) / 2
-      });
+      };
+      this.mapAd.update(stations, center);
+      // The promoted operators depend on the country
+      this.sidebar.cpoFilter.setCountry(countryAt(stations, center));
     },this.translation.get("errorStationsUnavailable"));
   }
 

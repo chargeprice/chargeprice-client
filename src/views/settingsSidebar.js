@@ -1,6 +1,5 @@
 import { html, render } from 'lit';
 import ViewBase from '../component/viewBase';
-import CompanySearchBox from '../component/companySearchBox';
 import FACILITIES from '../helper/facilities';
 import PremiumGate from '../component/premiumGate';
 import GenericList from '../modal/genericList';
@@ -17,7 +16,6 @@ export default class SettingsSidebar extends ViewBase {
     this.selectedMinPower = 0;
     this.userSettings = userSettings;
     this.premiumGate = new PremiumGate(depts, userSettings);
-    this.filteredCpos = [];
     this.selectedFacilities = [];
     this.defaultBatteryRange = [20,80];
     this.batterySlider = null;
@@ -40,10 +38,10 @@ export default class SettingsSidebar extends ViewBase {
     <div class="w3-small">${this.t("zoomLevelDependentStation")}</div>
     <div class="w3-row w3-margin-top" id="powerSlider"></div>
 
-    <label class="w3-block" style="margin-top: 32px;">${this.t("facilitiesHeader")}</label>
+    <label class="settings-section-header settings-subsection-header" style="margin-top: 56px; margin-bottom: 8px;"><i class="fa fa-store"></i> <span class="price-section-title">${this.t("facilitiesHeader")}</span></label>
     <div id="facilitiesFilter" class="w3-margin-bottom"></div>
 
-    <label class="w3-block" style="margin-top: 24px;">${this.t("displayedCurrencyHeader")}</label>
+    <label class="settings-section-header settings-subsection-header" style="margin-top: 24px; margin-bottom: 8px;"><i class="fa fa-coins"></i> <span class="price-section-title">${this.t("displayedCurrencyHeader")}</span></label>
     <div id="selectCurrency" style="margin-bottom: 24px;"></div>
     `;
   }
@@ -87,24 +85,22 @@ export default class SettingsSidebar extends ViewBase {
   }
 
   cpoFilterTemplate(){
-    const restricted = this.premiumGate.isRestricted();
+    const selectedCpos = this.sidebar ? this.sidebar.cpoFilter.getSelectedCpos() : [];
 
     return html`
-      <div>
-      <div class="premium-filter-row ${restricted ? "premium-filter-locked" : ""}" @click="${()=>{ if(restricted) this.premiumGate.showPremiumScreen("operator_filter"); }}">
-        <company-search-box class="premium-filter-input" placeholder="${this.t("filterOperators")}" ?disabled="${restricted}" @company-changed="${(res)=>this.onCompanyChanged(res.detail)}"></company-search-box>
-        ${restricted ? html`<i class="fa fa-star premium-star"></i>`:""}
-      </div>
-      <div class="w3-margin-top">
-        ${this.filteredCpos.map(cpo=>html`
-          <span class="w3-tag w3-round w3-light-grey">
-            ${cpo.name}
-            <i class="fas fa-times w3-margin-left" @click="${()=>this.onRemoveCpo(cpo)}"></i>
-          </span>
-        `)}
-      </div>
+      <div class="vehicle-card cp-clickable" @click="${()=>this.onOpenCpoFilter()}">
+        <div class="vehicle-card-icon pc-main"><i class="fa fa-charging-station"></i></div>
+        <div class="vehicle-card-text">
+          <div class="vehicle-card-name">${this.t("cpoFilterHeader")}</div>
+          <div class="w3-small w3-text-dark-gray">${selectedCpos.length == 0 ? this.t("cpoFilterAll") : selectedCpos.map(c=>c.name).join(", ")}</div>
+        </div>
+        <i class="fa fa-pencil vehicle-card-edit"></i>
       </div>
     `;
+  }
+
+  onOpenCpoFilter(){
+    this.sidebar.open("cpoFilter");
   }
 
   facilitiesTemplate(){
@@ -250,22 +246,12 @@ export default class SettingsSidebar extends ViewBase {
 
     this.sidebar.myVehicle.onChanged(()=>this.renderVehicleInfo());
     this.renderVehicleInfo();
-  }
 
-  onCompanyChanged(company){
-    const alreadyInList = this.filteredCpos.some(c=>c.id == company.id);
-    if(alreadyInList) return;
-    this.filteredCpos.push(company);
-
+    this.sidebar.cpoFilter.onChanged(()=>{
+      this.rerenderCpoFilter();
+      this.sidebar.optionsChanged();
+    });
     this.rerenderCpoFilter();
-    this.sidebar.optionsChanged();
-  }
-
-  onRemoveCpo(cpo){
-    this.filteredCpos = this.filteredCpos.filter(c=>c.id != cpo.id);
-
-    this.rerenderCpoFilter();
-    this.sidebar.optionsChanged();
   }
 
   rerenderCpoFilter(){
@@ -312,7 +298,6 @@ export default class SettingsSidebar extends ViewBase {
   getModel(){
     return {
       minPower: this.selectedMinPower,
-      cpoFilterChargeprice: this.filteredCpos.map(c=>c.id),
       facilities: this.selectedFacilities,
       isPro: this.userSettings.isPro,
       isMobilePremium: this.userSettings.isMobilePremium,

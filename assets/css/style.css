@@ -823,26 +823,6 @@ html[lang="fr"] .charge-summary-box .w3-text-gray {
   color: #f5a623;
 }
 
-.premium-filter-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Disabled inputs swallow clicks, so they pass through to the row which opens the premium screen */
-.premium-filter-locked {
-  cursor: pointer;
-}
-
-.premium-filter-locked .premium-filter-input {
-  pointer-events: none;
-}
-
-.premium-filter-input {
-  flex: 1;
-  min-width: 0;
-}
-
 .welcome-modal {
   max-width: 440px;
   border-radius: 12px;
@@ -1500,6 +1480,15 @@ html[lang="fr"] .charge-summary-box .w3-text-gray {
   width: 24px;
   text-align: center;
   color: #555;
+}
+
+/* Smaller headers within a section, e.g. facilities in the map filter */
+.settings-subsection-header > .fa {
+  font-size: 1.1em;
+}
+
+.settings-subsection-header .price-section-title {
+  font-size: 0.8em;
 }
 
 .price-section-title {

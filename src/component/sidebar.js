@@ -1,4 +1,5 @@
 import ManageMyTariffs from './manage_my_tariffs';
+import ManageCpoFilter from './manage_cpo_filter';
 import MyVehicle from './my_vehicle';
 import VehicleSelectionSidebar from '../views/vehicleSelectionSidebar';
 import RoutePlanner from '../views/routePlanner';
@@ -25,6 +26,7 @@ export default class Sidebar extends ViewBase {
     this.premiumGate = new PremiumGate(depts, userSettings);
     this.feedback = new OpenFeedbackForm(depts, userSettings);
     this.manageMyTariffs = new ManageMyTariffs(this,depts, userSettings);
+    this.cpoFilter = new ManageCpoFilter(this, depts);
     this.myVehicle = new MyVehicle(this,this.depts, userSettings);
     this.vehicleSelection = new VehicleSelectionSidebar(this, this.depts);
     this.routePlanner = new RoutePlanner(this, this.depts);
@@ -53,6 +55,11 @@ export default class Sidebar extends ViewBase {
         contentId: "manageMyTariffsContent",
         onClosed: ()=>this.optionsChanged(),
         onOpen: ()=>this.manageMyTariffs.render()
+      },
+      "cpoFilter": {
+        header: this.translation.get("cpoFilterHeader"),
+        contentId: "cpoFilterContent",
+        onOpen: ()=>this.cpoFilter.render()
       },
       "vehicleSelection": {
         header: this.translation.get("myVehicle"),
@@ -97,7 +104,7 @@ export default class Sidebar extends ViewBase {
       displayedCurrency: this.currency.getDisplayedCurrency(),
       startTime: this.stationPrices.getStartTime(),
       chargePoint: this.stationPrices.getCurrentChargePoint(),
-      cpoFilterChargeprice: settingsModel.cpoFilterChargeprice,
+      cpoFilterChargeprice: this.cpoFilter.getSelectedCpoIds(),
       facilities: settingsModel.facilities,
       isPro: settingsModel.isPro,
       isMobilePremium: settingsModel.isMobilePremium,

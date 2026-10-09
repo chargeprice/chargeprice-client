@@ -63,6 +63,7 @@ export default class RootContainer extends ViewBase {
               <div id="infoContent" class="w3-row"></div>
               <div id="pricesContent" class="w3-row"></div>
               <div id="manageMyTariffsContent" class="w3-row"></div>
+              <div id="cpoFilterContent" class="w3-row"></div>
               <div id="vehicleSelectionContent" class="w3-row"></div>
 							<div id="userProfileContent" class="w3-margin-top"></div>
           </div>
