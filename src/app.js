@@ -73,7 +73,8 @@ class App {
     const askedForTracking = this.depts.settingsPrimitive().getBoolean("askedForTracking", false);
     const goStraightToMap = hasDeepLink || !isDefaultTheme || askedForTracking;
 
-    this.depts.router().navigate(goStraightToMap ? "/map" : "/welcome");
+    // Keeps the query (e.g. poi_id deeplinks), the map reads it after the navigation
+    this.depts.router().navigate((goStraightToMap ? "/map" : "/welcome") + window.location.search);
   }
 
   showLandingPage(){
