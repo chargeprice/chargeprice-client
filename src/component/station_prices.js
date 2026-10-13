@@ -15,6 +15,7 @@ export default class StationPrices extends ViewBase{
     this.chargePointsSortedByPower = []
     this.settingsPrimitive = depts.settingsPrimitive();
     this.chargingStationRepo = depts.chargingStation();
+    this.customConfig = depts.customConfig();
   }
 
   parameterNoteTempl(obj){
@@ -49,8 +50,16 @@ export default class StationPrices extends ViewBase{
       <span @click="${()=>this.onChargePointChanged(cp)}" class="cp-button ${cp == obj ? "pc-main" : "w3-light-gray"} ${cp.supportedByVehicle ? "": "w3-disabled"}">
         <label>${cp.power} kW</label> <label class="w3-small">${this.h().upper(cp.plug)}</label>
         <label class="w3-small">${this.availabilityCountTemplate(cp) }</label>
+        ${this.customConfig.isInternalMode() ? this.evseIdsTemplate(cp) : ""}
       </span>
     `);
+  }
+
+  evseIdsTemplate(chargePoint){
+    const evseIds = chargePoint.evseIds || [];
+    if(evseIds.length == 0) return "";
+
+    return html`${evseIds.map(id=>html`<label class="w3-tiny w3-block">${id}</label>`)}`;
   }
 
   availabilityCountTemplate(chargePoint){

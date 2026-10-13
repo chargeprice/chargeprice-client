@@ -302,6 +302,7 @@ export default class StationTariffs {
       plug:  hash.plug,
       availableCount: hash.available_count,
       count: hash.count,
+      evseIds: hash.evse_ids || [],
       supportedByVehicle: this.supportedCharger(vehicle, hash)
     }
   }
