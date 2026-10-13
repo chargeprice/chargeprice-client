@@ -16,6 +16,85 @@ export default class StationPrices extends ViewBase{
     this.settingsPrimitive = depts.settingsPrimitive();
     this.chargingStationRepo = depts.chargingStation();
     this.customConfig = depts.customConfig();
+    this.defaultBatteryRange = [20,80];
+    this.batteryRangeEditorOpen = false;
+    // At a charging stop of a planned route the battery range comes from the route, it can't be edited here
+    this.isTripBatteryRange = false;
+    this.initBatteryRangeSlider();
+    this.renderBatteryRangeEditButton();
+  }
+
+  batteryRangeEditButtonTemplate(){
+    if(this.isTripBatteryRange) return "";
+
+    return html`
+      <span class="charge-summary-edit cp-clickable" @click="${()=>this.onToggleBatteryRangeEditor()}">
+        <i class="fa fa-${this.batteryRangeEditorOpen ? "chevron-up" : "pencil"}"></i> ${this.t("myChargeEdit")}
+      </span>
+    `;
+  }
+
+  renderBatteryRangeEditButton(){
+    render(this.batteryRangeEditButtonTemplate(),this.getEl("batteryRangeEditButton"));
+    this.getEl("batteryRangeEditor").style.display = this.batteryRangeEditorOpen && !this.isTripBatteryRange ? "block" : "none";
+  }
+
+  onToggleBatteryRangeEditor(){
+    this.batteryRangeEditorOpen = !this.batteryRangeEditorOpen;
+    if(this.batteryRangeEditorOpen) this.analytics.log('event', 'battery_editor_opened');
+    this.renderBatteryRangeEditButton();
+  }
+
+  initBatteryRangeSlider(){
+    this.batterySlider = this.getEl("batteryRange");
+
+    noUiSlider.create(this.batterySlider, {
+      start: this.getStoredOrDefaultBatteryRange(),
+      step: 1,
+      margin: 1,
+      connect: true,
+      range: { min: 0,max: 100 }
+    });
+
+    this.batterySlider.noUiSlider.on('update', ()=>this.renderBatteryRangeValues());
+
+    this.batterySlider.noUiSlider.on('end', ()=>{
+      this.storeBatteryRange();
+      const range = this.getBatteryRange();
+
+      this.analytics.log('event', 'battery_changed',{
+        percentage_start: range[0],
+        percentage_end: range[1]
+      });
+
+      if(this.batteryChangedCallback) this.batteryChangedCallback();
+    });
+  }
+
+  // Shown in the header, e.g. "My charge: 20-80%", updated live while dragging
+  renderBatteryRangeValues(){
+    if(this.isTripBatteryRange) return;
+    const range = this.getBatteryRange();
+    this.getEl("chargeSummaryBatteryRange").innerText = `: ${range[0]}-${range[1]}%`;
+  }
+
+  getBatteryRange(){
+    return this.batterySlider.noUiSlider.get().map(v=>parseInt(v));
+  }
+
+  getStoredOrDefaultBatteryRange(){
+    if(localStorage.getItem("batteryRange")){
+      return JSON.parse(localStorage.getItem("batteryRange"));
+    }
+    else return this.defaultBatteryRange;
+  }
+
+  storeBatteryRange(){
+    localStorage.setItem("batteryRange",JSON.stringify(this.getBatteryRange()));
+  }
+
+  onBatteryRangeChanged(callback){
+    this.batteryChangedCallback = callback;
   }
 
   parameterNoteTempl(obj){
@@ -122,7 +201,9 @@ export default class StationPrices extends ViewBase{
   updateStationPrice(station,prices,options){
     render(this.parameterNoteTempl(options),this.getEl("parameterNote"));
     // At a charging stop of a planned route this is the battery range of the stop
-    render(options.batteryRange ? `: ${options.batteryRange[0]}-${options.batteryRange[1]}%` : "",this.getEl("chargeSummaryBatteryRange"));
+    this.getEl("chargeSummaryBatteryRange").innerText = options.batteryRange ? `: ${options.batteryRange[0]}-${options.batteryRange[1]}%` : "";
+    this.isTripBatteryRange = !!options.tripBatteryRange;
+    this.renderBatteryRangeEditButton();
 
     const sortedPrices = prices.sort((a,b)=>this.sortPrice(a.price, b.price));
     new PriceListView(this.depts,this.sidebar).render(sortedPrices, options, station, "prices")

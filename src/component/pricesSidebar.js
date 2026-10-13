@@ -14,8 +14,16 @@ export default class PricesSidebar extends ViewBase {
         <div id="select-charge-point"></div>
       </div>
       <div class="charge-summary-box">
-        <label class="charge-summary-header">${this.t("myChargeHeader")}<span id="chargeSummaryBatteryRange"></span></label>
+        <div class="charge-summary-header-row">
+          <label class="charge-summary-header">${this.t("myChargeHeader")}<span id="chargeSummaryBatteryRange"></span></label>
+          <span id="batteryRangeEditButton"></span>
+        </div>
         <div id="parameterNote" class="w3-medium"></div>
+        <!-- Static, the slider is created once and only shown/hidden -->
+        <div id="batteryRangeEditor" class="charge-summary-editor" style="display: none;">
+          <div id="batteryRange"></div>
+          <div class="w3-small charge-summary-editor-info">${this.t("batteryRangeSimulationInfo")}</div>
+        </div>
       </div>
 
       <div id="priceInfo" class="w3-container"></div>

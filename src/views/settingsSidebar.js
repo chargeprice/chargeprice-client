@@ -17,20 +17,14 @@ export default class SettingsSidebar extends ViewBase {
     this.userSettings = userSettings;
     this.premiumGate = new PremiumGate(depts, userSettings);
     this.selectedFacilities = [];
-    this.defaultBatteryRange = [20,80];
-    this.batterySlider = null;
   }
 
   template(){
     return html`
     <div id="vehicleInfo" class="w3-margin-bottom"></div>
-    <label class="settings-section-header" style="margin-top: 24px;"><i class="fa fa-battery-half"></i> <span class="price-section-title">${this.t("myChargeHeader")}<span id="batteryRangeValues"></span></span></label>
-    <div id="batteryRange" class="w3-margin-top"></div>
-    <div class="w3-small w3-margin-top">${this.t("batteryRangeSimulationInfo")}</div>
-
     ${this.walletCardTemplate()}
 
-    <label class="settings-section-header w3-margin-bottom" style="margin-top: 24px;"><i class="fa fa-filter"></i> <span class="price-section-title">${this.t("mapFilter")}</span></label>
+    <label class="settings-section-header w3-margin-bottom w3-margin-top"><i class="fa fa-filter"></i> <span class="price-section-title">${this.t("mapFilter")}</span></label>
 
     <div id="cpoFilter" class="w3-margin-bottom"></div>
 
@@ -64,7 +58,7 @@ export default class SettingsSidebar extends ViewBase {
 
   walletCardTemplate(){
     return html`
-      <div class="vehicle-card cp-clickable wallet-card" @click="${()=>this.onOpenWallet()}">
+      <div class="vehicle-card cp-clickable" @click="${()=>this.onOpenWallet()}">
         <div class="vehicle-card-icon pc-main"><i class="fa fa-wallet"></i></div>
         <div class="vehicle-card-text">
           <div class="vehicle-card-name">${this.t("myTariffs")}</div>
@@ -129,7 +123,6 @@ export default class SettingsSidebar extends ViewBase {
     render(this.template(),this.getEl("settingsContent"));
     this.loadModel();
     this.initPowerSlider();
-    this.initBatteryRangeSlider();
     this.rerenderCpoFilter();
     this.rerenderFacilities();
     this.rerenderCurrency();
@@ -175,57 +168,6 @@ export default class SettingsSidebar extends ViewBase {
     });
 
     slider.noUiSlider.on('end', ()=>this.onOptionsChanged("connector_speed"));
-  }
-
-  initBatteryRangeSlider(){
-    this.batterySlider = document.getElementById('batteryRange');
-
-    noUiSlider.create(this.batterySlider, {
-      start: this.getStoredOrDefaultBatteryRange(),
-      step: 1,
-      margin: 1,
-      connect: true,
-      range: { min: 0,max: 100 }
-    });
-
-    this.batterySlider.noUiSlider.on('update', ()=>this.renderBatteryRangeValues());
-
-    this.batterySlider.noUiSlider.on('end', ()=>{
-      this.storeBatteryRange();
-      const range = this.getBatteryRange();
-
-      this.analytics.log('event', 'battery_changed',{
-        percentage_start: range[0],
-        percentage_end: range[1]
-      });
-
-      if(this.batteryChangedCallback) this.batteryChangedCallback();
-    });
-  }
-
-  // Shown in the header, e.g. "Set battery range: 20-80%"
-  renderBatteryRangeValues(){
-    const range = this.getBatteryRange();
-    this.getEl("batteryRangeValues").innerText = `: ${range[0]}-${range[1]}%`;
-  }
-
-  getBatteryRange(){
-    return this.batterySlider.noUiSlider.get().map(v=>parseInt(v));
-  }
-
-  getStoredOrDefaultBatteryRange(){
-    if(localStorage.getItem("batteryRange")){
-      return JSON.parse(localStorage.getItem("batteryRange"));
-    }
-    else return this.defaultBatteryRange;
-  }
-
-  storeBatteryRange(){
-    localStorage.setItem("batteryRange",JSON.stringify(this.getBatteryRange()));
-  }
-
-  onBatteryRangeChanged(callback){
-    this.batteryChangedCallback = callback;
   }
 
   renderVehicleInfo(){

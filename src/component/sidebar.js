@@ -98,7 +98,7 @@ export default class Sidebar extends ViewBase {
       minPower: settingsModel.minPower,
       carACPhases: 3,
       allowUnbalancedLoad: !this.translation.showUnbalancedLoad(),
-      batteryRange: this.settingsView.getBatteryRange(),
+      batteryRange: this.stationPrices.getBatteryRange(),
       myTariffs: this.manageMyTariffs.getMyTariffs(),
       myVehicle: this.myVehicle.getVehicle(),
       displayedCurrency: this.currency.getDisplayedCurrency(),

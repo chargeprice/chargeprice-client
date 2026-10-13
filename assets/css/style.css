@@ -448,6 +448,31 @@ html[lang="fr"] .charge-summary-box .w3-text-gray {
   color: rgba(255, 255, 255, 0.8) !important;
 }
 
+.charge-summary-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.charge-summary-edit {
+  font-size: 13px;
+  white-space: nowrap;
+  padding: 2px 4px;
+  opacity: 0.7;
+}
+
+/* Battery slider, expands at the bottom of the box like the tariff details of the price list */
+.charge-summary-editor {
+  margin-top: 8px;
+  padding: 16px 8px 4px 8px;
+  border-top: 1px solid rgba(0,0,0,0.12);
+}
+
+.charge-summary-editor-info {
+  margin-top: 12px;
+}
+
 .charge-summary {
   display: flex;
   flex-wrap: wrap;
@@ -1461,11 +1486,6 @@ html[lang="fr"] .charge-summary-box .w3-text-gray {
 
 .price-header {
   margin: 8px 16px;
-}
-
-.wallet-card {
-  /* Separates the wallet from the battery range above */
-  margin-top: 24px;
 }
 
 /* Section headers in the settings, same title style as the price list sections */

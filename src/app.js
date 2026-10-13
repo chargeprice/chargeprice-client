@@ -128,7 +128,7 @@ class App {
     this.map.onBoundsChanged(()=>this.scheduleStationsUpdate());
     this.sidebar.onOptionsChanged(this.optionsChanged.bind(this));
     this.sidebar.onReturnedToStation(()=>this.returnedToStation());
-    this.sidebar.settingsView.onBatteryRangeChanged(()=>{
+    this.sidebar.stationPrices.onBatteryRangeChanged(()=>{
       this.updatePrices();
       // The prices on the map also depend on the battery range
       this.scheduleStationsUpdate();
