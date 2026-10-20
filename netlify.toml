@@ -57,6 +57,13 @@
   status = 200
   force = true
 
+# Campaign short link
+[[redirects]]
+  from = "/geladen"
+  to = "/promo/GELADEN26"
+  status = 302
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
