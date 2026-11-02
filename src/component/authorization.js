@@ -10,6 +10,7 @@ export default class Authorization extends ViewBase {
 		this.root = "messageDialog";
 		this.settingsRepo = depts.settingsPrimitive();
 		this.authService = depts.auth();
+		this.themeLoader = depts.themeLoader();
 
 		this.validation = {
 			email: new RegExp(/^[\w-+_\.]+@([\w-]+\.)+[\w-]{2,}$/),
@@ -38,6 +39,7 @@ export default class Authorization extends ViewBase {
 				</div>
 				<div class="w3-container auth-modal-container">
 					<div class="w3-section">
+						${this.themeLoader.getThemeTranslation("separateAccountHint") ? this.separateAccountHintTemplate() : ''}
 						<div class="w3-bar">
 							<button
 								id="sign_in_button"
@@ -106,6 +108,15 @@ export default class Authorization extends ViewBase {
 						<div id="error-list"></div>
 					</div>
 				</div>
+			</div>
+		`;
+	}
+
+	separateAccountHintTemplate() {
+		return html`
+			<div class="welcome-vehicle-hint paywall-emc-hint">
+				<i class="fa fa-info-circle"></i>
+				<p>${this.themeLoader.getThemeTranslation("separateAccountHint")}</p>
 			</div>
 		`;
 	}

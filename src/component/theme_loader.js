@@ -34,7 +34,11 @@ export default class ThemeLoader {
         themeColor: "#8fbf22",
         appleTouchIcon: "themes/emc/logo.png",
         // Promoted tariffs: highlighted (if they have branding) and shown unlocked in the promoted section
-        highlightedTariffs: ["51052ac3-d1d5-41f4-833d-a6e6713e76b4","ef1ad202-cb22-460b-8a28-d067686b7c2c"]
+        highlightedTariffs: ["51052ac3-d1d5-41f4-833d-a6e6713e76b4","ef1ad202-cb22-460b-8a28-d067686b7c2c"],
+        // White label specific texts (EMC is German only)
+        translations: {
+          separateAccountHint: "Für die Nutzung von Ladepreise.at muss ein separater Account über unseren Partner Chargeprice erstellt werden, welcher dann mit dem EMC Account verknüpft werden kann."
+        }
       },
       nissan: {
         titleBarHtml: `<img id=\"logo\" src=\"themes/nissan/logo.png\"/><span class=\"title\">${this.translation.get("themeTitle")}</span>`,
@@ -106,6 +110,12 @@ export default class ThemeLoader {
   getCurrentThemeId(){
     this.ensureThemeSet();
     return this.themeId;
+  }
+
+  // Returns the white label specific text for the key, or undefined if the current theme doesn't define it
+  getThemeTranslation(key){
+    const translations = this.getCurrentThemeConfig().translations;
+    return translations ? translations[key] : undefined;
   }
 
   getValidatedTheme(availableThemes){

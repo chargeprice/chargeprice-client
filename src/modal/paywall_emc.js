@@ -17,6 +17,7 @@ const FEATURES = [
 export default class ModalPaywallEmc extends ModalBase {
   constructor(depts){
     super(depts);
+    this.themeLoader = depts.themeLoader();
   }
 
   show(loggedIn = false){
@@ -65,7 +66,7 @@ export default class ModalPaywallEmc extends ModalBase {
           <p>
             ${this.loggedIn ?
               `Wähle "EMC Austria Mitgliedschaft" und gib deine Mitgliedsnummer und die Kartennummer ein. Beides findest du auf deiner EMC Mitgliedskarte.` :
-              `Für die Nutzung von Ladepreise.at muss ein eigener Account über unseren Partner Chargeprice erstellt werden.`}
+              this.themeLoader.getThemeTranslation("separateAccountHint")}
           </p>
         </div>
 
