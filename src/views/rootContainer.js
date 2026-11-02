@@ -33,7 +33,7 @@ export default class RootContainer extends ViewBase {
             ${this.menuItems().map(item=>item.url ? html`
               <a href="${item.url}" target="_blank" class="w3-button w3-hover-dark-gray w3-bar-item top-bar-menu-item">${item.title}</a>
             `: html`
-              <button @click="${()=>item.action()}" class="w3-button w3-hover-dark-gray w3-bar-item top-bar-menu-item">${item.title}</button>
+              <button @click="${()=>item.action()}" class="w3-button w3-hover-dark-gray w3-bar-item top-bar-menu-item ${item.className || ""}">${item.icon ? html`<i class="fa ${item.icon}"></i>` : ""}${item.title}</button>
             `)}
           </div>
           <button id="top-bar-burger" @click="${()=>this.onOpenMenu()}" class="w3-button w3-hover-dark-gray w3-bar-item">
@@ -185,7 +185,10 @@ export default class RootContainer extends ViewBase {
     return [
       { title: this.t("menuMobileApp"), url: mobileAppsLink(this.translation.currentLocale) },
       { title: this.t("menuDataPlatform"), url: dataPlatformLink(this.translation.currentLocale) },
-      { title: this.t("menuInfo"), action: ()=>this.onOpenInfo() }
+      { title: this.t("menuInfo"), action: ()=>this.onOpenInfo() },
+      ...(this.premiumGate.showsUpsells() ? [
+        { title: this.t("menuUpgradePremium"), action: ()=>this.premiumGate.showPremiumScreen("menu"), className: "top-bar-premium", icon: "fa-star" }
+      ] : [])
     ];
   }
 

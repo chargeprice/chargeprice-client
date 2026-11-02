@@ -101,6 +101,30 @@ html, body {
   margin-left: auto;
 }
 
+.top-bar-menu .top-bar-premium {
+  align-self: center;
+  gap: 6px;
+  margin-left: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: white;
+  color: #007AFF !important;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.top-bar-menu .top-bar-premium:hover {
+  background: white !important;
+  color: #007AFF !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.top-bar-premium .fa {
+  color: #f5b301;
+}
+
 #top-bar-burger {
   display: none;
 }
