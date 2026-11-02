@@ -231,7 +231,7 @@
   "tariffDetails_kwh": "Energie",
   "tariffDetails_session": "Startgebühr",
   "tariffDetails_minute": "Ladezeit",
-  "tariffDetails_parking_minute": "Parkzeit",
+  "tariffDetails_parking_minute": "Zeitgebühr nach Ladeende, solange Fahrzeug angesteckt ist",
   "tariffDetailsAfter": "ab {0}",
   "tariffDetailsFirst": "erste {0}",
   "tariffDetailsOccupancy": "bei Auslastung {0}",

@@ -231,7 +231,7 @@
   "tariffDetails_kwh": "Energy",
   "tariffDetails_session": "Session fee",
   "tariffDetails_minute": "Charging time",
-  "tariffDetails_parking_minute": "Parking time",
+  "tariffDetails_parking_minute": "Time fee after charging",
   "tariffDetailsAfter": "after {0}",
   "tariffDetailsFirst": "first {0}",
   "tariffDetailsOccupancy": "at occupancy {0}",

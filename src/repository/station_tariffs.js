@@ -47,7 +47,9 @@ export default class StationTariffs {
           station: {
             id: [stationId],
             charge_point: { power: chargePoint.power, plug: chargePoint.plug }
-          }
+          },
+          // parking_minute is not part of the API default
+          filter: { dimensions: ["kwh", "session", "minute", "parking_minute"] }
         },
         relationships: {
           tariffs: { data: [{ id: tariffId, type: "tariff" }] }
