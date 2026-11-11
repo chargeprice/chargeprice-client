@@ -20,6 +20,7 @@ export default class Sidebar extends ViewBase {
     this.analytics = depts.analytics();
     this.urlModifier = depts.urlModifier();
     this.customConfig = depts.customConfig();
+    this.settingsPrimitive = depts.settingsPrimitive();
     this.eventBus = depts.eventBus();
     this.currency = depts.currency();
     this.themeLoader = depts.themeLoader();
@@ -114,16 +115,27 @@ export default class Sidebar extends ViewBase {
 
   showSettingsOnStart(){
     if(this.customConfig.isMobileOrTablet()) return;
-    this.openPreferences();
+    // Shown by default on desktop, unless the user hid it before
+    if(this.settingsPrimitive.getBoolean("preferencesHidden", false)) this.closePreferences();
+    else this.openPreferences();
   }
 
   openPreferences(){
     this.analytics.log('event', 'sidebar_opened',{sidebar_id: 'settings'});
-    this.show("preferences");
+    this.setPreferencesVisible(true);
   }
 
   closePreferences(){
-    this.hide("preferences");
+    this.setPreferencesVisible(false);
+  }
+
+  setPreferencesVisible(isVisible){
+    this.toggle("preferences", isVisible);
+    this.getEl("map-row").classList.toggle("preferences-hidden", !isVisible);
+    // On mobile the panel is an overlay and starts hidden anyway, so only remember the choice on desktop
+    if(!this.customConfig.isMobileOrTablet()) this.settingsPrimitive.setBoolean("preferencesHidden", !isVisible);
+    // The map takes over the freed space (desktop), so it needs to recalculate its size
+    window.dispatchEvent(new Event('resize'));
   }
 
   showStation(station){

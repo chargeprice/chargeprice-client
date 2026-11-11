@@ -72,7 +72,8 @@ export default class RootContainer extends ViewBase {
             <div id="preferences" class="w3-white w3-card-4">
               <div class="w3-bar pc-secondary">
                 <button id="preferences-close" @click="${()=>this.onClosePreferences()}" class="w3-bar-item w3-button w3-hover-dark-gray" title="close">
-                  <img class="inverted" class="w3-button " src="img/arrow-back.svg">
+                  <img class="inverted preferences-close-mobile" src="img/arrow-back.svg">
+                  <img class="inverted preferences-close-desktop" src="img/close.svg">
                 </button>
                 <span id="preferences-tab-search" @click="${()=>this.onSelectPreferencesTab('search')}" class="w3-bar-item w3-button preferences-tab pc-tab-active">${this.t("locationSearchHeader")}</span>
                 <span id="preferences-tab-route" @click="${()=>this.onSelectPreferencesTab('route')}" class="w3-bar-item w3-button preferences-tab">${this.t("routePlannerHeader")}</span>

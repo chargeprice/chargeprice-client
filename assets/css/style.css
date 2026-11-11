@@ -195,14 +195,20 @@ html, body {
   z-index: 90000;
 }
 
-#preferences-close {
-  display: none;
-}
-
 #preferences-open {
   display: none;
   margin: 20px;
   z-index: 1000;
+}
+
+/* Desktop closes the panel with an X, mobile (full screen overlay) goes back with an arrow */
+#preferences-close .preferences-close-mobile {
+  display: none;
+}
+
+/* Desktop: the panel can be hidden, then the button to open it again is shown on the map */
+#map-row.preferences-hidden #preferences-open {
+  display: inline-block;
 }
 
 #preferences > .w3-bar {
@@ -1597,12 +1603,16 @@ html[lang="fr"] .charge-summary-box .w3-text-gray {
     z-index: 100000;
   }
 
-  #preferences-close {
+  #preferences-open {
     display: inline-block;
   }
 
-  #preferences-open {
-    display: inline-block;
+  #preferences-close .preferences-close-mobile {
+    display: inline;
+  }
+
+  #preferences-close .preferences-close-desktop {
+    display: none;
   }
 }
 
