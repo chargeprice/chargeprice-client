@@ -60,7 +60,7 @@
 # Campaign short link
 [[redirects]]
   from = "/geladen"
-  to = "/promo/GELADEN26"
+  to = "/promo/GELADEN25OFF"
   status = 302
   force = true
 
