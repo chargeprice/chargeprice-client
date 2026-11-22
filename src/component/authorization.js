@@ -25,19 +25,34 @@ export default class Authorization extends ViewBase {
 		};
 	}
 
-	loginTemplate() {
+	// Modal: the popup with its header and close button. Inline (right panel): only the content,
+	// the panel has its own header and back arrow.
+	frame(content, { header = "", onClose = () => this.onCloseModal() } = {}) {
+		if (this.inline) return html`<div class="w3-container auth-inline-container">${content}</div>`;
 		return html`
 			<div class="w3-modal-content w3-card-4 w3-animate-top">
 				<div class="w3-row w3-bar pc-secondary">
 					<button
-						@click="${() => this.onCloseModal()}"
+						@click="${onClose}"
 						class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close"
 					>
 						<img class="inverted" class="w3-button " src="img/close.svg" />
 					</button>
-					<div class="w3-rest w3-large popup-header">${this.t("authModalHeader")}</div>
+					${header ? html`<div class="w3-rest w3-large popup-header">${header}</div>` : ""}
 				</div>
-				<div class="w3-container auth-modal-container">
+				${content}
+			</div>
+		`;
+	}
+
+	// Inline screens (reset password, confirmations) go back to the login form
+	onBackToLogin() {
+		this.renderInline(this.root);
+	}
+
+	loginTemplate() {
+		return this.frame(html`
+				<div class="${this.inline ? "" : "w3-container auth-modal-container"}">
 					<div class="w3-section">
 						${this.themeLoader.getThemeTranslation("separateAccountHint") ? this.separateAccountHintTemplate() : ''}
 						<div class="w3-bar">
@@ -108,8 +123,7 @@ export default class Authorization extends ViewBase {
 						<div id="error-list"></div>
 					</div>
 				</div>
-			</div>
-		`;
+		`, { header: this.t("authModalHeader") });
 	}
 
 	separateAccountHintTemplate() {
@@ -122,17 +136,9 @@ export default class Authorization extends ViewBase {
 	}
 
 	resetPasswordTemplate() {
-		return html`
-			<div class="w3-modal-content w3-card-4 w3-animate-top">
-				<div class="w3-row w3-bar pc-secondary">
-					<button
-						@click="${() => this.onCloseModal()}"
-						class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close"
-					>
-						<img class="inverted" class="w3-button " src="img/close.svg" />
-					</button>
-				</div>
-				<div class="w3-container auth-modal-container">
+		return this.frame(html`
+				${this.inline ? this.backLinkTemplate() : ""}
+				<div class="${this.inline ? "" : "w3-container auth-modal-container"}">
 					<div class="w3-section">
 						<div class="w3-bar w3-margin-bottom">
 							<i class="fa fa-lock"></i>
@@ -154,52 +160,68 @@ export default class Authorization extends ViewBase {
 						</form>
 					</div>
 				</div>
-			</div>
+		`);
+	}
+
+	backLinkTemplate() {
+		return html`
+			<a href="#" class="link-text auth-back-link" @click="${(e) => { e.preventDefault(); this.onBackToLogin(); }}">
+				<i class="fa fa-chevron-left"></i> ${this.t("authLogInTabLabel")}
+			</a>
 		`;
 	}
 
 	successfulRegistrationTemplate() {
-		return html`
-			<div class="w3-modal-content w3-card-4 w3-animate-top">
-				<div class="w3-row w3-bar pc-secondary">
-					<button
-						@click="${() => render(this.loginTemplate(), this.getEl(this.root))}"
-						class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close"
-					>
-						<img class="inverted" class="w3-button" src="img/close.svg" />
-					</button>
-				</div>
-				<div class="w3-container">
+		return this.frame(html`
+				${this.inline ? this.backLinkTemplate() : ""}
+				<div class="${this.inline ? "" : "w3-container"}">
 					<div class="w3-section">${this.ut("authSignUpSuccessfulText")}</div>
 				</div>
-			</div>
-		`;
+		`, { onClose: () => render(this.loginTemplate(), this.getEl(this.root)) });
 	}
 
 	successfulResetPasswordTemplate() {
-		return html`
-			<div class="w3-modal-content w3-card-4 w3-animate-top">
-				<div class="w3-row w3-bar pc-secondary">
-					<button
-						@click="${() => this.onCloseModal()}"
-						class="w3-col w3-button w3-right w3-hover-dark-gray popup-header-close"
-					>
-						<img class="inverted" class="w3-button " src="img/close.svg" />
-					</button>
-				</div>
-				<div class="w3-container">
+		return this.frame(html`
+				${this.inline ? this.backLinkTemplate() : ""}
+				<div class="${this.inline ? "" : "w3-container"}">
 					<div class="w3-section">
 						<label>${this.t("authForgotPasswordSuccessfulText")}</label>
 					</div>
 				</div>
-			</div>
-		`;
+		`);
 	}
 
+	// Opens the login. Where the right panel exists (map page), the login is shown there, in the
+	// "Your Chargeprice Account" panel. Elsewhere (e.g. the promo page) it stays a popup.
 	render() {
+		if (document.getElementById("userProfileContent")) {
+			// A popup asking to log in (premium screen, checkout...) makes room for the panel
+			const dialog = this.getEl("messageDialog");
+			if (dialog) dialog.style.display = "none";
+			PremiumGate.onPremiumScreenClosed();
+			this.depts.eventBus().publish("sidebar.change", { sidebar: "userProfile" });
+			return;
+		}
+		this.renderModal();
+	}
+
+	// Login form inside a container of the page (the right panel)
+	renderInline(rootId) {
+		this.inline = true;
+		this.root = rootId;
+		render(this.loginTemplate(), this.getEl(this.root));
+		this.registerFormEvents();
+	}
+
+	renderModal() {
 		render(this.loginTemplate(), this.getEl(this.root));
 		this.getEl(this.root).style.display = "block";
+		this.registerFormEvents();
+	}
 
+	registerFormEvents() {
+		if (this.formEventsRegistered === this.getEl("sign_in")) return;
+		this.formEventsRegistered = this.getEl("sign_in");
 		this.getEl("sign_in").addEventListener("keyup", (event) => this.validateLoginForm(event));
 		this.getEl("sign_up").addEventListener("keyup", (event) => this.validateRegistrationForm(event));
 
@@ -264,7 +286,7 @@ export default class Authorization extends ViewBase {
 
 		// After successful login save access_token and refresh_token to local storage.
 		if (result.data) {
-			this.getEl(this.root).style.display = "none";
+			if (!this.inline) this.getEl(this.root).style.display = "none";
 			this.saveAuthResult(result.data);
 		}
 
@@ -371,6 +393,11 @@ export default class Authorization extends ViewBase {
 			accessToken: access_token,
 			refreshToken: refresh_token
 		});
+
+		// After the reload, the map page opens the account panel (see App.openProfileAfterLogin)
+		try { sessionStorage.setItem("cp-open-profile-after-login", "1"); } catch (e) {}
+		// The mobile app banner of the account panel shows again after each login
+		try { localStorage.removeItem("cp-account-app-banner-dismissed"); } catch (e) {}
 
 		location.reload(true);
 	}

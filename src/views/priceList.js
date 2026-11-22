@@ -8,6 +8,7 @@ import StationTariffs from '../repository/station_tariffs';
 import Advertisements from '../repository/advertisements';
 import BannerAd from '../component/bannerAd';
 import AppUpsellBanner from '../component/appUpsellBanner';
+import { isExpertMode } from '../helper/expertMode';
 var dayjs = require('dayjs');
 
 // Energy price always comes first
@@ -327,12 +328,19 @@ export default class PriceListView extends ViewBase {
             </a>
           `:""}
           ${!this.premiumGate.isRestricted() && this.options.chargePoint ? html`
-            <a href="#" class="link-text w3-small" @click="${(e)=>{e.preventDefault(); this.sidebar.feedback.wrongPrice(this.station, this.options.chargePoint, tariff.tariff.id);}}">
-              ${this.t("fbReportWrongPriceHeader")}
+            <a href="#" role="button" class="w3-btn w3-small w3-round report-wrong-price-btn" @click="${(e)=>{e.preventDefault(); this.sidebar.feedback.wrongPrice(this.station, this.options.chargePoint, tariff.tariff.id);}}">
+              <i class="fa fa-flag"></i> ${this.t("fbReportWrongPriceHeader")}
             </a>
           `:""}
         </div>
         ${tariff.url ? html`<div class="tariff-details-disclosure">${this.t("affiliateDisclosure")}</div>` : ""}
+        ${isExpertMode() ? html`
+          <div class="expert-tariff">
+            <i class="fa fa-flask"></i> ${this.t("expertTariffId")}: <code>${tariff.tariff.id}</code>
+            <button type="button" class="expert-copy" title="${this.t("expertCopy")}" aria-label="${this.t("expertCopy")}"
+              @click="${()=>navigator.clipboard && navigator.clipboard.writeText(String(tariff.tariff.id)).catch(()=>{})}"><i class="fa fa-copy"></i></button>
+          </div>
+        ` : ""}
       </div>
     `;
   }

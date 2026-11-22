@@ -48,6 +48,15 @@ export default class PremiumGate {
       return;
     }
 
+    // Premium users: the "You are Premium" screen now lives in the account panel
+    // (My Premium subscription), e.g. when coming back from the Stripe portal
+    if(this.isPremium() && !options.checkoutResult && document.getElementById("userProfileContent")){
+      if(window.location.pathname === PREMIUM_PATH) new UrlModifier().setPath(MAP_PATH);
+      this.depts.eventBus().publish("account.page", "invoices");
+      this.depts.eventBus().publish("sidebar.change", { sidebar: "userProfile" });
+      return;
+    }
+
     let profile = null;
     let accessToken = null;
     try {

@@ -4,7 +4,7 @@ import Authorization from '../component/authorization';
 import { dataPlatformLink } from '../helper/websiteLinks';
 import PremiumGate, { PREMIUM_PATH } from '../component/premiumGate';
 
-const FEATURES = [
+export const FEATURES = [
   { title: "stripeCheckoutFeatureTariffsWalletTitle", text: "stripeCheckoutFeatureTariffsWalletText" },
   { title: "stripeCheckoutFeatureMapPricesTitle", text: "stripeCheckoutFeatureMapPricesText" },
   { title: "stripeCheckoutFeatureAvailabilityTitle", text: "stripeCheckoutFeatureAvailabilityText" },

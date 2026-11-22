@@ -23,8 +23,25 @@ import '../assets/css/w3.css'
 import '../assets/css/w3-colors-flat.css'
 import '../assets/css/leaflet.awesome-markers.css'
 import '../assets/css/style.css'
+import '../assets/css/polish.css'
+import '../assets/css/dark.css'
+import { applyDarkMode } from './helper/darkMode';
+
+// Apply the saved light/dark choice before anything is rendered
+applyDarkMode();
 
 class App {
+  // The login reloads the page; show the account panel right away afterwards
+  // (flag set by Authorization.saveAuthResult)
+  openProfileAfterLogin(){
+    let justLoggedIn = false;
+    try {
+      justLoggedIn = sessionStorage.getItem("cp-open-profile-after-login") === "1";
+      sessionStorage.removeItem("cp-open-profile-after-login");
+    } catch(e) {}
+    if(justLoggedIn) this.sidebar.open("userProfile");
+  }
+
   async initialize(){
     this.depts = Dependencies.getInstance();
 
@@ -117,6 +134,7 @@ class App {
     infoSidebar.inject(this.map, this.sidebar);
 		this.sidebar.injectMap(this.map);
     this.rootContainer.inject(this.sidebar);
+    this.openProfileAfterLogin();
 
     //Make sure theme is loaded now
     infoSidebar.render();

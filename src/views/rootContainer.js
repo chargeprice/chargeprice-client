@@ -3,7 +3,7 @@ import ViewBase from '../component/viewBase';
 import Authorization from '../component/authorization';
 import GenericList from '../modal/genericList';
 import PremiumGate from '../component/premiumGate';
-import { dataPlatformLink, mobileAppsLink } from '../helper/websiteLinks';
+import { getColorMode, setColorMode } from '../helper/darkMode';
 
 
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile';
@@ -19,6 +19,11 @@ export default class RootContainer extends ViewBase {
     this.profile = null;
     this.userSettings = userSettings;
     this.premiumGate = new PremiumGate(depts, userSettings);
+    // The color mode can also be changed in the account panel: refresh the top bar switch
+    window.addEventListener("cp-color-mode-changed", ()=>{
+      const root = document.getElementById("rootContainer");
+      if(root && document.getElementById("top-bar")) render(this.template(), root);
+    });
   }
 
   template(){
@@ -42,10 +47,36 @@ export default class RootContainer extends ViewBase {
 
           <div class="top-bar-right">
             ${this.accountTemplate()}
+            <div id="color-mode-switch" class="w3-bar-item color-mode-switch" role="radiogroup" aria-label="Color mode">
+              ${[["light","fa-sun","Light"],["dark","fa-moon","Dark"],["system","fa-desktop","System"]].map(([mode, icon, label])=>html`
+                <button type="button" role="radio" aria-checked="${getColorMode() === mode}" aria-label="${label}" title="${label}"
+                  class="color-mode-option ${getColorMode() === mode ? "active" : ""}" @click="${()=>this.onSetColorMode(mode)}">
+                  <i class="fa ${icon}"></i>
+                </button>
+              `)}
+            </div>
             ${this.themeLoader.isDefaultTheme() ? html`
-            <button @click="${()=>this.onChangeLanguage()}" class="w3-button w3-hover-dark-gray w3-bar-item" style="height: 100%;">
-              <span class="fi fi-${this.translation.currentLocaleConfig().flag}" style="font-size:1.2em;"></span>
-            </button>
+            <div class="lang-menu w3-bar-item">
+              <button id="lang-menu-button" @click="${(e)=>{ e.stopPropagation(); this.onToggleLanguageMenu(); }}"
+                class="w3-button w3-hover-dark-gray lang-menu-button" aria-haspopup="listbox" aria-expanded="${!!this.langMenuOpen}"
+                title="${this.t("displayedLanguageHeader")}">
+                <span class="fi fi-${this.translation.currentLocaleConfig().flag}" style="font-size:1.2em;"></span>
+                <i class="fa fa-chevron-${this.langMenuOpen ? "up" : "down"} lang-menu-chevron"></i>
+              </button>
+              ${this.langMenuOpen ? html`
+                <ul class="lang-menu-list" role="listbox" aria-label="${this.t("displayedLanguageHeader")}" @click="${(e)=>e.stopPropagation()}">
+                  ${this.translation.getSupportedLocales().map(l => html`
+                    <li role="option" aria-selected="${l.code === this.translation.currentLocale}">
+                      <button type="button" class="lang-menu-item ${l.code === this.translation.currentLocale ? "active" : ""}"
+                        @click="${()=>this.onSelectLanguage(l.code)}">
+                        <span class="fi fi-${l.flag}"></span> <span>${l.name}</span>
+                        ${l.code === this.translation.currentLocale ? html`<i class="fa fa-check"></i>` : ""}
+                      </button>
+                    </li>
+                  `)}
+                </ul>
+              ` : ""}
+            </div>
             ` : ""}
           </div>
         </div>
@@ -73,7 +104,7 @@ export default class RootContainer extends ViewBase {
               <div class="w3-bar pc-secondary">
                 <button id="preferences-close" @click="${()=>this.onClosePreferences()}" class="w3-bar-item w3-button w3-hover-dark-gray" title="close">
                   <img class="inverted preferences-close-mobile" src="img/arrow-back.svg">
-                  <img class="inverted preferences-close-desktop" src="img/close.svg">
+                  <i class="fa fa-chevron-left preferences-close-desktop" aria-hidden="true"></i>
                 </button>
                 <span id="preferences-tab-search" @click="${()=>this.onSelectPreferencesTab('search')}" class="w3-bar-item w3-button preferences-tab pc-tab-active">${this.t("locationSearchHeader")}</span>
                 <span id="preferences-tab-route" @click="${()=>this.onSelectPreferencesTab('route')}" class="w3-bar-item w3-button preferences-tab">${this.t("routePlannerHeader")}</span>
@@ -83,9 +114,19 @@ export default class RootContainer extends ViewBase {
               <div id="routeContent" class="w3-container w3-padding-16" style="display:none"></div>
 
               <div id="settingsContent" class="w3-container"></div>
+
+              <!-- Always visible at the bottom of the left panel (also in the Info menu as a popup) -->
+              <div id="preferences-disclaimer" class="preferences-disclaimer">
+                <i class="fa fa-circle-info"></i>
+                <span><strong>${this.t("disclaimerHeader")}:</strong> ${this.t("disclaimerContent")}</span>
+              </div>
             </div>
 
             <div id="map"></div>
+            <button id="report-missing-station" type="button" @click="${()=>this.onReportMissingStation()}"
+              class="w3-btn report-wrong-price-btn map-report-station-btn" title="${this.t("fbReportMissingStationHeader")}">
+              <i class="fa fa-flag"></i> <span class="map-report-station-text">${this.t("fbReportMissingStationHeader")}</span>
+            </button>
             <button id="preferences-open" @click="${()=>this.onOpenPreferences()}" class="w3-button w3-white w3-card w3-display-topleft" title="${this.t("settingsHeader")}">
               <img src="img/edit.svg">
             </button>
@@ -184,9 +225,6 @@ export default class RootContainer extends ViewBase {
     }
 
     return [
-      { title: this.t("menuMobileApp"), url: mobileAppsLink(this.translation.currentLocale) },
-      { title: this.t("menuDataPlatform"), url: dataPlatformLink(this.translation.currentLocale) },
-      { title: this.t("menuInfo"), action: ()=>this.onOpenInfo() },
       ...(this.premiumGate.showsUpsells() ? [
         { title: this.t("menuUpgradePremium"), action: ()=>this.premiumGate.showPremiumScreen("menu"), className: "top-bar-premium", icon: "fa-star" }
       ] : [])
@@ -201,6 +239,38 @@ export default class RootContainer extends ViewBase {
         convert: i => i.title,
         narrow: true
       },(item)=>item.url ? window.open(item.url, "_blank") : item.action());
+  }
+
+  // Asks the user to tap the location of the missing station on the map, then opens the feedback form
+  onReportMissingStation(){
+    const map = this.sidebar && this.sidebar.userProfile && this.sidebar.userProfile.map;
+    if(!map) return;
+    this.showAlert(this.t("fbMissingStationSelectOnMap"));
+    document.getElementById("map").classList.add("map-picking-location");
+    map.registerClickOnce(event=>{
+      document.getElementById("map").classList.remove("map-picking-location");
+      this.sidebar.feedback.missingStation(event.location);
+    });
+  }
+
+  onSetColorMode(mode){
+    setColorMode(mode); // re-renders through the "cp-color-mode-changed" event
+  }
+
+  // Language: dropdown under the flag (replaces the popup)
+  onToggleLanguageMenu(open = !this.langMenuOpen){
+    this.langMenuOpen = open;
+    render(this.template(), document.getElementById("rootContainer"));
+    if(open && !this.langMenuListeners){
+      this.langMenuListeners = true;
+      document.addEventListener("click", ()=>{ if(this.langMenuOpen) this.onToggleLanguageMenu(false); });
+      document.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && this.langMenuOpen) this.onToggleLanguageMenu(false); });
+    }
+  }
+
+  onSelectLanguage(code){
+    this.onToggleLanguageMenu(false);
+    if(code !== this.translation.currentLocale) this.translation.changeLocale(code);
   }
 
   onChangeLanguage(){

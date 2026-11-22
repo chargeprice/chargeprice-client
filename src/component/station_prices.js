@@ -155,8 +155,8 @@ export default class StationPrices extends ViewBase{
     if(this.sidebar.premiumGate.isRestricted()) return "";
 
     return html`
-      <button @click="${()=>this.onReportMissingPrice(context)}" class="w3-btn pc-secondary">
-        ${this.t("fbReportMissingPriceHeader")}
+      <button @click="${()=>this.onReportMissingPrice(context)}" class="w3-btn report-wrong-price-btn">
+        <i class="fa fa-flag"></i> ${this.t("fbReportMissingPriceHeader")}
       </button>
     `;
   }

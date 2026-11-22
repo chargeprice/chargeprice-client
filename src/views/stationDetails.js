@@ -3,6 +3,7 @@ var dayjs = require('dayjs');
 import ViewBase from '../component/viewBase';
 import GenericPopup from '../modal/genericPopup';
 import FACILITIES from '../helper/facilities';
+import { isExpertMode } from '../helper/expertMode';
 export default class StationDetailsView extends ViewBase {
   constructor(depts) {
     super(depts);
@@ -44,6 +45,7 @@ export default class StationDetailsView extends ViewBase {
 
         ${this.facilitiesTemplate(station)}
 
+        ${isExpertMode() ? this.expertTemplate(station) : ""}
         ${this.customConfig.isInternalMode() ? this.internalTemplate(station) : ""}
       </div>
     `;
@@ -62,6 +64,45 @@ export default class StationDetailsView extends ViewBase {
         `)}
       </div>
     `;
+  }
+
+  // Extra technical details, shown when "Expert mode" is on in the user profile
+  expertTemplate(station){
+    const row = (label, value, copy) => value == null || value === "" ? "" : html`
+      <tr>
+        <th>${label}</th>
+        <td><code>${value}</code>${copy ? html` <button type="button" class="expert-copy" title="${this.t("expertCopy")}" aria-label="${this.t("expertCopy")}" @click="${()=>this.copyText(String(value))}"><i class="fa fa-copy"></i></button>` : ""}</td>
+      </tr>`;
+    const coords = station.latitude != null ? `${Number(station.latitude).toFixed(6)}, ${Number(station.longitude).toFixed(6)}` : null;
+    const chargePoints = station.chargePoints || [];
+
+    return html`
+      <details class="expert-details" open>
+        <summary><i class="fa fa-flask"></i> ${this.t("expertDetailsHeader")}</summary>
+        <table class="expert-table">
+          ${row(this.t("expertStationId"), station.id, true)}
+          ${row(this.t("expertDataSource"), [station.dataAdapter, station.sourceLabel].filter(Boolean).join(" / "))}
+          ${row(this.t("expertOperatorId"), station.networkId, true)}
+          ${row(this.t("expertCountry"), station.country)}
+          ${row(this.t("expertCoordinates"), coords, true)}
+        </table>
+        ${chargePoints.length ? html`
+          <div class="expert-subtitle">${this.t("expertChargePoints")} (${chargePoints.length})</div>
+          <table class="expert-table">
+            ${chargePoints.map(cp=>html`
+              <tr>
+                <th>${cp.power} kW</th>
+                <td>${cp.plug || ""}${cp.count ? ` × ${cp.count}` : ""}${cp.supportedByVehicle === false ? html` <i class="fa fa-ban expert-muted" aria-hidden="true"></i>` : ""}</td>
+              </tr>
+            `)}
+          </table>
+        ` : ""}
+      </details>
+    `;
+  }
+
+  copyText(text){
+    if(navigator.clipboard) navigator.clipboard.writeText(text).catch(()=>{});
   }
 
   internalTemplate(station){

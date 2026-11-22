@@ -164,6 +164,9 @@ export default class SettingsSidebar extends ViewBase {
 
     slider.noUiSlider.on('update', (values)=>{
       this.selectedMinPower = values[0];
+      // Same power classes as the map key: < 50 kW, < 150 kW, >= 150 kW
+      const power = parseFloat(values[0]);
+      slider.dataset.powerClass = power >= 150 ? "high" : power >= 50 ? "mid" : "low";
       render(this.powerValueTemplate(),document.getElementById("powerSliderInfo"));
     });
 

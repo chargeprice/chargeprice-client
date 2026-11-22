@@ -2,6 +2,7 @@ var L = require('leaflet');
 require('leaflet.awesome-markers');
 import MapPinsV5 from './mapPins/v5.js';
 import { TRIP_SEGMENT_COLORS } from '../helper/tripColors.js';
+import { getMyPlaces, PLACE_TYPES } from '../helper/myPlaces.js';
 
 export const defaultLocations = {
 	PARIS: {
@@ -50,6 +51,30 @@ export default class Map {
 
     // Promoted stations get golden pins and dots, except for premium users
     this.highlightPromoted = true;
+
+    // Home / office of the user (account panel)
+    this.myPlaces = L.layerGroup([]);
+    this.myPlaces.addTo(this.component);
+    this.renderMyPlaces();
+    window.addEventListener("cp-my-places-changed", ()=>this.renderMyPlaces());
+  }
+
+  renderMyPlaces(){
+    this.myPlaces.clearLayers();
+    const places = getMyPlaces();
+    PLACE_TYPES.forEach(type=>{
+      const place = places[type.id];
+      if(!place || place.latitude == null) return;
+      const icon = L.divIcon({
+        className: "my-place-marker",
+        html: `<div class="my-place-marker-inner my-place-${type.id}"><i class="fa ${type.icon}"></i></div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      });
+      L.marker([place.latitude, place.longitude], { icon: icon, zIndexOffset: 9000, title: place.address, keyboard: false })
+        .bindTooltip(place.address, { direction: "top", offset: [0, -16] })
+        .addTo(this.myPlaces);
+    });
   }
 
   initializeLayer() {

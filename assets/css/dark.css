@@ -1,0 +1,179 @@
+/* Dark mode: active when <html> has the class "dark" (see src/helper/darkMode.js). */
+html.dark {
+  --dm-bg: #121417;
+  --dm-surface: #1c1f24;
+  --dm-surface-2: #262a31;
+  --dm-border: #353a42;
+  --dm-text: #e6e8eb;
+  --dm-text-muted: #a3a9b2;
+  --dm-accent: #4da3ff;
+  color-scheme: dark;
+}
+
+html.dark body {
+  background: var(--dm-bg);
+  color: var(--dm-text);
+}
+
+/* Main surfaces (W3.CSS) */
+html.dark .w3-white,
+html.dark .w3-light-gray, html.dark .w3-light-grey,
+html.dark .w3-sidebar,
+html.dark .w3-modal-content,
+html.dark .w3-card, html.dark .w3-card-2, html.dark .w3-card-4,
+html.dark #preferences,
+html.dark #sidebar {
+  background-color: var(--dm-surface) !important;
+  color: var(--dm-text) !important;
+}
+
+html.dark .w3-modal { background-color: rgba(0, 0, 0, 0.7); }
+
+html.dark .w3-border, html.dark .w3-border-top, html.dark .w3-border-bottom,
+html.dark .w3-bordered tr, html.dark hr {
+  border-color: var(--dm-border) !important;
+}
+
+html.dark .w3-hover-light-gray:hover, html.dark .w3-hover-light-grey:hover,
+html.dark .w3-hover-white:hover, html.dark .w3-hover-gray:hover {
+  background-color: var(--dm-surface-2) !important;
+  color: var(--dm-text) !important;
+}
+
+html.dark .w3-text-gray, html.dark .w3-text-grey,
+html.dark .w3-text-dark-gray, html.dark .w3-text-dark-grey {
+  color: var(--dm-text-muted) !important;
+}
+
+/* Tariff rows with a partner color (inline background): keep the partner text color
+   for every text inside, info labels included */
+html.dark .price-row[style*="background"] *:not(.w3-tag):not(.w3-tag *):not(.w3-btn):not(.w3-btn *) {
+  color: inherit !important;
+}
+
+/* Blue buttons (e.g. "Go to website") keep white text, also inside partner-colored rows */
+html.dark .w3-btn.pc-secondary, html.dark .w3-btn.pc-secondary *,
+html.dark .w3-btn.pc-main, html.dark .w3-btn.pc-main * {
+  color: #fff !important;
+}
+
+/* Colored badges (e.g. "EMC members only!", promo codes): white text on their color */
+html.dark .w3-tag { color: #fff !important; }
+
+/* Top bar and sidebar headers keep the brand color, a bit darker */
+html.dark .pc-main, html.dark .pc-secondary {
+  background-color: #0b4f9e !important;
+}
+html.dark .pc-main-text { color: var(--dm-accent); }
+
+/* Forms */
+html.dark input, html.dark select, html.dark textarea,
+html.dark .w3-input, html.dark .w3-select {
+  background-color: var(--dm-surface-2) !important;
+  color: var(--dm-text) !important;
+  border-color: var(--dm-border) !important;
+}
+html.dark input::placeholder, html.dark textarea::placeholder { color: var(--dm-text-muted); }
+
+/* Generic buttons and chips that are white in light mode */
+html.dark .w3-button.w3-white, html.dark .w3-btn.w3-white,
+html.dark .w3-light-gray.w3-button, html.dark .w3-tag.w3-white {
+  background-color: var(--dm-surface-2) !important;
+  color: var(--dm-text) !important;
+}
+
+/* Dark SVG icons (edit pen, etc.) become light */
+html.dark img[src$="edit.svg"],
+html.dark #preferences-open img { filter: invert(1); }
+
+/* Map: darken the tiles only; markers and the price pins stay as they are */
+html.dark .leaflet-container { background: #1a1d21; }
+html.dark .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
+}
+html.dark .leaflet-bar a, html.dark .leaflet-bar a:hover,
+html.dark .leaflet-control-attribution, html.dark .leaflet-control-scale-line {
+  background-color: var(--dm-surface) !important;
+  color: var(--dm-text) !important;
+  border-color: var(--dm-border) !important;
+}
+html.dark .leaflet-control-attribution a { color: var(--dm-accent); }
+html.dark .leaflet-popup-content-wrapper, html.dark .leaflet-popup-tip {
+  background: var(--dm-surface);
+  color: var(--dm-text);
+}
+
+/* Slider */
+html.dark .noUi-target { background: var(--dm-surface-2); border-color: var(--dm-border); box-shadow: none; }
+html.dark .noUi-handle { background: #d0d4da; border-color: var(--dm-border); box-shadow: none; }
+html.dark .noUi-pips, html.dark .noUi-value { color: var(--dm-text-muted); }
+html.dark .noUi-marker { background: var(--dm-border); }
+
+/* App-specific light boxes (assets/css/style.css) */
+html.dark .price-row,
+html.dark .charge-summary-box,
+html.dark .welcome-vehicle-hint,
+html.dark .welcome-hero-light,
+html.dark .paywall-emc-secondary,
+html.dark .premium-app-stat,
+html.dark .premium-context-message,
+html.dark .premium-context-message-neutral,
+html.dark .premium-app-section,
+html.dark .emc-upsell-banner,
+html.dark .premium-banner-app,
+html.dark .premium-banner-web,
+html.dark .landing-page-root,
+html.dark .landing-features,
+html.dark .landing-feature-card,
+html.dark .landing-plans,
+html.dark .landing-plan-card,
+html.dark .landing-plan-card-premium,
+html.dark .vehicle-card,
+html.dark .price-row.vehicle-selection-current,
+html.dark .route-card,
+html.dark .route-alternative,
+html.dark .route-use-station,
+html.dark .route-action,
+html.dark .landing-web-note,
+html.dark .cp-map-poi-promotion {
+  background: var(--dm-surface-2) !important;
+  color: var(--dm-text) !important;
+  border-color: var(--dm-border) !important;
+}
+html.dark .vehicle-card:hover, html.dark .route-action:hover { background: #30353d !important; }
+html.dark .route-cost-pill { background: var(--dm-surface); color: var(--dm-text); }
+html.dark .paywall-emc-secondary, html.dark .welcome-hero-light { color: var(--dm-text) !important; }
+html.dark .welcome-vehicle-hint, html.dark .welcome-vehicle-hint * { color: var(--dm-text) !important; }
+
+/* Section titles in the sidebars (#333 / #555 in light mode) */
+html.dark .price-section-title,
+html.dark .settings-section-header > .fa { color: var(--dm-text-muted) !important; }
+
+/* Light / dark / system switch in the top bar */
+.color-mode-switch {
+  display: flex !important;
+  align-items: center;
+  gap: 2px;
+  padding: 3px !important;
+  margin: 6px 8px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.color-mode-option {
+  width: 30px;
+  height: 26px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9em;
+  transition: background 0.15s, color 0.15s;
+}
+.color-mode-option:hover { color: #fff; background: rgba(255, 255, 255, 0.12); }
+.color-mode-option.active { background: #fff; color: #1c1f24; }
+.color-mode-option:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
