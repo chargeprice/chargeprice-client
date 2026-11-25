@@ -99,6 +99,8 @@ export default class Trips {
       // A missing status means the calculation is already complete
       status: trip.status || "completed",
       isSaved: !!trip.isSaved,
+      // Parameters the trip was created with (keys like in the create request), empty if unknown
+      inputParameters: trip.inputParameters || {},
       route: route ? this.toRouteModel(route) : null
     };
   }

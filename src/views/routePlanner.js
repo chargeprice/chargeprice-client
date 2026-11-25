@@ -8,7 +8,9 @@ import FetchValidAccessToken from '../useCase/fetchValidAccessToken';
 import FetchAccessTokenWithProfile from '../useCase/fetchAccessTokenWithProfile';
 import Authorization from '../component/authorization';
 import GenericList from '../modal/genericList';
+import GenericPopup from '../modal/genericPopup';
 import AppUpsellBanner from '../component/appUpsellBanner';
+import FACILITIES from '../helper/facilities';
 import { TRIP_SEGMENT_CATEGORIES, TRIP_SEGMENT_COLORS } from '../helper/tripColors';
 
 // Google Maps route links support at most 9 waypoints between origin and destination
@@ -17,6 +19,18 @@ const GOOGLE_MAPS_MAX_WAYPOINTS = 9;
 // Consumption slider: offset in percent to the vehicle's standard consumption
 const CONSUMPTION_OFFSET_MIN = -50;
 const CONSUMPTION_OFFSET_MAX = 100;
+
+// Min. and max. of the battery level sliders in percent.
+// The API requires the charging target to be at least 10% above the battery reserve,
+// so the ranges of these two sliders must not overlap
+const SOC_RANGES = {
+  socStart: [10, 100],
+  socDestination: [0, 80],
+  batteryReserve: [0, 40],
+  chargingTarget: [50, 100]
+};
+
+const clamp = (value, min, max)=>Math.min(Math.max(value, min), max);
 
 export default class RoutePlanner extends ViewBase{
   constructor(sidebar,depts) {
@@ -39,6 +53,8 @@ export default class RoutePlanner extends ViewBase{
       consumptionOffset: 0,
       socStart: 80,
       socDestination: 20,
+      batteryReserve: 20,
+      chargingTarget: 80,
       avoidMotorway: false,
       avoidToll: false
     };
@@ -154,14 +170,24 @@ export default class RoutePlanner extends ViewBase{
         ` : ""}
 
         <label class="route-option-label">${this.t("routeSocStart")}: <b>${this.options.socStart}%</b></label>
-        <input type="range" class="route-range" min="10" max="100" step="5"
+        <input type="range" class="route-range" min="${SOC_RANGES.socStart[0]}" max="${SOC_RANGES.socStart[1]}" step="5"
           .value="${String(this.options.socStart)}"
           @input="${(e)=>this.onOptionChanged("socStart", parseInt(e.target.value))}">
 
         <label class="route-option-label">${this.t("routeSocDestination")}: <b>${this.options.socDestination}%</b></label>
-        <input type="range" class="route-range" min="0" max="80" step="5"
+        <input type="range" class="route-range" min="${SOC_RANGES.socDestination[0]}" max="${SOC_RANGES.socDestination[1]}" step="5"
           .value="${String(this.options.socDestination)}"
           @input="${(e)=>this.onOptionChanged("socDestination", parseInt(e.target.value))}">
+
+        <label class="route-option-label">${this.t("routeSocChargeStart")}: <b>${this.options.batteryReserve}%</b> ${this.optionInfoTemplate("routeSocChargeStart")}</label>
+        <input type="range" class="route-range" min="${SOC_RANGES.batteryReserve[0]}" max="${SOC_RANGES.batteryReserve[1]}" step="5"
+          .value="${String(this.options.batteryReserve)}"
+          @input="${(e)=>this.onOptionChanged("batteryReserve", parseInt(e.target.value))}">
+
+        <label class="route-option-label">${this.t("routeSocChargeEnd")}: <b>${this.options.chargingTarget}%</b> ${this.optionInfoTemplate("routeSocChargeEnd")}</label>
+        <input type="range" class="route-range" min="${SOC_RANGES.chargingTarget[0]}" max="${SOC_RANGES.chargingTarget[1]}" step="5"
+          .value="${String(this.options.chargingTarget)}"
+          @input="${(e)=>this.onOptionChanged("chargingTarget", parseInt(e.target.value))}">
 
         <label class="route-checkbox">
           <input type="checkbox" class="w3-check" .checked="${this.options.avoidMotorway}" @change="${(e)=>this.onOptionChanged("avoidMotorway", e.target.checked)}">
@@ -173,6 +199,15 @@ export default class RoutePlanner extends ViewBase{
         </label>
       </div>
     `;
+  }
+
+  // Explains the option: as tooltip and as popup on click (no hover on touch devices)
+  optionInfoTemplate(key){
+    return html`<i class="fa fa-info-circle cp-clickable route-option-info" title="${this.t(`${key}Info`)}" @click="${()=>this.onShowOptionInfo(key)}"></i>`;
+  }
+
+  onShowOptionInfo(key){
+    new GenericPopup(this.depts).show({ header: this.t(key), message: this.t(`${key}Info`), narrow: true });
   }
 
   // Vehicle consumption including the slider offset, null if the vehicle has no consumption data
@@ -333,6 +368,19 @@ export default class RoutePlanner extends ViewBase{
             <i class="fa fa-credit-card"></i> ${this.formatCost(step.cost, step.currency)}${step.tariff_name ? ` (${step.tariff_name})` : ""}
           </div>
         ` : ""}
+        ${this.facilitiesTemplate(step.facilities || [])}
+      </div>
+    `;
+  }
+
+  // Same facilities as on the station detail page, but only as icons. Unknown ones are ignored.
+  facilitiesTemplate(facilities){
+    const known = FACILITIES.filter(facility=>facilities.includes(facility.id));
+    if(known.length == 0) return "";
+
+    return html`
+      <div class="route-facilities">
+        ${known.map(facility=>html`<i class="fa fa-${facility.icon}" role="img" title="${this.t(`facility_${facility.id}`)}" aria-label="${this.t(`facility_${facility.id}`)}"></i>`)}
       </div>
     `;
   }
@@ -511,6 +559,8 @@ export default class RoutePlanner extends ViewBase{
       route_strategy: this.options.strategy,
       state_of_charge_start: this.options.socStart / 100,
       state_of_charge_destination: this.options.socDestination / 100,
+      battery_reserve_at_charge_stop: this.options.batteryReserve / 100,
+      charging_target: this.options.chargingTarget / 100,
       exclude: exclude,
       price_display_mode: "average_price_per_kwh",
       include_direct_payment: true,
@@ -759,11 +809,12 @@ export default class RoutePlanner extends ViewBase{
 
     try {
       const trip = await this.trips.get(savedTrip.id, await this.accessToken());
-      // Show the trip's stops in the form, so it can be edited and recalculated
+      // Show the trip's stops and options in the form, so it can be edited and recalculated
       this.waypoints = trip.route.steps.filter(step=>step.type == "stop").map((step, idx, stops)=>{
         const placeholder = idx == 0 ? "routePlannerStart" : (idx == stops.length - 1 ? "routePlannerDestination" : "routePlannerStop");
         return Object.assign(this.newWaypoint(placeholder), { place: { name: step.name, latitude: step.latitude, longitude: step.longitude } });
       });
+      this.restoreOptions(trip.inputParameters);
       this.showTrip(trip);
       this.analytics.log('event', 'route_planner_saved_trip_opened');
     }
@@ -774,6 +825,34 @@ export default class RoutePlanner extends ViewBase{
 
     this.loading = false;
     this.render();
+  }
+
+  // Counterpart of buildAttributes. Options that aren't part of the parameters stay unchanged.
+  restoreOptions(params){
+    const socs = {
+      socStart: params.state_of_charge_start,
+      socDestination: params.state_of_charge_destination,
+      batteryReserve: params.battery_reserve_at_charge_stop,
+      chargingTarget: params.charging_target
+    };
+    // Trips of other clients might have values the sliders don't support
+    Object.keys(socs).forEach(key=>{
+      if(socs[key] != null) this.options[key] = clamp(Math.round(socs[key] * 100), ...SOC_RANGES[key]);
+    });
+
+    if(params.route_strategy) this.options.strategy = params.route_strategy;
+    if(params.exclude){
+      this.options.avoidMotorway = params.exclude.includes("motorway");
+      this.options.avoidToll = params.exclude.includes("toll");
+    }
+
+    // The API has the absolute consumption. The offset isn't rounded to the slider steps, to get exactly this consumption again.
+    const vehicle = this.sidebar.myVehicle && this.sidebar.myVehicle.getVehicle();
+    if(params.vehicle_consumption === null) this.options.consumptionOffset = 0; // Standard consumption of the vehicle
+    else if(params.vehicle_consumption && vehicle && vehicle.consumption){
+      const offset = (params.vehicle_consumption / vehicle.consumption - 1) * 100;
+      this.options.consumptionOffset = clamp(offset, CONSUMPTION_OFFSET_MIN, CONSUMPTION_OFFSET_MAX);
+    }
   }
 
   async onDeleteSavedTrip(savedTrip){

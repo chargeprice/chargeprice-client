@@ -2417,6 +2417,11 @@ button.landing-webapp-cta:disabled {
   margin: 14px 0 6px;
 }
 
+.route-option-info {
+  margin-left: 4px;
+  color: #888;
+}
+
 .route-strategy {
   display: flex;
   gap: 8px;
@@ -2517,6 +2522,14 @@ button.landing-webapp-cta:disabled {
 .route-cost-pill-large {
   font-weight: 600;
   margin-top: 0;
+}
+
+.route-facilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 10px;
+  color: #777;
 }
 
 .route-leg {
